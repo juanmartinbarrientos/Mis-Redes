@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Enlaces | Juan Martín Barrientos Lorusso (Canvas)</title>
+    <title>Mis redes Sociales y mis Trabajos</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
     <style>
         body, html {
@@ -12,43 +12,8 @@
             width: 100%;
             overflow-x: hidden;
             font-family: 'Poppins', sans-serif;
-            background-color: #000;
-        }
-
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            /* Nuevo fondo con degradado animado */
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient-scroll 15s ease infinite;
-        }
-
-        /* Nueva animación para el degradado */
-        @keyframes gradient-scroll {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* Un poco menos oscuro para que el color se vea más */
-            z-index: -1;
+            /* Se cambia el color de fondo a blanco */
+            background-color: #ffffff; 
         }
 
         canvas {
@@ -61,26 +26,28 @@
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
-            background-color: rgba(0,0,0,0.2);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            /* Se ajusta el fondo para un tema claro */
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
         }
 
         .content-section h2 {
-            color: white;
+            /* Se cambia el color del título a negro */
+            color: #212529; 
             font-weight: 600;
             margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
         .video-wrapper {
             width: 90%;
-            max-width: 560px;
-            aspect-ratio: 16 / 9;
+            max-width: 320px; /* Ancho ajustado para formato short */
+            aspect-ratio: 9 / 16; /* Aspect ratio para shorts */
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .video-wrapper iframe {
@@ -95,8 +62,8 @@
             height: 750px; /* Altura ajustada para mejor visualización en móviles */
             border-radius: 12px;
             overflow: auto; /* Scroll si el contenido es más grande */
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             background-color: #fff; /* Fondo para el iframe */
         }
         
@@ -105,22 +72,109 @@
             height: 100%;
             border: 0;
         }
+        
+        /* Estilos para la nueva sección "Mis Trabajos" */
+        .section-description {
+            color: #495057;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .cta-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        /* Estilos para la nueva sección de Contacto */
+        .contact-section {
+            padding-top: 0;
+            padding-bottom: 30px;
+            border-top: none;
+            background-color: #fff;
+        }
+        .contact-container {
+            text-align: center;
+        }
+        .email-text {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #343a40;
+            margin-bottom: 20px;
+            background-color: #e9ecef;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .contact-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .contact-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+        }
+        .contact-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .contact-button.whatsapp {
+            background-color: #25D366;
+        }
+        .contact-button.whatsapp:hover {
+            background-color: #1DA851;
+        }
+
+        .copy-success-message {
+            display: block;
+            margin-top: 15px;
+            color: #28a745;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
 
 
         footer {
             text-align: center;
             padding: 20px;
-            color: rgba(255, 255, 255, 0.7);
+            /* Se cambia el color del texto del footer a oscuro */
+            color: #6c757d; 
             font-size: 1em;
-            background-color: rgba(0,0,0,0.2);
-            backdrop-filter: blur(5px);
+            background-color: #f8f9fa;
         }
 
         .glitch-link {
             font-family: 'Chakra Petch', sans-serif;
             font-weight: 700;
             position: relative;
-            color: #00f0ff; 
+            /* Se ajusta el color principal del enlace */
+            color: #007bff;  
             text-decoration: none;
             font-size: 1.2em;
         }
@@ -133,7 +187,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0); /* Fondo transparente para el glitch */
+            background: #f8f9fa; /* Se ajusta al color de fondo del footer */
             overflow: hidden;
         }
 
@@ -169,17 +223,50 @@
     </style>
 </head>
 <body>
-    <div class="background-container">
-        <!-- El fondo ahora es manejado por CSS directamente en este div -->
-    </div>
-    <div class="overlay"></div>
 
     <canvas id="linktreeCanvas"></canvas>
 
+    <section class="content-section contact-section">
+        <div class="contact-container">
+            <p class="email-text">juanmartinbarrientos@me.com</p>
+            <div class="contact-buttons">
+                <button id="copyEmailBtn" class="contact-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zM8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                    </svg>
+                    Copiar Email
+                </button>
+                <a href="mailto:juanmartinbarrientos@me.com" class="contact-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+                    </svg>
+                    Enviar Email
+                </a>
+                <a href="https://wa.me/5491169578193?text=Vi%20tus%20redes%20sociales%20y%20trabajos" target="_blank" class="contact-button whatsapp">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.068-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+                    </svg>
+                    WhatsApp
+                </a>
+            </div>
+            <span id="copySuccess" class="copy-success-message"></span>
+        </div>
+    </section>
+
     <section class="content-section">
-        <h2>Video Destacado</h2>
+        <h2>Mis Trabajos</h2>
+        <p class="section-description">
+            ¿Quieres una página web impactante como esta? Con la magia de la inteligencia artificial, puedo diseñarla para ti, ¡incluso gratis! Y si buscas un toque más personal y profesional, ofrezco mis servicios para llevar tu visión al siguiente nivel. ¡Explora mis creaciones y descubre lo que podemos construir juntos!
+        </p>
+        <a href="https://juanmartinbarrientos.github.io/Perfiles/" target="_blank" class="cta-button">Ver Mi Portafolio</a>
+    </section>
+
+    <section class="content-section">
+        <h2>Ejemplo de Creación</h2>
         <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/NVLR177LBHw?si=fIOvJwRo--gT-Noh" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/PXkqafr6Rmg" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     </section>
 
@@ -219,8 +306,13 @@
         ];
 
         function setCanvasSize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            const canvasElement = document.getElementById('linktreeCanvas');
+            // La altura del canvas se puede ajustar a un valor fijo o dinámico.
+            // Por simplicidad, le daremos un alto que funcione bien en la mayoría de las pantallas.
+            const canvasHeight = 600; 
+
+            width = canvasElement.width = window.innerWidth;
+            height = canvasElement.height = canvasHeight;
             centerX = width / 2;
             centerY = height / 2;
             calculateButtonLayout();
@@ -232,7 +324,7 @@
             const gap = 20;
             const picSize = 100;
             const totalContentHeight = picSize + 40 + (links.length * (buttonHeight + gap));
-            let startY = (height / 2) - (totalContentHeight / 2);
+            let startY = (height / 2) - (totalContentHeight / 2) + 20; // +20 para bajarlo un poco
             links.profilePicY = startY;
             let titleY = startY + picSize + 25;
             links.titleY = titleY;
@@ -270,26 +362,33 @@
             if (profilePic.complete) ctx.drawImage(profilePic, centerX - picSize / 2, picY, picSize, picSize);
             ctx.restore();
             ctx.lineWidth = 3;
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            // Se cambia el color del borde de la foto de perfil a oscuro
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)'; 
             ctx.beginPath();
             ctx.arc(centerX, picY + picSize / 2, picSize / 2, 0, Math.PI * 2, true);
             ctx.stroke();
-            ctx.fillStyle = 'white';
+            
+            // Se cambia el color del texto del @usuario a negro
+            ctx.fillStyle = '#212529'; 
             ctx.font = '600 24px Poppins';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowColor = 'rgba(0,0,0,0.1)';
             ctx.shadowBlur = 4;
             ctx.shadowOffsetY = 2;
-            if (links.titleY) ctx.fillText('@jmartinbarrientos', centerX, links.titleY);
+            if (links.titleY) ctx.fillText('@juanmartinbarrientos', centerX, links.titleY);
             ctx.shadowColor = 'transparent';
+            
             links.forEach(link => {
-                ctx.fillStyle = link.isHovered ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)';
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                // Estilo de botones: azul con transparencia. Más opaco al pasar el mouse.
+                ctx.fillStyle = link.isHovered ? 'rgba(0, 123, 255, 0.9)' : 'rgba(0, 123, 255, 0.7)';
+                // Borde del botón en azul sólido
+                ctx.strokeStyle = 'rgba(0, 123, 255, 1)';
                 ctx.lineWidth = 1;
                 drawRoundedRect(link.x, link.y, link.width, link.height, 12);
                 ctx.fill();
                 ctx.stroke();
+                
                 const iconSize = 24;
                 const iconPadding = 20;
                 const iconX = link.x + iconPadding;
@@ -297,8 +396,10 @@
                 if (link.iconImage && link.iconImage.complete) {
                     ctx.drawImage(link.iconImage, iconX, iconY, iconSize, iconSize);
                 }
+                
                 const textPadding = 15;
-                ctx.fillStyle = 'white';
+                // El texto dentro del botón se mantiene blanco para contraste
+                ctx.fillStyle = 'white'; 
                 ctx.font = '400 18px Poppins';
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
@@ -352,7 +453,7 @@
             let needsRedraw = false;
             links.forEach(link => {
                 const isCurrentlyOver = mouse.x >= link.x && mouse.x <= link.x + link.width &&
-                                     mouse.y >= link.y && mouse.y <= link.y + link.height;
+                                         mouse.y >= link.y && mouse.y <= link.y + link.height;
                 if (link.isHovered !== isCurrentlyOver) {
                     link.isHovered = isCurrentlyOver;
                     needsRedraw = true;
@@ -374,7 +475,33 @@
             });
         });
 
+        // Cargar todo después de que la imagen de perfil y los SVGs se hayan procesado
         loadAssets();
+
+        // Funcionalidad del botón de copiar email
+        const copyEmailBtn = document.getElementById('copyEmailBtn');
+        const copySuccessMsg = document.getElementById('copySuccess');
+        const emailToCopy = 'juanmartinbarrientos@me.com';
+
+        copyEmailBtn.addEventListener('click', () => {
+            const textArea = document.createElement('textarea');
+            textArea.value = emailToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                copySuccessMsg.textContent = '¡Email copiado!';
+                copySuccessMsg.style.opacity = '1';
+                setTimeout(() => {
+                    copySuccessMsg.style.opacity = '0';
+                }, 2000);
+            } catch (err) {
+                console.error('Error al copiar el email: ', err);
+                copySuccessMsg.textContent = 'Error al copiar';
+            }
+            document.body.removeChild(textArea);
+        });
+
     </script>
 </body>
 </html>
