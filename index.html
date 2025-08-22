@@ -48,7 +48,7 @@
             background-color: #0a0a1a; /* Color de respaldo */
             background-image: 
                 linear-gradient(180deg, rgba(10, 10, 26, 0.9) 0%, rgba(26, 26, 58, 0.9) 100%),
-                url('https://www.juanmartinbarrientos.com/logo.jpeg');
+                url('https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/logo.jpeg');
             background-size: cover;
             background-position: center;
 
@@ -233,8 +233,10 @@
                             <p class="font-semibold text-white">Universidad Nacional de La Matanza (UNLaM)</p>
                          </div>
                          <div class="glass-card">
-                            <h3 class="text-xl font-bold text-cyan-300">Certificaciones Clave</h3>
+                            <h3 class="text-xl font-bold text-cyan-300">Certificaciones</h3>
                             <ul class="list-disc list-inside text-slate-300 mt-2 font-light space-y-2">
+                                <li><a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Administración de sistemas y servicios de infraestructura de TI <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://www.coursera.org/account/accomplishments/verify/SR2BZXRTPZ22" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Sistemas Operativos Avanzados <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Soporte de Tecnologías de la Información de Google <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/1770-avanzado-redes/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso Avanzado de Redes de Internet <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/6900-configuracion-windows/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Configuración de Entorno de Desarrollo en Windows <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
@@ -294,12 +296,12 @@
             </aside>
         </main>
 
-        <!-- Sección Actividad Reciente -->
+        <!-- Sección Actividad en Linkedin -->
         <section id="linkedin-post" class="mb-24 fade-in-up">
-            <h2 class="text-4xl font-bold text-white mb-8 text-center">Actividad Reciente</h2>
+            <h2 class="text-4xl font-bold text-white mb-8 text-center">Actividad en Linkedin</h2>
             <div class="flex justify-center">
                 <div class="glass-card" style="max-width: 520px; padding: 0.5rem;">
-                     <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7347728937113825280?collapsed=1" height="672" width="504" frameborder="0" allowfullscreen="" title="Publicación integrada" class="rounded-lg"></iframe>
+                     <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7280020785979625472" height="877" width="504" frameborder="0" allowfullscreen="" title="Publicación integrada" class="rounded-lg"></iframe>
                 </div>
             </div>
         </section>
@@ -327,7 +329,7 @@
 
         <!-- Footer -->
         <footer class="text-center mt-24 pb-4 fade-in-up">
-            <p class="text-slate-500 text-sm font-light">&copy; 2025 Juan Martin Barrientos. Construido con imaginación y ayuda de código de IA Google Pro.</p>
+            <p class="text-slate-500 text-sm font-light">&copy; <span id="current-year"></span> Juan Martin Barrientos. Todos los derechos reservados.</p>
         </footer>
 
     </div>
@@ -356,6 +358,9 @@
 
     // --- Script para animaciones y funcionalidad ---
     document.addEventListener('DOMContentLoaded', () => {
+        // Establecer el año actual en el pie de página
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
         // --- Animaciones al hacer scroll ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 
@@ -381,8 +386,10 @@
         
         const skillsSection = document.getElementById('habilidades');
         if (skillsSection) {
-            observer.observe(skillsSection.parentElement.parentElement);
+            // Observamos el contenedor principal de la sección de habilidades
+            observer.observe(skillsSection.closest('.fade-in-up'));
         }
+
 
         // --- Desplazamiento suave ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
