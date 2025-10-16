@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio de Juan Martin Barrientos - IT Support</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* --- Configuración General --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #4A5568; /* Color de texto principal (gris oscuro) */
+            overflow-x: hidden; /* Prevenir scroll horizontal */
+            font-weight: 400;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: #1A202C; /* Color de títulos (casi negro) */
+        }
+
+        h1 { font-weight: 700; }
+        h2 { font-weight: 700; }
+        h3 { font-weight: 600; }
+        
+        /* --- Fondo de Partículas Interactivo --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #F5F7FA; /* Fondo claro */
+        }
+
+        /* --- Tarjeta de Cristal Mejorada (Versión Clara) --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6); /* Fondo blanco translúcido */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra suave */
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -1px;
+            border-radius: inherit;
+            /* Gradiente de borde con colores azules */
+            background: linear-gradient(135deg, rgba(147, 197, 253, 0.6), rgba(191, 219, 254, 0.6));
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- Animaciones y Transiciones --- */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition-delay: 0.2s;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Barra de Progreso de Habilidades --- */
+        .skill-bar-container {
+            background-color: #E2E8F0; /* Fondo de la barra (gris claro) */
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .skill-bar {
+            /* Gradiente con colores azules tipo LinkedIn */
+            background: linear-gradient(90deg, #3B82F6, #0A66C2);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+            width: 0; /* Inicia en 0 para la animación */
+        }
+        
+        /* --- Enlaces de Navegación --- */
+        .nav-link {
+            position: relative;
+            color: #4A5568; /* Color de texto normal */
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: #0A66C2; /* Color azul LinkedIn al pasar el cursor */
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #0A66C2; /* Color azul LinkedIn */
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        /* --- Iconos Sociales --- */
+        .social-icon {
+            color: #64748B; /* Color de iconos (gris medio) */
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            color: #0A66C2; /* Color azul LinkedIn al pasar el cursor */
+            transform: scale(1.2);
+        }
+
+        /* --- Botón de LinkedIn (se mantiene color de marca) --- */
+        .libutton {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         padding: 7px;
+         text-align: center;
+         outline: none;
+         text-decoration: none !important;
+         color: #ffffff !important;
+         width: 200px;
+         height: 32px;
+         border-radius: 16px;
+         background-color: #0A66C2;
+         font-family: "SF Pro Text", Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#F5F7FA]">
+
+    <div id="particles-js"></div>
+
+    <!-- Contenedor principal -->
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl relative z-10">
+
+        <!-- Encabezado -->
+        <header class="text-center mb-20 md:mb-28 fade-in-up">
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight">JUAN MARTIN BARRIENTOS</h1>
+            <p class="text-2xl md:text-3xl text-blue-700 font-light mt-2">IT Support Specialist</p>
+            
+            <!-- Iconos de Redes Sociales -->
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="https://www.youtube.com/@JuanMartinBarrientosLorusso" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/juanmartinbarrientos/" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@jmartinbarrientos" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientoslorusso/" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/juone0450" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl"><i class="fab fa-github"></i></a>
+            </div>
+
+            <nav class="mt-8">
+                <ul class="flex justify-center space-x-6 md:space-x-8 text-lg">
+                    <li><a href="#sobre-mi" class="nav-link">Sobre Mí</a></li>
+                    <li><a href="#experiencia" class="nav-link">Experiencia</a></li>
+                    <li><a href="#habilidades" class="nav-link">Habilidades</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Sección Sobre Mí -->
+        <section id="sobre-mi" class="mb-24 fade-in-up">
+            <div class="glass-card text-center">
+                <h2 class="text-4xl font-bold text-slate-800 mb-6">Sobre Mí</h2>
+                <p class="text-slate-600 leading-relaxed max-w-3xl mx-auto text-lg font-light">
+                    Soy un Técnico Informático apasionado por la tecnología, con una doble faceta de experiencia: brindo soporte de campo en entornos corporativos y ofrezco asistencia técnica personalizada a particulares. Mi trayectoria incluye desde la gestión de usuarios y la configuración de infraestructura en empresas, hasta la reparación y optimización de equipos personales, realizando actualizaciones de hardware. Disfruto tanto del desafío técnico como del contacto humano, capacitando a los usuarios para que aprovechen al máximo sus herramientas y explicando soluciones complejas de una manera simple y accesible.
+                </p>
+            </div>
+        </section>
+
+        <!-- Sección Principal (Experiencia y Habilidades) -->
+        <main class="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-24">
+            
+            <!-- Columna de Experiencia y Formación -->
+            <div class="lg:col-span-3 space-y-12">
+                <!-- Experiencia -->
+                <section id="experiencia" class="fade-in-up">
+                    <h2 class="text-4xl font-bold text-slate-800 mb-4"><i class="fas fa-briefcase mr-3 text-blue-600"></i>Experiencia</h2>
+                    <p class="text-lg text-slate-600 font-light mb-10">
+                        Años de experiencia en el campo, transformando desafíos técnicos en soluciones reales para las personas.
+                    </p>
+                    <div class="space-y-8">
+                        <div class="glass-card">
+                            <h3 class="text-xl font-bold text-blue-700">Field Support IT</h3>
+                            <p class="font-semibold text-slate-800">Smartway SRL (Cliente Cinemark)</p>
+                            <p class="text-sm text-slate-500 mb-2 font-light">Dic 2023 - Mar 2024</p>
+                            <p class="text-slate-600 font-light">Realicé la instalación y configuración de infraestructura comercial crítica, incluyendo kioscos de autoservicio para clientes (compra de entradas y productos), impresoras y puestos de trabajo. Mi rol combinaba el diagnóstico remoto para agilizar soluciones con la asistencia presencial para resolver incidencias complejas y asegurar la continuidad del servicio al cliente.</p>
+                        </div>
+                        <div class="glass-card">
+                            <h3 class="text-xl font-bold text-blue-700">Field Support IT</h3>
+                            <p class="font-semibold text-slate-800">Gire S.A. (Rapipago)</p>
+                            <p class="text-sm text-slate-500 mb-2 font-light">Ene 2022 - Feb 2023</p>
+                            <p class="text-slate-600 font-light">Responsable de la instalación y mantenimiento de puestos de trabajo y periféricos. Realizaba un diagnóstico inicial por vía remota para agilizar la resolución de incidencias y, de no ser posible una solución a distancia, coordinaba y ejecutaba la asistencia en sitio a la brevedad. Llevé a cabo la instalación integral de hardware en nuevas sucursales, incluyendo la configuración de redes y periféricos para garantizar la operatividad inmediata.</p>
+                        </div>
+                        <div class="glass-card">
+                            <h3 class="text-xl font-bold text-blue-700">Soporte Técnico Personalizado</h3>
+                            <p class="font-semibold text-slate-800">Trabajos Particulares (Freelance)</p>
+                            <p class="text-sm text-slate-500 mb-2 font-light">Desde 2010 - Presente</p>
+                            <p class="text-slate-600 font-light">Ofrezco soporte remoto y presencial, capacitando a usuarios para simplificar su día a día con la tecnología. Realizo reparaciones y actualizaciones de hardware, como cambios de memorias, fuentes y discos (HDD a SSD). Instalo y configuro sistemas operativos Windows optimizados para cada equipo, incluyendo la restauración de copias de seguridad.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Formación -->
+                <section id="formacion" class="fade-in-up">
+                    <h2 class="text-4xl font-bold text-slate-800 mb-8"><i class="fas fa-graduation-cap mr-3 text-blue-600"></i>Formación</h2>
+                    <div class="space-y-8">
+                         <div class="glass-card">
+                            <h3 class="text-xl font-bold text-blue-700">Ingeniería Informática</h3>
+                            <p class="font-semibold text-slate-800">Universidad Nacional de La Matanza (UNLaM)</p>
+                         </div>
+                         <div class="glass-card">
+                            <h3 class="text-xl font-bold text-blue-700">Certificaciones</h3>
+                            <ul class="list-disc list-inside text-slate-600 mt-2 font-light space-y-2">
+                                <li><a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Administración de sistemas y servicios de infraestructura de TI <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://www.coursera.org/account/accomplishments/verify/SR2BZXRTPZ22" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Sistemas Operativos Avanzados <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Soporte de Tecnologías de la Información de Google <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/1770-avanzado-redes/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Curso Avanzado de Redes de Internet <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/6900-configuracion-windows/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Configuración de Entorno de Desarrollo en Windows <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/1282-soporte-usuarios/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Curso de Servicio al Cliente y Soporte a Usuarios <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/2292-terminal-21/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Introducción a la Terminal y linea de comando <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/5877-linux/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Introducción a la administración de servidores <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/1098-ingenieria2017/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Diploma de Fundamentos de Ingeniería de Software <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://platzi.com/p/jmb-8888/curso/1557-git-github/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 transition-colors">Curso Profesional de Git y GitHub <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                            </ul>
+                         </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Columna de Habilidades -->
+            <aside class="lg:col-span-2 fade-in-up">
+                <section id="habilidades">
+                    <h2 class="text-4xl font-bold text-slate-800 mb-8"><i class="fas fa-cogs mr-3 text-blue-600"></i>Habilidades</h2>
+                    <div class="glass-card space-y-6">
+                        <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">Sistemas Operativos (Win/Lin/Mac)</span><span class="text-blue-700 font-semibold">Avanzado</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="90%"></div></div>
+                        </div>
+                         <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">Networking (LAN/TCP-IP/Routers)</span><span class="text-blue-700 font-semibold">Avanzado</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="85%"></div></div>
+                        </div>
+                         <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">Hardware & Software</span><span class="text-blue-700 font-semibold">Avanzado</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="90%"></div></div>
+                        </div>
+                         <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">Field Support & Help Desk</span><span class="text-blue-700 font-semibold">Avanzado</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="95%"></div></div>
+                        </div>
+                         <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">SQL</span><span class="text-blue-600 font-semibold">Básico-Intermedio</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="50%"></div></div>
+                        </div>
+                         <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">Git</span><span class="text-blue-600 font-semibold">Básico-Intermedio</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="45%"></div></div>
+                        </div>
+                         <!-- Habilidad -->
+                        <div class="skill">
+                            <div class="flex justify-between mb-1"><span class="font-semibold text-slate-700">Inglés</span><span class="text-blue-600 font-semibold">Intermedio</span></div>
+                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="70%"></div></div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </main>
+
+        <!-- Sección Actividad en Linkedin -->
+        <section id="linkedin-post" class="mb-24 fade-in-up">
+            <h2 class="text-4xl font-bold text-slate-800 mb-8 text-center">Actividad en Linkedin</h2>
+            <div class="flex justify-center">
+                <div class="glass-card" style="max-width: 520px; padding: 0.5rem;">
+                     <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7280020785979625472" height="877" width="504" frameborder="0" allowfullscreen="" title="Publicación integrada" class="rounded-lg"></iframe>
+                </div>
+            </div>
+            <div class="flex justify-center mt-6">
+                <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=juanmartinbarrientoslorusso" target="_blank">Follow on LinkedIn</a>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="text-center mb-16 fade-in-up">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4">Ponerse en Contacto</h2>
+            <p class="text-lg text-slate-500 mb-8 max-w-xl mx-auto font-light">Estoy buscando activamente nuevos desafíos y oportunidades. Si crees que mi perfil encaja en tu equipo, ¡no dudes en escribirme!</p>
+            <div class="glass-card inline-block p-6 max-w-2xl mx-auto">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <!-- Email -->
+                    <div class="flex items-center bg-slate-100 rounded-lg p-3">
+                        <span id="email-text" class="text-md sm:text-lg text-blue-700 mr-4">juanmartinbarrientos@me.com</span>
+                        <button id="copy-button" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-500 transition-all duration-300 flex-shrink-0">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center">
+                        <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center mt-24 pb-4 fade-in-up">
+            <p class="text-slate-500 text-sm font-light">&copy; <span id="current-year"></span> Juan Martin Barrientos. Todos los derechos reservados.</p>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    // --- Configuración de Particles.js para tema claro ---
+    particlesJS("particles-js", {
+        "particles": {
+            "number": {"value": 60, "density": {"enable": true, "value_area": 800}},
+            "color": {"value": "#0A66C2"}, // Color azul LinkedIn
+            "shape": {"type": "circle"},
+            "opacity": {"value": 0.5, "random": true, "anim": {"enable": true, "speed": 1, "opacity_min": 0.1, "sync": false}},
+            "size": {"value": 3, "random": true},
+            "line_linked": {"enable": true, "distance": 150, "color": "#3B82F6", "opacity": 0.4, "width": 1}, // Azul más claro
+            "move": {"enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false}
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {"onhover": {"enable": true, "mode": "grab"}, "onclick": {"enable": true, "mode": "push"}, "resize": true},
+            "modes": {"grab": {"distance": 140, "line_linked": {"opacity": 0.7}}, "push": {"particles_nb": 4}}
+        },
+        "retina_detect": true
+    });
+
+    // --- Script para animaciones y funcionalidad ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Establecer el año actual en el pie de página
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // --- Animaciones al hacer scroll ---
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Animar barras de progreso
+                    if (entry.target.id === 'habilidades') {
+                        const skillBars = document.querySelectorAll('.skill-bar');
+                        skillBars.forEach(bar => {
+                            setTimeout(() => { // Pequeño retraso para la animación
+                                bar.style.width = bar.dataset.width;
+                            }, 300);
+                        });
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        const skillsSection = document.getElementById('habilidades');
+        if (skillsSection) {
+            // Observamos el contenedor principal de la sección de habilidades
+            observer.observe(skillsSection.closest('.fade-in-up'));
+        }
+
+        // --- Desplazamiento suave ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Funcionalidad de Copiar Email ---
+        const copyButton = document.getElementById('copy-button');
+        const emailText = document.getElementById('email-text').innerText;
+        const originalButtonHtml = copyButton.innerHTML;
+        
+        copyButton.addEventListener('click', () => {
+            const textArea = document.createElement('textarea');
+            textArea.value = emailText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                copyButton.innerHTML = '<i class="fas fa-check"></i>';
+                copyButton.classList.remove('bg-blue-600');
+                copyButton.classList.add('bg-green-500');
+            } catch (err) {
+                console.error('No se pudo copiar el texto: ', err);
+            }
+            document.body.removeChild(textArea);
+
+            // Revertir el botón después de 2 segundos
+            setTimeout(() => {
+                copyButton.innerHTML = originalButtonHtml;
+                copyButton.classList.remove('bg-green-500');
+                copyButton.classList.add('bg-blue-600');
+            }, 2000);
+        });
+    });
+    </script>
+</body>
+</html>
+
