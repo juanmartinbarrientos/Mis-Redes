@@ -164,9 +164,55 @@
          background-color: #0A66C2;
          font-family: "SF Pro Text", Helvetica, sans-serif;
         }
+
+        /* --- CINTA (RIBBON) CSS --- */
+        .ribbon-wrapper {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            z-index: 9999;
+            pointer-events: none; /* Permite clicks debajo en el área vacía */
+        }
+
+        .ribbon {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 0;
+            width: 250%; /* Ancho largo para cubrir la diagonal */
+            /* Ajustado translateY a 45px para bajar la cinta y dar más espacio al texto */
+            transform: translateX(-50%) translateY(45px) rotate(45deg);
+            background-color: rgba(250, 204, 21, 0.8); /* Amarillo con transparencia */
+            color: #1a202c; /* Texto oscuro */
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 11px; /* Letra más chica para asegurar que entre */
+            line-height: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            pointer-events: auto; /* Reactiva clicks en la cinta */
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(202, 138, 4, 0.5); /* Borde sutil semitransparente */
+        }
+
+        .ribbon:hover {
+            background-color: rgba(253, 224, 71, 0.9); /* Amarillo más claro y sólido al hover */
+        }
     </style>
 </head>
 <body class="bg-[#0a0a1a]">
+
+    <!-- CINTA DE APOYO (Ribbon) -->
+    <div class="ribbon-wrapper">
+        <a href="https://www.juanmartinbarrientos.com/Prompt-Social" target="_blank" class="ribbon">
+            Apoya mi proyecto
+        </a>
+    </div>
 
     <div id="particles-js"></div>
 
@@ -451,6 +497,3 @@
     </script>
 </body>
 </html>
-
-
-
