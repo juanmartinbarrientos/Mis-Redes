@@ -493,7 +493,20 @@
 
         <!-- Sección Actividad en Linkedin -->
         <section id="linkedin-post" class="mb-24 fade-in-up">
-            <h2 class="text-4xl font-bold text-white mb-8 text-center">Actividad en Linkedin</h2>
+            <h2 class="text-4xl font-bold text-white mb-6 text-center">Actividad en Linkedin</h2>
+            
+            <!-- Mensaje de Fondo / Propósito -->
+            <div class="text-center mb-10 px-4">
+                <div class="glass-card inline-block max-w-3xl p-6 border-l-4 border-cyan-500">
+                    <p class="text-xl text-white font-medium mb-2">
+                        <i class="fas fa-shield-alt text-cyan-300 mr-2"></i> Educación en Ciberseguridad y Prevención
+                    </p>
+                    <p class="text-slate-300 font-light text-lg">
+                        Mi objetivo es capacitar a los usuarios para que naveguen seguros. Enseño métodos prácticos para identificar y evitar <strong>phishing, virus y malware</strong>, además de buenas prácticas en el uso de programas generales para prevenir complicaciones técnicas y pérdida de datos.
+                    </p>
+                </div>
+            </div>
+
             <div class="flex justify-center w-full">
                 <!-- Contenedor Responsive para Iframe -->
                 <div class="glass-card w-full max-w-[550px] mx-auto p-1 sm:p-2 overflow-hidden flex justify-center">
@@ -502,27 +515,6 @@
             </div>
             <div class="flex justify-center mt-6">
                 <a class="libutton" href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=juanmartinbarrientoslorusso" target="_blank">Follow on LinkedIn</a>
-            </div>
-        </section>
-
-        <!-- Sección Contacto -->
-        <section id="contacto" class="text-center mb-16 fade-in-up">
-            <h2 class="text-4xl font-bold text-white mb-4">Ponerse en Contacto</h2>
-            <p class="text-lg text-slate-400 mb-8 max-w-xl mx-auto font-light">Estoy buscando activamente nuevos desafíos y oportunidades. Si crees que mi perfil encaja en tu equipo, ¡no dudes en escribirme!</p>
-            <div class="glass-card inline-block p-6 max-w-2xl mx-auto">
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <!-- Email -->
-                    <div class="flex items-center bg-slate-800/50 rounded-lg p-3">
-                        <span id="email-text" class="text-md sm:text-lg text-cyan-300 mr-4">juanmartinbarrientos@me.com</span>
-                        <button id="copy-button" class="bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-400 transition-all duration-300 flex-shrink-0">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <!-- WhatsApp -->
-                    <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center">
-                        <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
-                    </a>
-                </div>
             </div>
         </section>
 
@@ -555,7 +547,7 @@
             </div>
         </section>
 
-        <!-- Sección de Asistencia Remota (Nueva) -->
+        <!-- Sección de Asistencia Remota -->
         <section id="soporte-remoto" class="mb-24 fade-in-up text-center">
             <div class="glass-card inline-block p-8 max-w-4xl mx-auto border border-cyan-500/20 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
                 <h2 class="text-3xl font-bold text-white mb-6">
@@ -606,26 +598,41 @@
                 </div>
                 <p class="text-xs text-slate-500 mt-4 font-light">Enlaces seguros oficiales de AnyDesk.com</p>
 
-                <!-- Video Tutorial de YouTube -->
-                <div class="mt-10 max-w-3xl mx-auto">
-                    <h3 class="text-xl font-semibold text-white mb-4">¿Cómo instalar y usar AnyDesk?</h3>
-                    <div class="relative w-full overflow-hidden rounded-xl border border-slate-700/50 shadow-lg" style="padding-bottom: 56.25%;">
-                        <!-- 
-                             NOTA: El video anterior daba Error 153 porque el dueño bloqueó la reproducción externa.
-                             He colocado un nuevo video tutorial de AnyDesk que permite inserción.
-                             Si deseas cambiarlo, solo reemplaza el ID 'J807u-wG7jM' por otro.
-                        -->
-                        <iframe class="absolute top-0 left-0 w-full h-full" 
-                            src="https://www.youtube.com/embed/J807u-wG7jM" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            referrerpolicy="strict-origin-when-cross-origin" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
+                <!-- Post de LinkedIn: Guía AnyDesk -->
+                <div class="mt-12 max-w-[550px] mx-auto">
+                     <h3 class="text-xl font-semibold text-white mb-4">Guía Exhaustiva sobre AnyDesk</h3>
+                     <div class="glass-card p-1 sm:p-2 overflow-hidden flex justify-center border border-slate-700/50 shadow-lg">
+                        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7401729047644323840" class="w-full h-[600px] sm:h-[800px] rounded-lg border-0" allowfullscreen="" title="Guía AnyDesk LinkedIn"></iframe>
+                     </div>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="text-center mb-16 fade-in-up">
+            <h2 class="text-4xl font-bold text-white mb-4">Ponerse en Contacto</h2>
+            <p class="text-lg text-slate-400 mb-8 max-w-xl mx-auto font-light">Estoy buscando activamente nuevos desafíos y oportunidades. Si crees que mi perfil encaja en tu equipo, ¡no dudes en escribirme!</p>
+            <div class="glass-card inline-block p-6 max-w-4xl mx-auto"> <!-- Aumenté max-w para que entren los 3 botones -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 flex-wrap">
+                    <!-- Email -->
+                    <div class="flex items-center bg-slate-800/50 rounded-lg p-3">
+                        <span id="email-text" class="text-md sm:text-lg text-cyan-300 mr-4">juanmartinbarrientos@me.com</span>
+                        <button id="copy-button" class="bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-400 transition-all duration-300 flex-shrink-0">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center">
+                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                    </a>
+
+                    <!-- Botón Compartir (Nuevo) -->
+                    <button id="share-site-button" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-500 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-indigo-500/30">
+                        <i class="fas fa-share-alt mr-2"></i> Compartir Web
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -735,6 +742,51 @@
                 copyButton.classList.remove('bg-green-500');
                 copyButton.classList.add('bg-cyan-500');
             }, 2000);
+        });
+
+        // --- Funcionalidad de Compartir Web (Web Share API) ---
+        const shareSiteButton = document.getElementById('share-site-button');
+        
+        shareSiteButton.addEventListener('click', async () => {
+            const shareData = {
+                title: 'Portfolio de Juan Martin Barrientos',
+                text: 'Echa un vistazo al portfolio de Juan Martin Barrientos - IT Field Support & Help Desk Specialist',
+                url: 'https://www.juanmartinbarrientos.com'
+            };
+
+            // Intentar usar la API nativa de compartir
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('Error al compartir o cancelado por usuario:', err);
+                }
+            } else {
+                // Fallback: Copiar al portapapeles si no soporta compartir nativo
+                try {
+                    // Crear un input temporal para copiar
+                    const tempInput = document.createElement('input');
+                    tempInput.value = shareData.url;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy'); // Usamos execCommand por compatibilidad
+                    document.body.removeChild(tempInput);
+
+                    // Feedback visual
+                    const originalContent = shareSiteButton.innerHTML;
+                    shareSiteButton.innerHTML = '<i class="fas fa-check mr-2"></i> ¡Enlace Copiado!';
+                    shareSiteButton.classList.remove('bg-indigo-600');
+                    shareSiteButton.classList.add('bg-green-600');
+
+                    setTimeout(() => {
+                        shareSiteButton.innerHTML = originalContent;
+                        shareSiteButton.classList.remove('bg-green-600');
+                        shareSiteButton.classList.add('bg-indigo-600');
+                    }, 2000);
+                } catch (err) {
+                    console.error('No se pudo copiar al portapapeles:', err);
+                }
+            }
         });
     });
     </script>
