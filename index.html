@@ -211,6 +211,47 @@
                 transform-origin: top right;
             }
         }
+
+        /* --- Botón Flotante de WhatsApp --- */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128c7e;
+            transform: scale(1.1);
+            color: #FFF !important;
+        }
+
+        .whatsapp-float i {
+            margin-top: 2px; /* Pequeño ajuste visual */
+        }
+
+        @media (max-width: 640px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 <body class="bg-[#0a0a1a]">
@@ -242,10 +283,14 @@
             </div>
 
             <nav class="mt-8">
-                <ul class="flex justify-center space-x-6 md:space-x-8 text-lg">
+                <ul class="flex justify-center flex-wrap gap-4 md:gap-8 text-lg">
                     <li><a href="#sobre-mi" class="nav-link">Sobre Mí</a></li>
                     <li><a href="#experiencia" class="nav-link">Experiencia</a></li>
+                    <li><a href="#formacion" class="nav-link">Formación</a></li>
                     <li><a href="#habilidades" class="nav-link">Habilidades</a></li>
+                    <li><a href="#herramientas" class="nav-link">Herramientas</a></li>
+                    <li><a href="#linkedin-post" class="nav-link">LinkedIn</a></li>
+                    <li><a href="#hashtags" class="nav-link">Temas</a></li>
                     <li><a href="#contacto" class="nav-link">Contacto</a></li>
                 </ul>
             </nav>
@@ -274,6 +319,12 @@
                     </p>
                     <div class="space-y-8">
                         <div class="glass-card">
+                            <h3 class="text-xl font-bold text-cyan-300">Consultor IT & Soporte Técnico Personalizado</h3>
+                            <p class="font-semibold text-white">Trabajos Particulares (Freelance)</p>
+                            <p class="text-sm text-slate-400 mb-2 font-light">2010 - Presente</p>
+                            <p class="text-slate-300 font-light"><strong class="text-white">Servicio técnico enfocado en la experiencia del usuario final y la extensión de la vida útil del hardware.</strong> Mi servicio particular se centra en la calidad humana. Entiendo que la tecnología puede ser compleja, por eso mi prioridad es asesorar al cliente con paciencia, explicando de forma simple qué necesita su equipo y qué trabajo se realizará. Ofrezco soporte remoto y a domicilio para reparaciones, actualizaciones de hardware (discos SSD, RAM, fuentes) e instalación de sistemas operativos Windows optimizados, incluyendo la gestión de copias de seguridad. Capacito a los usuarios para que simplifiquen su día a día tecnológico.</p>
+                        </div>
+                        <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Field Support IT</h3>
                             <p class="font-semibold text-white">Smartway SRL (Cliente Cinemark)</p>
                             <p class="text-sm text-slate-400 mb-2 font-light">2023 - 2024</p>
@@ -285,12 +336,6 @@
                             <p class="text-sm text-slate-400 mb-2 font-light">Ene 2022 - Feb 2023</p>
                             <p class="text-slate-300 font-light">Despliegue de infraestructura para nuevas sucursales (Roll-out). Configuración de redes (TCP/IP, VPN) y periféricos financieros. Soporte híbrido (Remoto vía TeamViewer/AnyDesk + On-site) asegurando SLA de resolución bajo 4 horas.</p>
                         </div>
-                        <div class="glass-card">
-                            <h3 class="text-xl font-bold text-cyan-300">Soporte Técnico Personalizado</h3>
-                            <p class="font-semibold text-white">Trabajos Particulares (Freelance)</p>
-                            <p class="text-sm text-slate-400 mb-2 font-light">Desde 2010 - Presente</p>
-                            <p class="text-slate-300 font-light">Mi servicio particular se centra en la calidad humana. Entiendo que la tecnología puede ser compleja, por eso mi prioridad es asesorar al cliente con paciencia, explicando de forma simple qué necesita su equipo y qué trabajo se realizará. Ofrezco soporte remoto y a domicilio para reparaciones, actualizaciones de hardware (discos SSD, RAM, fuentes) e instalación de sistemas operativos Windows optimizados, incluyendo la gestión de copias de seguridad. Capacito a los usuarios para que simplifiquen su día a día tecnológico.</p>
-                        </div>
                     </div>
                 </section>
 
@@ -299,15 +344,21 @@
                     <h2 class="text-4xl font-bold text-white mb-8"><i class="fas fa-graduation-cap mr-3 text-cyan-300"></i>Formación</h2>
                     <div class="space-y-8">
                          <div class="glass-card">
-                            <h3 class="text-xl font-bold text-cyan-300">Ingeniería Informática</h3>
+                            <h3 class="text-xl font-bold text-cyan-300">Ingeniería Informática (Ciclo Inicial)</h3>
                             <p class="font-semibold text-white">Universidad Nacional de La Matanza (UNLaM)</p>
+                            <p class="text-slate-300 font-light mt-2">
+                                Inicié mi formación académica adquiriendo bases sólidas de lógica y programación. Posteriormente, decidí volcarme de lleno a la experiencia profesional al ingresar a una empresa de desarrollo de software. Allí comencé mi carrera en el área de soporte IT, transicionando progresivamente hacia tareas de programación, donde realizaba modificaciones de código y compilación de actualizaciones bajo supervisión técnica.
+                            </p>
                          </div>
                          <div class="glass-card">
-                            <h3 class="text-xl font-bold text-cyan-300">Certificaciones</h3>
+                            <h3 class="text-xl font-bold text-cyan-300">Certificaciones Profesionales</h3>
+                            <p class="text-slate-300 font-light mt-2 mb-4">
+                                Mantengo un enfoque constante en la capacitación técnica validada por la industria, destacando la obtención de la <strong>Certificación Profesional de Google en Soporte IT</strong>, entre otras especializaciones.
+                            </p>
                             <ul class="list-disc list-inside text-slate-300 mt-2 font-light space-y-2">
                                 <li><a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Administración de sistemas y servicios de infraestructura de TI <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://www.coursera.org/account/accomplishments/verify/SR2BZXRTPZ22" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Sistemas Operativos Avanzados <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Soporte de Tecnologías de la Información de Google <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
+                                <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors font-semibold text-white">Soporte de Tecnologías de la Información de Google <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/1770-avanzado-redes/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso Avanzado de Redes de Internet <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/6900-configuracion-windows/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Configuración de Entorno de Desarrollo en Windows <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/1282-soporte-usuarios/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso de Servicio al Cliente y Soporte a Usuarios <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
@@ -364,7 +415,7 @@
                     </div>
 
                     <!-- Nueva Tarjeta: Herramientas & Tecnologías -->
-                    <div class="glass-card mt-8">
+                    <div id="herramientas" class="glass-card mt-8 scroll-mt-24">
                         <h3 class="text-2xl font-bold text-white mb-6 border-b border-gray-700 pb-2">Herramientas & Tecnologías</h3>
                         
                         <div class="space-y-5">
@@ -492,6 +543,12 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/5491169578193?text=Hola%20quiero%20hacerte%20una%20consulta..." class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script>
     // --- Configuración de Particles.js ---
     particlesJS("particles-js", {
