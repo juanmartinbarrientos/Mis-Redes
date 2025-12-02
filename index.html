@@ -203,6 +203,14 @@
         .ribbon:hover {
             background-color: rgba(253, 224, 71, 0.9); /* Amarillo más claro y sólido al hover */
         }
+
+        /* --- Ajuste Mobile para la Cinta --- */
+        @media (max-width: 640px) {
+            .ribbon-wrapper {
+                transform: scale(0.6);
+                transform-origin: top right;
+            }
+        }
     </style>
 </head>
 <body class="bg-[#0a0a1a]">
@@ -222,7 +230,7 @@
         <!-- Encabezado -->
         <header class="text-center mb-20 md:mb-28 fade-in-up">
             <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight">JUAN MARTIN BARRIENTOS</h1>
-            <p class="text-2xl md:text-3xl text-cyan-300 font-light mt-2">IT Support Specialist</p>
+            <p class="text-2xl md:text-3xl text-cyan-300 font-light mt-2">IT Field Support & Help Desk Specialist</p>
             
             <!-- Iconos de Redes Sociales -->
             <div class="flex justify-center space-x-6 mt-6">
@@ -248,7 +256,7 @@
             <div class="glass-card text-center">
                 <h2 class="text-4xl font-bold text-white mb-6">Sobre Mí</h2>
                 <p class="text-slate-300 leading-relaxed max-w-3xl mx-auto text-lg font-light">
-                    Soy un Técnico Informático apasionado por la tecnología. Brindo soporte de campo en entornos corporativos, donde disfruto del trabajo en equipo y respeto las estructuras de autoridad. Mi trayectoria incluye la gestión de usuarios e infraestructura en empresas, y la reparación y optimización de equipos personales, realizando actualizaciones de hardware. Disfruto del desafío técnico y del contacto humano, explicando soluciones complejas de manera simple. También ofrezco asistencia técnica a particulares, labor en la que soy muy prolijo y me apasiona lograr el mejor resultado posible.
+                    Soy un Técnico Informático apasionado por la tecnología. Brindo soporte de campo en entornos corporativos, donde disfruto del trabajo en equipo y respeto las estructuras de autoridad. Mi trayectoria incluye la gestión de usuarios e infraestructura en empresas, y la reparación y optimización de equipos personales, realizando actualizaciones de hardware. Disfruto del desafío técnico y del contacto humano, explicando soluciones complejas de manera simple. Además, mi interés por la psicología me permite comprender la frustración que genera la tecnología, gestionando el estrés del momento y brindando una contención real, más allá de lo puramente técnico. También ofrezco asistencia técnica a particulares, labor en la que soy muy prolijo y me apasiona lograr el mejor resultado posible.
                 </p>
             </div>
         </section>
@@ -268,14 +276,14 @@
                         <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Field Support IT</h3>
                             <p class="font-semibold text-white">Smartway SRL (Cliente Cinemark)</p>
-                            <p class="text-sm text-slate-400 mb-2 font-light">Dic 2023 - Mar 2024</p>
-                            <p class="text-slate-300 font-light">Realicé la instalación y configuración de infraestructura comercial crítica, incluyendo kioscos de autoservicio para clientes (compra de entradas y productos), impresoras y puestos de trabajo. Mi rol combinaba el diagnóstico remoto para agilizar soluciones con la asistencia presencial para resolver incidencias complejas y asegurar la continuidad del servicio al cliente.</p>
+                            <p class="text-sm text-slate-400 mb-2 font-light">2023 - 2024</p>
+                            <p class="text-slate-300 font-light">Realicé la instalación y configuración de infraestructura comercial crítica, incluyendo kioscos de autoservicio para clientes (compra de entradas y productos), impresoras y puestos de trabajo. Mi rol combinaba el diagnóstico remoto para agilizar soluciones con la asistencia presencial para resolver incidencias complejas y asegurar la continuidad del servicio al cliente. Logro de una disponibilidad operativa cercana al 100% en la red de kioscos de autoservicio a nivel nacional mediante un plan riguroso de mantenimiento preventivo.</p>
                         </div>
                         <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Field Support IT</h3>
-                            <p class="font-semibold text-white">Gire S.A. (Rapipago)</p>
+                            <p class="font-semibold text-white">Gire S.A. (Rapipago) Tercerizado</p>
                             <p class="text-sm text-slate-400 mb-2 font-light">Ene 2022 - Feb 2023</p>
-                            <p class="text-slate-300 font-light">Responsable de la instalación y mantenimiento de puestos de trabajo y periféricos. Realizaba un diagnóstico inicial por vía remota para agilizar la resolución de incidencias y, de no ser posible una solución a distancia, coordinaba y ejecutaba la asistencia en sitio a la brevedad. Llevé a cabo la instalación integral de hardware en nuevas sucursales, incluyendo la configuración de redes y periféricos para garantizar la operatividad inmediata.</p>
+                            <p class="text-slate-300 font-light">Despliegue de infraestructura para nuevas sucursales (Roll-out). Configuración de redes (TCP/IP, VPN) y periféricos financieros. Soporte híbrido (Remoto vía TeamViewer/AnyDesk + On-site) asegurando SLA de resolución bajo 4 horas.</p>
                         </div>
                         <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Soporte Técnico Personalizado</h3>
@@ -354,6 +362,68 @@
                             <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="70%"></div></div>
                         </div>
                     </div>
+
+                    <!-- Nueva Tarjeta: Herramientas & Tecnologías -->
+                    <div class="glass-card mt-8">
+                        <h3 class="text-2xl font-bold text-white mb-6 border-b border-gray-700 pb-2">Herramientas & Tecnologías</h3>
+                        
+                        <div class="space-y-5">
+                            <!-- Categoría -->
+                            <div>
+                                <h4 class="text-cyan-300 font-semibold text-sm mb-2 uppercase tracking-wide"><i class="fas fa-ticket-alt mr-2"></i>Gestión de Tickets</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Zendesk</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Sistemas Internos</span>
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div>
+                                <h4 class="text-cyan-300 font-semibold text-sm mb-2 uppercase tracking-wide"><i class="fas fa-network-wired mr-2"></i>Conectividad Remota</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">TeamViewer</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">AnyDesk</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">RDP</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">VNC</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">LogMeIn</span>
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div>
+                                <h4 class="text-cyan-300 font-semibold text-sm mb-2 uppercase tracking-wide"><i class="fas fa-server mr-2"></i>Infraestructura</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Active Directory</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">DHCP / DNS</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">VPN</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">TCP/IP</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Cableado Cat5e/6</span>
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div>
+                                <h4 class="text-cyan-300 font-semibold text-sm mb-2 uppercase tracking-wide"><i class="fas fa-microchip mr-2"></i>Hardware Específico</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Kioscos Autoservicio</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Impresoras Térmicas</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Lectores de Barras</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Pinpads (Posnet)</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Clonación (Ghost/Clonezilla)</span>
+                                </div>
+                            </div>
+
+                             <!-- Categoría -->
+                             <div>
+                                <h4 class="text-cyan-300 font-semibold text-sm mb-2 uppercase tracking-wide"><i class="fab fa-windows mr-2"></i>Sistemas Operativos</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Windows 10/11 Pro</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Windows Server</span>
+                                    <span class="bg-slate-700/50 text-slate-200 text-xs px-3 py-1 rounded-full border border-slate-600">Linux (CLI)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </aside>
         </main>
@@ -361,9 +431,10 @@
         <!-- Sección Actividad en Linkedin -->
         <section id="linkedin-post" class="mb-24 fade-in-up">
             <h2 class="text-4xl font-bold text-white mb-8 text-center">Actividad en Linkedin</h2>
-            <div class="flex justify-center">
-                <div class="glass-card" style="max-width: 520px; padding: 0.5rem;">
-                     <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7280020785979625472" height="877" width="504" frameborder="0" allowfullscreen="" title="Publicación integrada" class="rounded-lg"></iframe>
+            <div class="flex justify-center w-full">
+                <!-- Contenedor Responsive para Iframe -->
+                <div class="glass-card w-full max-w-[550px] mx-auto p-1 sm:p-2 overflow-hidden flex justify-center">
+                     <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7280020785979625472" class="w-full h-[600px] sm:h-[877px] rounded-lg border-0" allowfullscreen="" title="Publicación integrada"></iframe>
                 </div>
             </div>
             <div class="flex justify-center mt-6">
@@ -388,6 +459,26 @@
                     <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center">
                         <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Hashtags -->
+        <section id="hashtags" class="mb-24 fade-in-up text-center">
+             <div class="glass-card inline-block p-6 max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-white mb-6"><i class="fas fa-hashtag mr-3 text-cyan-300"></i>Temas Relacionados</h2>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#WindowsServer</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#MacOS</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#LinuxSupport</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#ActiveDirectory</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#Office365Admin</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#GoogleWorkspace</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#Redes</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#MikrotikConfig</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#SoporteRemoto</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#HardwareRepair</span>
+                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#MantenimientoPC</span>
                 </div>
             </div>
         </section>
