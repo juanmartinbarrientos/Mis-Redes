@@ -953,7 +953,7 @@
         <section id="contacto" class="text-center mb-16 fade-in-up">
             <h2 class="text-4xl font-bold text-white mb-4">Ponerse en Contacto</h2>
             <p class="text-lg text-slate-400 mb-8 max-w-xl mx-auto font-light">Estoy buscando activamente nuevos desafíos y oportunidades. Si crees que mi perfil encaja en tu equipo, ¡no dudes en escribirme!</p>
-            <div class="glass-card inline-block p-6 max-w-4xl mx-auto"> <!-- Aumenté max-w para que entren los 3 botones -->
+            <div class="glass-card inline-block p-6 max-w-5xl mx-auto"> <!-- Aumenté ligeramente el ancho -->
                 <div class="flex flex-col md:flex-row items-center justify-center gap-6 flex-wrap">
                     <!-- Email -->
                     <div class="flex items-center bg-slate-800/50 rounded-lg p-3">
@@ -962,15 +962,20 @@
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
+
+                    <!-- Botón CV (Modificado para abrir Modal) -->
+                    <button id="open-cv-modal" class="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-red-500/30 transform hover:-translate-y-1">
+                        <i class="fas fa-file-pdf mr-2 text-xl"></i> Ver CV / Hoja de Vida
+                    </button>
                     
                     <!-- WhatsApp -->
-                    <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center">
-                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                    <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-green-500/30">
+                        <i class="fab fa-whatsapp mr-2 text-xl"></i> WhatsApp
                     </a>
 
-                    <!-- Botón Compartir (Nuevo) -->
+                    <!-- Botón Compartir -->
                     <button id="share-site-button" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-500 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-indigo-500/30">
-                        <i class="fas fa-share-alt mr-2"></i> Compartir Web
+                        <i class="fas fa-share-alt mr-2 text-xl"></i> Compartir
                     </button>
                 </div>
             </div>
@@ -983,7 +988,7 @@
 
     </div>
 
-    <!-- Modal de Herramientas -->
+    <!-- Modal de Herramientas (Existente) -->
     <div id="tools-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="tools-modal-overlay"></div>
@@ -1060,6 +1065,57 @@
                                 <i class="fab fa-youtube mr-2"></i> Ver Tutorial
                             </a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nuevo Modal de CV -->
+    <div id="cv-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="cv-modal-overlay"></div>
+        
+        <!-- Modal Content -->
+        <div class="glass-card relative w-full max-w-5xl h-[90vh] mx-4 flex flex-col p-0 overflow-hidden transform scale-95 transition-transform duration-300 border border-slate-600/50 shadow-2xl" id="cv-modal-content">
+            <!-- Header del Modal -->
+            <div class="bg-[#0a0a1a] p-4 border-b border-slate-700/50 flex flex-wrap justify-between items-center z-10 shrink-0 gap-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mr-3 border border-red-500/30">
+                        <i class="fas fa-file-pdf text-red-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-bold text-white">Curriculum Vitae</h3>
+                        <p class="text-xs text-slate-400">Juan Martin Barrientos - IT Specialist</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 sm:gap-3">
+                     <a href="https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf" download class="hidden sm:flex bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-bold items-center transition-colors border border-slate-600">
+                        <i class="fas fa-download mr-2"></i> Descargar
+                    </a>
+                    
+                    <!-- Botón de Imprimir -->
+                    <button id="print-cv-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-colors shadow-lg hover:shadow-cyan-500/20">
+                        <i class="fas fa-print mr-2"></i> Imprimir
+                    </button>
+
+                    <button id="close-cv-modal" class="text-slate-400 hover:text-white hover:bg-red-500/20 w-10 h-10 rounded-full transition-all flex items-center justify-center ml-2">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenedor del Iframe -->
+            <div class="flex-1 bg-slate-800 relative w-full h-full">
+                <!-- Se usa el link RAW para que el navegador lo renderice -->
+                <iframe id="cv-iframe" class="w-full h-full" src=""></iframe>
+                
+                <!-- Loading state (oculto por defecto) -->
+                <div id="cv-loading" class="absolute inset-0 flex items-center justify-center bg-slate-900 z-0">
+                    <div class="text-center">
+                        <i class="fas fa-circle-notch fa-spin text-4xl text-cyan-500 mb-3"></i>
+                        <p class="text-slate-400">Cargando documento...</p>
                     </div>
                 </div>
             </div>
@@ -1277,6 +1333,67 @@
         if(overlay) {
             overlay.addEventListener('click', () => toggleModal(false));
         }
+
+        // --- Lógica del Nuevo Modal de CV ---
+        const cvModal = document.getElementById('cv-modal');
+        const openCvBtn = document.getElementById('open-cv-modal');
+        const closeCvBtn = document.getElementById('close-cv-modal');
+        const cvOverlay = document.getElementById('cv-modal-overlay');
+        const cvContent = document.getElementById('cv-modal-content');
+        const cvIframe = document.getElementById('cv-iframe');
+        const printCvBtn = document.getElementById('print-cv-btn');
+        const cvUrl = "https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf";
+
+        function toggleCvModal(show) {
+            if (show) {
+                // Cargar el PDF solo cuando se abre el modal para ahorrar recursos
+                if (!cvIframe.src) {
+                    cvIframe.src = cvUrl;
+                }
+                
+                cvModal.classList.remove('hidden');
+                setTimeout(() => {
+                    cvModal.classList.remove('opacity-0');
+                    cvContent.classList.remove('scale-95');
+                    cvContent.classList.add('scale-100');
+                }, 10);
+            } else {
+                cvModal.classList.add('opacity-0');
+                cvContent.classList.remove('scale-100');
+                cvContent.classList.add('scale-95');
+                setTimeout(() => {
+                    cvModal.classList.add('hidden');
+                    // Opcional: Limpiar src si quieres que se recargue siempre
+                    // cvIframe.src = ""; 
+                }, 300);
+            }
+        }
+
+        if (openCvBtn) openCvBtn.addEventListener('click', () => toggleCvModal(true));
+        if (closeCvBtn) closeCvBtn.addEventListener('click', () => toggleCvModal(false));
+        if (cvOverlay) cvOverlay.addEventListener('click', () => toggleCvModal(false));
+
+        // Lógica de Impresión Inteligente
+        if (printCvBtn) {
+            printCvBtn.addEventListener('click', () => {
+                // Intento 1: Imprimir desde el iframe (puede fallar por CORS en GitHub)
+                try {
+                    const iframeWindow = cvIframe.contentWindow;
+                    if (iframeWindow) {
+                        iframeWindow.focus();
+                        iframeWindow.print();
+                    } else {
+                        throw new Error("No access to iframe");
+                    }
+                } catch (e) {
+                    // Fallback: Si el navegador bloquea la impresión cross-origin (muy probable con GitHub Raw)
+                    // Abrimos el PDF en una nueva pestaña que dispara el diálogo de impresión nativo del navegador
+                    // Esto garantiza que el usuario siempre pueda imprimir.
+                    window.open(cvUrl, '_blank');
+                }
+            });
+        }
+
 
         // --- Funcionalidad Like Instagram ---
         const likeBtn = document.getElementById('insta-like-btn');
