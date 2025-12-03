@@ -526,7 +526,7 @@
                         </div>
                     </div>
 
-                    <!-- Tarjeta 2: Google Visit (Estilo Instagram) -->
+                    <!-- Tarjeta 2: Google Visit (Estilo Instagram) - CARROUSEL -->
                     <div class="glass-card p-0 overflow-hidden border border-slate-700/50 h-full flex flex-col mt-8">
                         <div class="bg-gradient-to-r from-red-500/20 to-yellow-500/20 p-2 text-center border-b border-white/10">
                             <span class="text-xs font-bold text-yellow-200 uppercase tracking-widest"><i class="fab fa-instagram mr-2"></i>Instagram Style</span>
@@ -546,12 +546,43 @@
                             <button class="text-white hover:text-slate-300"><i class="fas fa-ellipsis-h"></i></button>
                         </div>
 
-                        <!-- Imagen del Post -->
-                        <div class="relative w-full aspect-square bg-slate-800">
-                            <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_125452.jpg" 
-                                 alt="Visita a oficinas de Google" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <!-- Carrusel de Imágenes -->
+                        <div class="relative w-full aspect-square bg-slate-800 group overflow-hidden" id="carousel-container">
+                            <!-- Slider Container -->
+                            <div id="insta-slider" class="w-full h-full flex transition-transform duration-500 ease-in-out">
+                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_125452.jpg" 
+                                     alt="Visita a oficinas de Google 1" 
+                                     class="w-full h-full object-cover flex-shrink-0"
+                                     onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_115136.jpg" 
+                                     alt="Visita a oficinas de Google 2" 
+                                     class="w-full h-full object-cover flex-shrink-0"
+                                     onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_115143~3.jpg" 
+                                     alt="Visita a oficinas de Google 3" 
+                                     class="w-full h-full object-cover flex-shrink-0"
+                                     onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                            </div>
+
+                            <!-- Flechas de Navegación (aparecen en hover) -->
+                            <button id="prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hidden hover:bg-black/70 z-10">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button id="next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 z-10">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+
+                            <!-- Indicadores (Dots) -->
+                            <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 pointer-events-none z-10" id="carousel-dots">
+                                <div class="dot w-1.5 h-1.5 rounded-full bg-white transition-all shadow-sm"></div>
+                                <div class="dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all shadow-sm"></div>
+                                <div class="dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all shadow-sm"></div>
+                            </div>
+
+                            <!-- Contador tipo Instagram -->
+                            <div class="absolute top-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded-full pointer-events-none z-10">
+                                <span id="slide-counter">1/3</span>
+                            </div>
                         </div>
 
                         <!-- Acciones -->
@@ -1268,6 +1299,100 @@
                     likeCountElement.innerText = "2,843 Me gusta";
                 }
             });
+        }
+        
+        // --- Carrusel Instagram con Auto-Slide ---
+        const instaSlider = document.getElementById('insta-slider');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const dots = document.querySelectorAll('.dot');
+        const slideCounter = document.getElementById('slide-counter');
+        const carouselContainer = document.getElementById('carousel-container');
+        
+        // Detectar número real de imágenes dinámicamente
+        const slides = instaSlider ? instaSlider.querySelectorAll('img') : [];
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let slideInterval;
+
+        if (instaSlider && prevBtn && nextBtn && totalSlides > 0) {
+            
+            function updateCarousel() {
+                // Mover el slider
+                instaSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Actualizar contador
+                if(slideCounter) slideCounter.textContent = `${currentSlide + 1}/${totalSlides}`;
+
+                // Actualizar visibilidad de flechas (Opcional: Si queremos loop infinito, siempre mostramos flechas o manejamos lógica distinta)
+                // Para loop infinito visual en botones:
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                
+                // Si es la primera, ocultar prev (estilo Instagram no loop en UI manual, pero sí en auto)
+                if (currentSlide === 0) prevBtn.classList.add('hidden');
+                if (currentSlide === totalSlides - 1) nextBtn.classList.add('hidden');
+
+                // Actualizar puntos (dots)
+                dots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.remove('bg-white/50');
+                        dot.classList.add('bg-white');
+                        dot.classList.add('scale-125'); // Un poco más grande el activo
+                    } else {
+                        dot.classList.remove('bg-white');
+                        dot.classList.remove('scale-125');
+                        dot.classList.add('bg-white/50');
+                    }
+                });
+            }
+
+            function nextSlide() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                } else {
+                    currentSlide = 0; // Loop al inicio
+                }
+                updateCarousel();
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                } else {
+                    currentSlide = totalSlides - 1; // Loop al final (opcional)
+                }
+                updateCarousel();
+            }
+
+            function startSlideTimer() {
+                // Limpiar cualquier intervalo existente para evitar duplicados
+                stopSlideTimer();
+                slideInterval = setInterval(nextSlide, 5000); // 5 segundos
+            }
+
+            function stopSlideTimer() {
+                if (slideInterval) clearInterval(slideInterval);
+            }
+
+            // Event Listeners
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startSlideTimer(); // Reiniciar timer al interactuar
+            });
+
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startSlideTimer(); // Reiniciar timer al interactuar
+            });
+
+            // Pausar al pasar el mouse por encima (Mejor experiencia de usuario)
+            carouselContainer.addEventListener('mouseenter', stopSlideTimer);
+            carouselContainer.addEventListener('mouseleave', startSlideTimer);
+            
+            // Inicializar estado
+            updateCarousel();
+            startSlideTimer();
         }
 
     });
