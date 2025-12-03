@@ -908,6 +908,17 @@
                     </div>
                 </div>
 
+                <!-- Botón para abrir Modal de Herramientas -->
+                <div class="mt-10 pt-6 border-t border-slate-700/50">
+                    <h3 class="text-xl font-bold text-white mb-2">Herramientas Adicionales</h3>
+                    <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto">
+                        Utilizo software profesional para optimización, seguridad y productividad durante mis asistencias.
+                    </p>
+                    <button id="open-tools-modal" class="bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/50 font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_25px_rgba(6,182,212,0.3)] inline-flex items-center group">
+                        <i class="fas fa-toolbox mr-2 group-hover:rotate-12 transition-transform"></i> Ver Herramientas
+                    </button>
+                </div>
+
             </div>
         </section>
 
@@ -943,6 +954,79 @@
             <p class="text-slate-500 text-sm font-light">&copy; <span id="current-year"></span> Juan Martin Barrientos. Todos los derechos reservados.</p>
         </footer>
 
+    </div>
+
+    <!-- Modal de Herramientas -->
+    <div id="tools-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="tools-modal-overlay"></div>
+        
+        <!-- Modal Content -->
+        <div class="glass-card relative w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300 border border-slate-600/50 shadow-2xl p-0" id="tools-modal-content">
+            <!-- Header -->
+            <div class="sticky top-0 bg-[#0a0a1a]/90 backdrop-blur-md p-6 border-b border-slate-700/50 flex justify-between items-center z-10">
+                <h3 class="text-2xl font-bold text-white"><i class="fas fa-toolbox text-cyan-400 mr-3"></i>Kit de Herramientas</h3>
+                <button id="close-tools-modal" class="text-slate-400 hover:text-white hover:bg-red-500/20 w-8 h-8 rounded-full transition-all flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6 space-y-8 text-left">
+                <!-- Malwarebytes -->
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                    <div class="bg-blue-600/20 p-4 rounded-xl border border-blue-500/30 min-w-[60px] text-center">
+                        <i class="fas fa-shield-virus text-3xl text-blue-400"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold text-white mb-2">Malwarebytes</h4>
+                        <p class="text-slate-300 text-sm mb-4">
+                            Herramienta esencial para la detección y eliminación de malware, spyware y otras amenazas que los antivirus tradicionales pueden pasar por alto. Ideal para una limpieza profunda si tu equipo va lento o tiene comportamientos extraños.
+                        </p>
+                        <a href="https://www.malwarebytes.com/es/mwb-download" target="_blank" class="inline-flex items-center text-sm font-bold text-blue-400 hover:text-blue-300 border border-blue-500/30 hover:bg-blue-500/10 px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-download mr-2"></i> Descargar Oficial
+                        </a>
+                    </div>
+                </div>
+
+                <hr class="border-slate-700/50">
+
+                <!-- Office -->
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                    <div class="bg-orange-600/20 p-4 rounded-xl border border-orange-500/30 min-w-[60px] text-center">
+                        <i class="fab fa-microsoft text-3xl text-orange-400"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold text-white mb-2">Microsoft 365 (Office)</h4>
+                        <p class="text-slate-300 text-sm mb-4">
+                            Instalación completa de la suite de productividad (Word, Excel, PowerPoint). Puedes optar por planes personales o familiares. Te ayudo a elegir y configurar la mejor opción según tus necesidades.
+                        </p>
+                        <a href="https://www.microsoft.com/es-ar/microsoft-365/buy/compare-all-microsoft-365-products?tab=1&OCID=cmmruikv4ct#PersonalAnnualPaidYearly" target="_blank" class="inline-flex items-center text-sm font-bold text-orange-400 hover:text-orange-300 border border-orange-500/30 hover:bg-orange-500/10 px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-external-link-alt mr-2"></i> Ver Opciones y Precios
+                        </a>
+                    </div>
+                </div>
+
+                <hr class="border-slate-700/50">
+
+                <!-- OBS -->
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                    <div class="bg-purple-600/20 p-4 rounded-xl border border-purple-500/30 min-w-[60px] text-center">
+                        <i class="fas fa-video text-3xl text-purple-400"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold text-white mb-2">OBS Studio</h4>
+                        <p class="text-slate-300 text-sm mb-4">
+                            Software libre y de código abierto para grabación de video y transmisión en vivo. 
+                            <span class="text-yellow-400 font-semibold block mt-2 bg-yellow-500/10 p-2 rounded border border-yellow-500/20"><i class="fas fa-chalkboard-teacher mr-1"></i> ¡Servicio Adicional! ¿Querés aprender a usarlo? Ofrezco capacitación personalizada para que configures tus escenas y transmitas como un profesional.</span>
+                        </p>
+                        <a href="https://obsproject.com/es/download" target="_blank" class="inline-flex items-center text-sm font-bold text-purple-400 hover:text-purple-300 border border-purple-500/30 hover:bg-purple-500/10 px-4 py-2 rounded-lg transition-all">
+                            <i class="fas fa-download mr-2"></i> Descargar OBS
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -1120,6 +1204,42 @@
                 document.body.removeChild(textArea);
             });
         });
+
+        // --- Funcionalidad Modal de Herramientas ---
+        const modal = document.getElementById('tools-modal');
+        const openBtn = document.getElementById('open-tools-modal');
+        const closeBtn = document.getElementById('close-tools-modal');
+        const overlay = document.getElementById('tools-modal-overlay');
+        const content = document.getElementById('tools-modal-content');
+
+        function toggleModal(show) {
+            if (show) {
+                modal.classList.remove('hidden');
+                // Pequeño delay para permitir que el display:block se aplique antes de la transición
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        if(openBtn) {
+            openBtn.addEventListener('click', () => toggleModal(true));
+        }
+        if(closeBtn) {
+            closeBtn.addEventListener('click', () => toggleModal(false));
+        }
+        if(overlay) {
+            overlay.addEventListener('click', () => toggleModal(false));
+        }
 
     });
     </script>
