@@ -190,50 +190,59 @@
          font-family: "SF Pro Text", Helvetica, sans-serif;
         }
 
-        /* --- CINTA (RIBBON) CSS --- */
+        /* --- CINTA (RIBBON) CSS - CORREGIDO BOTTOM-LEFT --- */
         .ribbon-wrapper {
             position: fixed;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
+            bottom: 0;
+            left: 0;
+            width: 130px; /* Tamaño controlado del área de recorte */
+            height: 130px;
             overflow: hidden;
             z-index: 9999;
             pointer-events: none; /* Permite clicks debajo en el área vacía */
         }
 
         .ribbon {
+            position: absolute;
             display: block;
-            position: relative;
-            left: 50%;
-            top: 0;
-            width: 250%; /* Ancho largo para cubrir la diagonal */
-            /* Ajustado translateY a 45px para bajar la cinta y dar más espacio al texto */
-            transform: translateX(-50%) translateY(45px) rotate(45deg);
-            background-color: rgba(250, 204, 21, 0.8); /* Amarillo con transparencia */
+            width: 200px; /* Ancho fijo para asegurar diagonal completa */
+            left: -50px;  /* Desplazamiento para centrar la rotación */
+            bottom: 30px; /* Altura desde la esquina */
+            background-color: rgba(250, 204, 21, 0.95); /* Amarillo sólido pero translúcido */
             color: #1a202c; /* Texto oscuro */
             text-align: center;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 11px; /* Letra más chica para asegurar que entre */
-            line-height: 2.5rem;
+            font-weight: 800;
+            font-size: 10px;
+            line-height: 35px; /* Grosor de la cinta */
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
             pointer-events: auto; /* Reactiva clicks en la cinta */
-            transition: background-color 0.3s ease;
+            transform: rotate(45deg); /* Rotación correcta para esquina inf-izq */
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid rgba(202, 138, 4, 0.5); /* Borde sutil semitransparente */
+            letter-spacing: 1px;
+            border: 1px solid rgba(202, 138, 4, 0.4);
+            transition: all 0.3s ease;
         }
 
         .ribbon:hover {
-            background-color: rgba(253, 224, 71, 0.9); /* Amarillo más claro y sólido al hover */
+            background-color: #facc15; /* Amarillo más brillante al pasar mouse */
+            color: #000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transform: rotate(45deg) scale(1.05); /* Pequeño zoom al hacer hover */
         }
 
-        /* --- Ajuste Mobile para la Cinta --- */
+        /* --- Ajuste Mobile Específico --- */
         @media (max-width: 640px) {
             .ribbon-wrapper {
-                transform: scale(0.6);
-                transform-origin: top right;
+                width: 100px;
+                height: 100px;
+            }
+            .ribbon {
+                width: 150px;
+                left: -35px;
+                bottom: 20px;
+                font-size: 8px;
+                line-height: 28px;
             }
         }
 
