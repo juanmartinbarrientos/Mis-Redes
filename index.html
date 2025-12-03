@@ -663,6 +663,114 @@
                      </div>
                 </div>
 
+                <!-- Sección Windows: Comandos de Autogestión -->
+                <div class="mt-16 pt-10 border-t border-slate-700/50">
+                    <h3 class="text-xl font-bold text-white mb-2"><i class="fab fa-windows mr-2 text-blue-400"></i>¿Usuario de Windows? Probá esto primero</h3>
+                    <p class="text-slate-400 text-sm mb-4 max-w-xl mx-auto">
+                        Muchos problemas de conexión y lentitud se resuelven refrescando la configuración del sistema.
+                    </p>
+
+                    <!-- Instrucciones para abrir CMD -->
+                    <div class="bg-slate-800/50 p-4 rounded-lg border-l-4 border-blue-500 text-left max-w-2xl mx-auto mb-8 shadow-lg">
+                        <p class="text-slate-300 text-sm">
+                            <i class="fas fa-terminal text-blue-400 mr-2"></i><strong>Cómo ejecutar los comandos:</strong><br>
+                            1. Presiona la tecla <strong class="text-white">Windows</strong> y escribe <strong class="text-white">"CMD"</strong>.<br>
+                            2. En los resultados, haz <strong class="text-white">clic con el botón derecho del mouse</strong> sobre "Símbolo del sistema" y selecciona <strong class="text-white">"Ejecutar como administrador"</strong>.<br>
+                            3. Copia y pega los siguientes comandos uno por uno.
+                        </p>
+                    </div>
+                    
+                    <div class="max-w-3xl mx-auto bg-[#0c0c0c] rounded-lg border border-slate-600 shadow-2xl text-left overflow-hidden">
+                        <!-- Barra de título estilo Windows -->
+                        <div class="bg-slate-200 px-3 py-1 flex items-center justify-between border-b border-slate-400 select-none">
+                            <div class="flex items-center">
+                                <i class="fas fa-terminal text-xs mr-2 text-black"></i>
+                                <span class="text-xs text-black font-sans font-semibold">Administrador: Símbolo del sistema</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="text-black text-xs font-bold px-1 hover:bg-slate-300 cursor-default">_</div>
+                                <div class="text-black text-xs font-bold px-1 hover:bg-slate-300 cursor-default">□</div>
+                                <div class="text-black text-xs font-bold px-1 hover:bg-red-500 hover:text-white cursor-default">✕</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contenido de la terminal Windows -->
+                        <div class="p-6 font-mono text-sm space-y-6 overflow-x-auto text-slate-100">
+                            
+                            <!-- Comando 1 -->
+                            <div>
+                                <p class="text-slate-500 mb-1">REM 1. Solucionar problemas de conexión a internet (DNS)</p>
+                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center min-w-0">
+                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
+                                        <span class="text-white cmd-text">ipconfig /flushdns</span>
+                                    </div>
+                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Comando 2 -->
+                            <div>
+                                <p class="text-slate-500 mb-1">REM 2. Renovar la dirección IP (Conexión inestable)</p>
+                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center min-w-0">
+                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
+                                        <span class="text-white cmd-text">ipconfig /release && ipconfig /renew</span>
+                                    </div>
+                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Comando 3 -->
+                            <div>
+                                <p class="text-slate-500 mb-1">REM 3. Reparar archivos corruptos de Windows (Lentitud/Errores)</p>
+                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center min-w-0">
+                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
+                                        <span class="text-white cmd-text">sfc /scannow</span>
+                                    </div>
+                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Comando 4 -->
+                            <div>
+                                <p class="text-slate-500 mb-1">REM 4. Resetear configuración de red completa (Si nada funciona)</p>
+                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center min-w-0">
+                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
+                                        <span class="text-white cmd-text">netsh winsock reset</span>
+                                    </div>
+                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Comando 5 -->
+                            <div>
+                                <p class="text-slate-500 mb-1">REM 5. Reiniciar la PC inmediatamente (Borra fallos temporales)</p>
+                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center min-w-0">
+                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
+                                        <span class="text-white cmd-text">shutdown /r /t 0</span>
+                                    </div>
+                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Sección Linux: Comandos de Autogestión -->
                 <div class="mt-16 pt-10 border-t border-slate-700/50">
                     <h3 class="text-xl font-bold text-white mb-2"><i class="fab fa-linux mr-2 text-yellow-400"></i>¿Usuario de Linux? Probá esto primero</h3>
