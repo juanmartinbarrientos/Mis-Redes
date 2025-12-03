@@ -174,50 +174,34 @@
             transform: scale(1.2);
         }
 
-        .libutton {
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-         padding: 7px;
-         text-align: center;
-         outline: none;
-         text-decoration: none !important;
-         color: #ffffff !important;
-         width: 200px;
-         height: 32px;
-         border-radius: 16px;
-         background-color: #0A66C2;
-         font-family: "SF Pro Text", Helvetica, sans-serif;
-        }
-
-        /* --- CINTA (RIBBON) CSS - CORREGIDO BOTTOM-LEFT --- */
+        /* --- CINTA (RIBBON) CSS --- */
         .ribbon-wrapper {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 130px; /* Tamaño controlado del área de recorte */
+            width: 130px; 
             height: 130px;
             overflow: hidden;
             z-index: 9999;
-            pointer-events: none; /* Permite clicks debajo en el área vacía */
+            pointer-events: none;
         }
 
         .ribbon {
             position: absolute;
             display: block;
-            width: 200px; /* Ancho fijo para asegurar diagonal completa */
-            left: -50px;  /* Desplazamiento para centrar la rotación */
-            bottom: 30px; /* Altura desde la esquina */
-            background-color: rgba(250, 204, 21, 0.95); /* Amarillo sólido pero translúcido */
-            color: #1a202c; /* Texto oscuro */
+            width: 200px;
+            left: -50px;
+            bottom: 30px;
+            background-color: rgba(250, 204, 21, 0.95);
+            color: #1a202c;
             text-align: center;
             text-decoration: none;
             font-weight: 800;
             font-size: 10px;
-            line-height: 35px; /* Grosor de la cinta */
+            line-height: 35px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            pointer-events: auto; /* Reactiva clicks en la cinta */
-            transform: rotate(45deg); /* Rotación correcta para esquina inf-izq */
+            pointer-events: auto;
+            transform: rotate(45deg);
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid rgba(202, 138, 4, 0.4);
@@ -225,13 +209,12 @@
         }
 
         .ribbon:hover {
-            background-color: #facc15; /* Amarillo más brillante al pasar mouse */
+            background-color: #facc15;
             color: #000;
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            transform: rotate(45deg) scale(1.05); /* Pequeño zoom al hacer hover */
+            transform: rotate(45deg) scale(1.05);
         }
 
-        /* --- Ajuste Mobile Específico --- */
         @media (max-width: 640px) {
             .ribbon-wrapper {
                 width: 100px;
@@ -273,10 +256,6 @@
             color: #FFF !important;
         }
 
-        .whatsapp-float i {
-            margin-top: 2px; /* Pequeño ajuste visual */
-        }
-
         @media (max-width: 640px) {
             .whatsapp-float {
                 width: 50px;
@@ -284,6 +263,75 @@
                 bottom: 20px;
                 right: 20px;
                 font-size: 28px;
+            }
+        }
+
+        /* ========================================= */
+        /* === ESTILOS DE IMPRESIÓN (PRINT CSS) === */
+        /* ========================================= */
+        @media print {
+            /* Ocultar TODO el cuerpo por defecto */
+            body > * {
+                display: none !important;
+            }
+
+            /* Ocultar elementos específicos del modal que no queremos imprimir */
+            #cv-modal-header, 
+            #cv-modal-overlay,
+            #cv-modal-close-btn {
+                display: none !important;
+            }
+            
+            /* Mostrar SOLO el contenedor principal del modal y el contenido del CV */
+            #cv-modal {
+                display: block !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                z-index: 99999 !important;
+                background: white !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+
+            #cv-modal-content {
+                display: block !important;
+                position: relative !important;
+                box-shadow: none !important;
+                border: none !important;
+                background: white !important;
+                width: 100% !important;
+                height: auto !important;
+                max-width: none !important;
+                transform: none !important;
+                overflow: visible !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Estilos específicos para el CV al imprimir */
+            .cv-paper {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                color: black !important;
+            }
+
+            .cv-text-muted {
+                color: #555 !important;
+            }
+            
+            .cv-border {
+                border-color: #ddd !important;
+            }
+
+            /* Asegurar que los fondos se impriman si es necesario (generalmente mejor blanco puro) */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
         }
     </style>
@@ -316,7 +364,7 @@
                 <a href="https://github.com/juone0450" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl"><i class="fab fa-github"></i></a>
             </div>
 
-            <!-- Botón Destacado: Asistencia Remota (Centrado abajo de redes) -->
+            <!-- Botón Destacado: Asistencia Remota -->
             <div class="flex justify-center mt-8">
                  <a href="#soporte-remoto" class="px-6 py-3 rounded-full border border-red-500 text-red-400 font-bold hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_10px_rgba(239,68,68,0.2)] hover:shadow-[0_0_20px_rgba(239,68,68,0.6)] flex items-center text-lg transform hover:scale-105">
                     <i class="fas fa-headset mr-2"></i>Asistencia Remota
@@ -325,7 +373,6 @@
 
             <nav class="mt-10">
                 <ul class="flex justify-center items-center flex-wrap gap-4 md:gap-8 text-lg">
-                    <!-- Enlaces del menú (El botón de asistencia se movió arriba) -->
                     <li><a href="#sobre-mi" class="nav-link">Sobre Mí</a></li>
                     <li><a href="#experiencia" class="nav-link">Experiencia</a></li>
                     <li><a href="#formacion" class="nav-link">Formación</a></li>
@@ -343,12 +390,12 @@
             <div class="glass-card text-center">
                 <h2 class="text-4xl font-bold text-white mb-6">Sobre Mí</h2>
                 <p class="text-slate-300 leading-relaxed max-w-3xl mx-auto text-lg font-light">
-                    Soy un Técnico Informático apasionado por la tecnología. Brindo soporte de campo en entornos corporativos, donde disfruto del trabajo en equipo y respeto las estructuras de autoridad. Mi trayectoria incluye la gestión de usuarios e infraestructura en empresas, y la reparación y optimización de equipos personales, realizando actualizaciones de hardware. Disfruto del desafío técnico y del contacto humano, explicando soluciones complejas de manera simple. Además, mi interés por la psicología me permite comprender la frustración que genera la tecnología, gestionando el estrés del momento y brindando una contención real, más allá de lo puramente técnico. También ofrezco asistencia técnica a particulares, labor en la que soy muy prolijo y me apasiona lograr el mejor resultado posible.
+                    Soy un Técnico Informático apasionado por la tecnología. Brindo soporte de campo en entornos corporativos, donde disfruto del trabajo en equipo y respeto las estructuras de autoridad. Mi trayectoria incluye la gestión de usuarios e infraestructura en empresas, y la reparación y optimización de equipos personales. Disfruto del desafío técnico y del contacto humano, explicando soluciones complejas de manera simple.
                 </p>
             </div>
         </section>
 
-        <!-- Sección Principal (Experiencia y Habilidades) -->
+        <!-- Sección Principal -->
         <main class="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-24">
             
             <!-- Columna de Experiencia y Formación -->
@@ -356,56 +403,42 @@
                 <!-- Experiencia -->
                 <section id="experiencia" class="fade-in-up">
                     <h2 class="text-4xl font-bold text-white mb-4"><i class="fas fa-briefcase mr-3 text-cyan-300"></i>Experiencia</h2>
-                    <p class="text-lg text-slate-300 font-light mb-10">
-                        Años de experiencia en el campo, transformando desafíos técnicos en soluciones reales para las personas.
-                    </p>
                     <div class="space-y-8">
                         <div class="glass-card">
-                            <h3 class="text-xl font-bold text-cyan-300">Consultor IT & Soporte Técnico Personalizado</h3>
-                            <p class="font-semibold text-white">Trabajos Particulares (Freelance)</p>
+                            <h3 class="text-xl font-bold text-cyan-300">Consultor IT & Soporte Técnico</h3>
+                            <p class="font-semibold text-white">Freelance</p>
                             <p class="text-sm text-slate-400 mb-2 font-light">2010 - Presente</p>
-                            <p class="text-slate-300 font-light"><strong class="text-white">Servicio técnico enfocado en la experiencia del usuario final y la extensión de la vida útil del hardware.</strong> Mi servicio particular se centra en la calidad humana. Entiendo que la tecnología puede ser compleja, por eso mi prioridad es asesorar al cliente con paciencia, explicando de forma simple qué necesita su equipo y qué trabajo se realizará. Ofrezco soporte remoto y a domicilio para reparaciones, actualizaciones de hardware (discos SSD, RAM, fuentes) e instalación de sistemas operativos Windows optimizados, incluyendo la gestión de copias de seguridad. Capacito a los usuarios para que simplifiquen su día a día tecnológico.</p>
+                            <p class="text-slate-300 font-light">Servicio técnico enfocado en la experiencia del usuario final y la extensión de la vida útil del hardware. Soporte remoto y a domicilio, actualizaciones de hardware e instalación de sistemas optimizados.</p>
                         </div>
                         <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Field Support IT</h3>
                             <p class="font-semibold text-white">Smartway SRL (Cliente Cinemark)</p>
                             <p class="text-sm text-slate-400 mb-2 font-light">2023 - 2024</p>
-                            <p class="text-slate-300 font-light">Realicé la instalación y configuración de infraestructura comercial crítica, incluyendo kioscos de autoservicio para clientes (compra de entradas y productos), impresoras y puestos de trabajo. Mi rol combinaba el diagnóstico remoto para agilizar soluciones con la asistencia presencial para resolver incidencias complejas y asegurar la continuidad del servicio al cliente. Logro de una disponibilidad operativa cercana al 100% en la red de kioscos de autoservicio a nivel nacional mediante un plan riguroso de mantenimiento preventivo.</p>
+                            <p class="text-slate-300 font-light">Instalación y configuración de infraestructura comercial crítica (kioscos autoservicio, impresoras, puestos de trabajo). Diagnóstico remoto y asistencia presencial con alta disponibilidad operativa.</p>
                         </div>
                         <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Field Support IT</h3>
                             <p class="font-semibold text-white">Gire S.A. (Rapipago) Tercerizado</p>
                             <p class="text-sm text-slate-400 mb-2 font-light">Ene 2022 - Feb 2023</p>
-                            <p class="text-slate-300 font-light">Despliegue de infraestructura para nuevas sucursales (Roll-out). Configuración de redes (TCP/IP, VPN) y periféricos financieros. Soporte híbrido (Remoto vía TeamViewer/AnyDesk + On-site) asegurando SLA de resolución bajo 4 horas. <strong class="text-cyan-300">Galardonado 3 veces consecutivas con el premio al mayor volumen de tickets resueltos</strong>, demostrando alta productividad y compromiso con los objetivos de servicio.</p>
+                            <p class="text-slate-300 font-light">Despliegue de infraestructura para nuevas sucursales. Configuración de redes y periféricos financieros. Soporte híbrido asegurando SLA bajo 4 horas.</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- Nueva Sección: Diseño Web / Perfiles Profesionales -->
+                <!-- Desarrollo Web -->
                 <section id="diseno-web" class="fade-in-up">
                     <h2 class="text-4xl font-bold text-white mb-8"><i class="fas fa-pen-nib mr-3 text-purple-400"></i>Desarrollo de Portfolios</h2>
-                    
-                    <div class="glass-card relative overflow-hidden border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                        <!-- Etiqueta de Estilo -->
-                        <div class="absolute top-0 right-0 bg-purple-500/20 px-3 py-1 rounded-bl-lg border-b border-l border-purple-500/30">
-                            <span class="text-purple-300 text-xs font-bold tracking-wider">DISEÑO PREMIUM</span>
-                        </div>
-
+                    <div class="glass-card relative overflow-hidden border border-purple-500/20">
                         <h3 class="text-2xl font-bold text-white mb-2">Perfiles Profesionales para Emprendedores</h3>
-                        <p class="text-slate-300 font-light mb-6 leading-relaxed">
-                            Más allá del soporte técnico, me especializo en crear presencias digitales <strong>limpias, minimalistas y elegantes</strong>. Desarrollo portfolios web a medida para profesionales que buscan proyectar una imagen de alto nivel, cuidando cada detalle estético y la experiencia de navegación.
+                        <p class="text-slate-300 font-light mb-6">
+                            Desarrollo portfolios web a medida, limpios y minimalistas para profesionales que buscan proyectar una imagen de alto nivel.
                         </p>
-
-                        <!-- Caso de Éxito -->
-                        <div class="bg-gradient-to-r from-slate-800/80 to-slate-900/80 rounded-xl p-5 border border-purple-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-purple-400/50 group">
-                            <div class="text-center sm:text-left">
-                                <h4 class="text-purple-300 font-bold text-lg mb-1 group-hover:text-purple-200 transition-colors">Sabrina Gentile</h4>
-                                <p class="text-xs text-slate-400 font-light uppercase tracking-wide">Web de Marca Personal & Portfolio</p>
+                        <div class="bg-slate-800/80 rounded-xl p-4 border border-purple-500/30 flex justify-between items-center">
+                            <div>
+                                <h4 class="text-purple-300 font-bold">Sabrina Gentile</h4>
+                                <p class="text-xs text-slate-400">Web de Marca Personal</p>
                             </div>
-                            
-                            <a href="https://www.sabrinagentile.com/" target="_blank" rel="noopener noreferrer" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-purple-500/30 flex items-center whitespace-nowrap transform group-hover:scale-105">
-                                <i class="fas fa-external-link-alt mr-2"></i> Ver Web
-                            </a>
+                            <a href="https://www.sabrinagentile.com/" target="_blank" class="text-sm bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded transition-colors">Ver Web</a>
                         </div>
                     </div>
                 </section>
@@ -414,76 +447,15 @@
                 <section id="formacion" class="fade-in-up">
                     <h2 class="text-4xl font-bold text-white mb-8"><i class="fas fa-graduation-cap mr-3 text-cyan-300"></i>Formación</h2>
                     <div class="space-y-8">
-                         <!-- Tarjeta Ingeniería -->
                          <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Ingeniería Informática (Ciclo Inicial)</h3>
                             <p class="font-semibold text-white">Universidad Nacional de La Matanza (UNLaM)</p>
-                            
-                            <div class="text-slate-300 font-light mt-4 space-y-4 leading-relaxed">
-                                <p>
-                                    Inicié mi formación académica universitaria adquiriendo bases sólidas de lógica y algoritmos. Sin embargo, decidí volcarme de lleno a la experiencia profesional para aplicar esos conocimientos en el mundo real, transformando la teoría en soluciones prácticas.
-                                </p>
-                                <p class="border-l-4 border-cyan-500/50 pl-4 italic bg-slate-800/30 py-2 rounded-r-lg">
-                                    "Recuerdo con mucho cariño mi primer trabajo IT apenas salí de la secundaria. Ingresé a una empresa de desarrollo con la misión de mantener funcionando a la perfección las computadoras de administración en las terminales de colectivos. Fue allí donde mi curiosidad técnica encontró guía: un programador me enseñó a ir más allá del hardware. Aprendí a manejar el código fuente, pasarlo por el compilador y generar el ejecutable (.exe) para mantener los sistemas actualizados y corriendo. Esa experiencia temprana de ver cómo el código cobraba vida en los equipos que yo cuidaba definió mi vocación."
-                                </p>
-                            </div>
+                            <p class="text-slate-300 font-light mt-2">Bases sólidas de lógica y algoritmos aplicadas a soluciones prácticas.</p>
                          </div>
 
-                         <!-- Tarjeta CompTIA A+ (Destacada) -->
-                         <div class="glass-card border border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.1)] relative overflow-hidden">
-                            <!-- Distintivo visual en la esquina -->
-                            <div class="absolute top-0 right-0 bg-yellow-500/20 px-3 py-1 rounded-bl-lg border-b border-l border-yellow-500/30">
-                                <span class="text-yellow-400 text-xs font-bold tracking-wider">CERTIFICACIÓN INTERNACIONAL</span>
-                            </div>
-
-                            <h3 class="text-2xl font-bold text-yellow-400 mb-1">CompTIA A+ Certified Professional</h3>
-                            <p class="font-semibold text-white mb-4">The Computing Technology Industry Association</p>
-                            
-                            <div class="space-y-4">
-                                <p class="text-slate-300 font-light">
-                                    Considerada el estándar de oro de la industria para los profesionales de TI. Esta certificación valida la capacidad experta para gestionar, mantener, solucionar problemas, instalar y configurar hardware informático básico, software y redes en entornos empresariales complejos.
-                                </p>
-                                
-                                <!-- Explicación "Elegante" para no técnicos -->
-                                <div class="bg-slate-800/50 p-4 rounded-lg border-l-4 border-yellow-500">
-                                    <p class="text-slate-300 text-sm italic">
-                                        <i class="fas fa-info-circle text-yellow-500 mr-2"></i><strong>¿Qué valor aporta?</strong><br>
-                                        En términos sencillos, esta credencial global garantiza que poseo las habilidades técnicas probadas para diagnosticar y reparar problemas informáticos "desde la raíz". Certifica que puedo asegurar que la tecnología funcione para el usuario y no en su contra, garantizando seguridad, eficiencia y continuidad operativa en cualquier dispositivo o red.
-                                    </p>
-                                </div>
-
-                                <!-- Texto añadido sobre felicitaciones -->
-                                <p class="text-white font-bold text-sm mt-2 border-t border-yellow-500/30 pt-3">
-                                    <i class="fas fa-star text-yellow-400 mr-2"></i>He recibido múltiples felicitaciones por el trato cordial y la resolución efectiva de problemas IT complejos en clientes, resultados logrados gracias a la metodología aprendida en esta certificación.
-                                </p>
-
-                                <!-- Botón Ver Certificación -->
-                                <div class="flex justify-end pt-2">
-                                    <a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 px-4 py-2 rounded-lg transition-all duration-300 text-sm font-semibold group">
-                                            <i class="fas fa-certificate mr-2 group-hover:rotate-12 transition-transform"></i> Ver Certificación
-                                    </a>
-                                </div>
-                            </div>
-                         </div>
-
-                         <!-- Otras Certificaciones -->
-                         <div class="glass-card">
-                            <h3 class="text-xl font-bold text-cyan-300">Otras Certificaciones Profesionales</h3>
-                            <p class="text-slate-300 font-light mt-2 mb-4">
-                                Mantengo un enfoque constante en la capacitación técnica validada por la industria, destacando la obtención de la <strong>Certificación Profesional de Google en Soporte IT</strong>, entre otras especializaciones.
-                            </p>
-                            <ul class="list-disc list-inside text-slate-300 mt-2 font-light space-y-2">
-                                <li><a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Administración de sistemas y servicios de infraestructura de TI <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://www.coursera.org/account/accomplishments/verify/SR2BZXRTPZ22" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Sistemas Operativos Avanzados <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors font-semibold text-white">Soporte de Tecnologías de la Información de Google <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/1770-avanzado-redes/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso Avanzado de Redes de Internet <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/6900-configuracion-windows/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Configuración de Entorno de Desarrollo en Windows <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/1282-soporte-usuarios/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso de Servicio al Cliente y Soporte a Usuarios <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/2292-terminal-21/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Introducción a la Terminal y linea de comando <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/5877-linux/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Introducción a la administración de servidores <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/1098-ingenieria2017/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Diploma de Fundamentos de Ingeniería de Software <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://platzi.com/p/jmb-8888/curso/1557-git-github/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso Profesional de Git y GitHub <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                            </ul>
+                         <div class="glass-card border border-yellow-500/30">
+                            <h3 class="text-xl font-bold text-yellow-400">CompTIA A+ Certified Professional</h3>
+                            <p class="text-slate-300 font-light mt-2">Certificación global que valida habilidades expertas en gestión de hardware, software y redes en entornos empresariales.</p>
                          </div>
                     </div>
                 </section>
@@ -494,642 +466,275 @@
                 <section id="habilidades">
                     <h2 class="text-4xl font-bold text-white mb-8"><i class="fas fa-cogs mr-3 text-cyan-300"></i>Habilidades</h2>
                     <div class="glass-card space-y-6">
-                        <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">Sistemas Operativos (Win/Lin/Mac)</span><span class="text-cyan-300 font-semibold">Avanzado</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="90%"></div></div>
-                        </div>
-                         <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">Networking (LAN/TCP-IP/Routers)</span><span class="text-cyan-300 font-semibold">Avanzado</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="85%"></div></div>
-                        </div>
-                         <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">Hardware & Software</span><span class="text-cyan-300 font-semibold">Avanzado</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="90%"></div></div>
-                        </div>
-                         <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">Field Support & Help Desk</span><span class="text-cyan-300 font-semibold">Avanzado</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="95%"></div></div>
-                        </div>
-                         <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">SQL</span><span class="text-blue-300 font-semibold">Básico-Intermedio</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="50%"></div></div>
-                        </div>
-                         <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">Git</span><span class="text-blue-300 font-semibold">Básico-Intermedio</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="45%"></div></div>
-                        </div>
-                         <!-- Habilidad -->
-                        <div class="skill">
-                            <div class="flex justify-between mb-1"><span class="font-semibold">Inglés</span><span class="text-blue-300 font-semibold">Intermedio</span></div>
-                            <div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="70%"></div></div>
-                        </div>
+                        <div class="skill"><div class="flex justify-between mb-1"><span>Sistemas Operativos</span><span class="text-cyan-300">Avanzado</span></div><div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="90%"></div></div></div>
+                        <div class="skill"><div class="flex justify-between mb-1"><span>Networking</span><span class="text-cyan-300">Avanzado</span></div><div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="85%"></div></div></div>
+                        <div class="skill"><div class="flex justify-between mb-1"><span>Hardware & Software</span><span class="text-cyan-300">Avanzado</span></div><div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="90%"></div></div></div>
+                        <div class="skill"><div class="flex justify-between mb-1"><span>SQL</span><span class="text-blue-300">Básico</span></div><div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="50%"></div></div></div>
+                        <div class="skill"><div class="flex justify-between mb-1"><span>Inglés</span><span class="text-blue-300">Intermedio</span></div><div class="w-full skill-bar-container h-2"><div class="skill-bar" data-width="70%"></div></div></div>
                     </div>
 
-                    <!-- Tarjeta 2: Google Visit (Estilo Instagram) - CARROUSEL -->
-                    <div class="glass-card p-0 overflow-hidden border border-slate-700/50 h-full flex flex-col mt-8">
-                        <div class="bg-gradient-to-r from-red-500/20 to-yellow-500/20 p-2 text-center border-b border-white/10">
-                            <span class="text-xs font-bold text-yellow-200 uppercase tracking-widest"><i class="fab fa-instagram mr-2"></i>Instagram Style</span>
+                    <!-- Instagram Card -->
+                    <div class="glass-card p-0 overflow-hidden border border-slate-700/50 mt-8">
+                        <div class="bg-black/20 p-3 flex items-center border-b border-white/10">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-purple-600 p-[2px] mr-3">
+                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png" class="w-full h-full rounded-full object-cover">
+                            </div>
+                            <p class="text-sm font-semibold text-white">juanmartinbarrientos</p>
                         </div>
-                        
-                        <!-- Header del Post -->
-                        <div class="flex items-center justify-between p-3 border-b border-slate-700/30 bg-black/20">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-purple-600 p-[2px]">
-                                    <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png" alt="Profile" class="w-full h-full rounded-full border-2 border-black object-cover">
-                                </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-white">juanmartinbarrientos</p>
-                                    <p class="text-xs text-slate-400">Google Offices</p>
-                                </div>
-                            </div>
-                            <button class="text-white hover:text-slate-300"><i class="fas fa-ellipsis-h"></i></button>
-                        </div>
-
-                        <!-- Carrusel de Imágenes -->
-                        <div class="relative w-full aspect-square bg-slate-800 group overflow-hidden" id="carousel-container">
-                            <!-- Slider Container -->
-                            <div id="insta-slider" class="w-full h-full flex transition-transform duration-500 ease-in-out">
-                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_125452.jpg" 
-                                     alt="Visita a oficinas de Google 1" 
-                                     class="w-full h-full object-cover flex-shrink-0"
-                                     onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_115136.jpg" 
-                                     alt="Visita a oficinas de Google 2" 
-                                     class="w-full h-full object-cover flex-shrink-0"
-                                     onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                                <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_115143~3.jpg" 
-                                     alt="Visita a oficinas de Google 3" 
-                                     class="w-full h-full object-cover flex-shrink-0"
-                                     onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                            </div>
-
-                            <!-- Flechas de Navegación (aparecen en hover) -->
-                            <button id="prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hidden hover:bg-black/70 z-10">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button id="next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 z-10">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-
-                            <!-- Indicadores (Dots) -->
-                            <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 pointer-events-none z-10" id="carousel-dots">
-                                <div class="dot w-1.5 h-1.5 rounded-full bg-white transition-all shadow-sm"></div>
-                                <div class="dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all shadow-sm"></div>
-                                <div class="dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all shadow-sm"></div>
-                            </div>
-
-                            <!-- Contador tipo Instagram -->
-                            <div class="absolute top-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded-full pointer-events-none z-10">
-                                <span id="slide-counter">1/3</span>
-                            </div>
-                        </div>
-
-                        <!-- Acciones -->
-                        <div class="p-4 pb-2 bg-[#0a0a1a]/50 flex-grow">
-                            <div class="flex justify-between mb-3">
-                                <div class="flex gap-4">
-                                    <button id="insta-like-btn" class="text-white text-2xl hover:opacity-70 hover:text-red-500 transition-colors">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                    <button class="text-white text-2xl hover:opacity-70">
-                                        <i class="far fa-comment"></i>
-                                    </button>
-                                    <button class="text-white text-2xl hover:opacity-70">
-                                        <i class="far fa-paper-plane"></i>
-                                    </button>
-                                </div>
-                                <button class="text-white text-2xl hover:opacity-70">
-                                    <i class="far fa-bookmark"></i>
-                                </button>
-                            </div>
-
-                            <!-- Estadísticas -->
-                            <div class="flex flex-col gap-1 mb-2">
-                                <p id="like-count" class="text-sm font-bold text-white">2,843 Me gusta</p>
-                                <div class="flex justify-between text-xs text-slate-400 mt-1">
-                                    <span><i class="fas fa-eye mr-1"></i> 28.1K Vistas</span>
-                                    <span><i class="fas fa-share mr-1"></i> 512 Compartidos</span>
-                                </div>
-                            </div>
-
-                            <!-- Caption -->
-                            <div class="text-sm text-slate-200 leading-relaxed">
-                                <span class="font-bold mr-2 text-white">juanmartinbarrientos</span>
-                                Un recuerdo increíble visitando las oficinas de Google hace 10 años atrás. 🌐✨ La cultura de innovación que se respira ahí es única y siempre es una inspiración para seguir creciendo en el mundo IT.
-                                <br><br>
-                                Les comparto un video de mi experiencia recorriendo el lugar. ¡No se lo pierdan! 👇
-                                <br><br>
-                                <a href="https://youtu.be/pnl-Zvn3-qM" target="_blank" class="text-blue-400 hover:text-blue-300 font-semibold hover:underline block mb-2">
-                                    <i class="fab fa-youtube mr-1 text-red-500"></i> Ver Video Completo en YouTube
-                                </a>
-                                <span class="text-blue-400">#Google #TechLife #Innovation #ITSupport #Recuerdos</span>
-                            </div>
-                            <p class="text-xs text-slate-500 mt-3 uppercase">Hace 1 semana</p>
+                        <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/20150908_125452.jpg" class="w-full object-cover">
+                        <div class="p-4">
+                            <p class="text-sm text-slate-200">Visita a las oficinas de Google. Una experiencia inspiradora.</p>
                         </div>
                     </div>
-
                 </section>
             </aside>
         </main>
 
-        <!-- Sección Hashtags -->
-        <section id="hashtags" class="mb-24 fade-in-up text-center">
-             <div class="glass-card inline-block p-6 max-w-4xl mx-auto">
-                <h2 class="text-2xl font-bold text-white mb-6"><i class="fas fa-hashtag mr-3 text-cyan-300"></i>Temas Relacionados</h2>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <!-- CompTIA A+ / Estándares -->
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#TroubleshootingExpert</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#CloudComputing</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#Virtualization</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#MobileDeviceSupport</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#ITOperations</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#DisasterRecovery</span>
-
-                    <!-- Técnicos -->
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#WindowsServer</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#MacOS</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#LinuxSupport</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#ActiveDirectory</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#Office365Admin</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#GoogleWorkspace</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#Redes</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#MikrotikConfig</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#CableadoEstructurado</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#SoporteRemoto</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#HardwareRepair</span>
-                    <span class="bg-slate-800/50 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors cursor-default">#SeguridadInformática</span>
-                    
-                    <!-- Humanos / Soft Skills -->
-                    <span class="bg-slate-700/50 text-green-300 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/30 hover:bg-green-500/20 transition-colors cursor-default">#SoporteEmpático</span>
-                    <span class="bg-slate-700/50 text-green-300 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/30 hover:bg-green-500/20 transition-colors cursor-default">#GestiónDeCrisis</span>
-                    <span class="bg-slate-700/50 text-green-300 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/30 hover:bg-green-500/20 transition-colors cursor-default">#AtenciónAlCliente</span>
-                    <span class="bg-slate-700/50 text-green-300 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/30 hover:bg-green-500/20 transition-colors cursor-default">#InteligenciaEmocional</span>
-                    <span class="bg-slate-700/50 text-green-300 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/30 hover:bg-green-500/20 transition-colors cursor-default">#ResoluciónDeConflictos</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección de Asistencia Remota -->
+        <!-- Soporte Remoto -->
         <section id="soporte-remoto" class="mb-24 fade-in-up text-center">
-            <div class="glass-card inline-block p-8 max-w-4xl mx-auto border border-cyan-500/20 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
-                <h2 class="text-3xl font-bold text-white mb-6">
-                    <i class="fas fa-headset mr-3 text-red-500"></i>Zona de Asistencia Remota
-                </h2>
-                <p class="text-lg text-slate-300 font-light mb-8 max-w-2xl mx-auto">
-                    ¿Necesitas solucionar un problema ahora mismo? Utilizo <strong>AnyDesk</strong> para conectarme a tu equipo de forma segura y resolver inconvenientes técnicos al instante sin moverte de tu casa.
-                </p>
-                
-                <!-- Pasos -->
-                <div class="grid md:grid-cols-3 gap-6 text-left mb-10">
-                      <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50 hover:border-cyan-500/30 transition-colors">
-                        <div class="flex items-center mb-3">
-                            <span class="bg-cyan-500/20 text-cyan-300 w-8 h-8 flex items-center justify-center rounded-full font-bold mr-3">1</span>
-                            <h3 class="text-white font-semibold">Descargar</h3>
-                        </div>
-                        <p class="text-sm text-slate-400 font-light">Haz clic en el botón correspondiente a tu sistema operativo (Windows o macOS) para bajar la app.</p>
-                      </div>
-                      
-                      <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50 hover:border-cyan-500/30 transition-colors">
-                        <div class="flex items-center mb-3">
-                            <span class="bg-cyan-500/20 text-cyan-300 w-8 h-8 flex items-center justify-center rounded-full font-bold mr-3">2</span>
-                            <h3 class="text-white font-semibold">Ejecutar</h3>
-                        </div>
-                        <p class="text-sm text-slate-400 font-light">Abre el archivo descargado. No requiere una instalación compleja, solo doble clic para abrir.</p>
-                      </div>
-
-                      <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50 hover:border-cyan-500/30 transition-colors">
-                        <div class="flex items-center mb-3">
-                            <span class="bg-cyan-500/20 text-cyan-300 w-8 h-8 flex items-center justify-center rounded-full font-bold mr-3">3</span>
-                            <h3 class="text-white font-semibold">Conectar</h3>
-                        </div>
-                        <p class="text-sm text-slate-400 font-light">Envíame por WhatsApp el número de <strong>"Puesto de trabajo"</strong> (9 dígitos) que aparece en tu pantalla.</p>
-                      </div>
+            <div class="glass-card inline-block p-8 max-w-4xl mx-auto border border-cyan-500/20">
+                <h2 class="text-3xl font-bold text-white mb-6"><i class="fas fa-headset mr-3 text-red-500"></i>Zona de Asistencia Remota</h2>
+                <div class="flex flex-col md:flex-row justify-center gap-4 mb-4">
+                    <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" class="bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-full transition-colors"><i class="fab fa-windows mr-2"></i>Descargar Windows</a>
+                    <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-3 px-6 rounded-full transition-colors"><i class="fab fa-apple mr-2"></i>Descargar macOS</a>
                 </div>
-
-                <!-- Botones de Acción -->
-                <div class="flex flex-col md:flex-row justify-center gap-4">
-                    <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-red-500/30 inline-flex items-center justify-center group transform hover:-translate-y-1">
-                        <i class="fab fa-windows mr-3 text-xl"></i> 
-                        <span class="text-lg">Descargar para Windows</span>
-                    </a>
-                    
-                    <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-500 hover:to-slate-400 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-slate-500/30 inline-flex items-center justify-center group transform hover:-translate-y-1">
-                        <i class="fab fa-apple mr-3 text-xl"></i> 
-                        <span class="text-lg">Descargar para macOS</span>
-                    </a>
+                <div class="mt-8 pt-6 border-t border-slate-700/50">
+                    <button id="open-tools-modal" class="text-cyan-300 hover:text-white transition-colors font-bold"><i class="fas fa-toolbox mr-2"></i> Ver Herramientas Adicionales</button>
                 </div>
-                <p class="text-xs text-slate-500 mt-4 font-light">Enlaces seguros oficiales de AnyDesk.com</p>
-
-                <!-- Post de LinkedIn: Guía AnyDesk -->
-                <div class="mt-12 max-w-[550px] mx-auto">
-                      <h3 class="text-xl font-semibold text-white mb-4">Guía Exhaustiva sobre AnyDesk</h3>
-                      <div class="glass-card p-1 sm:p-2 overflow-hidden flex justify-center border border-slate-700/50 shadow-lg">
-                        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7401729047644323840" class="w-full h-[600px] sm:h-[800px] rounded-lg border-0" allowfullscreen="" title="Guía AnyDesk LinkedIn"></iframe>
-                      </div>
-                </div>
-
-                <!-- Sección Windows: Comandos de Autogestión -->
-                <div class="mt-16 pt-10 border-t border-slate-700/50">
-                    <h3 class="text-xl font-bold text-white mb-2"><i class="fab fa-windows mr-2 text-blue-400"></i>¿Usuario de Windows? Probá esto primero</h3>
-                    <p class="text-slate-400 text-sm mb-4 max-w-xl mx-auto">
-                        Muchos problemas de conexión y lentitud se resuelven refrescando la configuración del sistema.
-                    </p>
-
-                    <!-- Instrucciones para abrir CMD -->
-                    <div class="bg-slate-800/50 p-4 rounded-lg border-l-4 border-blue-500 text-left max-w-2xl mx-auto mb-8 shadow-lg">
-                        <p class="text-slate-300 text-sm">
-                            <i class="fas fa-terminal text-blue-400 mr-2"></i><strong>Cómo ejecutar los comandos:</strong><br>
-                            1. Presiona la tecla <strong class="text-white">Windows</strong> y escribe <strong class="text-white">"CMD"</strong>.<br>
-                            2. En los resultados, haz <strong class="text-white">clic con el botón derecho del mouse</strong> sobre "Símbolo del sistema" y selecciona <strong class="text-white">"Ejecutar como administrador"</strong>.<br>
-                            3. Copia y pega los siguientes comandos uno por uno.
-                        </p>
-                    </div>
-                    
-                    <div class="max-w-3xl mx-auto bg-[#0c0c0c] rounded-lg border border-slate-600 shadow-2xl text-left overflow-hidden">
-                        <!-- Barra de título estilo Windows -->
-                        <div class="bg-slate-200 px-3 py-1 flex items-center justify-between border-b border-slate-400 select-none">
-                            <div class="flex items-center">
-                                <i class="fas fa-terminal text-xs mr-2 text-black"></i>
-                                <span class="text-xs text-black font-sans font-semibold">Administrador: Símbolo del sistema</span>
-                            </div>
-                            <div class="flex gap-2">
-                                <div class="text-black text-xs font-bold px-1 hover:bg-slate-300 cursor-default">_</div>
-                                <div class="text-black text-xs font-bold px-1 hover:bg-slate-300 cursor-default">□</div>
-                                <div class="text-black text-xs font-bold px-1 hover:bg-red-500 hover:text-white cursor-default">✕</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Contenido de la terminal Windows -->
-                        <div class="p-6 font-mono text-sm space-y-6 overflow-x-auto text-slate-100">
-                            
-                            <!-- Comando 1 -->
-                            <div>
-                                <p class="text-slate-500 mb-1">REM 1. Solucionar problemas de conexión a internet (DNS)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
-                                        <span class="text-white cmd-text">ipconfig /flushdns</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 2 -->
-                            <div>
-                                <p class="text-slate-500 mb-1">REM 2. Renovar la dirección IP (Conexión inestable)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
-                                        <span class="text-white cmd-text">ipconfig /release && ipconfig /renew</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 3 -->
-                            <div>
-                                <p class="text-slate-500 mb-1">REM 3. Reparar archivos corruptos de Windows (Lentitud/Errores)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
-                                        <span class="text-white cmd-text">sfc /scannow</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 4 -->
-                            <div>
-                                <p class="text-slate-500 mb-1">REM 4. Resetear configuración de red completa (Si nada funciona)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
-                                        <span class="text-white cmd-text">netsh winsock reset</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 5 -->
-                            <div>
-                                <p class="text-slate-500 mb-1">REM 5. Reiniciar la PC inmediatamente (Borra fallos temporales)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/10 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-slate-400 mr-2 select-none">C:\WINDOWS\system32></span>
-                                        <span class="text-white cmd-text">shutdown /r /t 0</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-blue-400 ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sección Linux: Comandos de Autogestión -->
-                <div class="mt-16 pt-10 border-t border-slate-700/50">
-                    <h3 class="text-xl font-bold text-white mb-2"><i class="fab fa-linux mr-2 text-yellow-400"></i>¿Usuario de Linux? Probá esto primero</h3>
-                    <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto">
-                        Antes de iniciar una sesión remota, ejecuta estos comandos en tu terminal. A menudo resuelven los problemas más comunes de conectividad y rendimiento.
-                    </p>
-                    
-                    <div class="max-w-3xl mx-auto bg-[#1e1e1e] rounded-lg border border-slate-700 shadow-inner text-left overflow-hidden">
-                        <!-- Barra de título de la terminal -->
-                        <div class="bg-[#2d2d2d] px-4 py-2 flex items-center gap-2 border-b border-black">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span class="ml-2 text-xs text-slate-400 font-mono">user@linux:~</span>
-                        </div>
-                        
-                        <!-- Contenido de la terminal -->
-                        <div class="p-6 font-mono text-sm space-y-6 overflow-x-auto">
-                            
-                            <!-- Comando 1 -->
-                            <div>
-                                <p class="text-slate-500 mb-1"># 1. Actualizar repositorios y sistema (Corrige fallos de dependencias)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/5 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-green-400 mr-2 select-none">$</span>
-                                        <span class="text-cyan-300 cmd-text">sudo apt update && sudo apt upgrade -y</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-white ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 2 -->
-                            <div>
-                                <p class="text-slate-500 mb-1"># 2. Liberar espacio en disco (Elimina paquetes obsoletos)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/5 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-green-400 mr-2 select-none">$</span>
-                                        <span class="text-cyan-300 cmd-text">sudo apt autoremove && sudo apt clean</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-white ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 3 -->
-                            <div>
-                                <p class="text-slate-500 mb-1"># 3. Diagnóstico de red (Verificar si hay salida a internet)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/5 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-green-400 mr-2 select-none">$</span>
-                                        <span class="text-cyan-300 cmd-text">ping -c 4 8.8.8.8</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-white ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 4 -->
-                            <div>
-                                <p class="text-slate-500 mb-1"># 4. Reiniciar servicios de red (Si no tienes internet)</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/5 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-green-400 mr-2 select-none">$</span>
-                                        <span class="text-cyan-300 cmd-text">sudo systemctl restart NetworkManager</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-white ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Comando 5 -->
-                            <div>
-                                <p class="text-slate-500 mb-1"># 5. Ver logs de errores críticos recientes</p>
-                                <div class="flex items-center justify-between group p-1 rounded hover:bg-white/5 transition-colors">
-                                    <div class="flex items-center min-w-0">
-                                        <span class="text-green-400 mr-2 select-none">$</span>
-                                        <span class="text-cyan-300 cmd-text">journalctl -p 3 -xb</span>
-                                    </div>
-                                    <button class="copy-cmd-btn text-slate-500 hover:text-white ml-3 transition-colors opacity-70 group-hover:opacity-100" title="Copiar comando">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Botón para abrir Modal de Herramientas -->
-                <div class="mt-10 pt-6 border-t border-slate-700/50">
-                    <h3 class="text-xl font-bold text-white mb-2">Herramientas Adicionales</h3>
-                    <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto">
-                        Utilizo software profesional para optimización, seguridad y productividad durante mis asistencias.
-                    </p>
-                    <button id="open-tools-modal" class="bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/50 font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_25px_rgba(6,182,212,0.3)] inline-flex items-center group">
-                        <i class="fas fa-toolbox mr-2 group-hover:rotate-12 transition-transform"></i> Ver Herramientas
-                    </button>
-                </div>
-
             </div>
         </section>
 
         <!-- Sección Contacto -->
         <section id="contacto" class="text-center mb-16 fade-in-up">
             <h2 class="text-4xl font-bold text-white mb-4">Ponerse en Contacto</h2>
-            <p class="text-lg text-slate-400 mb-8 max-w-xl mx-auto font-light">Estoy buscando activamente nuevos desafíos y oportunidades. Si crees que mi perfil encaja en tu equipo, ¡no dudes en escribirme!</p>
-            <div class="glass-card inline-block p-6 max-w-5xl mx-auto"> <!-- Aumenté ligeramente el ancho -->
+            <div class="glass-card inline-block p-6 max-w-5xl mx-auto">
                 <div class="flex flex-col md:flex-row items-center justify-center gap-6 flex-wrap">
-                    <!-- Email -->
                     <div class="flex items-center bg-slate-800/50 rounded-lg p-3">
                         <span id="email-text" class="text-md sm:text-lg text-cyan-300 mr-4">juanmartinbarrientos@me.com</span>
-                        <button id="copy-button" class="bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-400 transition-all duration-300 flex-shrink-0">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                        <button id="copy-button" class="bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-400 transition-all flex-shrink-0"><i class="fas fa-copy"></i></button>
                     </div>
 
-                    <!-- Botón CV (Modificado para abrir Modal) -->
-                    <button id="open-cv-modal" class="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-red-500/30 transform hover:-translate-y-1">
+                    <!-- Botón CV -->
+                    <button id="open-cv-modal" class="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold py-3 px-6 rounded-lg transition-all shadow-lg transform hover:-translate-y-1">
                         <i class="fas fa-file-pdf mr-2 text-xl"></i> Ver CV / Hoja de Vida
                     </button>
                     
-                    <!-- WhatsApp -->
-                    <a href="https://wa.me/5491169578193" target="_blank" rel="noopener noreferrer" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-green-500/30">
-                        <i class="fab fa-whatsapp mr-2 text-xl"></i> WhatsApp
-                    </a>
-
-                    <!-- Botón Compartir -->
-                    <button id="share-site-button" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-500 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-indigo-500/30">
-                        <i class="fas fa-share-alt mr-2 text-xl"></i> Compartir
-                    </button>
+                    <a href="https://wa.me/5491169578193" target="_blank" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-400 transition-all shadow-lg"><i class="fab fa-whatsapp mr-2 text-xl"></i> WhatsApp</a>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="text-center mt-24 pb-4 fade-in-up">
-            <p class="text-slate-500 text-sm font-light">&copy; <span id="current-year"></span> Juan Martin Barrientos. Todos los derechos reservados.</p>
+            <p class="text-slate-500 text-sm font-light">&copy; <span id="current-year"></span> Juan Martin Barrientos.</p>
         </footer>
 
     </div>
 
-    <!-- Modal de Herramientas (Existente) -->
+    <!-- Modal de Herramientas -->
     <div id="tools-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-        <!-- Overlay -->
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="tools-modal-overlay"></div>
-        
-        <!-- Modal Content -->
-        <div class="glass-card relative w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300 border border-slate-600/50 shadow-2xl p-0" id="tools-modal-content">
-            <!-- Header -->
+        <div class="glass-card relative w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300" id="tools-modal-content">
             <div class="sticky top-0 bg-[#0a0a1a]/90 backdrop-blur-md p-6 border-b border-slate-700/50 flex justify-between items-center z-10">
-                <h3 class="text-2xl font-bold text-white"><i class="fas fa-toolbox text-cyan-400 mr-3"></i>Kit de Herramientas</h3>
-                <button id="close-tools-modal" class="text-slate-400 hover:text-white hover:bg-red-500/20 w-8 h-8 rounded-full transition-all flex items-center justify-center">
-                    <i class="fas fa-times"></i>
-                </button>
+                <h3 class="text-2xl font-bold text-white">Kit de Herramientas</h3>
+                <button id="close-tools-modal" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
-
-            <!-- Body -->
-            <div class="p-6 space-y-8 text-left">
-                <!-- Malwarebytes -->
-                <div class="flex flex-col sm:flex-row gap-4 items-start">
-                    <div class="bg-blue-600/20 p-4 rounded-xl border border-blue-500/30 min-w-[60px] text-center">
-                        <i class="fas fa-shield-virus text-3xl text-blue-400"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-xl font-bold text-white mb-2">Malwarebytes</h4>
-                        <p class="text-slate-300 text-sm mb-4">
-                            Herramienta esencial para la detección y eliminación de malware, spyware y otras amenazas que los antivirus tradicionales pueden pasar por alto. Ideal para una limpieza profunda si tu equipo va lento o tiene comportamientos extraños.
-                        </p>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://www.malwarebytes.com/es/mwb-download" target="_blank" class="inline-flex items-center text-sm font-bold text-blue-400 hover:text-blue-300 border border-blue-500/30 hover:bg-blue-500/10 px-4 py-2 rounded-lg transition-all">
-                                <i class="fas fa-download mr-2"></i> Descargar Oficial
-                            </a>
-                            <a href="https://youtu.be/LNhfMKOfNTo" target="_blank" class="inline-flex items-center text-sm font-bold text-red-400 hover:text-red-300 border border-red-500/30 hover:bg-red-500/10 px-4 py-2 rounded-lg transition-all">
-                                <i class="fab fa-youtube mr-2"></i> Mira esto primero: ¿Por qué tu PC está lenta?
-                            </a>
-                        </div>
+            <div class="p-6 space-y-6 text-left">
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-shield-virus text-3xl text-blue-400 mt-1"></i>
+                    <div>
+                        <h4 class="text-white font-bold">Malwarebytes</h4>
+                        <p class="text-slate-400 text-sm">Limpieza profunda de malware y spyware.</p>
+                        <a href="https://www.malwarebytes.com/es/mwb-download" target="_blank" class="text-blue-400 text-sm hover:underline mt-1 block">Descargar</a>
                     </div>
                 </div>
-
-                <hr class="border-slate-700/50">
-
-                <!-- Office -->
-                <div class="flex flex-col sm:flex-row gap-4 items-start">
-                    <div class="bg-orange-600/20 p-4 rounded-xl border border-orange-500/30 min-w-[60px] text-center">
-                        <i class="fab fa-microsoft text-3xl text-orange-400"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-xl font-bold text-white mb-2">Microsoft 365 (Office)</h4>
-                        <p class="text-slate-300 text-sm mb-4">
-                            Instalación completa de la suite de productividad (Word, Excel, PowerPoint). Puedes optar por planes personales o familiares. Te ayudo a elegir y configurar la mejor opción según tus necesidades.
-                        </p>
-                        <a href="https://www.microsoft.com/es-ar/microsoft-365/buy/compare-all-microsoft-365-products?tab=1&OCID=cmmruikv4ct#PersonalAnnualPaidYearly" target="_blank" class="inline-flex items-center text-sm font-bold text-orange-400 hover:text-orange-300 border border-orange-500/30 hover:bg-orange-500/10 px-4 py-2 rounded-lg transition-all">
-                            <i class="fas fa-external-link-alt mr-2"></i> Ver Opciones y Precios
-                        </a>
-                    </div>
-                </div>
-
-                <hr class="border-slate-700/50">
-
-                <!-- OBS -->
-                <div class="flex flex-col sm:flex-row gap-4 items-start">
-                    <div class="bg-purple-600/20 p-4 rounded-xl border border-purple-500/30 min-w-[60px] text-center">
-                        <i class="fas fa-video text-3xl text-purple-400"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-xl font-bold text-white mb-2">OBS Studio</h4>
-                        <p class="text-slate-300 text-sm mb-4">
-                            Software libre y de código abierto para grabación de video y transmisión en vivo. 
-                            <span class="text-yellow-400 font-semibold block mt-2 bg-yellow-500/10 p-2 rounded border border-yellow-500/20"><i class="fas fa-chalkboard-teacher mr-1"></i> ¡Servicio Adicional! ¿Querés aprender a usarlo? Ofrezco capacitación personalizada para que configures tus escenas y transmitas como un profesional.</span>
-                        </p>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://obsproject.com/es/download" target="_blank" class="inline-flex items-center text-sm font-bold text-purple-400 hover:text-purple-300 border border-purple-500/30 hover:bg-purple-500/10 px-4 py-2 rounded-lg transition-all">
-                                <i class="fas fa-download mr-2"></i> Descargar OBS
-                            </a>
-                            <a href="https://youtu.be/HB0lcRQmNUs" target="_blank" class="inline-flex items-center text-sm font-bold text-red-400 hover:text-red-300 border border-red-500/30 hover:bg-red-500/10 px-4 py-2 rounded-lg transition-all">
-                                <i class="fab fa-youtube mr-2"></i> Ver Tutorial
-                            </a>
-                        </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-video text-3xl text-purple-400 mt-1"></i>
+                    <div>
+                        <h4 class="text-white font-bold">OBS Studio</h4>
+                        <p class="text-slate-400 text-sm">Grabación y transmisión de video profesional.</p>
+                        <a href="https://obsproject.com/es/download" target="_blank" class="text-purple-400 text-sm hover:underline mt-1 block">Descargar</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Nuevo Modal de CV -->
+    <!-- Nuevo Modal de CV (HTML Native) -->
     <div id="cv-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="cv-modal-overlay"></div>
         
         <!-- Modal Content -->
-        <div class="glass-card relative w-full max-w-5xl h-[90vh] mx-4 flex flex-col p-0 overflow-hidden transform scale-95 transition-transform duration-300 border border-slate-600/50 shadow-2xl" id="cv-modal-content">
-            <!-- Header del Modal -->
-            <div class="bg-[#0a0a1a] p-4 border-b border-slate-700/50 flex flex-wrap justify-between items-center z-10 shrink-0 gap-4">
+        <div class="glass-card relative w-full max-w-4xl h-[95vh] mx-auto flex flex-col p-0 overflow-hidden transform scale-95 transition-transform duration-300 border border-slate-600/50 shadow-2xl" id="cv-modal-content">
+            
+            <!-- Header del Modal (NO IMPRIMIR) -->
+            <div id="cv-modal-header" class="bg-[#0a0a1a] p-4 border-b border-slate-700/50 flex flex-wrap justify-between items-center z-10 shrink-0 gap-4">
                 <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mr-3 border border-red-500/30">
-                        <i class="fas fa-file-pdf text-red-400"></i>
+                        <i class="fas fa-file-contract text-red-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg md:text-xl font-bold text-white">Curriculum Vitae</h3>
-                        <p class="text-xs text-slate-400">Juan Martin Barrientos - IT Specialist</p>
+                        <h3 class="text-lg font-bold text-white">Vista Previa de CV</h3>
+                        <p class="text-xs text-slate-400">Generado para Impresión</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-2 sm:gap-3">
-                     <a href="https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf" download class="hidden sm:flex bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-bold items-center transition-colors border border-slate-600">
-                        <i class="fas fa-download mr-2"></i> Descargar
-                    </a>
-                    
-                    <!-- Botón de Imprimir -->
-                    <button id="print-cv-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-colors shadow-lg hover:shadow-cyan-500/20">
-                        <i class="fas fa-print mr-2"></i> Imprimir
+                <div class="flex items-center gap-3">
+                    <button id="print-cv-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center transition-colors shadow-lg hover:shadow-cyan-500/20">
+                        <i class="fas fa-print mr-2"></i> Imprimir CV
                     </button>
-
                     <button id="close-cv-modal" class="text-slate-400 hover:text-white hover:bg-red-500/20 w-10 h-10 rounded-full transition-all flex items-center justify-center ml-2">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
             </div>
             
-            <!-- Contenedor del Iframe -->
-            <div class="flex-1 bg-slate-800 relative w-full h-full">
-                <!-- Se usa el link RAW para que el navegador lo renderice -->
-                <iframe id="cv-iframe" class="w-full h-full" src=""></iframe>
+            <!-- Contenedor del CV (HTML Puro para imprimir) -->
+            <div class="flex-1 bg-gray-100 overflow-y-auto p-4 md:p-8" id="cv-scroll-container">
                 
-                <!-- Loading state (oculto por defecto) -->
-                <div id="cv-loading" class="absolute inset-0 flex items-center justify-center bg-slate-900 z-0">
-                    <div class="text-center">
-                        <i class="fas fa-circle-notch fa-spin text-4xl text-cyan-500 mb-3"></i>
-                        <p class="text-slate-400">Cargando documento...</p>
+                <!-- HOJA A4 DEL CV -->
+                <div id="cv-html-content" class="bg-white text-black p-8 md:p-12 shadow-xl mx-auto max-w-[210mm] min-h-[297mm] cv-paper">
+                    
+                    <!-- CV Header -->
+                    <header class="border-b-2 border-slate-800 pb-6 mb-6">
+                        <h1 class="text-4xl font-bold text-slate-900 uppercase tracking-tight">Juan Martin Barrientos</h1>
+                        <h2 class="text-xl text-cyan-700 font-semibold mt-1">IT Field Support & Help Desk Specialist</h2>
+                        
+                        <div class="flex flex-wrap gap-4 mt-4 text-sm text-slate-600 cv-text-muted">
+                            <span class="flex items-center"><i class="fas fa-envelope mr-2"></i> juanmartinbarrientos@me.com</span>
+                            <span class="flex items-center"><i class="fab fa-whatsapp mr-2"></i> +54 9 11 6957-8193</span>
+                            <span class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> Buenos Aires, Argentina</span>
+                            <span class="flex items-center"><i class="fab fa-linkedin mr-2"></i> /juanmartinbarrientoslorusso</span>
+                        </div>
+                    </header>
+
+                    <!-- CV Body -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        <!-- Columna Principal -->
+                        <div class="md:col-span-2 space-y-6">
+                            
+                            <!-- Perfil -->
+                            <section>
+                                <h3 class="text-lg font-bold text-slate-900 uppercase border-b border-slate-300 mb-3 pb-1">Perfil Profesional</h3>
+                                <p class="text-slate-700 text-sm leading-relaxed text-justify">
+                                    Técnico Informático con sólida experiencia en soporte de campo y help desk. Especializado en diagnóstico de hardware, mantenimiento de infraestructura y atención al usuario final. Capacidad demostrada para resolver incidencias críticas bajo presión y gestionar proyectos de despliegue tecnológico. Enfoque centrado en la calidad del servicio, la empatía con el usuario y la eficiencia operativa.
+                                </p>
+                            </section>
+
+                            <!-- Experiencia -->
+                            <section>
+                                <h3 class="text-lg font-bold text-slate-900 uppercase border-b border-slate-300 mb-4 pb-1">Experiencia Laboral</h3>
+                                
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-bold text-slate-800">Field Support IT</h4>
+                                        <span class="text-xs font-semibold text-slate-500">2023 - 2024</span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-cyan-700 mb-1">Smartway SRL (Cliente: Cinemark Hoyts)</p>
+                                    <ul class="list-disc list-outside ml-4 text-sm text-slate-700 space-y-1">
+                                        <li>Instalación y configuración de kioscos de autoservicio y puestos de venta.</li>
+                                        <li>Mantenimiento preventivo y correctivo de hardware crítico.</li>
+                                        <li>Gestión de incidencias on-site garantizando la continuidad operativa del cine.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-bold text-slate-800">Field Support IT</h4>
+                                        <span class="text-xs font-semibold text-slate-500">2022 - 2023</span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-cyan-700 mb-1">Gire S.A. (Rapipago)</p>
+                                    <ul class="list-disc list-outside ml-4 text-sm text-slate-700 space-y-1">
+                                        <li>Roll-out de infraestructura para nuevas sucursales a nivel regional.</li>
+                                        <li>Configuración de VPNs, redes TCP/IP y periféricos financieros.</li>
+                                        <li>Galardonado por mayor volumen de resolución de tickets mensuales.</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-bold text-slate-800">Consultor IT Independiente</h4>
+                                        <span class="text-xs font-semibold text-slate-500">2010 - Presente</span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-cyan-700 mb-1">Freelance</p>
+                                    <ul class="list-disc list-outside ml-4 text-sm text-slate-700 space-y-1">
+                                        <li>Soporte técnico integral a particulares y PyMEs.</li>
+                                        <li>Optimización de sistemas Windows/Mac y recuperación de datos.</li>
+                                        <li>Asesoramiento en seguridad informática y backups.</li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            <!-- Educación -->
+                            <section>
+                                <h3 class="text-lg font-bold text-slate-900 uppercase border-b border-slate-300 mb-4 pb-1">Formación Académica</h3>
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Ingeniería Informática (Ciclo Inicial)</h4>
+                                    <p class="text-sm text-slate-600">Universidad Nacional de La Matanza (UNLaM)</p>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Columna Lateral -->
+                        <div class="space-y-6">
+                            
+                            <!-- Certificaciones -->
+                            <section>
+                                <h3 class="text-lg font-bold text-slate-900 uppercase border-b border-slate-300 mb-3 pb-1">Certificaciones</h3>
+                                <div class="space-y-3">
+                                    <div class="bg-slate-50 p-3 border-l-4 border-yellow-500">
+                                        <p class="font-bold text-sm text-slate-900">CompTIA A+</p>
+                                        <p class="text-xs text-slate-600">IT Professional Certificate</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 border-l-4 border-blue-500">
+                                        <p class="font-bold text-sm text-slate-900">Google IT Support</p>
+                                        <p class="text-xs text-slate-600">Professional Certificate</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Habilidades -->
+                            <section>
+                                <h3 class="text-lg font-bold text-slate-900 uppercase border-b border-slate-300 mb-3 pb-1">Habilidades Técnicas</h3>
+                                <ul class="text-sm text-slate-700 space-y-2">
+                                    <li><span class="font-semibold">OS:</span> Windows 10/11, macOS, Linux (Ubuntu/Debian).</li>
+                                    <li><span class="font-semibold">Redes:</span> TCP/IP, VPN, DNS, DHCP, Configuración de Routers (Mikrotik).</li>
+                                    <li><span class="font-semibold">Hardware:</span> Diagnóstico, reparación y ensamblado de PC/Laptops.</li>
+                                    <li><span class="font-semibold">Herramientas:</span> Active Directory, Office 365, AnyDesk, Jira.</li>
+                                </ul>
+                            </section>
+
+                            <!-- Idiomas -->
+                            <section>
+                                <h3 class="text-lg font-bold text-slate-900 uppercase border-b border-slate-300 mb-3 pb-1">Idiomas</h3>
+                                <ul class="text-sm text-slate-700">
+                                    <li class="flex justify-between"><span>Español</span> <span class="font-semibold">Nativo</span></li>
+                                    <li class="flex justify-between"><span>Inglés</span> <span class="font-semibold">Intermedio (B1/B2)</span></li>
+                                </ul>
+                            </section>
+                            
+                             <!-- QR Code (Actualizado con imagen real) -->
+                             <div class="pt-4 text-center">
+                                <div class="w-28 h-28 mx-auto bg-white p-1 border border-slate-300">
+                                    <img src="https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/Untitled.png" 
+                                         alt="QR Portfolio" 
+                                         class="w-full h-full object-contain">
+                                </div>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Escanear para Portfolio Web</p>
+                             </div>
+
+                        </div>
                     </div>
                 </div>
+                <!-- FIN HOJA A4 -->
+
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-    <!-- Botón Flotante de WhatsApp -->
-    <a href="https://wa.me/5491169578193?text=Hola%20quiero%20hacerte%20una%20consulta..." class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <script>
     // --- Configuración de Particles.js ---
     particlesJS("particles-js", {
@@ -1150,373 +755,93 @@
         "retina_detect": true
     });
 
-    // --- Script para animaciones y funcionalidad ---
+    // --- Script General ---
     document.addEventListener('DOMContentLoaded', () => {
-        // Establecer el año actual en el pie de página
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // --- Animaciones al hacer scroll ---
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        // --- Animaciones Scroll ---
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Animar barras de progreso
                     if (entry.target.id === 'habilidades') {
-                        const skillBars = document.querySelectorAll('.skill-bar');
-                        skillBars.forEach(bar => {
+                        document.querySelectorAll('.skill-bar').forEach(bar => {
                             bar.style.width = bar.dataset.width;
                         });
                     }
-                    observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
         
-        const skillsSection = document.getElementById('habilidades');
-        if (skillsSection) {
-            // Observamos el contenedor principal de la sección de habilidades
-            observer.observe(skillsSection.closest('.fade-in-up'));
-        }
-
-
-        // --- Desplazamiento suave ---
+        // --- Smooth Scroll ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
 
-        // --- Funcionalidad de Copiar Email ---
-        const copyButton = document.getElementById('copy-button');
-        const emailText = document.getElementById('email-text').innerText;
-        const originalButtonHtml = copyButton.innerHTML;
-        
-        copyButton.addEventListener('click', () => {
-            const textArea = document.createElement('textarea');
-            textArea.value = emailText;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                copyButton.innerHTML = '<i class="fas fa-check"></i>';
-                copyButton.classList.remove('bg-cyan-500');
-                copyButton.classList.add('bg-green-500');
-            } catch (err) {
-                console.error('No se pudo copiar el texto: ', err);
-            }
-            document.body.removeChild(textArea);
-
-            // Revertir el botón después de 2 segundos
-            setTimeout(() => {
-                copyButton.innerHTML = originalButtonHtml;
-                copyButton.classList.remove('bg-green-500');
-                copyButton.classList.add('bg-cyan-500');
-            }, 2000);
-        });
-
-        // --- Funcionalidad de Compartir Web (Web Share API) ---
-        const shareSiteButton = document.getElementById('share-site-button');
-        
-        shareSiteButton.addEventListener('click', async () => {
-            const shareData = {
-                title: 'Portfolio de Juan Martin Barrientos',
-                text: 'Echa un vistazo al portfolio de Juan Martin Barrientos - IT Field Support & Help Desk Specialist',
-                url: 'https://www.juanmartinbarrientos.com'
-            };
-
-            // Intentar usar la API nativa de compartir
-            if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (err) {
-                    console.log('Error al compartir o cancelado por usuario:', err);
-                }
-            } else {
-                // Fallback: Copiar al portapapeles si no soporta compartir nativo
-                try {
-                    // Crear un input temporal para copiar
-                    const tempInput = document.createElement('input');
-                    tempInput.value = shareData.url;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy'); // Usamos execCommand por compatibilidad
-                    document.body.removeChild(tempInput);
-
-                    // Feedback visual
-                    const originalContent = shareSiteButton.innerHTML;
-                    shareSiteButton.innerHTML = '<i class="fas fa-check mr-2"></i> ¡Enlace Copiado!';
-                    shareSiteButton.classList.remove('bg-indigo-600');
-                    shareSiteButton.classList.add('bg-green-600');
-
-                    setTimeout(() => {
-                        shareSiteButton.innerHTML = originalContent;
-                        shareSiteButton.classList.remove('bg-green-600');
-                        shareSiteButton.classList.add('bg-indigo-600');
-                    }, 2000);
-                } catch (err) {
-                    console.error('No se pudo copiar al portapapeles:', err);
-                }
-            }
-        });
-
-        // --- Funcionalidad Copiar Comandos Linux ---
-        document.querySelectorAll('.copy-cmd-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Buscar el texto del comando dentro del mismo contenedor padre
-                const cmdText = btn.parentElement.querySelector('.cmd-text').innerText;
-                
-                // Usar método execCommand para mayor compatibilidad
-                const textArea = document.createElement('textarea');
-                textArea.value = cmdText;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    
-                    // Feedback visual en el botón
-                    const icon = btn.querySelector('i');
-                    const originalClass = icon.className;
-                    
-                    icon.className = 'fas fa-check text-green-400';
-                    
-                    setTimeout(() => {
-                        icon.className = 'fas fa-copy';
-                    }, 2000);
-                } catch (err) {
-                    console.error('Error al copiar comando: ', err);
-                }
-                document.body.removeChild(textArea);
+        // --- Copiar Email ---
+        const copyBtn = document.getElementById('copy-button');
+        const emailTxt = document.getElementById('email-text').innerText;
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(emailTxt).then(() => {
+                const originalHtml = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                copyBtn.classList.replace('bg-cyan-500', 'bg-green-500');
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHtml;
+                    copyBtn.classList.replace('bg-green-500', 'bg-cyan-500');
+                }, 2000);
             });
         });
 
-        // --- Funcionalidad Modal de Herramientas ---
-        const modal = document.getElementById('tools-modal');
-        const openBtn = document.getElementById('open-tools-modal');
-        const closeBtn = document.getElementById('close-tools-modal');
-        const overlay = document.getElementById('tools-modal-overlay');
-        const content = document.getElementById('tools-modal-content');
+        // --- Modals Logic ---
+        function setupModal(modalId, openBtnId, closeBtnId, overlayId) {
+            const modal = document.getElementById(modalId);
+            const openBtn = document.getElementById(openBtnId);
+            const closeBtn = document.getElementById(closeBtnId);
+            const overlay = document.getElementById(overlayId);
+            const content = modal.querySelector('div[class*="transform"]');
 
-        function toggleModal(show) {
-            if (show) {
-                modal.classList.remove('hidden');
-                // Pequeño delay para permitir que el display:block se aplique antes de la transición
-                setTimeout(() => {
-                    modal.classList.remove('opacity-0');
-                    content.classList.remove('scale-95');
-                    content.classList.add('scale-100');
-                }, 10);
-            } else {
-                modal.classList.add('opacity-0');
-                content.classList.remove('scale-100');
-                content.classList.add('scale-95');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 300);
+            function toggle(show) {
+                if (show) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        content.classList.remove('scale-95');
+                        content.classList.add('scale-100');
+                    }, 10);
+                } else {
+                    modal.classList.add('opacity-0');
+                    content.classList.remove('scale-100');
+                    content.classList.add('scale-95');
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                }
             }
+
+            if(openBtn) openBtn.addEventListener('click', () => toggle(true));
+            if(closeBtn) closeBtn.addEventListener('click', () => toggle(false));
+            if(overlay) overlay.addEventListener('click', () => toggle(false));
         }
 
-        if(openBtn) {
-            openBtn.addEventListener('click', () => toggleModal(true));
-        }
-        if(closeBtn) {
-            closeBtn.addEventListener('click', () => toggleModal(false));
-        }
-        if(overlay) {
-            overlay.addEventListener('click', () => toggleModal(false));
-        }
-
-        // --- Lógica del Nuevo Modal de CV ---
+        setupModal('tools-modal', 'open-tools-modal', 'close-tools-modal', 'tools-modal-overlay');
+        
+        // --- Lógica del Modal CV e Impresión ---
         const cvModal = document.getElementById('cv-modal');
         const openCvBtn = document.getElementById('open-cv-modal');
         const closeCvBtn = document.getElementById('close-cv-modal');
-        const cvOverlay = document.getElementById('cv-modal-overlay');
-        const cvContent = document.getElementById('cv-modal-content');
-        const cvIframe = document.getElementById('cv-iframe');
         const printCvBtn = document.getElementById('print-cv-btn');
-        const cvUrl = "https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf";
+        // Usamos una función dedicada para el CV para manejar eventos extra si es necesario
+        setupModal('cv-modal', 'open-cv-modal', 'close-cv-modal', 'cv-modal-overlay');
 
-        function toggleCvModal(show) {
-            if (show) {
-                // Cargar el PDF solo cuando se abre el modal para ahorrar recursos
-                if (!cvIframe.src) {
-                    cvIframe.src = cvUrl;
-                }
-                
-                cvModal.classList.remove('hidden');
-                setTimeout(() => {
-                    cvModal.classList.remove('opacity-0');
-                    cvContent.classList.remove('scale-95');
-                    cvContent.classList.add('scale-100');
-                }, 10);
-            } else {
-                cvModal.classList.add('opacity-0');
-                cvContent.classList.remove('scale-100');
-                cvContent.classList.add('scale-95');
-                setTimeout(() => {
-                    cvModal.classList.add('hidden');
-                    // Opcional: Limpiar src si quieres que se recargue siempre
-                    // cvIframe.src = ""; 
-                }, 300);
-            }
-        }
-
-        if (openCvBtn) openCvBtn.addEventListener('click', () => toggleCvModal(true));
-        if (closeCvBtn) closeCvBtn.addEventListener('click', () => toggleCvModal(false));
-        if (cvOverlay) cvOverlay.addEventListener('click', () => toggleCvModal(false));
-
-        // Lógica de Impresión Inteligente
         if (printCvBtn) {
             printCvBtn.addEventListener('click', () => {
-                // Intento 1: Imprimir desde el iframe (puede fallar por CORS en GitHub)
-                try {
-                    const iframeWindow = cvIframe.contentWindow;
-                    if (iframeWindow) {
-                        iframeWindow.focus();
-                        iframeWindow.print();
-                    } else {
-                        throw new Error("No access to iframe");
-                    }
-                } catch (e) {
-                    // Fallback: Si el navegador bloquea la impresión cross-origin (muy probable con GitHub Raw)
-                    // Abrimos el PDF en una nueva pestaña que dispara el diálogo de impresión nativo del navegador
-                    // Esto garantiza que el usuario siempre pueda imprimir.
-                    window.open(cvUrl, '_blank');
-                }
+                window.print();
             });
         }
-
-
-        // --- Funcionalidad Like Instagram ---
-        const likeBtn = document.getElementById('insta-like-btn');
-        const likeIcon = likeBtn ? likeBtn.querySelector('i') : null; // Added safe check
-        const likeCountElement = document.getElementById('like-count');
-        let isLiked = false;
-
-        if (likeBtn && likeIcon && likeCountElement) { // Only add listener if elements exist
-            likeBtn.addEventListener('click', () => {
-                isLiked = !isLiked;
-                
-                // Animación y cambio de icono
-                if (isLiked) {
-                    likeIcon.classList.remove('far');
-                    likeIcon.classList.add('fas', 'text-red-500');
-                    // Efecto de rebote
-                    likeBtn.classList.add('scale-125');
-                    setTimeout(() => likeBtn.classList.remove('scale-125'), 200);
-                    
-                    // Actualizar número (simulado)
-                    likeCountElement.innerText = "2,844 Me gusta"; // Updated logic slightly
-                } else {
-                    likeIcon.classList.remove('fas', 'text-red-500');
-                    likeIcon.classList.add('far');
-                    likeCountElement.innerText = "2,843 Me gusta";
-                }
-            });
-        }
-        
-        // --- Carrusel Instagram con Auto-Slide ---
-        const instaSlider = document.getElementById('insta-slider');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const dots = document.querySelectorAll('.dot');
-        const slideCounter = document.getElementById('slide-counter');
-        const carouselContainer = document.getElementById('carousel-container');
-        
-        // Detectar número real de imágenes dinámicamente
-        const slides = instaSlider ? instaSlider.querySelectorAll('img') : [];
-        const totalSlides = slides.length;
-        let currentSlide = 0;
-        let slideInterval;
-
-        if (instaSlider && prevBtn && nextBtn && totalSlides > 0) {
-            
-            function updateCarousel() {
-                // Mover el slider
-                instaSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
-                
-                // Actualizar contador
-                if(slideCounter) slideCounter.textContent = `${currentSlide + 1}/${totalSlides}`;
-
-                // Actualizar visibilidad de flechas (Opcional: Si queremos loop infinito, siempre mostramos flechas o manejamos lógica distinta)
-                // Para loop infinito visual en botones:
-                prevBtn.classList.remove('hidden');
-                nextBtn.classList.remove('hidden');
-                
-                // Si es la primera, ocultar prev (estilo Instagram no loop en UI manual, pero sí en auto)
-                if (currentSlide === 0) prevBtn.classList.add('hidden');
-                if (currentSlide === totalSlides - 1) nextBtn.classList.add('hidden');
-
-                // Actualizar puntos (dots)
-                dots.forEach((dot, index) => {
-                    if (index === currentSlide) {
-                        dot.classList.remove('bg-white/50');
-                        dot.classList.add('bg-white');
-                        dot.classList.add('scale-125'); // Un poco más grande el activo
-                    } else {
-                        dot.classList.remove('bg-white');
-                        dot.classList.remove('scale-125');
-                        dot.classList.add('bg-white/50');
-                    }
-                });
-            }
-
-            function nextSlide() {
-                if (currentSlide < totalSlides - 1) {
-                    currentSlide++;
-                } else {
-                    currentSlide = 0; // Loop al inicio
-                }
-                updateCarousel();
-            }
-
-            function prevSlide() {
-                if (currentSlide > 0) {
-                    currentSlide--;
-                } else {
-                    currentSlide = totalSlides - 1; // Loop al final (opcional)
-                }
-                updateCarousel();
-            }
-
-            function startSlideTimer() {
-                // Limpiar cualquier intervalo existente para evitar duplicados
-                stopSlideTimer();
-                slideInterval = setInterval(nextSlide, 5000); // 5 segundos
-            }
-
-            function stopSlideTimer() {
-                if (slideInterval) clearInterval(slideInterval);
-            }
-
-            // Event Listeners
-            nextBtn.addEventListener('click', () => {
-                nextSlide();
-                startSlideTimer(); // Reiniciar timer al interactuar
-            });
-
-            prevBtn.addEventListener('click', () => {
-                prevSlide();
-                startSlideTimer(); // Reiniciar timer al interactuar
-            });
-
-            // Pausar al pasar el mouse por encima (Mejor experiencia de usuario)
-            carouselContainer.addEventListener('mouseenter', stopSlideTimer);
-            carouselContainer.addEventListener('mouseleave', startSlideTimer);
-            
-            // Inicializar estado
-            updateCarousel();
-            startSlideTimer();
-        }
-
     });
     </script>
 </body>
