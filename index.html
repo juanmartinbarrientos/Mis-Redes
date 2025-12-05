@@ -36,17 +36,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* --- Configuración General --- */
+        /* --- Configuración General (Modo Oscuro Predeterminado) --- */
         body {
             font-family: 'Inter', sans-serif;
             color: #e0e0e0;
             overflow-x: hidden; /* Prevenir scroll horizontal */
             font-weight: 400;
+            background-color: #0a0a1a; /* Fondo muy oscuro por defecto */
+            transition: background-color 0.5s, color 0.5s; /* Transición para el tema */
         }
 
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Inter', sans-serif;
             font-weight: 600;
+            color: #ffffff; /* Texto principal blanco en dark mode */
         }
 
         h1 { font-weight: 700; }
@@ -55,34 +58,27 @@
         
         /* --- Animación de Zoom para el Fondo --- */
         @keyframes zoomIn {
-            from {
-                transform: scale(1);
-            }
-            to {
-                transform: scale(1.1);
-            }
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
 
-        /* --- Fondo de Partículas Interactivo --- */
+        /* --- Fondo de Partículas Interactivo (Modo Oscuro) --- */
         #particles-js {
             position: fixed;
             width: 100%;
             height: 100%;
             z-index: -1;
-            
-            /* --- Fondo con imagen y superposición oscura --- */
             background-color: #0a0a1a; /* Color de respaldo */
             background-image: 
                 linear-gradient(180deg, rgba(10, 10, 26, 0.9) 0%, rgba(26, 26, 58, 0.9) 100%),
                 url('https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/logo.jpeg');
             background-size: cover;
             background-position: center;
-
-            /* Aplicar la animación de zoom */
             animation: zoomIn 40s ease-in-out infinite alternate;
+            transition: opacity 0.5s;
         }
 
-        /* --- Tarjeta de Cristal Mejorada --- */
+        /* --- Tarjeta de Cristal Mejorada (Modo Oscuro) --- */
         .glass-card {
             background: rgba(10, 10, 30, 0.6);
             backdrop-filter: blur(10px);
@@ -103,6 +99,7 @@
             margin: -1px;
             border-radius: inherit;
             background: linear-gradient(135deg, rgba(0, 255, 224, 0.2), rgba(66, 153, 225, 0.2));
+            transition: background 0.5s;
         }
 
         .glass-card:hover {
@@ -111,32 +108,115 @@
             background: rgba(10, 10, 30, 0.7);
         }
 
-        /* --- Animaciones y Transiciones --- */
+        /* --- Estilos para Modo Claro (Light Mode: LinkedIn Style) --- */
+        body.light-mode {
+            background-color: #f7f7f7; /* Fondo muy claro */
+            color: #1a202c; /* Texto oscuro */
+        }
+        body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4, body.light-mode h5, body.light-mode h6 {
+            color: #1a202c;
+        }
+        body.light-mode .text-slate-300, body.light-mode .text-slate-400 {
+            color: #4a5568 !important; 
+        }
+        
+        /* Ocultar Particles en modo claro (simplificamos el fondo) */
+        .light-mode #particles-js {
+            background-color: #e2e8f0; 
+            background-image: none; 
+            animation: none;
+            opacity: 0;
+        }
+
+        /* Glass Card en Modo Claro */
+        .light-mode .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #1a202c;
+        }
+        .light-mode .glass-card::before {
+            background: linear-gradient(135deg, rgba(10, 102, 194, 0.1), rgba(0, 0, 0, 0.05)); /* Degradado azul sutil */
+        }
+        .light-mode .glass-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* Navegación y Enlaces en Modo Claro */
+        .light-mode .nav-link { color: #4a5568; }
+        .light-mode .nav-link:hover { color: #0A66C2; } /* LinkedIn Blue */
+        .light-mode .nav-link::after { background-color: #0A66C2; }
+
+        /* Iconos Sociales en Modo Claro */
+        .light-mode .social-icon { color: #718096; }
+        .light-mode .social-icon:hover { color: #0A66C2; }
+
+        /* Barras de Habilidades (Invertir para que el color base sea visible) */
+        .light-mode .skill-bar {
+            background: linear-gradient(90deg, #0077B5, #0A66C2); 
+        }
+        .light-mode .skill-bar-container {
+            background-color: rgba(0, 0, 0, 0.05); /* Base de barra muy clara */
+        }
+
+        /* Reemplazar Cian por Azul Corporativo en Modo Claro */
+        .light-mode .text-cyan-300, .light-mode .text-cyan-400 {
+            color: #0A66C2 !important; 
+        }
+        .light-mode .border-cyan-500\/30 {
+            border-color: rgba(10, 102, 194, 0.3) !important;
+        }
+        .light-mode .bg-cyan-500\/20 {
+            background-color: rgba(10, 102, 194, 0.1) !important;
+        }
+        /* Ajustar color del botón destacado de contacto a LinkedIn Blue en Light Mode */
+        .light-mode a[href="#contacto"] {
+             border-color: #0A66C2 !important;
+             color: #0A66C2 !important;
+        }
+        .light-mode a[href="#contacto"]:hover {
+             background-color: #0A66C2 !important;
+             color: #ffffff !important;
+             box-shadow: 0 0 20px rgba(10, 102, 194, 0.6) !important;
+        }
+
+        /* Mantener color Rojo/Advertencia para Asistencia Remota */
+        a[href="#soporte-remoto"] {
+            border-color: #ef4444; /* Red 500 */
+            color: #f87171; /* Red 400 */
+        }
+        a[href="#soporte-remoto"]:hover {
+            background-color: #dc2626; /* Red 600 */
+        }
+
+
+        /* --- Animaciones y Transiciones (sin cambios) --- */
         .fade-in-up {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
             transition-delay: 0.2s;
         }
-
         .fade-in-up.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* --- Barra de Progreso de Habilidades --- */
+        /* --- Barra de Progreso de Habilidades (Dark Mode) --- */
         .skill-bar-container {
             background-color: rgba(0, 0, 0, 0.3);
             border-radius: 9999px;
             overflow: hidden;
         }
-
         .skill-bar {
             background: linear-gradient(90deg, #00ffe0, #4299e1);
             height: 100%;
             border-radius: 9999px;
             transition: width 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-            width: 0; /* Inicia en 0 para la animación */
+            width: 0; 
         }
         
         .nav-link {
@@ -174,50 +254,34 @@
             transform: scale(1.2);
         }
 
-        .libutton {
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-         padding: 7px;
-         text-align: center;
-         outline: none;
-         text-decoration: none !important;
-         color: #ffffff !important;
-         width: 200px;
-         height: 32px;
-         border-radius: 16px;
-         background-color: #0A66C2;
-         font-family: "SF Pro Text", Helvetica, sans-serif;
-        }
-
         /* --- CINTA (RIBBON) CSS - CORREGIDO BOTTOM-LEFT --- */
         .ribbon-wrapper {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 130px; /* Tamaño controlado del área de recorte */
+            width: 130px; 
             height: 130px;
             overflow: hidden;
             z-index: 9999;
-            pointer-events: none; /* Permite clicks debajo en el área vacía */
+            pointer-events: none;
         }
 
         .ribbon {
             position: absolute;
             display: block;
-            width: 200px; /* Ancho fijo para asegurar diagonal completa */
-            left: -50px;  /* Desplazamiento para centrar la rotación */
-            bottom: 30px; /* Altura desde la esquina */
-            background-color: rgba(250, 204, 21, 0.95); /* Amarillo sólido pero translúcido */
-            color: #1a202c; /* Texto oscuro */
+            width: 200px;
+            left: -50px;
+            bottom: 30px; 
+            background-color: rgba(250, 204, 21, 0.95); 
+            color: #1a202c; 
             text-align: center;
             text-decoration: none;
             font-weight: 800;
             font-size: 10px;
-            line-height: 35px; /* Grosor de la cinta */
+            line-height: 35px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            pointer-events: auto; /* Reactiva clicks en la cinta */
-            transform: rotate(45deg); /* Rotación correcta para esquina inf-izq */
+            pointer-events: auto; 
+            transform: rotate(45deg); 
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid rgba(202, 138, 4, 0.4);
@@ -225,10 +289,10 @@
         }
 
         .ribbon:hover {
-            background-color: #facc15; /* Amarillo más brillante al pasar mouse */
+            background-color: #facc15; 
             color: #000;
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            transform: rotate(45deg) scale(1.05); /* Pequeño zoom al hacer hover */
+            transform: rotate(45deg) scale(1.05); 
         }
 
         /* --- Ajuste Mobile Específico --- */
@@ -289,6 +353,12 @@
     </style>
 </head>
 <body class="bg-[#0a0a1a]">
+    
+    <!-- Botón para cambiar el tema (Dark/Light Mode) -->
+    <button id="theme-toggle" class="fixed top-5 right-5 z-[10000] p-3 rounded-full bg-slate-700 text-white shadow-lg transition-all duration-300 hover:bg-cyan-500">
+        <!-- El icono se actualizará por JS al cargar y al hacer click -->
+        <i class="fas fa-sun text-lg"></i>
+    </button>
 
     <!-- CINTA DE APOYO (Ribbon) -->
     <div class="ribbon-wrapper">
@@ -404,6 +474,64 @@
                     </div>
                 </section>
 
+                <!-- Certificación Principal (MOVED HERE) -->
+                <section id="certificacion-principal" class="fade-in-up">
+                    <h2 class="text-4xl font-bold text-white mb-8"><i class="fas fa-medal mr-3 text-red-500"></i>Certificación Clave</h2>
+                    
+                    <!-- Tarjeta Certificación Google IT Support (Destacada) -->
+                    <div class="glass-card border border-red-500/30 shadow-[0_0_15px_rgba(255,0,0,0.1)] relative overflow-hidden">
+                        <!-- Distintivo visual en la esquina (Cambiado a Google Red/Orange) -->
+                        <div class="absolute top-0 right-0 bg-red-500/20 px-3 py-1 rounded-bl-lg border-b border-l border-red-500/30">
+                            <span class="text-red-400 text-xs font-bold tracking-wider">CERTIFICACIÓN INTERNACIONAL</span>
+                        </div>
+
+                        <h3 class="text-2xl font-bold mb-1">
+                            Soporte de IT de 
+                            <span class="google-text text-white">
+                                <span class="text-blue-500">G</span><span class="text-red-500">o</span><span class="text-yellow-500">o</span><span class="text-blue-500">g</span><span class="text-green-500">l</span><span class="text-red-500">e</span>
+                            </span>
+                        </h3>
+                        
+                        <!-- Nuevo Bloque de ID con botón de copiar -->
+                        <div class="flex items-center justify-between mb-4 mt-2">
+                            <p class="font-semibold text-slate-300 text-sm flex items-center">
+                                <i class="fas fa-id-badge mr-2 text-red-400"></i>
+                                <span id="cert-id-text">ID 6RKLGWZV9GL9</span>
+                            </p>
+                            <button id="copy-cert-id-button" data-copy-text="6RKLGWZV9GL9" class="bg-red-500/10 text-red-400 font-bold py-1 px-3 rounded-full hover:bg-red-500/30 transition-all duration-300 text-xs flex-shrink-0">
+                                <i class="fas fa-copy mr-1"></i> Copiar ID
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <p class="text-slate-300 font-light">
+                                Esta certificación profesional valida las habilidades esenciales para el soporte de TI a nivel de entrada, cubriendo *troubleshooting*, redes, sistemas operativos (Windows, Linux), administración de sistemas y seguridad informática. Es la credencial líder para iniciar una carrera en Help Desk y Field Support.
+                            </p>
+                            
+                            <!-- Explicación "Elegante" para no técnicos -->
+                            <div class="bg-slate-800/50 p-4 rounded-lg border-l-4 border-red-500">
+                                <p class="text-slate-300 text-sm italic">
+                                    <i class="fas fa-info-circle text-red-500 mr-2"></i><strong>¿Qué valor aporta?</strong><br>
+                                    Garantiza la capacidad probada para diagnosticar y resolver problemas de TI comunes de manera eficiente, optimizar el rendimiento de los equipos y asegurar la continuidad operativa. Certifica un enfoque centrado en el usuario para brindar soluciones de tecnología efectivas y seguras.
+                                </p>
+                            </div>
+
+                            <!-- Texto añadido sobre felicitaciones (Mantengo la referencia general) -->
+                            <p class="text-white font-bold text-sm mt-2 border-t border-red-500/30 pt-3">
+                                <i class="fas fa-star text-yellow-400 mr-2"></i>He recibido múltiples felicitaciones por el trato cordial y la resolución efectiva de problemas IT complejos en clientes, resultados logrados gracias a la metodología aprendida en esta certificación.
+                            </p>
+
+                            <!-- Botón Ver Certificación -->
+                            <div class="flex justify-end pt-2">
+                                <a href="https://www.coursera.org/account/accomplishments/professional-cert/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-red-500/10 hover:bg-red-500/20 border border-red-500/50 text-red-400 px-4 py-2 rounded-lg transition-all duration-300 text-sm font-semibold group">
+                                        <i class="fas fa-certificate mr-2 group-hover:rotate-12 transition-transform"></i> Ver Certificación
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
                 <!-- Nueva Sección: Diseño Web / Perfiles Profesionales -->
                 <section id="diseno-web" class="fade-in-up">
                     <h2 class="text-4xl font-bold text-white mb-8"><i class="fas fa-pen-nib mr-3 text-purple-400"></i>Desarrollo de Portfolios</h2>
@@ -452,53 +580,15 @@
                             </div>
                          </div>
 
-                         <!-- Tarjeta CompTIA A+ (Destacada) -->
-                         <div class="glass-card border border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.1)] relative overflow-hidden">
-                            <!-- Distintivo visual en la esquina -->
-                            <div class="absolute top-0 right-0 bg-yellow-500/20 px-3 py-1 rounded-bl-lg border-b border-l border-yellow-500/30">
-                                <span class="text-yellow-400 text-xs font-bold tracking-wider">CERTIFICACIÓN INTERNACIONAL</span>
-                            </div>
-
-                            <h3 class="text-2xl font-bold text-yellow-400 mb-1">CompTIA A+ Certified Professional</h3>
-                            <p class="font-semibold text-white mb-4">The Computing Technology Industry Association</p>
-                            
-                            <div class="space-y-4">
-                                <p class="text-slate-300 font-light">
-                                    Considerada el estándar de oro de la industria para los profesionales de TI. Esta certificación valida la capacidad experta para gestionar, mantener, solucionar problemas, instalar y configurar hardware informático básico, software y redes en entornos empresariales complejos.
-                                </p>
-                                
-                                <!-- Explicación "Elegante" para no técnicos -->
-                                <div class="bg-slate-800/50 p-4 rounded-lg border-l-4 border-yellow-500">
-                                    <p class="text-slate-300 text-sm italic">
-                                        <i class="fas fa-info-circle text-yellow-500 mr-2"></i><strong>¿Qué valor aporta?</strong><br>
-                                        En términos sencillos, esta credencial global garantiza que poseo las habilidades técnicas probadas para diagnosticar y reparar problemas informáticos "desde la raíz". Certifica que puedo asegurar que la tecnología funcione para el usuario y no en su contra, garantizando seguridad, eficiencia y continuidad operativa en cualquier dispositivo o red.
-                                    </p>
-                                </div>
-
-                                <!-- Texto añadido sobre felicitaciones -->
-                                <p class="text-white font-bold text-sm mt-2 border-t border-yellow-500/30 pt-3">
-                                    <i class="fas fa-star text-yellow-400 mr-2"></i>He recibido múltiples felicitaciones por el trato cordial y la resolución efectiva de problemas IT complejos en clientes, resultados logrados gracias a la metodología aprendida en esta certificación.
-                                </p>
-
-                                <!-- Botón Ver Certificación -->
-                                <div class="flex justify-end pt-2">
-                                    <a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 px-4 py-2 rounded-lg transition-all duration-300 text-sm font-semibold group">
-                                            <i class="fas fa-certificate mr-2 group-hover:rotate-12 transition-transform"></i> Ver Certificación
-                                    </a>
-                                </div>
-                            </div>
-                         </div>
-
-                         <!-- Otras Certificaciones -->
+                         <!-- Otras Certificaciones (Google IT eliminado de aquí) -->
                          <div class="glass-card">
                             <h3 class="text-xl font-bold text-cyan-300">Otras Certificaciones Profesionales</h3>
                             <p class="text-slate-300 font-light mt-2 mb-4">
-                                Mantengo un enfoque constante en la capacitación técnica validada por la industria, destacando la obtención de la <strong>Certificación Profesional de Google en Soporte IT</strong>, entre otras especializaciones.
+                                Mantengo un enfoque constante en la capacitación técnica validada por la industria, destacando otras especializaciones.
                             </p>
                             <ul class="list-disc list-inside text-slate-300 mt-2 font-light space-y-2">
                                 <li><a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Administración de sistemas y servicios de infraestructura de TI <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://www.coursera.org/account/accomplishments/verify/SR2BZXRTPZ22" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Sistemas Operativos Avanzados <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
-                                <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/6RKLGWZV9GL9" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors font-semibold text-white">Soporte de Tecnologías de la Información de Google <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/1770-avanzado-redes/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso Avanzado de Redes de Internet <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/6900-configuracion-windows/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Configuración de Entorno de Desarrollo en Windows <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
                                 <li><a href="https://platzi.com/p/jmb-8888/curso/1282-soporte-usuarios/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 transition-colors">Curso de Servicio al Cliente y Soporte a Usuarios <i class="fas fa-external-link-alt text-xs ml-1"></i></a></li>
@@ -641,17 +731,17 @@
                                 </div>
                             </div>
 
-                            <!-- Caption -->
+                            <!-- Caption actualizado -->
                             <div class="text-sm text-slate-200 leading-relaxed">
                                 <span class="font-bold mr-2 text-white">juanmartinbarrientos</span>
-                                Un recuerdo increíble visitando las oficinas de Google hace 10 años atrás. 🌐✨ La cultura de innovación que se respira ahí es única y siempre es una inspiración para seguir creciendo en el mundo IT.
+                                Un recuerdo imborrable en las oficinas de Google. Tuve el privilegio de ser invitado a una reunión de Android, donde conocieron a entusiastas que, como yo, dábamos soporte en foros y ayudábamos a la comunidad con modificaciones al sistema operativo. Fue un momento clave para entender cómo la comunidad contribuye a la tecnología que usamos a diario. 🌐✨
                                 <br><br>
-                                Les comparto un video de mi experiencia recorriendo el lugar. ¡No se lo pierdan! 👇
+                                Les comparto un video de mi experiencia en esa reunión. ¡No se lo pierdan! 👇
                                 <br><br>
                                 <a href="https://youtu.be/pnl-Zvn3-qM" target="_blank" class="text-blue-400 hover:text-blue-300 font-semibold hover:underline block mb-2">
                                     <i class="fab fa-youtube mr-1 text-red-500"></i> Ver Video Completo en YouTube
                                 </a>
-                                <span class="text-blue-400">#Google #TechLife #Innovation #ITSupport #Recuerdos</span>
+                                <span class="text-blue-400">#Google #AndroidCommunity #TechLife #Innovation #ITSupport #Recuerdos</span>
                             </div>
                             <p class="text-xs text-slate-500 mt-3 uppercase">Hace 1 semana</p>
                         </div>
@@ -1200,6 +1290,56 @@
         // Establecer el año actual en el pie de página
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
+        // --- Configuración del Dark/Light Mode ---
+        const body = document.body;
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+        let isLightMode = false; 
+
+        function applyTheme(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+                if(themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    themeToggle.classList.remove('bg-slate-700', 'hover:bg-cyan-500');
+                    themeToggle.classList.add('bg-slate-300', 'text-gray-800', 'hover:bg-[#0A66C2]', 'hover:text-white');
+                }
+            } else {
+                body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+                if(themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    themeToggle.classList.remove('bg-slate-300', 'text-gray-800', 'hover:bg-[#0A66C2]', 'hover:text-white');
+                    themeToggle.classList.add('bg-slate-700', 'hover:bg-cyan-500');
+                }
+            }
+        }
+
+        // Inicializar el tema al cargar
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            isLightMode = true;
+        } else if (savedTheme === 'dark') {
+            isLightMode = false;
+        } else {
+            // Preferencia por defecto del sistema si no hay nada guardado
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                isLightMode = true;
+            }
+        }
+        applyTheme(isLightMode); 
+
+        // Listener del botón
+        if(themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                isLightMode = !isLightMode;
+                applyTheme(isLightMode);
+            });
+        }
+        
         // --- Animaciones al hacer scroll ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 
@@ -1245,6 +1385,19 @@
         const emailText = document.getElementById('email-text').innerText;
         const originalButtonHtml = copyButton.innerHTML;
         
+        // Ajustar color del icono de copiado/chequeo según el modo
+        function updateCopyButtonClasses(isSuccess) {
+            if(isSuccess) {
+                 copyButton.innerHTML = '<i class="fas fa-check"></i>';
+                 copyButton.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
+                 copyButton.classList.add('text-green-500', 'bg-green-500/20');
+            } else {
+                 copyButton.innerHTML = originalButtonHtml;
+                 copyButton.classList.remove('text-green-500', 'bg-green-500/20');
+                 copyButton.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
+            }
+        }
+        
         copyButton.addEventListener('click', () => {
             const textArea = document.createElement('textarea');
             textArea.value = emailText;
@@ -1252,9 +1405,7 @@
             textArea.select();
             try {
                 document.execCommand('copy');
-                copyButton.innerHTML = '<i class="fas fa-check"></i>';
-                copyButton.classList.remove('bg-cyan-500');
-                copyButton.classList.add('bg-green-500');
+                updateCopyButtonClasses(true);
             } catch (err) {
                 console.error('No se pudo copiar el texto: ', err);
             }
@@ -1262,11 +1413,45 @@
 
             // Revertir el botón después de 2 segundos
             setTimeout(() => {
-                copyButton.innerHTML = originalButtonHtml;
-                copyButton.classList.remove('bg-green-500');
-                copyButton.classList.add('bg-cyan-500');
+                updateCopyButtonClasses(false);
             }, 2000);
         });
+        // Inicializar el botón de copiado con su estado normal
+        updateCopyButtonClasses(false); 
+
+
+        // --- Funcionalidad de Copiar ID de Certificación ---
+        const copyCertIdButton = document.getElementById('copy-cert-id-button');
+
+        if (copyCertIdButton) {
+            copyCertIdButton.addEventListener('click', () => {
+                const idToCopy = copyCertIdButton.getAttribute('data-copy-text');
+                
+                const textArea = document.createElement('textarea');
+                textArea.value = idToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    
+                    const originalHtml = copyCertIdButton.innerHTML;
+                    copyCertIdButton.innerHTML = '<i class="fas fa-check"></i> Copiado';
+                    copyCertIdButton.classList.remove('text-red-400', 'bg-red-500/10', 'hover:bg-red-500/30');
+                    copyCertIdButton.classList.add('text-green-400', 'bg-green-500/20');
+
+                    setTimeout(() => {
+                        copyCertIdButton.innerHTML = originalHtml;
+                        copyCertIdButton.classList.remove('text-green-400', 'bg-green-500/20');
+                        copyCertIdButton.classList.add('text-red-400', 'bg-red-500/10', 'hover:bg-red-500/30');
+                    }, 2000);
+                    
+                } catch (err) {
+                    console.error('No se pudo copiar el ID de certificación: ', err);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
 
         // --- Funcionalidad de Compartir Web (Web Share API) ---
         const shareSiteButton = document.getElementById('share-site-button');
@@ -1299,13 +1484,13 @@
                     // Feedback visual
                     const originalContent = shareSiteButton.innerHTML;
                     shareSiteButton.innerHTML = '<i class="fas fa-check mr-2"></i> ¡Enlace Copiado!';
-                    shareSiteButton.classList.remove('bg-indigo-600');
-                    shareSiteButton.classList.add('bg-green-600');
+                    shareSiteButton.classList.remove('hover:border-indigo-400', 'hover:text-indigo-400', 'hover:bg-indigo-500/10', 'text-slate-300');
+                    shareSiteButton.classList.add('bg-green-600', 'border-green-600', 'text-white');
 
                     setTimeout(() => {
                         shareSiteButton.innerHTML = originalContent;
-                        shareSiteButton.classList.remove('bg-green-600');
-                        shareSiteButton.classList.add('bg-indigo-600');
+                        shareSiteButton.classList.remove('bg-green-600', 'border-green-600', 'text-white');
+                        shareSiteButton.classList.add('hover:border-indigo-400', 'hover:text-indigo-400', 'hover:bg-indigo-500/10', 'text-slate-300');
                     }, 2000);
                 } catch (err) {
                     console.error('No se pudo copiar al portapapeles:', err);
@@ -1313,7 +1498,7 @@
             }
         });
 
-        // --- Funcionalidad Copiar Comandos Linux ---
+        // --- Funcionalidad Copiar Comandos Linux/Windows ---
         document.querySelectorAll('.copy-cmd-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 // Buscar el texto del comando dentro del mismo contenedor padre
@@ -1329,7 +1514,6 @@
                     
                     // Feedback visual en el botón
                     const icon = btn.querySelector('i');
-                    const originalClass = icon.className;
                     
                     icon.className = 'fas fa-check text-green-400';
                     
@@ -1408,8 +1592,6 @@
                 cvContent.classList.add('scale-95');
                 setTimeout(() => {
                     cvModal.classList.add('hidden');
-                    // Opcional: Limpiar src si quieres que se recargue siempre
-                    // cvIframe.src = ""; 
                 }, 300);
             }
         }
