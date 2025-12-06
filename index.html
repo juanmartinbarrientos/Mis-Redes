@@ -455,11 +455,15 @@
                                             </div>
                                             <div>
                                                 <p class="text-sm font-bold text-white leading-tight">Maria Azul Pisoli Semino</p>
-                                                <p class="text-xs text-slate-400">Gerente de Recursos Humanos | Smartway SRL</p>
+                                                <!-- Cargo actualizado -->
+                                                <p class="text-xs text-slate-400">Analista de RR. HH. | Smartway SRL</p>
                                             </div>
                                         </div>
+                                        <!-- Enlace de verificación añadido -->
                                         <div class="text-right mt-1">
-                                            <span class="text-[10px] text-blue-400"><i class="fab fa-linkedin mr-1"></i>Recomendación verificada</span>
+                                            <a href="https://www.linkedin.com/in/juanmartinbarrientoslorusso/details/recommendations/" target="_blank" rel="noopener noreferrer" class="text-[10px] text-blue-400 hover:text-cyan-300 transition-colors">
+                                                <i class="fab fa-linkedin mr-1"></i>Recomendación verificada
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -1214,25 +1218,31 @@
         <!-- Modal Content -->
         <div class="glass-card relative w-full max-w-5xl h-[90vh] mx-4 flex flex-col p-0 overflow-hidden transform scale-95 transition-transform duration-300 border border-slate-600/50 shadow-2xl" id="cv-modal-content">
             <!-- Header del Modal -->
-            <div class="bg-[#0a0a1a] p-4 border-b border-slate-700/50 flex flex-wrap justify-between items-center z-10 shrink-0 gap-4">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mr-3 border border-red-500/30">
+            <div class="bg-[#0a0a1a] p-4 border-b border-slate-700/50 flex flex-col md:flex-row justify-between items-center z-10 shrink-0 gap-4">
+                <div class="flex items-center self-start md:self-auto">
+                    <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mr-3 border border-red-500/30 shrink-0">
                         <i class="fas fa-file-pdf text-red-400"></i>
                     </div>
                     <div>
                         <h3 class="text-lg md:text-xl font-bold text-white">Curriculum Vitae</h3>
-                        <p class="text-xs text-slate-400">Juan Martin Barrientos - IT Specialist</p>
+                        <p class="text-xs text-slate-400">Vista Previa Digital</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-2 sm:gap-3">
-                      <a href="https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf" download class="hidden sm:flex bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-bold items-center transition-colors border border-slate-600">
-                        <i class="fas fa-download mr-2"></i> Descargar
+                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 w-full md:w-auto">
+                    <!-- Botón Descargar Simple -->
+                    <a href="https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT%20Simple.pdf" download class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center transition-colors border border-slate-500">
+                        <i class="fas fa-download mr-2 text-cyan-400"></i> CV Simple
+                    </a>
+
+                    <!-- Botón Descargar Extendido -->
+                    <a href="https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf" download class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center transition-colors border border-slate-500">
+                        <i class="fas fa-file-download mr-2 text-yellow-400"></i> CV Extendido
                     </a>
                     
                     <!-- Botón de Imprimir -->
-                    <button id="print-cv-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-colors shadow-lg hover:shadow-cyan-500/20">
-                        <i class="fas fa-print mr-2"></i> Imprimir
+                    <button id="print-cv-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center transition-colors shadow-lg hover:shadow-cyan-500/20">
+                        <i class="fas fa-print mr-2"></i> <span class="hidden sm:inline">Imprimir Vista</span>
                     </button>
 
                     <button id="close-cv-modal" class="text-slate-400 hover:text-white hover:bg-red-500/20 w-10 h-10 rounded-full transition-all flex items-center justify-center ml-2">
@@ -1241,18 +1251,181 @@
                 </div>
             </div>
             
-            <!-- Contenedor del Iframe -->
-            <div class="flex-1 bg-slate-800 relative w-full h-full">
-                <!-- Se usa el link RAW para que el navegador lo renderice -->
-                <iframe id="cv-iframe" class="w-full h-full" src=""></iframe>
+            <!-- Contenedor del Documento CV (HTML Nativo en lugar de Iframe) -->
+            <div class="flex-1 bg-slate-800 relative w-full h-full overflow-y-auto p-4 md:p-8 custom-scrollbar">
                 
-                <!-- Loading state (oculto por defecto) -->
-                <div id="cv-loading" class="absolute inset-0 flex items-center justify-center bg-slate-900 z-0">
-                    <div class="text-center">
-                        <i class="fas fa-circle-notch fa-spin text-4xl text-cyan-500 mb-3"></i>
-                        <p class="text-slate-400">Cargando documento...</p>
+                <!-- Hoja del CV (Estilo Papel) -->
+                <div id="cv-document-view" class="bg-white text-gray-800 max-w-[210mm] mx-auto min-h-[297mm] shadow-2xl p-8 md:p-12">
+                    
+                    <!-- Header CV -->
+                    <div class="border-b-2 border-gray-200 pb-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase tracking-tight">Juan Martin Barrientos</h1>
+                            <h2 class="text-xl text-[#0A66C2] font-semibold mt-1">IT Field Support & Help Desk Specialist</h2>
+                        </div>
+                        <div class="text-sm text-gray-600 flex flex-col items-start md:items-end gap-1">
+                            <span><i class="fas fa-map-marker-alt w-5 text-center"></i> Buenos Aires, Argentina</span>
+                            <span><i class="fas fa-envelope w-5 text-center"></i> juanmartinbarrientos@me.com</span>
+                            <a href="https://www.linkedin.com/in/juanmartinbarrientoslorusso/" target="_blank" class="hover:text-[#0A66C2]"><i class="fab fa-linkedin w-5 text-center"></i> linkedin.com/in/juanmartinbarrientoslorusso</a>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        <!-- Columna Principal (Izquierda) -->
+                        <div class="md:col-span-2 space-y-8">
+                            
+                            <!-- Perfil -->
+                            <section>
+                                <h3 class="text-lg font-bold text-gray-900 border-b-2 border-gray-200 pb-1 mb-3 uppercase flex items-center">
+                                    <span class="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-full mr-2 text-xs"><i class="fas fa-user"></i></span>
+                                    Perfil Profesional
+                                </h3>
+                                <p class="text-gray-700 text-sm leading-relaxed text-justify">
+                                    Técnico Informático apasionado con sólida experiencia en soporte de campo (Field Support) y Help Desk en entornos corporativos. Especializado en diagnóstico de hardware, configuración de redes y atención al usuario final. Comprometido con la resolución eficiente de problemas, la gestión de estrés en situaciones críticas y la continuidad operativa del negocio.
+                                </p>
+                            </section>
+
+                            <!-- Experiencia -->
+                            <section>
+                                <h3 class="text-lg font-bold text-gray-900 border-b-2 border-gray-200 pb-1 mb-4 uppercase flex items-center">
+                                    <span class="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-full mr-2 text-xs"><i class="fas fa-briefcase"></i></span>
+                                    Experiencia Laboral
+                                </h3>
+                                
+                                <!-- Smartway -->
+                                <div class="mb-5 relative pl-4 border-l-2 border-gray-200">
+                                    <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-[#0A66C2]"></div>
+                                    <div class="flex justify-between items-baseline mb-1">
+                                        <h4 class="font-bold text-gray-800 text-md">Smartway SRL (Cliente Cinemark)</h4>
+                                        <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">2023 - 2024</span>
+                                    </div>
+                                    <p class="text-[#0A66C2] font-bold text-sm mb-2">Field Support IT</p>
+                                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1">
+                                        <li>Instalación y configuración de infraestructura comercial crítica (Kioscos de autoservicio, impresoras, puestos de trabajo).</li>
+                                        <li>Mantenimiento preventivo logrando una disponibilidad operativa cercana al 100% a nivel nacional.</li>
+                                        <li>Diagnóstico híbrido (remoto/presencial) para agilizar tiempos de respuesta.</li>
+                                    </ul>
+                                    <div class="mt-2 text-xs text-gray-600 italic bg-gray-50 p-2 border-l-2 border-gray-300">
+                                        "Excelente desempeño y vocación por el servicio" — Maria Azul Pisoli Semino (Analista RR.HH)
+                                    </div>
+                                </div>
+
+                                <!-- Gire -->
+                                <div class="mb-5 relative pl-4 border-l-2 border-gray-200">
+                                    <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-gray-400"></div>
+                                    <div class="flex justify-between items-baseline mb-1">
+                                        <h4 class="font-bold text-gray-800 text-md">Gire S.A. (Rapipago)</h4>
+                                        <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">2022 - 2023</span>
+                                    </div>
+                                    <p class="text-[#0A66C2] font-bold text-sm mb-2">Field Support IT (Tercerizado)</p>
+                                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1">
+                                        <li>Roll-out de infraestructura para nuevas sucursales y configuración de redes (VPN, TCP/IP).</li>
+                                        <li>Soporte técnico bajo estricto SLA (< 4hs) en entornos financieros.</li>
+                                        <li><strong>Logro:</strong> Premiado 3 veces consecutivas por mayor volumen de tickets resueltos.</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Freelance -->
+                                <div class="mb-5 relative pl-4 border-l-2 border-gray-200">
+                                    <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-gray-400"></div>
+                                    <div class="flex justify-between items-baseline mb-1">
+                                        <h4 class="font-bold text-gray-800 text-md">Consultor Independiente</h4>
+                                        <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">2010 - Presente</span>
+                                    </div>
+                                    <p class="text-[#0A66C2] font-bold text-sm mb-2">Soporte Técnico Personalizado</p>
+                                    <p class="text-sm text-gray-700">
+                                        Servicio técnico enfocado en la experiencia del usuario y extensión de vida útil del hardware. Reparaciones, actualizaciones (SSD/RAM) y asesoramiento a particulares y PyMEs.
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Columna Lateral (Derecha) -->
+                        <div class="space-y-8">
+                            
+                            <!-- Certificaciones -->
+                            <section>
+                                <h3 class="text-lg font-bold text-gray-900 border-b-2 border-gray-200 pb-1 mb-4 uppercase flex items-center">
+                                    <span class="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-full mr-2 text-xs"><i class="fas fa-certificate"></i></span>
+                                    Certificaciones
+                                </h3>
+                                
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-gray-800 text-sm leading-tight">Google IT Support Professional</h4>
+                                    <p class="text-xs text-[#0A66C2] font-mono mt-0.5">ID: 6RKLGWZV9GL9</p>
+                                    <p class="text-xs text-gray-600 mt-1">Troubleshooting, SysAdmin, Networks, Security.</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-gray-800 text-sm leading-tight">CompTIA A+ Certified</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Mantenimiento de Hardware y Software estándar de la industria.</p>
+                                </div>
+
+                                <div class="space-y-2 mt-4">
+                                    <h5 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Cursos Destacados</h5>
+                                    <ul class="text-xs text-gray-700 space-y-1.5">
+                                        <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>Admin. Sistemas e Infraestructura</li>
+                                        <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>Sistemas Operativos Avanzados</li>
+                                        <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>Redes de Internet Avanzado</li>
+                                        <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>Admin. Servidores Linux</li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            <!-- Habilidades -->
+                            <section>
+                                <h3 class="text-lg font-bold text-gray-900 border-b-2 border-gray-200 pb-1 mb-4 uppercase flex items-center">
+                                    <span class="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-full mr-2 text-xs"><i class="fas fa-tools"></i></span>
+                                    Habilidades
+                                </h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">Windows / Linux / MacOS</span>
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">Networking TCP/IP</span>
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">Hardware Repair</span>
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">Field Support</span>
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">Active Directory</span>
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">Office 365</span>
+                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-semibold border border-gray-300">SQL (Básico)</span>
+                                </div>
+                            </section>
+
+                            <!-- Educación -->
+                            <section>
+                                <h3 class="text-lg font-bold text-gray-900 border-b-2 border-gray-200 pb-1 mb-4 uppercase flex items-center">
+                                    <span class="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-full mr-2 text-xs"><i class="fas fa-graduation-cap"></i></span>
+                                    Educación
+                                </h3>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-sm">Ingeniería Informática</h4>
+                                    <p class="text-xs text-gray-600">Universidad Nacional de La Matanza</p>
+                                    <p class="text-xs text-gray-500 italic mt-1">Ciclo Inicial - Bases sólidas en lógica y algoritmos.</p>
+                                </div>
+                            </section>
+                            
+                            <!-- Idiomas -->
+                            <section>
+                                <h3 class="text-lg font-bold text-gray-900 border-b-2 border-gray-200 pb-1 mb-4 uppercase flex items-center">
+                                    <span class="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-full mr-2 text-xs"><i class="fas fa-language"></i></span>
+                                    Idiomas
+                                </h3>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-xs">
+                                        <span class="font-bold text-gray-700">Español</span>
+                                        <span class="text-gray-500">Nativo</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="font-bold text-gray-700">Inglés</span>
+                                        <span class="text-gray-500">Intermedio (B1/B2)</span>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
                     </div>
                 </div>
+                <!-- Fin Hoja CV -->
+
             </div>
         </div>
     </div>
@@ -1561,23 +1734,16 @@
             overlay.addEventListener('click', () => toggleModal(false));
         }
 
-        // --- Lógica del Nuevo Modal de CV ---
+        // --- Lógica del Nuevo Modal de CV (HTML Nativo) ---
         const cvModal = document.getElementById('cv-modal');
         const openCvBtn = document.getElementById('open-cv-modal');
         const closeCvBtn = document.getElementById('close-cv-modal');
         const cvOverlay = document.getElementById('cv-modal-overlay');
         const cvContent = document.getElementById('cv-modal-content');
-        const cvIframe = document.getElementById('cv-iframe');
         const printCvBtn = document.getElementById('print-cv-btn');
-        const cvUrl = "https://github.com/juanmartinbarrientos/Mis-Redes/raw/main/CV%20Juan%20Martin%20Barrientos%20IT.pdf";
 
         function toggleCvModal(show) {
             if (show) {
-                // Cargar el PDF solo cuando se abre el modal para ahorrar recursos
-                if (!cvIframe.src) {
-                    cvIframe.src = cvUrl;
-                }
-                
                 cvModal.classList.remove('hidden');
                 setTimeout(() => {
                     cvModal.classList.remove('opacity-0');
@@ -1598,24 +1764,28 @@
         if (closeCvBtn) closeCvBtn.addEventListener('click', () => toggleCvModal(false));
         if (cvOverlay) cvOverlay.addEventListener('click', () => toggleCvModal(false));
 
-        // Lógica de Impresión Inteligente
+        // Lógica de Impresión de Contenido HTML
         if (printCvBtn) {
             printCvBtn.addEventListener('click', () => {
-                // Intento 1: Imprimir desde el iframe (puede fallar por CORS en GitHub)
-                try {
-                    const iframeWindow = cvIframe.contentWindow;
-                    if (iframeWindow) {
-                        iframeWindow.focus();
-                        iframeWindow.print();
-                    } else {
-                        throw new Error("No access to iframe");
-                    }
-                } catch (e) {
-                    // Fallback: Si el navegador bloquea la impresión cross-origin (muy probable con GitHub Raw)
-                    // Abrimos el PDF en una nueva pestaña que dispara el diálogo de impresión nativo del navegador
-                    // Esto garantiza que el usuario siempre pueda imprimir.
-                    window.open(cvUrl, '_blank');
-                }
+                const cvDocument = document.getElementById('cv-document-view').outerHTML;
+                const printWindow = window.open('', '', 'height=700,width=900');
+                
+                printWindow.document.write('<html><head><title>CV - Juan Martin Barrientos</title>');
+                // Importar Tailwind para los estilos de impresión
+                printWindow.document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+                printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">');
+                printWindow.document.write('</head><body class="bg-gray-100 p-8">');
+                printWindow.document.write(cvDocument);
+                printWindow.document.write('</body></html>');
+                
+                printWindow.document.close();
+                printWindow.focus();
+                
+                // Dar tiempo a cargar estilos antes de imprimir
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
             });
         }
 
