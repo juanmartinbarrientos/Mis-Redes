@@ -1294,6 +1294,8 @@
         const body = document.body;
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+        
+        // Inicializamos la variable de estado en false (Dark Mode)
         let isLightMode = false; 
 
         function applyTheme(isLight) {
@@ -1318,18 +1320,14 @@
             }
         }
 
-        // Inicializar el tema al cargar
+        // Inicializar el tema al cargar: forzar Dark Mode si no hay preferencia guardada.
         const savedTheme = localStorage.getItem('theme');
+        
         if (savedTheme === 'light') {
             isLightMode = true;
-        } else if (savedTheme === 'dark') {
-            isLightMode = false;
-        } else {
-            // Preferencia por defecto del sistema si no hay nada guardado
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                isLightMode = true;
-            }
-        }
+        } 
+        // Si savedTheme es null, 'dark', o cualquier otra cosa, isLightMode permanece false (Dark Mode).
+        
         applyTheme(isLightMode); 
 
         // Listener del botón
