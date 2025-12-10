@@ -101,7 +101,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- Navbar con Glassmorphism (Transparencia) -->
+    <!-- Navbar con Glassmorphism -->
     <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -116,36 +116,49 @@
                     </div>
                 </div>
 
-                <!-- Desktop Navigation -->
+                <!-- Desktop Navigation (Hidden on Mobile) -->
                 <div class="hidden md:flex items-center gap-1">
-                    <!-- Links Limpios -->
                     <div class="flex items-center bg-slate-100/50 rounded-full px-1 py-1 mr-4 border border-slate-200/50">
                         <a href="#maintenance" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-white rounded-full transition-all">Mantenimiento</a>
                         <a href="#security" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-white rounded-full transition-all">Seguridad</a>
-                        
-                        <!-- Botón Pagos integrado -->
                         <button onclick="togglePaymentModal()" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-emerald-600 hover:bg-white rounded-full transition-all flex items-center gap-1.5">
                             <i data-lucide="credit-card" class="w-3.5 h-3.5"></i> Pagos
                         </button>
                     </div>
-
-                    <!-- CTA Principal -->
                     <a href="#contact" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-full transition-all text-sm font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2">
                         Agendar <i data-lucide="calendar" class="w-3.5 h-3.5 opacity-70"></i>
                     </a>
                 </div>
 
-                <!-- Mobile Menu Button (Placeholder) -->
+                <!-- Mobile Menu Button (Visible only on Mobile) -->
                 <div class="md:hidden">
-                    <button class="text-slate-600 p-2">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 p-2 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
+                        <i id="mobileMenuIcon" data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- Mobile Menu Panel (Hidden by default) -->
+        <div id="mobileMenu" class="hidden md:hidden absolute top-16 left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl transition-all duration-300 origin-top">
+            <div class="px-4 py-6 space-y-4 flex flex-col">
+                <a href="#maintenance" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 hover:text-blue-600 py-2 border-b border-slate-100">
+                    Mantenimiento
+                </a>
+                <a href="#security" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 hover:text-blue-600 py-2 border-b border-slate-100">
+                    Seguridad
+                </a>
+                <button onclick="togglePaymentModal(); toggleMobileMenu()" class="text-left text-lg font-medium text-slate-700 hover:text-emerald-600 py-2 border-b border-slate-100 flex items-center gap-2">
+                    <i data-lucide="credit-card" class="w-5 h-5"></i> Pagos
+                </button>
+                <a href="#contact" onclick="toggleMobileMenu()" class="bg-blue-600 text-white text-center py-3 rounded-lg font-bold shadow-md hover:bg-blue-700 mt-4">
+                    Agendar Diagnóstico
+                </a>
+            </div>
+        </div>
     </nav>
 
-    <!-- Hero Section (con padding-top extra para compensar el navbar fixed) -->
+    <!-- Hero Section -->
     <div class="hero-bg text-white pt-32 pb-24 relative overflow-hidden">
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -186,8 +199,6 @@
 
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                 <div class="grid md:grid-cols-2">
-                    
-                    <!-- Lado Izquierdo: La Explicación Técnica -->
                     <div class="p-8 md:p-12 flex flex-col justify-center bg-white">
                         <div class="flex items-center gap-3 mb-6">
                             <div class="bg-indigo-100 p-3 rounded-full">
@@ -195,12 +206,10 @@
                             </div>
                             <h3 class="text-2xl font-bold text-slate-900">Lo que las actualizaciones hacen por usted</h3>
                         </div>
-                        
                         <div class="space-y-6">
                             <p class="text-slate-600 text-lg leading-relaxed">
                                 El software (Windows, Office, Antivirus) no es perfecto. Con el tiempo, los hackers encuentran "agujeros" para entrar. Una actualización es, literalmente, un "parche" para tapar ese agujero.
                             </p>
-                            
                             <div class="space-y-4">
                                 <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                                     <div class="bg-white p-2 rounded shadow-sm h-fit"><i data-lucide="bug" class="text-red-500 w-5 h-5"></i></div>
@@ -209,7 +218,6 @@
                                         <p class="text-sm text-slate-600">Corrige errores de código que los virus usan para entrar sin contraseña.</p>
                                     </div>
                                 </div>
-
                                 <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                                     <div class="bg-white p-2 rounded shadow-sm h-fit"><i data-lucide="zap" class="text-amber-500 w-5 h-5"></i></div>
                                     <div>
@@ -218,21 +226,16 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 text-sm italic">
                                 "El 90% de los ataques de Ransomware exitosos ocurrieron en equipos que no tenían las últimas actualizaciones de seguridad instaladas."
                             </div>
                         </div>
                     </div>
-
-                    <!-- Lado Derecho: La Analogía -->
                     <div class="bg-slate-900 text-white p-8 md:p-12 flex flex-col justify-center relative overflow-hidden">
                         <div class="absolute bottom-0 right-0 -mb-10 -mr-10 w-64 h-64 bg-indigo-600 rounded-full opacity-20 blur-3xl"></div>
-                        
                         <h3 class="text-xl font-bold mb-6 relative z-10 flex items-center gap-2">
                             <i data-lucide="lightbulb" class="text-yellow-400"></i> Para entenderlo mejor:
                         </h3>
-                        
                         <div class="relative z-10 space-y-6">
                             <h4 class="text-2xl font-bold text-white">La Analogía de la Caja Fuerte</h4>
                             <p class="text-slate-300 leading-relaxed text-lg">
@@ -382,7 +385,6 @@
                 <a href="https://www.juanmartinbarrientos.com" target="_blank" class="bg-white text-blue-900 px-10 py-4 rounded-full font-bold hover:bg-blue-50 transition shadow-xl transform hover:scale-105">
                     Visitar Web Oficial
                 </a>
-                <!-- Botón de Pago en el CTA -->
                 <button onclick="togglePaymentModal()" class="bg-transparent border-2 border-blue-400 text-blue-100 px-8 py-3.5 rounded-full font-bold hover:bg-blue-800/50 hover:text-white transition flex items-center gap-2">
                     <i data-lucide="credit-card" class="w-5 h-5"></i>
                     Centro de Pagos
@@ -419,8 +421,6 @@
     <!-- MODAL DE PAGOS (Oculto por defecto) -->
     <div id="paymentModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative border border-slate-200">
-            
-            <!-- Modal Header -->
             <div class="bg-slate-50 p-6 border-b border-slate-100 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <div class="bg-blue-100 p-2 rounded-lg">
@@ -432,13 +432,10 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-
-            <!-- Modal Body -->
             <div class="p-8 space-y-6">
                 <p class="text-slate-600 text-sm mb-4">
                     Seleccione su método de pago preferido. Copie los datos a continuación para realizar la transferencia.
                 </p>
-
                 <!-- PayPal -->
                 <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100 transition hover:border-blue-300">
                     <div class="flex items-start justify-between mb-2">
@@ -455,7 +452,6 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- Mercado Pago -->
                 <div class="bg-sky-50/50 rounded-xl p-4 border border-sky-100 transition hover:border-sky-300">
                     <div class="flex items-start justify-between mb-2">
@@ -474,8 +470,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal Footer -->
             <div class="bg-slate-50 px-8 py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                 <div class="flex items-center gap-2">
                     <i data-lucide="lock" class="w-3 h-3"></i> Transacción segura
@@ -489,7 +483,7 @@
     <script>
         lucide.createIcons();
 
-        // Lógica del Modal
+        // Lógica del Modal de Pagos
         function togglePaymentModal() {
             const modal = document.getElementById('paymentModal');
             const body = document.body;
@@ -500,6 +494,20 @@
             } else {
                 modal.classList.add('active');
                 body.classList.add('modal-open');
+            }
+        }
+
+        // Lógica del Menú Móvil
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            // Toggle visibility classes
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Optional: Change icon to 'X'
+                // document.getElementById('mobileMenuIcon').setAttribute('data-lucide', 'x');
+                // lucide.createIcons();
+            } else {
+                menu.classList.add('hidden');
             }
         }
 
@@ -514,8 +522,6 @@
         function copyText(elementId, btnElement) {
             const textToCopy = document.getElementById(elementId).innerText;
             const originalText = btnElement.innerText;
-
-            // Método compatible con la mayoría de navegadores
             const textArea = document.createElement("textarea");
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
@@ -523,24 +529,18 @@
             
             try {
                 document.execCommand('copy');
-                
-                // Feedback visual
                 btnElement.innerText = "¡Copiado!";
                 btnElement.classList.remove('text-blue-600', 'text-sky-600');
                 btnElement.classList.add('text-emerald-600');
-                
                 setTimeout(() => {
                     btnElement.innerText = originalText;
                     btnElement.classList.remove('text-emerald-600');
-                    // Restaurar color original según el botón (simple check)
                     if(elementId === 'paypalEmail') btnElement.classList.add('text-blue-600');
                     else btnElement.classList.add('text-sky-600');
                 }, 2000);
-
             } catch (err) {
                 console.error('Error al copiar', err);
             }
-            
             document.body.removeChild(textArea);
         }
     </script>
