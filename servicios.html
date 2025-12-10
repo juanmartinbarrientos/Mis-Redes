@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Martin Barrientos | Consultoría IT para PYMES</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg {
+            background-color: #1e293b;
+            background-image: linear-gradient(to bottom right, #0f172a, #334155);
+        }
+        .check-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .check-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981; /* emerald-500 */
+            font-weight: bold;
+        }
+        .pillar-card {
+            transition: all 0.3s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .pillar-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            border: 4px solid #fff;
+        }
+        
+        /* Animación para el fondo dinámico */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
+        /* Estilos del Modal */
+        .modal-open {
+            overflow: hidden;
+        }
+        .modal-backdrop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95) translateY(10px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-backdrop.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navbar con Glassmorphism (Transparencia) -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand -->
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-600/90 text-white p-1.5 rounded-lg shadow-sm">
+                        <i data-lucide="monitor-check" class="h-5 w-5"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-base leading-tight text-slate-900 tracking-tight">JM Barrientos</span>
+                        <span class="text-[10px] text-blue-600 font-bold tracking-widest uppercase">Consultor IT</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-1">
+                    <!-- Links Limpios -->
+                    <div class="flex items-center bg-slate-100/50 rounded-full px-1 py-1 mr-4 border border-slate-200/50">
+                        <a href="#maintenance" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-white rounded-full transition-all">Mantenimiento</a>
+                        <a href="#security" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-white rounded-full transition-all">Seguridad</a>
+                        
+                        <!-- Botón Pagos integrado -->
+                        <button onclick="togglePaymentModal()" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-emerald-600 hover:bg-white rounded-full transition-all flex items-center gap-1.5">
+                            <i data-lucide="credit-card" class="w-3.5 h-3.5"></i> Pagos
+                        </button>
+                    </div>
+
+                    <!-- CTA Principal -->
+                    <a href="#contact" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-full transition-all text-sm font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2">
+                        Agendar <i data-lucide="calendar" class="w-3.5 h-3.5 opacity-70"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button (Placeholder) -->
+                <div class="md:hidden">
+                    <button class="text-slate-600 p-2">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (con padding-top extra para compensar el navbar fixed) -->
+    <div class="hero-bg text-white pt-32 pb-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-sm font-semibold mb-6 backdrop-blur-sm">
+                Especialista en Modernización de PYMES
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                No deje que la tecnología antigua <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">frene el crecimiento de su empresa</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto">
+                Hola, soy <strong>Juan Martin Barrientos</strong>. Ayudo a pequeñas empresas a dejar de "apagar incendios" informáticos y construir una estructura tecnológica segura, rápida y fiable.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#why-update" class="bg-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition shadow-lg flex items-center justify-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-600"></i>
+                    ¿Por qué actualizar?
+                </a>
+                <a href="#security" class="bg-white/10 backdrop-blur-sm border-2 border-slate-500/50 text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition flex items-center justify-center gap-2">
+                    Ver los 7 Pilares
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN: IMPORTANCIA DE ACTUALIZAR -->
+    <div id="why-update" class="bg-white py-20 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-indigo-600 font-bold tracking-wider text-sm uppercase">Seguridad Crítica</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">¿Es realmente necesario actualizar siempre?</h2>
+                <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                    Muchos creen que las actualizaciones solo cambian colores o agregan funciones inútiles. La realidad es que son la única barrera entre sus datos y las nuevas amenazas.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                <div class="grid md:grid-cols-2">
+                    
+                    <!-- Lado Izquierdo: La Explicación Técnica -->
+                    <div class="p-8 md:p-12 flex flex-col justify-center bg-white">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="bg-indigo-100 p-3 rounded-full">
+                                <i data-lucide="shield-alert" class="text-indigo-600 w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900">Lo que las actualizaciones hacen por usted</h3>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <p class="text-slate-600 text-lg leading-relaxed">
+                                El software (Windows, Office, Antivirus) no es perfecto. Con el tiempo, los hackers encuentran "agujeros" para entrar. Una actualización es, literalmente, un "parche" para tapar ese agujero.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="bg-white p-2 rounded shadow-sm h-fit"><i data-lucide="bug" class="text-red-500 w-5 h-5"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">Cierra "Puertas Traseras"</h4>
+                                        <p class="text-sm text-slate-600">Corrige errores de código que los virus usan para entrar sin contraseña.</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="bg-white p-2 rounded shadow-sm h-fit"><i data-lucide="zap" class="text-amber-500 w-5 h-5"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">Mejora la Velocidad</h4>
+                                        <p class="text-sm text-slate-600">El software nuevo optimiza recursos, haciendo que su PC trabaje menos para hacer lo mismo.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 text-sm italic">
+                                "El 90% de los ataques de Ransomware exitosos ocurrieron en equipos que no tenían las últimas actualizaciones de seguridad instaladas."
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lado Derecho: La Analogía -->
+                    <div class="bg-slate-900 text-white p-8 md:p-12 flex flex-col justify-center relative overflow-hidden">
+                        <div class="absolute bottom-0 right-0 -mb-10 -mr-10 w-64 h-64 bg-indigo-600 rounded-full opacity-20 blur-3xl"></div>
+                        
+                        <h3 class="text-xl font-bold mb-6 relative z-10 flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="text-yellow-400"></i> Para entenderlo mejor:
+                        </h3>
+                        
+                        <div class="relative z-10 space-y-6">
+                            <h4 class="text-2xl font-bold text-white">La Analogía de la Caja Fuerte</h4>
+                            <p class="text-slate-300 leading-relaxed text-lg">
+                                Imagine que compró la mejor caja fuerte del mundo en el año 2015. Era impenetrable.
+                            </p>
+                            <div class="bg-white/10 p-4 rounded-lg border border-white/10">
+                                <p class="text-slate-200 mb-2"><strong class="text-white">El problema:</strong> En 2024, los ladrones ya aprendieron cómo abrir ese modelo específico de 2015.</p>
+                            </div>
+                            <div class="bg-indigo-600/30 p-4 rounded-lg border border-indigo-500/50">
+                                <p class="text-slate-200"><strong class="text-white">La Actualización:</strong> Es como si el fabricante de la caja fuerte viniera a su oficina GRATIS y le cambiara la cerradura por una nueva.</p>
+                            </div>
+                            <p class="font-bold text-center text-indigo-300 mt-4">
+                                No actualizar es decidir quedarse con la cerradura que los ladrones ya saben abrir.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN: MANTENIMIENTO -->
+    <div id="maintenance" class="bg-slate-50 py-20 border-b border-slate-200 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-emerald-500 to-blue-500"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-blue-600 font-bold tracking-wider text-sm uppercase">Ahorro de Costos</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">¿Por qué es vital el Mantenimiento Preventivo?</h2>
+                <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                    Muchos empresarios confunden "equipo viejo" con "equipo sin mantenimiento". Antes de gastar en computadoras nuevas, vea este ejemplo real.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-8 md:p-12 flex flex-col justify-center">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="bg-amber-100 p-3 rounded-full">
+                                <i data-lucide="alert-circle" class="text-amber-600 w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900">El Caso Real: "La PC Lenta"</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2">🔴 El Problema</h4>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Un cliente necesitaba comprar 5 computadoras nuevas ($4.000 USD) porque "el sistema estaba lento".
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-600 mb-2">🔵 Mi Diagnóstico</h4>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Los equipos tenían 3 años. El problema era suciedad física y lógica.
+                                </p>
+                            </div>
+                            <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-lg">
+                                <h4 class="font-bold text-emerald-700 mb-1">✅ La Solución y Ahorro</h4>
+                                <p class="text-emerald-800 text-sm">
+                                    Mantenimiento completo. <strong>Costo: $300 USD.</strong> Ahorro total de <strong>$3.700 USD</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 text-white p-8 md:p-12 flex flex-col justify-center relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-500 rounded-full opacity-20 blur-2xl"></div>
+                        <h3 class="text-xl font-bold mb-6 relative z-10">La Regla de Oro del Mantenimiento</h3>
+                        <div class="space-y-8 relative z-10">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="car" class="text-blue-400 w-6 h-6"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-blue-200">La Analogía del Automóvil</h4>
+                                    <p class="text-slate-300 text-sm mt-1">Usted no espera a que el motor se funda para cambiar el aceite.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="server" class="text-emerald-400 w-6 h-6"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-emerald-200">En Informática es Igual</h4>
+                                    <p class="text-slate-300 text-sm mt-1">El mantenimiento preventivo evita la pérdida catastrófica de datos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: 7 Pillars Grid -->
+    <div id="security" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900">Mi Propuesta de Arquitectura Segura</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                Implementaré estos <span class="text-blue-600 font-bold">7 pilares fundamentales</span> para garantizar que su empresa opere con estándares corporativos.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
+                <div class="pillar-number">1</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="users" class="text-blue-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Autenticación (LDAP)</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Centralizamos usuarios y eliminamos el riesgo de claves compartidas.</p>
+            </div>
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
+                <div class="pillar-number">2</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="brick-wall" class="text-emerald-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Firewall de Red</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Barrera esencial contra accesos no autorizados desde Internet.</p>
+            </div>
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
+                <div class="pillar-number">3</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="layers" class="text-emerald-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">VLANs</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Dividimos su red para que las visitas no accedan a sus servidores.</p>
+            </div>
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
+                <div class="pillar-number">4</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="globe-2" class="text-emerald-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">VPN Segura</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Trabajo remoto seguro mediante túneles encriptados OpenVPN.</p>
+            </div>
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
+                <div class="pillar-number">5</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="lock-keyhole" class="text-rose-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">HTTPS</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Transmisión segura de datos de clientes y empleados.</p>
+            </div>
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
+                <div class="pillar-number">6</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="file-check" class="text-indigo-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Privacidad</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Datos sensibles accesibles solo bajo solicitud aprobada.</p>
+            </div>
+            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative md:col-span-2 lg:col-span-3 lg:w-2/3 lg:mx-auto">
+                <div class="pillar-number">7</div>
+                <div class="flex items-center gap-3 mb-4"><i data-lucide="radar" class="text-rose-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Detección IDS</h4></div>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Sistemas de alarma que monitorean ataques en tiempo real.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div id="contact" class="bg-blue-900 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] opacity-10 bg-cover bg-center"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">¿Su empresa está lista para el siguiente nivel?</h2>
+            <p class="text-blue-100 mb-10 text-lg max-w-2xl mx-auto">
+                No espere a tener una brecha de seguridad. Hablemos hoy y diseñemos un plan a medida.
+            </p>
+            <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://www.juanmartinbarrientos.com" target="_blank" class="bg-white text-blue-900 px-10 py-4 rounded-full font-bold hover:bg-blue-50 transition shadow-xl transform hover:scale-105">
+                    Visitar Web Oficial
+                </a>
+                <!-- Botón de Pago en el CTA -->
+                <button onclick="togglePaymentModal()" class="bg-transparent border-2 border-blue-400 text-blue-100 px-8 py-3.5 rounded-full font-bold hover:bg-blue-800/50 hover:text-white transition flex items-center gap-2">
+                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                    Centro de Pagos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Moderno -->
+    <footer class="relative bg-slate-900 text-slate-300 py-16 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        <div class="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-blue-600/30 rounded-full blur-[80px] animate-blob"></div>
+        <div class="absolute top-10 right-1/4 w-[250px] h-[250px] bg-indigo-500/20 rounded-full blur-[60px] animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="backdrop-blur-md bg-white/5 p-8 rounded-2xl border border-white/10 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-center md:text-left">
+                    <h3 class="text-white font-bold text-2xl tracking-tight">Juan Martin Barrientos</h3>
+                    <p class="text-blue-400 font-medium text-sm mt-1">Consultoría Tecnológica Integral</p>
+                </div>
+                <div class="flex gap-6">
+                    <a href="https://www.linkedin.com/in/juanmartinbarrientoslorusso/" target="_blank" class="p-3 bg-white/10 rounded-full hover:bg-white/20 hover:text-white transition hover:-translate-y-1 transform border border-white/5"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                    <a href="https://www.youtube.com/@JuanMartinBarrientosLorusso" target="_blank" class="p-3 bg-white/10 rounded-full hover:bg-white/20 hover:text-white transition hover:-translate-y-1 transform border border-white/5"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+                    <a href="mailto:juanmartinbarrientos@me.com" class="p-3 bg-white/10 rounded-full hover:bg-white/20 hover:text-white transition hover:-translate-y-1 transform border border-white/5"><i data-lucide="mail" class="w-5 h-5"></i></a>
+                </div>
+                <div class="text-center md:text-right text-sm text-slate-400">
+                     <p>&copy; 2025 Todos los derechos reservados.</p>
+                     <p class="text-xs mt-1 text-slate-500">Diseñado con estándares de seguridad.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE PAGOS (Oculto por defecto) -->
+    <div id="paymentModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative border border-slate-200">
+            
+            <!-- Modal Header -->
+            <div class="bg-slate-50 p-6 border-b border-slate-100 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-100 p-2 rounded-lg">
+                        <i data-lucide="wallet" class="text-blue-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">Portal de Pagos</h3>
+                </div>
+                <button onclick="togglePaymentModal()" class="text-slate-400 hover:text-slate-600 transition p-2 rounded-full hover:bg-slate-200">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-8 space-y-6">
+                <p class="text-slate-600 text-sm mb-4">
+                    Seleccione su método de pago preferido. Copie los datos a continuación para realizar la transferencia.
+                </p>
+
+                <!-- PayPal -->
+                <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100 transition hover:border-blue-300">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-blue-900">PayPal</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-medium">Internacional</span>
+                        </div>
+                        <i data-lucide="globe" class="text-blue-300 w-5 h-5"></i>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white p-3 rounded-lg border border-blue-100 shadow-sm mt-2">
+                        <code id="paypalEmail" class="text-sm font-mono text-slate-700 flex-grow">juanmartinbarrientos@me.com</code>
+                        <button onclick="copyText('paypalEmail', this)" class="text-blue-600 hover:text-blue-800 text-xs font-bold uppercase px-3 py-1.5 rounded hover:bg-blue-50 transition">
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mercado Pago -->
+                <div class="bg-sky-50/50 rounded-xl p-4 border border-sky-100 transition hover:border-sky-300">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-900">Mercado Pago</span>
+                            <span class="text-xs bg-sky-100 text-sky-600 px-2 py-0.5 rounded-full font-medium">Argentina</span>
+                        </div>
+                        <i data-lucide="smartphone" class="text-sky-300 w-5 h-5"></i>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white p-3 rounded-lg border border-sky-100 shadow-sm mt-2">
+                        <span class="text-xs text-slate-400 font-medium mr-1">Alias:</span>
+                        <code id="mpAlias" class="text-sm font-mono text-slate-700 flex-grow">juanmartinbarrientos</code>
+                        <button onclick="copyText('mpAlias', this)" class="text-sky-600 hover:text-sky-800 text-xs font-bold uppercase px-3 py-1.5 rounded hover:bg-sky-50 transition">
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 px-8 py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="lock" class="w-3 h-3"></i> Transacción segura
+                </div>
+                <span>Envíe el comprobante por email</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Initialize Icons & Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // Lógica del Modal
+        function togglePaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            const body = document.body;
+            
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                body.classList.remove('modal-open');
+            } else {
+                modal.classList.add('active');
+                body.classList.add('modal-open');
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                togglePaymentModal();
+            }
+        });
+
+        // Función de Copiado con Feedback visual
+        function copyText(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            const originalText = btnElement.innerText;
+
+            // Método compatible con la mayoría de navegadores
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                
+                // Feedback visual
+                btnElement.innerText = "¡Copiado!";
+                btnElement.classList.remove('text-blue-600', 'text-sky-600');
+                btnElement.classList.add('text-emerald-600');
+                
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.classList.remove('text-emerald-600');
+                    // Restaurar color original según el botón (simple check)
+                    if(elementId === 'paypalEmail') btnElement.classList.add('text-blue-600');
+                    else btnElement.classList.add('text-sky-600');
+                }, 2000);
+
+            } catch (err) {
+                console.error('Error al copiar', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+</html>
