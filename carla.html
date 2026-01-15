@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. Valeria Montes | Sexóloga Clínica</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel para JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- UTILS ---
+        const sendWhatsApp = (message) => {
+            const phone = "5491169578193";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        };
+
+        // --- ICON COMPONENTS (SVG) ---
+        // Definimos los iconos manualmente para evitar dependencias externas en un solo archivo
+        const Icon = ({ path, className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {path}
+            </svg>
+        );
+
+        const Heart = (props) => <Icon {...props} path={<><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></>} />;
+        const Brain = (props) => <Icon {...props} path={<><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></>} />;
+        const Users = (props) => <Icon {...props} path={<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>} />;
+        const BookOpen = (props) => <Icon {...props} path={<><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></>} />;
+        const ShieldCheck = (props) => <Icon {...props} path={<><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></>} />;
+        const MessageCircle = (props) => <Icon {...props} path={<><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></>} />;
+        const MenuIcon = (props) => <Icon {...props} path={<><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></>} />;
+        const XIcon = (props) => <Icon {...props} path={<><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>} />;
+        const Calendar = (props) => <Icon {...props} path={<><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></>} />;
+        const Mail = (props) => <Icon {...props} path={<><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></>} />;
+        const ChevronRight = (props) => <Icon {...props} path={<><path d="m9 18 6-6-6-6"/></>} />;
+        const Award = (props) => <Icon {...props} path={<><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>} />;
+        const Star = (props) => <Icon {...props} path={<><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></>} />;
+        const Stethoscope = (props) => <Icon {...props} path={<><path d="M4.8 2.3A.3.3 0 0 1 5 2h14a.3.3 0 0 1 .2.3v3.4a.3.3 0 0 1-.3.3H18v5c0 3.31-2.69 6-6 6s-6-2.69-6-6V6h-.9a.3.3 0 0 1-.3-.3V2.3Z"/><path d="M8 17v.5a2.5 2.5 0 0 0 5 0V17"/><path d="M12 19v2"/><circle cx="12" cy="22" r="1"/></>} />;
+
+        // --- MAIN APP COMPONENT ---
+        function App() {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [activeTab, setActiveTab] = useState('home');
+
+            useEffect(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, [activeTab]);
+
+            const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+            return (
+                <div className="min-h-screen relative font-sans text-slate-800 selection:bg-rose-200 selection:text-rose-900">
+                    
+                    {/* Background Blobs Animation */}
+                    <div className="fixed inset-0 -z-10 overflow-hidden bg-slate-50">
+                        <div className="absolute top-0 left-[-10%] w-[40rem] h-[40rem] bg-rose-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+                        <div className="absolute top-0 right-[-10%] w-[40rem] h-[40rem] bg-purple-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+                        <div className="absolute bottom-[-20%] left-[20%] w-[40rem] h-[40rem] bg-orange-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+                    </div>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 glass border-b border-white/40">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between h-24 items-center">
+                                <div className="flex items-center">
+                                    <div 
+                                        className="flex-shrink-0 flex items-center gap-3 cursor-pointer group" 
+                                        onClick={() => setActiveTab('home')}
+                                    >
+                                        <div className="bg-gradient-to-tr from-rose-500 to-orange-400 p-2.5 rounded-2xl shadow-lg shadow-rose-200 group-hover:scale-105 transition-transform duration-300">
+                                            <Heart className="h-6 w-6 text-white" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="font-bold text-2xl tracking-tight text-slate-900 leading-none">
+                                                Dra. Valeria Montes
+                                            </span>
+                                            <span className="text-xs font-bold text-rose-500 uppercase tracking-widest mt-1">
+                                                Sexóloga Clínica & Divulgadora
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Desktop Menu */}
+                                <div className="hidden md:flex md:items-center md:space-x-2 bg-white/50 p-1.5 rounded-full backdrop-blur-sm border border-white/60">
+                                    {['home', 'services', 'blog', 'about'].map((tab) => (
+                                        <button 
+                                            key={tab}
+                                            onClick={() => setActiveTab(tab)}
+                                            className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                                                activeTab === tab 
+                                                ? 'text-rose-600 bg-white shadow-md shadow-slate-200 scale-105' 
+                                                : 'text-slate-500 hover:text-slate-900 hover:bg-white/60'
+                                            }`}
+                                        >
+                                            {tab === 'home' && 'Inicio'}
+                                            {tab === 'services' && 'Asesoramiento'}
+                                            {tab === 'blog' && 'Blog'}
+                                            {tab === 'about' && 'Mi Enfoque'}
+                                        </button>
+                                    ))}
+                                </div>
+                                
+                                <div className="hidden md:flex">
+                                     <button 
+                                        onClick={() => sendWhatsApp("Hola Dra. Montes, quisiera agendar una cita.")}
+                                        className="px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-bold hover:bg-slate-800 transition-all hover:scale-105 shadow-xl shadow-slate-900/20 flex items-center gap-2"
+                                     >
+                                        <Calendar className="w-4 h-4" />
+                                        Agendar Cita
+                                    </button>
+                                </div>
+
+                                {/* Mobile menu button */}
+                                <div className="flex items-center md:hidden">
+                                    <button onClick={toggleMenu} className="p-2 rounded-xl bg-white/50 text-slate-600 hover:text-slate-900 focus:outline-none">
+                                        {isMenuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Mobile Menu */}
+                        {isMenuOpen && (
+                            <div className="md:hidden glass border-b border-white/20 absolute w-full shadow-2xl animate-fade-in">
+                                <div className="px-4 pt-2 pb-6 space-y-2">
+                                    {['home', 'services', 'blog', 'about'].map((tab) => (
+                                        <button 
+                                            key={tab}
+                                            onClick={() => { setActiveTab(tab); setIsMenuOpen(false); }}
+                                            className="block w-full text-left px-4 py-4 rounded-xl text-base font-bold text-slate-700 hover:text-rose-600 hover:bg-rose-50/50 border border-transparent hover:border-rose-100 transition-colors"
+                                        >
+                                            {tab === 'home' && 'Inicio'}
+                                            {tab === 'services' && 'Asesoramiento'}
+                                            {tab === 'blog' && 'Blog: Mitos y Realidades'}
+                                            {tab === 'about' && 'Sobre Mí & Credenciales'}
+                                        </button>
+                                    ))}
+                                    <button 
+                                        onClick={() => sendWhatsApp("Hola Dra. Montes, quisiera reservar una consulta.")}
+                                        className="w-full mt-4 px-5 py-4 bg-rose-600 text-white rounded-xl text-base font-bold flex justify-center items-center gap-2 shadow-lg shadow-rose-200"
+                                    >
+                                        <Calendar className="w-5 h-5" />
+                                        Reservar Consulta
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </nav>
+
+                    {/* Main Content Area */}
+                    <main className="relative z-0">
+                        {activeTab === 'home' && <HomeSection setActiveTab={setActiveTab} />}
+                        {activeTab === 'services' && <ServicesSection />}
+                        {activeTab === 'blog' && <BlogSection />}
+                        {activeTab === 'about' && <AboutSection />}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="glass-dark text-slate-300 py-16 mt-20 relative overflow-hidden">
+                        {/* Dark blobs for footer */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full filter blur-3xl"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full filter blur-3xl"></div>
+                        
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-12 relative z-10">
+                            <div className="col-span-1 md:col-span-2">
+                                <div className="flex items-center gap-2 mb-6">
+                                    <Heart className="h-6 w-6 text-rose-500" />
+                                    <span className="font-bold text-2xl text-white">Dra. Valeria Montes</span>
+                                </div>
+                                <p className="text-slate-400 leading-relaxed mb-8 max-w-sm">
+                                    Acompañando procesos personales y de pareja desde una mirada científica, empática y libre de prejuicios. Tu salud sexual es parte integral de tu bienestar.
+                                </p>
+                                <div className="flex gap-4">
+                                    <div className="w-12 h-12 rounded-full glass border-white/10 flex items-center justify-center hover:bg-rose-600 hover:text-white hover:border-rose-500 transition-all cursor-pointer"><Mail className="w-5 h-5" /></div>
+                                    <div className="w-12 h-12 rounded-full glass border-white/10 flex items-center justify-center hover:bg-rose-600 hover:text-white hover:border-rose-500 transition-all cursor-pointer"><MessageCircle className="w-5 h-5" /></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 className="text-white font-bold mb-6 text-lg">Enlaces Rápidos</h4>
+                                <ul className="space-y-4 text-sm font-medium">
+                                    <li className="hover:text-rose-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => setActiveTab('home')}><div className="w-1 h-1 bg-rose-500 rounded-full"></div> Inicio</li>
+                                    <li className="hover:text-rose-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => setActiveTab('services')}><div className="w-1 h-1 bg-rose-500 rounded-full"></div> Asesoramiento</li>
+                                    <li className="hover:text-rose-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => setActiveTab('blog')}><div className="w-1 h-1 bg-rose-500 rounded-full"></div> Blog Educativo</li>
+                                    <li className="hover:text-rose-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => setActiveTab('about')}><div className="w-1 h-1 bg-rose-500 rounded-full"></div> Mi Formación</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 className="text-white font-bold mb-6 text-lg">Consultorio</h4>
+                                <ul className="space-y-4 text-sm text-slate-400">
+                                    <li className="flex items-start gap-3 p-3 rounded-lg bg-white/5">
+                                        <div className="w-2 h-2 rounded-full bg-rose-500 mt-2"></div>
+                                        Atención Presencial (Centro)
+                                    </li>
+                                    <li className="flex items-start gap-3 p-3 rounded-lg bg-white/5">
+                                        <div className="w-2 h-2 rounded-full bg-rose-500 mt-2"></div>
+                                        Video Consulta Internacional
+                                    </li>
+                                    <li className="mt-4 pt-4 border-t border-white/10 text-xs opacity-60">
+                                        Acreditada por FLASSES.<br/>
+                                        Matrícula Profesional Nº 4521
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        // --- COMPONENTS ---
+
+        function HomeSection({ setActiveTab }) {
+            return (
+                <div className="animate-fade-in pb-20">
+                    <div className="relative pt-20 pb-16 lg:pt-32 lg:pb-28">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                            <div className="lg:w-1/2 relative z-10">
+                                <span className="inline-block py-1.5 px-4 rounded-full bg-rose-100/80 backdrop-blur-sm text-rose-700 text-xs font-bold tracking-widest uppercase mb-6 border border-rose-200">
+                                    Salud Sexual & Bienestar Integral
+                                </span>
+                                <h1 className="text-5xl tracking-tight font-extrabold text-slate-900 sm:text-6xl md:text-7xl mb-8 leading-tight">
+                                    <span className="block">Hablemos de lo que</span>
+                                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-orange-500 animate-pulse">
+                                        realmente importa
+                                    </span>
+                                </h1>
+                                <p className="mt-4 text-lg text-slate-600 max-w-lg leading-relaxed glass-card p-6 rounded-2xl border-none bg-white/40">
+                                    Soy la Dra. Valeria Montes. Te ayudo a resolver dudas, superar dificultades y fortalecer tu intimidad con una perspectiva científica, humana y confidencial. Desde disfunciones hasta educación sexual para padres.
+                                </p>
+                                <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                                    <button 
+                                        onClick={() => setActiveTab('services')}
+                                        className="flex items-center justify-center px-8 py-4 text-base font-bold rounded-full text-white bg-slate-900 hover:bg-slate-800 shadow-xl shadow-slate-900/30 transition-all hover:scale-105"
+                                    >
+                                        Ver Servicios
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('blog')}
+                                        className="flex items-center justify-center px-8 py-4 border border-white/60 text-base font-bold rounded-full text-slate-700 glass hover:bg-white transition-all hover:shadow-lg"
+                                    >
+                                        Leer Blog
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            {/* Visual Element on Desktop */}
+                            <div className="hidden lg:block absolute top-0 right-0 w-1/2 h-full">
+                                <div className="relative w-full h-full flex items-center justify-center">
+                                    <div className="glass-card p-10 rounded-3xl transform rotate-3 max-w-md mx-auto relative z-10">
+                                        <div className="absolute -top-10 -right-10 w-24 h-24 bg-rose-500 rounded-full opacity-20 blur-xl"></div>
+                                        <p className="text-2xl font-serif italic text-slate-800 mb-6 relative">
+                                            <span className="text-6xl text-rose-200 absolute -top-4 -left-2">"</span>
+                                            La sexualidad no es solo lo que hacemos, es una parte fundamental de quienes somos.
+                                        </p>
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-gradient-to-tr from-rose-500 to-orange-400 rounded-full flex items-center justify-center text-white font-bold">DM</div>
+                                            <div>
+                                                <p className="text-sm font-bold text-slate-900">Dra. Valeria Montes</p>
+                                                <p className="text-xs text-rose-500 uppercase tracking-wider font-bold">Sexóloga Clínica</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Featured Insight Teaser */}
+                    <div className="max-w-7xl mx-auto px-4">
+                        <div className="glass-dark rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden group cursor-pointer hover:scale-[1.01] transition-transform duration-500" onClick={() => setActiveTab('blog')}>
+                            <div className="absolute inset-0 bg-gradient-to-r from-rose-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div className="mb-6 md:mb-0 md:mr-8 text-white relative z-10">
+                                <div className="flex items-center gap-2 text-rose-300 font-bold mb-2 text-sm uppercase tracking-wider">
+                                    <Heart className="w-4 h-4" />
+                                    Dato Clínico
+                                </div>
+                                <h3 className="text-3xl font-bold mb-3">¿Sabías que tu salud sexual y cardíaca están conectadas?</h3>
+                                <p className="text-slate-300 text-lg">Descubre las 5 realidades que desafían lo que creías saber sobre tu cuerpo.</p>
+                            </div>
+                            <button className="flex-shrink-0 px-8 py-4 bg-white text-slate-900 rounded-full font-bold hover:bg-rose-50 transition-colors flex items-center relative z-10 shadow-lg">
+                                Leer Artículo <ChevronRight className="ml-2 w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function ServicesSection() {
+            const services = [
+                {
+                    title: "Terapia Sexual y de Pareja",
+                    desc: "Abordaje clínico de la discrepancia del deseo, comunicación afectiva y resolución de conflictos. Espacios seguros para reencontrarse.",
+                    icon: <Users className="w-8 h-8 text-rose-500" />,
+                    detail: "Ideal para parejas que sienten que han perdido la conexión."
+                },
+                {
+                    title: "Asesoramiento Clínico",
+                    desc: "Atención personalizada para disfunciones eréctiles, anorgasmia, vaginismo o ansiedad de desempeño (papel de espectador).",
+                    icon: <Brain className="w-8 h-8 text-purple-500" />,
+                    detail: "Trabajamos la conexión mente-cuerpo y barreras psicológicas."
+                },
+                {
+                    title: "Educación Sexual (ESI)",
+                    desc: "Orientación para padres y madres sobre cómo hablar de sexualidad con hijos e hijas. Rompiendo el silencio.",
+                    icon: <BookOpen className="w-8 h-8 text-emerald-500" />,
+                    detail: "El 60% de los adolescentes desean hablar con sus padres."
+                },
+                {
+                    title: "Salud Integral",
+                    desc: "Consultoría sobre anticoncepción, prevención de ITS y el impacto de la salud general en la vida sexual.",
+                    icon: <ShieldCheck className="w-8 h-8 text-blue-500" />,
+                    detail: "Información basada en evidencia sobre riesgos y beneficios."
+                }
+            ];
+
+            return (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
+                    <div className="text-center mb-16">
+                        <span className="text-rose-600 font-bold tracking-wider text-sm uppercase mb-2 block">Servicios Profesionales</span>
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">¿En qué puedo ayudarte?</h2>
+                        <p className="text-lg text-slate-600 max-w-2xl mx-auto glass-card p-4 rounded-xl">
+                            Mis servicios combinan la evidencia científica con una calidez humana indispensable para abordar temas íntimos.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {services.map((item, idx) => (
+                            <div key={idx} className="glass-card p-8 rounded-3xl hover:border-rose-200 transition-all duration-300 group">
+                                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                    {item.icon}
+                                </div>
+                                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-rose-600 transition-colors">{item.title}</h3>
+                                <p className="text-slate-600 mb-5 leading-relaxed text-lg">
+                                    {item.desc}
+                                </p>
+                                <div className="text-sm bg-white/50 p-4 rounded-xl text-slate-500 italic border border-white">
+                                    {item.detail}
+                                </div>
+                                <button 
+                                    onClick={() => sendWhatsApp(`Hola Dra. Montes, estoy interesado/a en consultar sobre: ${item.title}`)}
+                                    className="mt-8 text-rose-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform"
+                                >
+                                    Agendar Consulta <ChevronRight className="w-4 h-4 ml-1" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="mt-20 relative rounded-3xl overflow-hidden p-8 md:p-16 text-center shadow-2xl">
+                        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-slate-800"></div>
+                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                        <div className="relative z-10">
+                            <h3 className="text-3xl font-bold text-white mb-4">¿No estás seguro de qué necesitas?</h3>
+                            <p className="text-slate-300 mb-10 max-w-xl mx-auto text-lg">
+                                Ofrezco una breve llamada de orientación de 15 minutos sin cargo para conocernos y evaluar si mi enfoque es el adecuado para ti.
+                            </p>
+                            <button 
+                                onClick={() => sendWhatsApp("Hola Dra. Montes, quisiera solicitar una llamada de orientación de 15 minutos.")}
+                                className="px-10 py-4 bg-white text-slate-900 rounded-full font-bold hover:bg-rose-50 shadow-lg hover:shadow-white/20 transition-all transform hover:-translate-y-1"
+                            >
+                                Solicitar Llamada de Orientación
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function BlogSection() {
+            return (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
+                    <div className="mb-12 text-center">
+                        <span className="bg-rose-100 text-rose-600 py-1 px-3 rounded-full font-bold tracking-wider text-xs uppercase mb-4 inline-block">Artículo Destacado</span>
+                        <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
+                            5 Realidades Sorprendentes Sobre la Sexualidad
+                        </h1>
+                        <div className="flex items-center justify-center gap-6 text-slate-500 text-sm">
+                            <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-full shadow-sm">
+                                <div className="w-6 h-6 bg-gradient-to-tr from-rose-500 to-orange-400 rounded-full"></div>
+                                <span className="font-bold text-slate-800">Dra. Valeria Montes</span>
+                            </div>
+                            <span className="font-medium">• Lectura de 5 min</span>
+                        </div>
+                    </div>
+
+                    <article className="prose prose-lg prose-slate max-w-none">
+                        <p className="lead text-2xl text-slate-600 mb-12 text-center max-w-2xl mx-auto leading-relaxed">
+                            Creemos saber cómo funciona nuestro cuerpo y qué es "normal", pero la realidad documentada en manuales clínicos cuenta una historia mucho más inesperada.
+                        </p>
+                        
+                        <div className="space-y-8">
+                            {[
+                                { num: 1, title: "Tu vida sexual: ¿Un 'Check Engine' del corazón?", content: "Lejos de ser un tema aislado, la función sexual es un barómetro. Los problemas de erección pueden manifestarse años antes que un evento cardiovascular grave. La razón es vascular: las arterias del pene son más pequeñas y sufren primero. Prestar atención a estas señales es medicina preventiva.", color: "rose" },
+                                { num: 2, title: "Violencia en el hogar: Rompiendo estereotipos", content: "Datos clínicos revelan una realidad compleja: en el ámbito de la crianza, la violencia física hacia los hijos a veces proviene más frecuentemente de la madre. Esto no absuelve otras violencias, pero nos obliga a crear sistemas de apoyo que protejan a la infancia sin sesgos de género.", color: "purple" },
+                                { num: 3, title: "El secreto de los adolescentes", content: "A pesar de internet, el 60% de los adolescentes desea recibir educación sexual de sus padres. No quieren influencers, quieren guía. Como padres, a menudo subestimamos cuánto valoran nuestra honestidad en estos temas.", color: "blue" },
+                                { num: 4, title: "El 'Papel de Espectador'", content: "El enemigo de la erección suele ser la mente, no el cuerpo. Masters y Johnson describieron cómo 'observarse a uno mismo' durante el acto sexual, juzgando el desempeño, genera ansiedad que anula la respuesta física. La clave es volver a las sensaciones, salir de la cabeza.", color: "amber" },
+                                { num: 5, title: "Anticonceptivos: Más allá del miedo", content: "Contrario a mitos comunes, el uso de anticonceptivos orales reduce el riesgo de cáncer de ovario y endometrio. Si bien hay matices con el cáncer de mama, la balanza debe evaluarse con información científica, no con miedo.", color: "emerald" }
+                            ].map((item) => (
+                                <div key={item.num} className="glass-card p-8 rounded-3xl flex gap-6 items-start transform transition-all hover:bg-white hover:scale-[1.01]">
+                                    <div className={`flex-shrink-0 w-12 h-12 rounded-2xl bg-${item.color}-100 text-${item.color}-600 flex items-center justify-center text-xl font-bold shadow-inner`}>
+                                        {item.num}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                                        <p className="text-slate-600 leading-relaxed text-lg">{item.content}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-16 p-8 bg-gradient-to-r from-rose-50 to-orange-50 rounded-3xl border border-rose-100 text-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
+                            <p className="italic text-slate-800 font-medium text-xl relative z-10">
+                                "Comprender estas realidades científicas nos ayuda a desmantelar prejuicios y a cuidar de manera más integral de nosotros mismos."
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            );
+        }
+
+        function AboutSection() {
+            return (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
+                    <div className="grid md:grid-cols-2 gap-16 items-center mb-16">
+                        <div>
+                            <span className="text-rose-600 font-bold tracking-wider text-sm uppercase mb-2 block">Mi Metodología</span>
+                            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-8">
+                                Ciencia, Ética y Empatía.
+                            </h2>
+                            <p className="text-lg text-slate-600 leading-relaxed mb-8 glass-card p-6 rounded-2xl">
+                                Mi práctica profesional no se basa en opiniones personales, sino en estándares internacionales rigurosos. Creo firmemente que la sexología debe ser una disciplina sanitaria seria, inclusiva y basada en evidencia.
+                            </p>
+                            <div className="flex flex-col gap-4">
+                                <div className="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                    <div className="p-3 bg-rose-50 rounded-xl">
+                                        <Award className="text-rose-500 w-8 h-8" />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900 text-lg">Acreditación FLASSES</h4>
+                                        <p className="text-sm text-slate-500">Certificada bajo estándares Latinoamericanos.</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                    <div className="p-3 bg-rose-50 rounded-xl">
+                                        <Star className="text-rose-500 w-8 h-8" />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900 text-lg">Enfoque ESI</h4>
+                                        <p className="text-sm text-slate-500">Educación Sexual Integral como derecho humano.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="space-y-6">
+                            <div className="glass-card p-8 rounded-3xl relative overflow-hidden group hover:bg-white transition-colors">
+                                <div className="flex gap-4">
+                                    <ShieldCheck className="w-8 h-8 text-indigo-600 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <strong className="block text-slate-900 text-xl mb-2">Ética Profesional</strong>
+                                        <span className="text-slate-600 leading-relaxed">Garantía de práctica basada en evidencia y confidencialidad absoluta. Sin prejuicios, solo ciencia.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="glass-card p-8 rounded-3xl relative overflow-hidden group hover:bg-white transition-colors">
+                                <div className="flex gap-4">
+                                    <Heart className="w-8 h-8 text-rose-600 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <strong className="block text-slate-900 text-xl mb-2">Manejo de la Discrepancia</strong>
+                                        <span className="text-slate-600 leading-relaxed">Entendiendo el deseo no como algo fijo, sino como una dinámica relacional (Schnarch, Perel).</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="glass-card p-8 rounded-3xl relative overflow-hidden group hover:bg-white transition-colors">
+                                <div className="flex gap-4">
+                                    <Stethoscope className="w-8 h-8 text-cyan-600 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <strong className="block text-slate-900 text-xl mb-2">Visión Transdisciplinaria</strong>
+                                        <span className="text-slate-600 leading-relaxed">Colaboración con ginecología, urología y psicología para un abordaje integral de tu salud.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* New Personal Viewpoint Section */}
+                    <div className="mt-16 bg-white border border-white/40 rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-3 h-full bg-gradient-to-b from-rose-400 to-orange-400"></div>
+                        <div className="md:flex items-start gap-10 relative z-10">
+                            <div className="flex-shrink-0 mb-6 md:mb-0">
+                                <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                                    <MessageCircle className="w-10 h-10 text-rose-500" />
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-3xl font-bold text-slate-900 mb-6">Un Espacio de Confianza y Discreción</h3>
+                                <div className="text-slate-600 leading-relaxed text-lg space-y-4">
+                                    <p className="italic">
+                                        "Entiendo que hablar de nuestra intimidad requiere un acto de valentía. Mi consultorio no es solo un lugar clínico, es un refugio seguro."
+                                    </p>
+                                    <p>
+                                        Te garantizo un trato profundamente <strong>empático y libre de juicios</strong>, donde tu privacidad es sagrada. No veo 'pacientes' ni 'disfunciones', veo personas con historias únicas que merecen ser escuchadas con respeto y calidez.
+                                    </p>
+                                </div>
+                                <div className="mt-8 flex items-center gap-3">
+                                    <div className="h-px w-12 bg-rose-300"></div>
+                                    <span className="font-bold text-slate-900 text-lg">Dra. Valeria Montes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
