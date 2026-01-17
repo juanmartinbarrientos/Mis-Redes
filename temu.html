@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopOfertas - Descuentos Exclusivos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        orange: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados adicionales si fueran necesarios */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .mix-blend-multiply {
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-gray-900 selection:bg-orange-100 selection:text-orange-900 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-orange-600 text-white p-1.5 rounded-lg">
+                        <i data-lucide="shopping-bag" width="24" height="24"></i>
+                    </div>
+                    <span class="font-extrabold text-xl tracking-tight text-gray-900">
+                        Top<span class="text-orange-600">Ofertas</span>
+                    </span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#productos" class="text-gray-600 hover:text-orange-600 font-medium transition-colors">Productos</a>
+                    <a href="#beneficios" class="text-gray-600 hover:text-orange-600 font-medium transition-colors">Beneficios</a>
+                    <button class="bg-gray-900 text-white px-5 py-2 rounded-full font-medium hover:bg-gray-800 transition-all text-sm">
+                        Ver Todo
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 p-2">
+                        <i data-lucide="menu" width="24" height="24" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#productos" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-md">Productos</a>
+                <a href="#beneficios" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-md">Beneficios</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-gradient-to-r from-orange-600 to-red-600 text-white overflow-hidden pb-16">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-sm text-sm font-semibold mb-4 border border-white/30">
+                🔥 Ofertas por tiempo limitado
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4 leading-tight">
+                Descubre los Mejores <br/>
+                <span class="text-yellow-300">Gadgets y Moda</span>
+            </h1>
+            <p class="mt-2 max-w-2xl mx-auto text-xl text-orange-100 font-medium mb-8">
+                Selección exclusiva de productos con descuentos increíbles.
+            </p>
+
+            <!-- Social Media Style Card -->
+            <div class="max-w-md mx-auto bg-white rounded-xl shadow-2xl overflow-hidden text-left transform transition-all hover:scale-[1.01] duration-300 ring-4 ring-white/20">
+                <!-- Card Header -->
+                <div class="p-3 border-b border-gray-100 flex items-center justify-between bg-white">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-[2px]">
+                            <div class="w-full h-full rounded-full bg-white p-[2px]">
+                                <img src="https://ui-avatars.com/api/?name=Top+Ofertas&background=random" alt="Profile" class="w-full h-full rounded-full object-cover" />
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm leading-none mb-0.5">TopOfertas_Arg</h4>
+                            <p class="text-gray-400 text-[10px] uppercase tracking-wide font-semibold">Patrocinado</p>
+                        </div>
+                    </div>
+                    <i data-lucide="external-link" class="text-gray-400" width="18" height="18"></i>
+                </div>
+                
+                <!-- Card Body -->
+                <div class="p-4 bg-white">
+                    <p class="text-gray-800 text-sm mb-3 leading-relaxed">
+                        ✨Descubre increíbles hallazgos en mi tienda 🎁 No te pierdas el kit de cupones especial que te espera. 🌟 Repleta de productos de primer nivel a precios inigualables.
+                    </p>
+                    
+                    <div class="bg-blue-50 rounded-lg p-3 mb-3 border border-blue-100">
+                        <p class="text-xs text-blue-800 mb-1 font-medium">Haz clic en mi enlace:</p>
+                        <a 
+                            href="https://temu.to/k/gthwh3no25f" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            class="block text-blue-600 font-bold text-sm truncate hover:underline"
+                        >
+                            https://temu.to/k/gthwh3no25f
+                        </a>
+                    </div>
+
+                    <p class="text-gray-600 text-xs">
+                        ¡Haz clic ahora para disfrutar, comprar y ahorrar en grande! 🛍️✨
+                    </p>
+                </div>
+
+                <!-- Card Actions & Stats -->
+                <div class="bg-white px-4 py-3 border-t border-gray-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex gap-4 text-gray-700">
+                            <i data-lucide="heart" class="hover:text-red-500 cursor-pointer transition-colors" width="26" height="26"></i>
+                            <i data-lucide="message-circle" class="hover:text-blue-500 cursor-pointer transition-colors" width="26" height="26"></i>
+                            <i data-lucide="send" class="hover:text-green-500 cursor-pointer transition-colors" width="26" height="26"></i>
+                        </div>
+                        <div class="flex items-center gap-1 text-gray-700">
+                            <i data-lucide="bookmark" class="hover:text-yellow-500 cursor-pointer transition-colors" width="26" height="26"></i>
+                            <span class="text-xs font-bold text-gray-500">32.4k</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 mb-3">
+                        <p class="text-sm font-bold text-gray-900">52,491 Me gusta</p>
+                        <p class="text-sm text-gray-500 cursor-pointer hover:text-gray-700">Ver los 1,243 comentarios</p>
+                    </div>
+
+                    <a 
+                        href="https://temu.to/k/gthwh3no25f" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="block w-full text-center bg-blue-600 text-white text-sm font-bold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                    >
+                        Abrir Tienda
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="#productos" class="bg-white/10 backdrop-blur text-white border border-white/40 px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:text-orange-600 transition-all">
+                    Ver productos individuales ↓
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div id="beneficios" class="bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="flex flex-col items-center gap-2">
+                    <div class="bg-blue-50 p-3 rounded-full text-blue-600 mb-1">
+                        <i data-lucide="shield-check" width="28" height="28"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900">Compra Segura</h3>
+                    <p class="text-sm text-gray-500">Transacciones protegidas</p>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="bg-green-50 p-3 rounded-full text-green-600 mb-1">
+                        <i data-lucide="truck" width="28" height="28"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900">Envío Rápido</h3>
+                    <p class="text-sm text-gray-500">Seguimiento en tiempo real</p>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="bg-purple-50 p-3 rounded-full text-purple-600 mb-1">
+                        <i data-lucide="clock" width="28" height="28"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900">Ofertas Flash</h3>
+                    <p class="text-sm text-gray-500">Actualización diaria</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Selección Destacada
+            </h2>
+            <p class="mt-4 text-lg text-gray-500">
+                Productos virales con precios de liquidación en Pesos Argentinos (ARS)
+            </p>
+        </div>
+
+        <div id="product-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Los productos se inyectarán aquí mediante JavaScript -->
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gray-900 text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">¿No encontraste lo que buscabas?</h2>
+            <p class="text-gray-400 mb-8">Explora miles de productos más con descuentos exclusivos en la tienda oficial.</p>
+            <a href="https://temu.to" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full font-bold transition-all">
+                Ir a la Tienda Principal <i data-lucide="chevron-right" width="20" height="20"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-sm text-gray-400 mb-4">
+                    * Los precios están expresados en ARS y pueden variar según el tipo de cambio y la disponibilidad del vendedor.
+                </p>
+                <p class="text-sm text-gray-400">
+                    © <span id="year"></span> TopOfertas. Todos los derechos reservados. Página de afiliados independiente.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Datos de los productos
+        const products = [
+            {
+                id: 1,
+                title: "Soporte Programable NFC 13.56Mhz",
+                description: "Estación de mesa plegable compatible con todos los teléfonos con función NFC. Ideal para tarjetas de revisión y automatización.",
+                price: "ARS 11.720",
+                link: "https://temu.to/k/gpr0fawf9kf",
+                image: "https://img.kwcdn.com/product/fancy/2d62280b-1c8b-42d0-b20e-83dfb3440ebe.jpg?imageView2/2/w/800/q/70/format/avif"
+            },
+            {
+                id: 2,
+                title: "Reloj TPW Esqueleto Oro Rosa",
+                description: "Reloj de lujo con movimiento expuesto, correa metálica y acabado elegante en oro rosa. El regalo perfecto.",
+                price: "ARS 25.273",
+                link: "https://temu.to/k/gubiiwre4jl",
+                image: "https://img.kwcdn.com/product/fancy/de6847d9-8ba8-4ce1-80ec-db788e9453ca.jpg?imageView2/2/w/800/q/70/format/avif"
+            },
+            {
+                id: 4,
+                title: "Capturadora de Video HDTV 1080P",
+                description: "Graba y transmite multimedia en vivo. Compatible con Mac y PC, ideal para gaming y videollamadas.",
+                price: "ARS 12.178",
+                link: "https://temu.to/k/glhx9yjtjzn",
+                image: "https://img.kwcdn.com/product/fancy/66b2ce1e-cdc8-4a08-9a28-90568cc6315b.jpg?imageView2/2/w/800/q/70/format/avif"
+            },
+            {
+                id: 5,
+                title: "Funda Rick y Morty - Xiaomi Poco",
+                description: "Diseño de aventura en nave espacial, carcasa protectora antideslizante negra. Cristal templado, ligera y duradera. Compatible con modelos Poco M4, M5, X5, F5 y más.",
+                price: "ARS 10.034",
+                link: "https://temu.to/k/g138uqybmdg",
+                image: "https://img.kwcdn.com/product/open/d7bb8d5096504929b9b00bdd4f6cce34-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
+            },
+            {
+                id: 6,
+                title: "Placa Base SOYO B450M - AMD Ryzen",
+                description: "Compatible con CPUs Ryzen 1000-5000 (Socket AM4). Soporta DDR4 3200MHz, SATA/M.2, PCIe 3.0 x16. Formato Micro ATX con USB 3.0.",
+                price: "ARS 169.015",
+                link: "https://temu.to/k/gjen18gqjs6",
+                image: "https://img.kwcdn.com/product/fancy/cc61d189-703e-4b9d-955b-8abdd4c26d22.jpg?imageView2/2/w/1300/q/90/format/avif"
+            },
+            {
+                id: 7,
+                title: "Probador de Cables USB DT3",
+                description: "Identificación rápida de líneas de datos para iOS, Android y Tipo-C. PCB duradero con protección multinivel e indicadores LED.",
+                price: "ARS 6.851",
+                link: "https://temu.to/k/gxgw1pv7zem",
+                image: "https://img.kwcdn.com/product/open/2023-12-01/1701400431348-f3049d7c8557458b84d98bfb340d7998-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
+            }
+        ];
+
+        // Función para renderizar los productos
+        function renderProducts() {
+            const container = document.getElementById('product-container');
+            let productsHTML = '';
+
+            products.forEach(product => {
+                productsHTML += `
+                <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full transform hover:-translate-y-1">
+                    <!-- Badge de Oferta -->
+                    <div class="absolute top-3 left-3 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                        OFERTA
+                    </div>
+
+                    <!-- Imagen del Producto -->
+                    <div class="relative h-64 overflow-hidden bg-gray-50 group">
+                        <img 
+                            src="${product.image}" 
+                            alt="${product.title}" 
+                            class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110 mix-blend-multiply"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x600?text=Imagen+No+Disponible';"
+                        />
+                        <!-- Overlay en hover -->
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-300"></div>
+                    </div>
+
+                    <!-- Contenido -->
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="mb-2 flex items-center gap-1 text-yellow-400 text-sm">
+                            <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
+                            <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
+                            <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
+                            <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
+                            <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
+                            <span class="text-gray-400 text-xs ml-1">(Verificado)</span>
+                        </div>
+
+                        <h3 class="font-bold text-gray-800 text-lg leading-tight mb-2 line-clamp-2" title="${product.title}">
+                            ${product.title}
+                        </h3>
+                        
+                        <p class="text-gray-500 text-sm line-clamp-3 mb-4 flex-grow overflow-hidden text-ellipsis display-box" style="-webkit-line-clamp: 3; -webkit-box-orient: vertical; display: -webkit-box;">
+                            ${product.description}
+                        </p>
+
+                        <div class="mt-auto border-t pt-4 border-gray-100">
+                            <div class="flex justify-between items-end mb-4">
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-0.5">Precio Exclusivo</p>
+                                    <p class="text-2xl font-black text-red-600 tracking-tight">
+                                        ${product.price}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <a 
+                                href="${product.link}" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                class="w-full flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-orange-200 active:scale-95"
+                            >
+                                Ver Oferta en Temu
+                                <i data-lucide="external-link" width="18" height="18"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = productsHTML;
+            // Reinicializar iconos para el nuevo contenido
+            lucide.createIcons();
+        }
+
+        // Lógica del menú móvil
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            let isMenuOpen = false;
+
+            mobileMenuBtn.addEventListener('click', () => {
+                isMenuOpen = !isMenuOpen;
+                if (isMenuOpen) {
+                    mobileMenu.classList.remove('hidden');
+                    menuIcon.setAttribute('data-lucide', 'x');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                }
+                lucide.createIcons();
+            });
+
+            // Cerrar menú al hacer clic en un enlace
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    isMenuOpen = false;
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                });
+            });
+
+            // Establecer el año actual
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Renderizar productos e inicializar iconos
+            renderProducts();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
