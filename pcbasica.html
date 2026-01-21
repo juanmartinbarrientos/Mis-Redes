@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Gamer AMD Ryzen 3 Starter Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            background-color: #1a1a1a;
+        }
+
+        h1, h2, .tech-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Animación del Fondo */
+        .bg-animate {
+            background-image: url('https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/pcbasica.jpg');
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            animation: kenBurns 20s infinite alternate linear;
+        }
+
+        @keyframes kenBurns {
+            0% { transform: scale(1); background-position: center; }
+            50% { transform: scale(1.1); background-position: top; }
+            100% { transform: scale(1.2); background-position: center; }
+        }
+
+        /* Efecto Vidrio (Glassmorphism) */
+        .glass-card {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
+        }
+
+        .component-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .component-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #ef4444; /* Rojo AMD */
+            padding-left: 1rem;
+        }
+
+        /* Botón Flotante en Móvil */
+        .floating-cta {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+        
+        .floating-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Fondo Animado -->
+    <div class="bg-animate"></div>
+    <div class="fixed inset-0 bg-black/40 z-[-1]"></div> <!-- Overlay oscuro para mejorar lectura -->
+
+    <!-- Contenedor Principal -->
+    <main class="w-full max-w-4xl glass-card rounded-2xl overflow-hidden animate-fade-in-up mt-4 mb-20 md:mb-4">
+        
+        <!-- Cabecera del Producto -->
+        <div class="relative h-64 md:h-80 overflow-hidden">
+            <!-- Usamos la misma imagen pero estática y recortada para el header visual -->
+            <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/pcbasica.jpg" 
+                 alt="PC Gamer Setup" 
+                 class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700">
+            
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-6 pt-20">
+                <span class="bg-green-500 text-black text-xs font-bold px-2 py-1 rounded uppercase tracking-wider mb-2 inline-block">
+                    <i class="fas fa-check-circle mr-1"></i> Stock Disponible
+                </span>
+                <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 text-shadow-lg">
+                    AMD Ryzen 3 <span class="text-red-500">Starter Kit</span>
+                </h1>
+                <p class="text-gray-300 text-sm md:text-base max-w-2xl">
+                    La configuración ideal para iniciar en el mundo del gaming y productividad.
+                </p>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8">
+            
+            <!-- Precio y CTA Desktop -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-700 pb-6">
+                <div>
+                    <p class="text-gray-400 text-sm uppercase tracking-wide">Precio Total Contado</p>
+                    <div class="text-4xl md:text-5xl font-bold text-white tech-font">
+                        $ 352.900
+                    </div>
+                </div>
+                <!-- Botón Desktop (oculto en móvil muy pequeño si se prefiere usar el sticky) -->
+                <div class="hidden md:block mt-4 md:mt-0">
+                    <button onclick="comprarWhatsApp()" class="floating-cta text-white font-bold py-3 px-8 rounded-full flex items-center gap-3 transition-all transform text-lg">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        COMPRAR AHORA
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lista de Componentes Grid -->
+            <h2 class="text-xl md:text-2xl font-bold text-white mb-6 border-l-4 border-red-500 pl-3">
+                <i class="fas fa-microchip mr-2 text-red-500"></i> Especificaciones Técnicas
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Procesador -->
+                <div class="component-item bg-gray-800/50 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-red-900/30 p-3 rounded-full text-red-500 shrink-0">
+                        <i class="fas fa-brain fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">Procesador</h3>
+                        <p class="text-gray-300 text-sm">AMD Ryzen 3 3200G</p>
+                        <p class="text-xs text-gray-500 mt-1">4 Núcleos, 3.6GHz - 4.0GHz | Vega 8 Graphics</p>
+                    </div>
+                </div>
+
+                <!-- Motherboard -->
+                <div class="component-item bg-gray-800/50 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-blue-900/30 p-3 rounded-full text-blue-500 shrink-0">
+                        <i class="fas fa-chess-board fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">Motherboard</h3>
+                        <p class="text-gray-300 text-sm">MSI A520M-A PRO</p>
+                        <p class="text-xs text-gray-500 mt-1">Socket AM4 | DDR4 Support</p>
+                    </div>
+                </div>
+
+                <!-- Memoria RAM -->
+                <div class="component-item bg-gray-800/50 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-green-900/30 p-3 rounded-full text-green-500 shrink-0">
+                        <i class="fas fa-memory fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">Memoria RAM</h3>
+                        <p class="text-gray-300 text-sm">8GB Hiksemi Hiker</p>
+                        <p class="text-xs text-gray-500 mt-1">DDR4 3200MHz | Alta velocidad</p>
+                    </div>
+                </div>
+
+                <!-- Almacenamiento -->
+                <div class="component-item bg-gray-800/50 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-yellow-900/30 p-3 rounded-full text-yellow-500 shrink-0">
+                        <i class="fas fa-hdd fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">Almacenamiento</h3>
+                        <p class="text-gray-300 text-sm">SSD Patriot Burst Elite</p>
+                        <p class="text-xs text-gray-500 mt-1">240GB SATA III | Arranque rápido</p>
+                    </div>
+                </div>
+
+                <!-- Gabinete -->
+                <div class="component-item bg-gray-800/50 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-purple-900/30 p-3 rounded-full text-purple-500 shrink-0">
+                        <i class="fas fa-desktop fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">Gabinete & Fuente</h3>
+                        <p class="text-gray-300 text-sm">Aconcawa Ultimate Gaming RGB</p>
+                        <p class="text-xs text-gray-500 mt-1">Incluye Fuente 600W | Estética Gamer</p>
+                    </div>
+                </div>
+
+                <!-- Periféricos -->
+                <div class="component-item bg-gray-800/50 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-pink-900/30 p-3 rounded-full text-pink-500 shrink-0">
+                        <i class="fas fa-keyboard fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">Kit Periféricos</h3>
+                        <p class="text-gray-300 text-sm">Teclado y Mouse</p>
+                        <p class="text-xs text-gray-500 mt-1">Conexión USB | Color Negro</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Información Adicional -->
+            <div class="mt-8 text-center bg-white/5 p-4 rounded-lg border border-white/10">
+                <p class="text-sm text-gray-400">
+                    <i class="fas fa-truck mr-2"></i> Envíos a todo el país &nbsp;|&nbsp; 
+                    <i class="fas fa-shield-alt mr-2"></i> Garantía Incluida
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Simple -->
+    <footer class="text-gray-500 text-xs text-center pb-24 md:pb-4 relative z-10">
+        <p>© 2026 Juan Martin Barrientos. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Botón Flotante Fijo para Móviles (Sticky Footer) -->
+    <div class="fixed bottom-0 left-0 w-full p-4 bg-black/80 backdrop-blur-md border-t border-gray-800 md:hidden z-50">
+        <div class="flex items-center justify-between gap-4">
+            <div class="flex flex-col">
+                <span class="text-xs text-gray-400">Total</span>
+                <span class="text-xl font-bold text-white">$ 352.900</span>
+            </div>
+            <button onclick="comprarWhatsApp()" class="floating-cta flex-1 text-white font-bold py-3 px-6 rounded-full flex justify-center items-center gap-2 text-sm shadow-lg">
+                <i class="fab fa-whatsapp text-lg"></i>
+                LO QUIERO
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function comprarWhatsApp() {
+            // Número de teléfono
+            const telefono = "5491169578193";
+            
+            // Mensaje personalizado
+            const mensaje = "Hola! 👋 Estoy interesado en la PC AMD Ryzen 3 3200G Starter Kit que vi en la página por $352.900. ¿Me podrían dar más información?";
+            
+            // Codificar mensaje para URL
+            const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+            
+            // Abrir en nueva pestaña
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
