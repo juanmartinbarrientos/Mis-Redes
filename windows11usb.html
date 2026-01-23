@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 11 - LinkedIn Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Fuente Segoe UI simulada para Windows */
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Fondo de Pantalla Windows 11 Bloom */
+        .desktop-bg {
+            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Efecto Mica / Glassmorphism */
+        .glass-panel {
+            background: rgba(243, 243, 243, 0.85);
+            backdrop-filter: blur(20px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark .glass-panel {
+            background: rgba(32, 32, 32, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Scrollbar estilo Windows 11 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Animación de apertura */
+        .pop-in {
+            animation: popIn 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Prevención de captura de eventos del iframe al arrastrar */
+        .dragging iframe {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="desktop-bg h-screen w-screen flex flex-col justify-between overflow-hidden text-gray-800">
+
+    <!-- Área de Escritorio -->
+    <main class="relative flex-1 p-4" id="desktop-area">
+        
+        <!-- Icono de Escritorio (Decorativo) -->
+        <div class="absolute top-4 left-4 flex flex-col items-center gap-1 group cursor-pointer w-20">
+            <div class="w-12 h-12 bg-blue-500 rounded flex items-center justify-center text-white shadow-md group-hover:bg-blue-400 transition">
+                <i class="fa-brands fa-linkedin text-2xl"></i>
+            </div>
+            <span class="text-white text-xs drop-shadow-md text-center">LinkedIn Feed</span>
+        </div>
+
+        <!-- Ventana Estilo Windows 11 -->
+        <div id="window" class="absolute top-10 left-1/2 transform -translate-x-1/2 glass-panel rounded-lg w-full max-w-[560px] h-[80vh] flex flex-col pop-in transition-shadow duration-200">
+            
+            <!-- Barra de Título -->
+            <div id="title-bar" class="h-10 flex justify-between items-center px-2 cursor-default select-none bg-white/30 rounded-t-lg">
+                <div class="flex items-center gap-3 px-2 flex-1">
+                    <i class="fa-brands fa-linkedin text-[#0a66c2]"></i>
+                    <span class="text-xs font-semibold text-gray-700">LinkedIn - Publicación Integrada</span>
+                </div>
+                
+                <!-- Controles de Ventana -->
+                <div class="flex items-center h-full">
+                    <button class="w-10 h-8 flex items-center justify-center hover:bg-gray-200/50 rounded transition text-gray-600 text-xs">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <button class="w-10 h-8 flex items-center justify-center hover:bg-gray-200/50 rounded transition text-gray-600 text-xs">
+                        <i class="fa-regular fa-square"></i>
+                    </button>
+                    <button class="w-10 h-8 flex items-center justify-center hover:bg-red-500 hover:text-white rounded transition text-gray-600 text-sm" onclick="alert('No puedes cerrar LinkedIn, es hora de hacer networking 😜')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenido de la Ventana (Iframe) -->
+            <div class="flex-1 overflow-y-auto bg-white/50 backdrop-blur-sm relative rounded-b-lg">
+                <div class="w-full flex justify-center py-4 min-h-full">
+                    <!-- Código Embed proporcionado -->
+                    <iframe 
+                        src="https://www.linkedin.com/embed/feed/update/urn:li:share:7420589330064310272" 
+                        height="1793" 
+                        width="504" 
+                        frameborder="0" 
+                        allowfullscreen="" 
+                        title="Publicación integrada"
+                        class="bg-white shadow-sm rounded-md max-w-full"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Barra de Tareas -->
+    <footer class="h-12 glass-panel w-full flex justify-between items-center px-4 z-50 relative">
+        
+        <!-- Widget Clima (Izquierda) -->
+        <div class="flex items-center gap-2 hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer hidden sm:flex">
+            <i class="fa-solid fa-cloud-sun text-yellow-600"></i>
+            <div class="flex flex-col leading-none">
+                <span class="text-xs font-semibold text-gray-700">22°C</span>
+                <span class="text-[10px] text-gray-600">Soleado</span>
+            </div>
+        </div>
+
+        <!-- Iconos Centrales -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-1 h-full py-1">
+            <button class="h-full aspect-square hover:bg-white/40 rounded flex items-center justify-center transition active:scale-95">
+                <img src="https://img.icons8.com/color/48/000000/windows-11.png" alt="Start" class="w-6 h-6">
+            </button>
+            <button class="h-full aspect-square bg-white/60 shadow-sm border-b-2 border-blue-500 rounded flex items-center justify-center transition">
+                <i class="fa-brands fa-linkedin text-blue-700 text-xl"></i>
+            </button>
+            <button class="h-full aspect-square hover:bg-white/40 rounded flex items-center justify-center transition">
+                <img src="https://img.icons8.com/color/48/000000/ms-edge-new.png" alt="Edge" class="w-6 h-6">
+            </button>
+            <button class="h-full aspect-square hover:bg-white/40 rounded flex items-center justify-center transition">
+                <img src="https://img.icons8.com/fluency/48/000000/file-explorer.png" alt="Explorer" class="w-6 h-6">
+            </button>
+        </div>
+
+        <!-- Bandeja del Sistema (Derecha) -->
+        <div class="flex items-center gap-2">
+            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer flex gap-2 text-xs text-gray-700">
+                <i class="fa-solid fa-chevron-up"></i>
+            </div>
+            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer flex gap-2 text-xs text-gray-700">
+                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-volume-high"></i>
+                <i class="fa-solid fa-battery-three-quarters"></i>
+            </div>
+            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer text-right flex flex-col justify-center leading-tight w-20">
+                <span id="clock-time" class="text-xs font-medium text-gray-800">12:00</span>
+                <span id="clock-date" class="text-[10px] text-gray-600">23/01/2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Lógica del Reloj
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: false }; // Formato 24h para Argentina
+            const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            
+            document.getElementById('clock-time').textContent = now.toLocaleTimeString('es-AR', timeOptions);
+            document.getElementById('clock-date').textContent = now.toLocaleDateString('es-AR', dateOptions);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Lógica de Arrastrar Ventana (Draggable Window)
+        const windowEl = document.getElementById('window');
+        const titleBar = document.getElementById('title-bar');
+        
+        let isDragging = false;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        // Centrar inicialmente (resetear transform CSS para control JS)
+        // Obtenemos la posición calculada por CSS y la establecemos como offset inicial
+        const rect = windowEl.getBoundingClientRect();
+        // Removemos las clases de centrado de Tailwind para controlar absolute manualmente
+        windowEl.style.left = rect.left + "px";
+        windowEl.style.top = rect.top + "px";
+        windowEl.style.transform = "none";
+
+        titleBar.addEventListener('mousedown', dragStart);
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mousemove', drag);
+
+        // Soporte Táctil
+        titleBar.addEventListener('touchstart', dragStart, {passive: false});
+        document.addEventListener('touchend', dragEnd);
+        document.addEventListener('touchmove', drag, {passive: false});
+
+        function dragStart(e) {
+            if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+
+            if (e.target.closest('button')) return; // No arrastrar si se hace click en botones
+
+            isDragging = true;
+            windowEl.classList.add('dragging'); // Deshabilita pointer-events en iframe
+            
+            // Efecto visual de "levantar"
+            windowEl.style.transition = "none"; // Desactivar transición para movimiento fluido
+            windowEl.style.boxShadow = "0 20px 50px rgba(0,0,0,0.3)";
+        }
+
+        function dragEnd(e) {
+            initialX = xOffset;
+            initialY = yOffset;
+            isDragging = false;
+            windowEl.classList.remove('dragging');
+            windowEl.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.2)";
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                let currentX, currentY;
+
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, windowEl);
+            }
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            // Usamos left/top en lugar de translate para mantener la posición absoluta simple
+            // Pero como ya configuramos left/top inicial, usamos translate para el delta
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
+        // Ajuste responsive para mobile
+        function checkSize() {
+            if (window.innerWidth < 600) {
+                windowEl.style.width = "95%";
+                windowEl.style.left = "2.5%";
+                windowEl.style.top = "20px";
+                windowEl.style.height = "80vh";
+                windowEl.style.transform = "none";
+                // Deshabilitar drag en mobile para mejor UX
+                titleBar.style.cursor = "default";
+            }
+        }
+        
+        window.addEventListener('resize', checkSize);
+        checkSize();
+
+    </script>
+</body>
+</html>
