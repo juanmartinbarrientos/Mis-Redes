@@ -84,7 +84,7 @@
         <div id="window" class="absolute top-10 left-1/2 transform -translate-x-1/2 glass-panel rounded-lg w-full max-w-[560px] h-[80vh] flex flex-col pop-in transition-shadow duration-200">
             
             <!-- Barra de Título -->
-            <div id="title-bar" class="h-10 flex justify-between items-center px-2 cursor-default select-none bg-white/30 rounded-t-lg">
+            <div id="title-bar" class="h-10 flex justify-between items-center px-2 cursor-default select-none bg-white/30 rounded-t-lg touch-none">
                 <div class="flex items-center gap-3 px-2 flex-1">
                     <i class="fa-brands fa-linkedin text-[#0a66c2]"></i>
                     <span class="text-xs font-semibold text-gray-700">LinkedIn - Publicación Integrada</span>
@@ -124,10 +124,10 @@
     </main>
 
     <!-- Barra de Tareas -->
-    <footer class="h-12 glass-panel w-full flex justify-between items-center px-4 z-50 relative">
+    <footer class="h-12 glass-panel w-full flex justify-between items-center px-2 sm:px-4 z-50 relative">
         
-        <!-- Widget Clima (Izquierda) -->
-        <div class="flex items-center gap-2 hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer hidden sm:flex">
+        <!-- Widget Clima (Izquierda) - Oculto en móviles -->
+        <div class="flex items-center gap-2 hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer hidden sm:flex w-24">
             <i class="fa-solid fa-cloud-sun text-yellow-600"></i>
             <div class="flex flex-col leading-none">
                 <span class="text-xs font-semibold text-gray-700">22°C</span>
@@ -136,7 +136,9 @@
         </div>
 
         <!-- Iconos Centrales -->
-        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-1 h-full py-1">
+        <!-- En móvil usamos flex-1 para ocupar espacio pero mantenemos el centrado absoluto si hay espacio, 
+             o usamos justify-center. Para evitar solapamientos, en móvil quitamos position absolute y usamos flex. -->
+        <div class="flex-1 flex justify-center items-center gap-1 h-full py-1 sm:absolute sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:flex-none">
             <button class="h-full aspect-square hover:bg-white/40 rounded flex items-center justify-center transition active:scale-95">
                 <img src="https://img.icons8.com/color/48/000000/windows-11.png" alt="Start" class="w-6 h-6">
             </button>
@@ -152,18 +154,23 @@
         </div>
 
         <!-- Bandeja del Sistema (Derecha) -->
-        <div class="flex items-center gap-2">
-            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer flex gap-2 text-xs text-gray-700">
+        <div class="flex items-center gap-2 justify-end w-auto sm:w-24">
+            <!-- Icono Chevron (Oculto en móvil) -->
+            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer hidden sm:flex gap-2 text-xs text-gray-700">
                 <i class="fa-solid fa-chevron-up"></i>
             </div>
-            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer flex gap-2 text-xs text-gray-700">
+            
+            <!-- Iconos Wifi/Vol/Bat (Oculto en móvil) -->
+            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer hidden sm:flex gap-2 text-xs text-gray-700">
                 <i class="fa-solid fa-wifi"></i>
                 <i class="fa-solid fa-volume-high"></i>
                 <i class="fa-solid fa-battery-three-quarters"></i>
             </div>
-            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer text-right flex flex-col justify-center leading-tight w-20">
+            
+            <!-- Reloj (Visible siempre, pero fecha oculta en móvil muy pequeño) -->
+            <div class="hover:bg-white/40 px-2 py-1 rounded transition cursor-pointer text-right flex flex-col justify-center leading-tight min-w-[3rem]">
                 <span id="clock-time" class="text-xs font-medium text-gray-800">12:00</span>
-                <span id="clock-date" class="text-[10px] text-gray-600">23/01/2026</span>
+                <span id="clock-date" class="text-[10px] text-gray-600 hidden xs:block sm:block">23/01/2026</span>
             </div>
         </div>
     </footer>
@@ -172,7 +179,7 @@
         // Lógica del Reloj
         function updateClock() {
             const now = new Date();
-            const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: false }; // Formato 24h para Argentina
+            const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: false }; 
             const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
             
             document.getElementById('clock-time').textContent = now.toLocaleTimeString('es-AR', timeOptions);
@@ -181,7 +188,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Lógica de Arrastrar Ventana (Draggable Window)
+        // Lógica de Arrastrar Ventana
         const windowEl = document.getElementById('window');
         const titleBar = document.getElementById('title-bar');
         
@@ -191,19 +198,34 @@
         let xOffset = 0;
         let yOffset = 0;
 
-        // Centrar inicialmente (resetear transform CSS para control JS)
-        // Obtenemos la posición calculada por CSS y la establecemos como offset inicial
+        // Centrar inicialmente de forma manual para evitar conflictos con clases
+        function centerWindow() {
+             const desktopArea = document.getElementById('desktop-area');
+             const rect = desktopArea.getBoundingClientRect();
+             // Valores iniciales
+             // xOffset y yOffset deben ser 0 al inicio porque usamos translate
+             // Posicionamos el elemento en el centro usando top/left y translate(-50%, 0)
+             // Pero para el drag & drop, es mejor usar left/top fijos y translate para el movimiento
+             
+             // Nota: En la versión anterior, calculábamos el rect. 
+             // Ahora vamos a simplificar: dejar que CSS lo posicione al inicio,
+             // y al primer drag, calculamos offsets.
+        }
+
+        // Recuperar posición inicial calculada por CSS
         const rect = windowEl.getBoundingClientRect();
-        // Removemos las clases de centrado de Tailwind para controlar absolute manualmente
+        // Removemos las clases de centrado de Tailwind y fijamos pixeles
+        // Esto evita saltos cuando empezamos a arrastrar
         windowEl.style.left = rect.left + "px";
         windowEl.style.top = rect.top + "px";
         windowEl.style.transform = "none";
+        // Eliminamos las clases que interfieren
+        windowEl.classList.remove('-translate-x-1/2'); 
 
         titleBar.addEventListener('mousedown', dragStart);
         document.addEventListener('mouseup', dragEnd);
         document.addEventListener('mousemove', drag);
 
-        // Soporte Táctil
         titleBar.addEventListener('touchstart', dragStart, {passive: false});
         document.addEventListener('touchend', dragEnd);
         document.addEventListener('touchmove', drag, {passive: false});
@@ -217,13 +239,11 @@
                 initialY = e.clientY - yOffset;
             }
 
-            if (e.target.closest('button')) return; // No arrastrar si se hace click en botones
+            if (e.target.closest('button')) return;
 
             isDragging = true;
-            windowEl.classList.add('dragging'); // Deshabilita pointer-events en iframe
-            
-            // Efecto visual de "levantar"
-            windowEl.style.transition = "none"; // Desactivar transición para movimiento fluido
+            windowEl.classList.add('dragging');
+            windowEl.style.transition = "none";
             windowEl.style.boxShadow = "0 20px 50px rgba(0,0,0,0.3)";
         }
 
@@ -237,7 +257,7 @@
 
         function drag(e) {
             if (isDragging) {
-                e.preventDefault();
+                e.preventDefault(); // Prevenir scroll en móviles al arrastrar
                 
                 let currentX, currentY;
 
@@ -257,26 +277,27 @@
         }
 
         function setTranslate(xPos, yPos, el) {
-            // Usamos left/top en lugar de translate para mantener la posición absoluta simple
-            // Pero como ya configuramos left/top inicial, usamos translate para el delta
             el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
         }
 
-        // Ajuste responsive para mobile
+        // Ajuste responsive
         function checkSize() {
             if (window.innerWidth < 600) {
                 windowEl.style.width = "95%";
-                windowEl.style.left = "2.5%";
+                windowEl.style.left = "2.5%"; // Centrado manual
                 windowEl.style.top = "20px";
                 windowEl.style.height = "80vh";
                 windowEl.style.transform = "none";
-                // Deshabilitar drag en mobile para mejor UX
-                titleBar.style.cursor = "default";
+                
+                // Reset offsets para que el drag funcione correctamente desde la nueva posición
+                xOffset = 0;
+                yOffset = 0;
             }
         }
         
         window.addEventListener('resize', checkSize);
-        checkSize();
+        // checkSize se llama al inicio después de un pequeño delay para asegurar renderizado
+        setTimeout(checkSize, 100);
 
     </script>
 </body>
