@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win11 SysAdmin Toolkit V2</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-main: #c9d1d9;
+            --accent: #58a6ff;     /* Azul GitHub */
+            --accent-2: #f778ba;   /* Rosa */
+            --cmd-bg: #050505;
+            --cmd-text: #3fb950;   /* Verde Terminal */
+            --border: #30363d;
+            --highlight: #d29922;  /* Amarillo */
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Consolas', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h1 { 
+            color: var(--accent); 
+            margin: 0; 
+            font-size: 2.2rem; 
+            letter-spacing: -1px;
+            font-weight: 800;
+        }
+        
+        h1 span { color: var(--accent-2); }
+
+        p.subtitle { color: #8b949e; font-size: 1rem; margin-top: 5px; }
+
+        /* Search Bar */
+        .search-wrapper {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+
+        #searchBox {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(22, 27, 34, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-family: 'Consolas', monospace;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: all 0.2s;
+        }
+        #searchBox:focus { 
+            outline: none; 
+            border-color: var(--accent); 
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Tags */
+        .tags { margin-bottom: 12px; }
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.ps { background: #102a44; color: #58a6ff; border: 1px solid #1f6feb; }
+        .tag.cmd { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+        .tag.net { background: #1e1e1e; color: #f2cc60; border: 1px solid #9e8c43; }
+        .tag.new { background: #3e1f26; color: #ff7b72; border: 1px solid #da3633; float: right;}
+
+        h3 { margin: 5px 0 8px 0; font-size: 1.25rem; color: #f0f6fc; }
+        .desc { font-size: 0.9rem; color: #8b949e; margin-bottom: 15px; display: block; }
+
+        /* Code Block */
+        .code-block {
+            background: var(--cmd-bg);
+            color: var(--cmd-text);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            word-break: break-all;
+            white-space: pre-wrap;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #21262d;
+            border: 1px solid var(--border);
+            color: #c9d1d9;
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover { background: var(--accent); color: #0d1117; border-color: var(--accent); }
+
+        /* Footer */
+        footer { margin-top: 50px; text-align: center; color: #484f58; font-size: 0.8rem; padding-bottom: 20px;}
+        footer a { color: var(--text-main); text-decoration: none; transition: color 0.2s; font-weight: bold; border-bottom: 1px dashed var(--border);}
+        footer a:hover { color: var(--accent); border-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SYSADMIN <span>TOOLKIT</span> V2</h1>
+    <p class="subtitle">Windows 11 / Server 2022 Advanced Diagnostics & Automation</p>
+</header>
+
+<div class="search-wrapper">
+    <input type="text" id="searchBox" placeholder="> Buscar comando (ej: port, pktmon, winget, reset)..." onkeyup="filterCommands()" autofocus>
+</div>
+
+<div class="grid" id="cardGrid">
+
+    <!-- Card 1: Pktmon (NUEVO) -->
+    <div class="card">
+        <div class="tags">
+            <span class="tag cmd">CMD</span>
+            <span class="tag new">NEW / NET</span>
+        </div>
+        <h3>Sniffer de Paquetes Nativo (Pktmon)</h3>
+        <p class="desc">Captura tráfico de red sin Wireshark. Monitoriza puerto 443 o 80 en tiempo real y guarda log.</p>
+        <div class="code-block">pktmon filter remove && pktmon filter add -p 443 && pktmon start --etw -p 0 --comp 1 && timeout /t 10 && pktmon stop && pktmon etl2txt PktMon.etl
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 2: Test-NetConnection (NUEVO) -->
+    <div class="card">
+        <div class="tags">
+            <span class="tag ps">PowerShell</span>
+            <span class="tag new">ESSENTIAL</span>
+        </div>
+        <h3>Test de Puertos (No más Telnet)</h3>
+        <p class="desc">Verifica conectividad TCP, ping y resolución DNS en un solo paso. Reemplazo moderno de Telnet.</p>
+        <div class="code-block">Test-NetConnection -ComputerName google.com -Port 443 -InformationLevel Detailed
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 3: Winget Import/Export (NUEVO) -->
+    <div class="card">
+        <div class="tags">
+            <span class="tag cmd">Winget</span>
+            <span class="tag new">DEPLOY</span>
+        </div>
+        <h3>Clonar Software PC a PC</h3>
+        <p class="desc">Genera un JSON con todos los programas instalados para restaurarlos en otra máquina automáticamente.</p>
+        <div class="code-block">:: EXPORTAR
+winget export -o C:\temp\apps.json
+
+:: IMPORTAR EN NUEVA PC
+winget import -i C:\temp\apps.json --accept-package-agreements --accept-source-agreements
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 4: SSD Health (NUEVO) -->
+    <div class="card">
+        <div class="tags">
+            <span class="tag ps">PowerShell</span>
+            <span class="tag new">HARDWARE</span>
+        </div>
+        <h3>Salud Real del Disco SSD/NVMe</h3>
+        <p class="desc">Consulta directa al controlador del disco para ver errores de lectura y desgaste (Wear Leveling).</p>
+        <div class="code-block">Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceId, Wear, ReadErrorsTotal, WriteErrorsTotal, Temperature | Format-Table -AutoSize
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 5: WSL Management -->
+    <div class="card">
+        <div class="tags">
+            <span class="tag cmd">CMD / WSL</span>
+        </div>
+        <h3>Matar WSL (Linux) Colgado</h3>
+        <p class="desc">Si el subsistema de Linux consume mucha RAM o no responde, esto lo fuerza a detenerse sin reiniciar Windows.</p>
+        <div class="code-block">wsl --shutdown && wsl --list --verbose
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 6: MBR to GPT -->
+    <div class="card">
+        <div class="tags">
+            <span class="tag cmd">CMD</span>
+            <span class="tag new">DANGEROUS</span>
+        </div>
+        <h3>Convertir MBR a GPT (Sin Formatear)</h3>
+        <p class="desc">Necesario para pasar a Windows 11 o activar Secure Boot. Ejecutar en WinPE para mayor seguridad, pero funciona en OS.</p>
+        <div class="code-block">mbr2gpt /validate /allowFullOS && mbr2gpt /convert /allowFullOS
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 7: Drivers Backup (Classic) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">DISM</span></div>
+        <h3>Backup Drivers (.inf)</h3>
+        <p class="desc">Exporta drivers de terceros antes de formatear.</p>
+        <div class="code-block">dism /online /export-driver /destination:"C:\BackupDrivers"
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 8: WiFi Passwords (Classic) -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span></div>
+        <h3>Extraer Claves WiFi</h3>
+        <p class="desc">Recupera todas las contraseñas guardadas en texto plano.</p>
+        <div class="code-block">netsh wlan show profiles | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)} | Select-String "Key Content\W+\:(.+)$" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }}
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 9: WinSxS Cleanup (Classic) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">DISM</span></div>
+        <h3>Limpieza Profunda WinSxS</h3>
+        <p class="desc">Elimina updates viejos y reduce tamaño de carpeta Windows.</p>
+        <div class="code-block">dism /online /Cleanup-Image /StartComponentCleanup /ResetBase
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+     <!-- Card 10: Find Large Files -->
+     <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span></div>
+        <h3>Top 20 Archivos Gigantes</h3>
+        <p class="desc">Escanea C: y lista los archivos más pesados rápidamente.</p>
+        <div class="code-block">Get-ChildItem c:\ -r -ErrorAction SilentlyContinue –Force | sort length –descending | select -first 20 name, @{Name="MB";Expression={"{0:N2}" -f ($_.Length/1MB)}} | Format-Table -AutoSize
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+     <!-- Card 11: Reset Windows Update -->
+     <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span></div>
+        <h3>Reset Windows Update Agent</h3>
+        <p class="desc">One-liner para detener servicios, renombrar carpeta SoftwareDistribution y reiniciar servicios.</p>
+        <div class="code-block">net stop wuauserv && net stop cryptSvc && net stop bits && net stop msiserver && ren C:\Windows\SoftwareDistribution SoftwareDistribution.old && net start wuauserv && net start cryptSvc && net start bits && net start msiserver
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 12: Clip Command -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">UTIL</span></div>
+        <h3>Salida a Portapapeles</h3>
+        <p class="desc">No es un comando, es un pipe. Agrega `| clip` a cualquier comando para copiar la salida automáticamente.</p>
+        <div class="code-block">ipconfig /all | clip
+:: (Ahora pega con Ctrl+V donde quieras)
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 13: Sudo Nativo (NUEVO) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">LATEST</span></div>
+        <h3>Activar Sudo (Windows Native)</h3>
+        <p class="desc">Habilita el comando `sudo` nativo para ejecutar elevaciones en la misma terminal (estilo Linux).</p>
+        <div class="code-block">:: Primero activar:
+sudo config --enable normal
+:: Uso diario:
+sudo netstat -ab
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 14: Dev Drive ReFS (NUEVO) -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag new">PERF</span></div>
+        <h3>Crear Dev Drive (VHDx ReFS)</h3>
+        <p class="desc">Crea un disco virtual de 50GB optimizado para alto I/O (30% más rápido para DBs/Compilación).</p>
+        <div class="code-block">New-VHD -Path "C:\DevDrive.vhdx" -SizeBytes 50GB -Dynamic | Mount-VHD -Passthru | Initialize-Disk -Passthru | New-Partition -AssignDriveLetter -UseMaximumSize | Format-Volume -FileSystem ReFS -DevDrive -Confirm:$false
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 15: Winget Configure (NUEVO) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">Winget</span><span class="tag new">IaC</span></div>
+        <h3>Configurar PC vía YAML (DSC)</h3>
+        <p class="desc">Aplica una "Configuración de Estado Deseado" (instalar apps y ajustes OS) desde un archivo local.</p>
+        <div class="code-block">winget configure -f setup.dsc.yaml --accept-configuration-agreements
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 16: System Repair (NEW) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">REPAIR</span></div>
+        <h3>Reparación de Sistema (DISM+SFC)</h3>
+        <p class="desc">Comando definitivo para reparar corrupción de Windows usando Windows Update como fuente y reparando archivos de sistema.</p>
+        <div class="code-block">DISM /Online /Cleanup-Image /RestoreHealth && sfc /scannow
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 17: Battery Report (NEW) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">HW</span></div>
+        <h3>Informe de Salud Batería</h3>
+        <p class="desc">Genera un reporte HTML detallado con ciclos de carga, capacidad real vs diseño y degradación.</p>
+        <div class="code-block">powercfg /batteryreport /output "%USERPROFILE%\Desktop\battery_report.html"
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 18: Listening Ports (NEW) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">NET</span></div>
+        <h3>Puertos Escuchando (PID)</h3>
+        <p class="desc">Muestra todos los puertos abiertos en el equipo y el ID del proceso (PID) que lo usa.</p>
+        <div class="code-block">netstat -aon | findstr "LISTENING"
+:: Para saber el nombre del programa usa: tasklist | findstr [PID]
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 19: Windows Key (NEW) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">LIC</span></div>
+        <h3>Key Original (BIOS/UEFI)</h3>
+        <p class="desc">Recupera la clave de producto OEM inyectada en la placa base. Útil para reinstalaciones limpias.</p>
+        <div class="code-block">wmic path softwarelicensingservice get OA3xOriginalProductKey
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 20: Public IP (NEW) -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">NET</span></div>
+        <h3>Mi IP Pública (CLI)</h3>
+        <p class="desc">Obtén tu dirección IP externa rápidamente desde la consola sin abrir el navegador.</p>
+        <div class="code-block">curl ifconfig.me
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <a href="https://www.juanmartinbarrientos.com" target="_blank">Juan Martin Barrientos</a> | Ayuda de Memoria & Comandos Útiles
+</footer>
+
+<script>
+    function copyToClipboard(btn) {
+        // Obtenemos solo el texto del bloque, ignorando el texto del botón
+        let textToCopy = btn.parentElement.childNodes[0].nodeValue.trim();
+        
+        // Si el bloque tiene saltos de línea manuales (como el winget import/export)
+        if(textToCopy.length < 5) { // Fallback simple logic
+             textToCopy = btn.parentElement.innerText.replace("COPY", "").trim();
+        }
+
+        navigator.clipboard.writeText(textToCopy);
+        
+        const originalText = btn.innerText;
+        btn.innerText = "COPIADO";
+        btn.style.borderColor = "#3fb950";
+        btn.style.color = "#3fb950";
+        
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.borderColor = "";
+            btn.style.color = "";
+        }, 1500);
+    }
+
+    function filterCommands() {
+        const input = document.getElementById('searchBox');
+        const filter = input.value.toUpperCase();
+        const grid = document.getElementById('cardGrid');
+        const cards = grid.getElementsByClassName('card');
+
+        for (let i = 0; i < cards.length; i++) {
+            const text = cards[i].innerText || cards[i].textContent;
+            if (text.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
