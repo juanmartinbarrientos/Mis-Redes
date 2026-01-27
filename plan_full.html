@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puff Studios creando perfiles de liderazgo</title>
+    
+    <!-- Open Graph / Facebook / WhatsApp Meta Tags -->
+    <meta property="og:title" content="Puff Studios creando perfiles de liderazgo">
+    <meta property="og:description" content="Define Tu Legado en el Universo Privado">
+    <meta property="og:image" content="https://raw.githubusercontent.com/jmb-138/puff/main/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jmb-138.github.io/puff/">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Puff Studios creando perfiles de liderazgo">
+    <meta name="twitter:description" content="Define Tu Legado en el Universo Privado">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/jmb-138/puff/main/logo.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Aplicamos la fuente Inter a todo el cuerpo del documento */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para un sutil degradado en el fondo */
+        .bg-grid-pattern {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+        }
+        /* Clase para animaciones de entrada */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Animación de Ken Burns para el fondo del Hero */
+        @keyframes kenburns {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+            50% {
+                transform: scale(1.1) translate(-1%, 1%);
+            }
+            100% {
+                transform: scale(1) translate(0, 0);
+            }
+        }
+        .animate-kenburns {
+            animation: kenburns 30s ease-in-out infinite;
+        }
+        /* Estilos para las tarjetas de precios interactivas */
+        .pricing-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px -10px rgba(168, 85, 247, 0.5);
+        }
+        /* Estilo para video responsivo */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white bg-grid-pattern">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <div class="text-2xl font-bold text-purple-400 leading-tight">Puff Studios</div>
+                <p class="text-xs text-slate-400">Perfiles de Liderazgo con IA</p>
+            </div>
+            <a href="#precios" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
+                Crear mi Perfil
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero Section Wrapper -->
+    <div class="relative w-full overflow-hidden">
+        <!-- Animated Background Image -->
+        <div class="absolute inset-0 w-full h-full bg-cover bg-center animate-kenburns" 
+             style="background-image: url('https://raw.githubusercontent.com/juone0450/roblox2/main/juanypilichat.png');">
+        </div>
+        <!-- Overlay -->
+        <div class="absolute inset-0 w-full h-full bg-slate-900/70"></div>
+
+        <!-- Hero Section Content -->
+        <main class="relative z-10 container mx-auto px-6 py-16 md:py-24 text-center">
+            <h1 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500 reveal">
+                Define Tu Legado en el Universo Privado
+            </h1>
+            <p class="mt-6 text-lg md:text-xl text-slate-300 max-w-3xl mx-auto reveal" style="transition-delay: 100ms;">
+                Creamos perfiles de liderazgo únicos, forjados con Inteligencia Artificial y curados por un experto. Conecta, influye y construye tu propia red social privada de confianza.
+            </p>
+            <div class="mt-10 reveal" style="transition-delay: 200ms;">
+                <a href="#precios" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+                    Ver Planes y Precios
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- El Concepto Section -->
+    <section id="concepto" class="py-16 md:py-24 bg-slate-900/50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Más que un Perfil, tu Red Privada</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
+                    Nuestra misión es darte las herramientas para solidificar tu influencia. No solo creamos una página web; construimos una web para tu red de contactos de confianza, validado con tecnología de punta.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="reveal">
+                    <img src="https://raw.githubusercontent.com/jmb-138/puff/main/tured.png" alt="Ilustración de una red de contactos" class="rounded-lg shadow-2xl shadow-purple-900/20">
+                </div>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 reveal" style="transition-delay: 200ms;">
+                        <div class="flex-shrink-0 bg-purple-900/50 p-3 rounded-lg">
+                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white">Transparencia Total con GitHub</h3>
+                            <p class="text-slate-400 mt-1">Cada perfil tiene una fecha de creación registrada en un commit de GitHub. El proceso de desarrollo se graba, aportando una capa de originalidad y credibilidad inigualable a tu marca personal.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 reveal" style="transition-delay: 300ms;">
+                        <div class="flex-shrink-0 bg-purple-900/50 p-3 rounded-lg">
+                             <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white">Originalidad Basada en el Prompt</h3>
+                            <p class="text-slate-400 mt-1">El prompt de IA que da vida a tu perfil es parte del entregable. Es el ADN digital de tu presencia online, una prueba de que tu espacio es verdaderamente único y hecho a medida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Grabado de Marca Section -->
+    <section id="grabado-marca" class="py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Grabado de Marca: Perfil de Líderes</h2>
+            </div>
+            <div class="mt-12 grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal rounded-lg overflow-hidden shadow-2xl shadow-purple-900/20">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/kzL-AxeaOeQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="reveal" style="transition-delay: 100ms;">
+                    <div class="flex items-center gap-4">
+                        <img src="https://raw.githubusercontent.com/juone0450/Thalo-Amhulk/main/perfil.png" alt="Avatar de Thalo-Amhulk" class="w-20 h-20 rounded-full border-4 border-purple-500 flex-shrink-0 object-cover">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-purple-400">Thalo-Amhulk</h3>
+                            <p class="text-slate-400">Proceso de Creación</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-slate-300">
+                        Este es un ejemplo de cómo se graba el proceso de creación de un perfil de liderazgo, aportando una capa de originalidad y credibilidad inigualable a tu marca personal. El video muestra el <em>making-of</em> de tu presencia digital, un contenido de gran valor para compartir con tu comunidad. La idea es que la creación sea una experiencia interactiva: nos conectamos en una llamada de Meet, comparto mi pantalla y ves en tiempo real cómo tu perfil cobra vida, asegurando que el resultado sea exactamente lo que imaginas.
+                    </p>
+                    <div class="mt-6">
+                        <button onclick="showModal('https://juone0450.github.io/Thalo-Amhulk/')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                            Ver Perfil Terminado
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precios" class="py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Elige el Plan para tu Liderazgo</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
+                    Tenemos una opción para cada nivel de ambición. Desde explorar perfiles hasta la co-creación con nuestro equipo.
+                </p>
+            </div>
+
+            <!-- CHANGE: Reordered pricing plans and updated styling to make "Ultra Plus" the recommended plan. -->
+            <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                
+                <!-- Plan Link de Redes -->
+                <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 relative reveal pricing-card flex flex-col" style="transition-delay: 200ms;">
+                    <div class="flex-grow">
+                        <!-- CHANGE: Added discount ribbon -->
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full uppercase whitespace-nowrap">46% de descuento en efectivo</span>
+                        <h3 class="text-2xl font-semibold text-white mt-2">Link de Redes</h3>
+                        <p class="text-slate-400 mt-2">Creación de pagina con tus redes sociales</p>
+                        <div class="mt-6">
+                            <span class="text-4xl font-bold">$80.000</span>
+                            <span class="text-slate-400">Por Única Vez</span>
+                            <p class="text-lg font-semibold text-green-400 mt-1">150 / USD</p>
+                        </div>
+                        <p class="text-sm text-purple-400 mt-4">Ideal para unificar tu presencia online.</p>
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Tus redes
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Una foto de perfil
+                            </li>
+                             <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Otra foto de fondo
+                            </li>
+                             <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Link de Por vida
+                            </li>
+                             <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Diseño propio de siempre
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491169578193?text=Hola%2C%20consulto%20por%20el%20plan%20Link%20de%20Redes." target="_blank" class="block text-center mt-8 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg transition-colors">
+                        Comprar
+                    </a>
+                </div>
+
+                <!-- Plan Ultra Plus (Recomendado) -->
+                <div class="bg-slate-800 p-8 rounded-xl border-2 border-purple-500 relative transform lg:scale-105 shadow-2xl shadow-purple-900/50 reveal pricing-card flex flex-col" style="transition-delay: 400ms;">
+                     <div class="flex-grow">
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Recomendado</span>
+                        <h3 class="text-2xl font-semibold text-purple-400 mt-2">Ultra Plus</h3>
+                        <p class="text-slate-400 mt-2">Más que una web, una creación conjunta. Te guiamos hasta el porfolio que te define.</p>
+                        <div class="mt-6">
+                            <span class="text-5xl font-bold">$450.000</span>
+                            <span class="text-slate-400">/ año</span>
+                            <p class="text-xl font-semibold text-green-400 mt-1">888 / USD</p>
+                            <span class="inline-block bg-yellow-400 text-black text-sm font-bold mt-3 px-3 py-1 rounded-full">¡50% de descuento en efectivo!</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                             <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <strong>Todo lo del plan Arquitecto IA y además...</strong>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Consultoría de marca personal
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Soporte prioritario 24/7
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Configuración con dominio .com o .com.ar
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8 text-center w-full">
+                        <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                        data-preference-id="44036485-6182b519-49f7-48d9-a890-e3037022a724" data-source="button">
+                        </script>
+                    </div>
+                </div>
+
+                <!-- Plan Arquitecto IA -->
+                <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 relative reveal pricing-card flex flex-col" style="transition-delay: 300ms;">
+                     <div class="flex-grow">
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full uppercase whitespace-nowrap">50% Descuento en Efectivo</span>
+                        <h3 class="text-2xl font-semibold text-white mt-2">Arquitecto IA</h3>
+                        <p class="text-slate-400 mt-2">Carga tus datos y deja que nuestra IA construya tu perfil.</p>
+                        <div class="mt-6">
+                            <span class="text-4xl font-bold">$200.000</span>
+                            <span class="text-slate-400">/ año</span>
+                            <p class="text-lg font-semibold text-green-400 mt-1">400 / USD</p>
+                        </div>
+                         <ul class="mt-6 space-y-3 text-slate-300">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Creación de perfil por IA
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Entrega del prompt original
+                            </li>
+                             <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                Soporte estándar por email
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491169578193?text=Hola%2C%20consulto%20por%20el%20plan%20Arquitecto%20IA." target="_blank" class="block text-center mt-8 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg transition-colors">
+                        Comenzar
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="py-16 md:py-24 bg-slate-900/50">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 class="text-3xl font-bold text-center mb-8 reveal">Preguntas Frecuentes</h2>
+            <div class="space-y-4">
+                <details class="bg-slate-800 p-4 rounded-lg cursor-pointer reveal" style="transition-delay: 100ms;">
+                    <summary class="font-semibold text-lg">¿En qué se diferencia esto de un perfil de Linktree o similar?</summary>
+                    <p class="text-slate-400 mt-2">PUFF va más allá de una simple lista de enlaces. Creamos una web personal completa, con una narrativa, diseño único y la credibilidad del registro en GitHub. El objetivo no es solo redirigir, sino construir una marca y una red privada de contactos de valor.</p>
+                </details>
+                <details class="bg-slate-800 p-4 rounded-lg cursor-pointer reveal" style="transition-delay: 200ms;">
+                    <summary class="font-semibold text-lg">¿Realmente graban el proceso de creación?</summary>
+                    <p class="text-slate-400 mt-2">Sí. Para los planes 'Arquitecto IA' y 'Ultra Plus', se genera un video time-lapse del proceso de creación del sitio. Esto sirve como un certificado de autenticidad y un contenido de gran valor para que compartas con tu comunidad, mostrando cómo "nació" tu espacio digital.</p>
+                </details>
+                 <details class="bg-slate-800 p-4 rounded-lg cursor-pointer reveal" style="transition-delay: 300ms;">
+                    <summary class="font-semibold text-lg">¿Puedo cancelar mi suscripción cuando quiera?</summary>
+                    <p class="text-slate-400 mt-2">Absolutamente. Puedes gestionar tu suscripción y cancelarla en cualquier momento desde tu panel de usuario. Sin contratos a largo plazo ni complicaciones.</p>
+                </details>
+                <details class="bg-slate-800 p-4 rounded-lg cursor-pointer reveal" style="transition-delay: 400ms;">
+                    <summary class="font-semibold text-lg">¿Qué pasa con mi perfil si cancelo la suscripción?</summary>
+                    <p class="text-slate-400 mt-2">Si cancelas, tu perfil dejará de estar activo en nuestra red. Sin embargo, como parte del servicio, te ofrecemos la opción de exportar el código de tu web para que puedas alojarlo por tu cuenta si lo deseas.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ejemplo de Perfil Section -->
+    <section id="ejemplo" class="py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Ejemplos de Éxito</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
+                    Mira cómo los líderes y profesionales están forjando su legado con perfiles únicos.
+                </p>
+            </div>
+            <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                <!-- Caso Sabrina Gentile -->
+                <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 reveal flex flex-col" style="transition-delay: 200ms;">
+                    <div class="flex-grow">
+                        <div class="flex flex-col items-center text-center gap-4">
+                            <img src="https://raw.githubusercontent.com/juone0450/roblox2/main/sabri2.jpeg" alt="Avatar de Sabrina Gentile" class="w-24 h-24 rounded-full border-4 border-purple-500 flex-shrink-0 object-cover">
+                            <div>
+                                <h3 class="text-xl font-semibold text-purple-400">Sabrina Gentile</h3>
+                                <p class="text-slate-300 mt-2 text-sm">
+                                    Líder que usa su perfil para consolidar su marca personal y conectar con nuevas oportunidades.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://sabrinagentile.github.io/Asesoria/" target="_blank" class="mt-6 w-full inline-block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
+                        Visitar Perfil
+                    </a>
+                </div>
+                <!-- Caso Juan Barrientos -->
+                <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 reveal flex flex-col" style="transition-delay: 300ms;">
+                     <div class="flex-grow">
+                        <div class="flex flex-col items-center text-center gap-4">
+                            <img src="https://raw.githubusercontent.com/juone0450/roblox2/main/Juan.jpg" alt="Avatar de Juan Barrientos" class="w-24 h-24 rounded-full border-4 border-blue-500 flex-shrink-0 object-cover">
+                            <div>
+                                <h3 class="text-xl font-semibold text-blue-400">Juan Barrientos</h3>
+                                <p class="text-slate-300 mt-2 text-sm">
+                                    Apasionado de la tecnología que transformó su CV en una experiencia digital interactiva.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://juone0450.github.io/porfolio02/" target="_blank" class="mt-6 w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
+                        Ver CV Online
+                    </a>
+                </div>
+                <!-- Caso Pilar0450 -->
+                <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 reveal flex flex-col" style="transition-delay: 400ms;">
+                     <div class="flex-grow">
+                        <div class="flex flex-col items-center text-center gap-4">
+                            <img src="https://raw.githubusercontent.com/juone0450/roblox2/main/pilar0450.jpeg" alt="Avatar de Pilar0450" class="w-24 h-24 rounded-full border-4 border-pink-500 flex-shrink-0 object-cover">
+                            <div>
+                                <h3 class="text-xl font-semibold text-pink-400">Pilar0450</h3>
+                                <p class="text-slate-300 mt-2 text-sm">
+                                    Admin de una comunidad de Roblox que centraliza la comunicación y recursos para su equipo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://juone0450.github.io/roblox2/" target="_blank" class="mt-6 w-full inline-block text-center bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                        Ver Comunidad
+                    </a>
+                </div>
+                <!-- Caso Mora -->
+                <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 reveal flex flex-col" style="transition-delay: 500ms;">
+                     <div class="flex-grow">
+                        <div class="flex flex-col items-center text-center gap-4">
+                            <img src="https://raw.githubusercontent.com/juone0450/roblox2/main/gato5.jpeg" alt="Avatar de Mora" class="w-24 h-24 rounded-full border-4 border-amber-500 flex-shrink-0 object-cover">
+                            <div>
+                                <h3 class="text-xl font-semibold text-amber-400">Mora</h3>
+                                <p class="text-slate-300 mt-2 text-sm">
+                                    Una gata auténtica con un humor muy especial que cautiva a sus seguidores en su Fan Page.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://juone0450.github.io/Mora/" target="_blank" class="mt-6 w-full inline-block text-center bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                        Ver FanPage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Otros Modelos Section -->
+    <section id="otros-modelos" class="py-16 md:py-24 bg-slate-900/50">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Más Allá de los Perfiles</h2>
+            </div>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Modelo de Negocio -->
+                <div class="reveal" style="transition-delay: 100ms;">
+                    <h3 class="text-2xl font-semibold text-white text-center mb-4">Modelos de Negocio</h3>
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full">
+                        <img src="https://aremsaprod.vtexassets.com/arquivos/ids/668170-800-auto?v=638640553539600000&width=800&height=auto&aspect=true" alt="Ejemplo de producto de electrodoméstico" class="rounded-lg object-cover w-full h-48 mb-6">
+                        <div class="flex-grow">
+                             <h4 class="text-xl font-semibold text-green-400">ElectroHogar E-commerce</h4>
+                            <p class="text-slate-300 mt-2 text-sm">
+                                Un modelo de ejemplo para una tienda de venta de electrodomésticos, con catálogo y diseño profesional.
+                            </p>
+                        </div>
+                        <a href="https://juone0450.github.io/electro/" target="_blank" class="mt-6 w-full inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                            Ver Demo
+                        </a>
+                    </div>
+                </div>
+                <!-- Modelo de Fandom -->
+                 <div class="reveal" style="transition-delay: 300ms;">
+                    <h3 class="text-2xl font-semibold text-white text-center mb-4">Cuenta Fandom</h3>
+                     <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full">
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Cosplayer_of_Hatsune_Miku_at_Taipei_Game_Show_20160201a.jpg/250px-Cosplayer_of_Hatsune_Miku_at_Taipei_Game_Show_20160201a.jpg" alt="Ejemplo de cuenta Fandom" class="rounded-lg object-cover w-full h-48 mb-6">
+                        <div class="flex-grow">
+                            <h4 class="text-xl font-semibold text-red-400">Maqueta Fandom</h4>
+                            <p class="text-slate-300 mt-2 text-sm">
+                                Maqueta de ejemplo de como seria una cuenta Fandom para agrupar y organizar una comunidad de seguidores.
+                            </p>
+                        </div>
+                        <button onclick="showModal('https://juone0450.github.io/MikuFandom/')" class="mt-6 w-full inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                            Ver Fandom
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pon lo que quieras Section -->
+    <section id="ponloquequieras" class="py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Pon lo que Quieras</h2>
+            </div>
+            <div class="mt-12 max-w-lg mx-auto bg-slate-800 rounded-xl border border-slate-700 p-8 reveal flex flex-col items-center text-center" style="transition-delay: 200ms;">
+                <img src="https://raw.githubusercontent.com/jmb-138/Ponloquequieras/main/imagen.png" alt="Imagen de Pon lo que quieras" class="rounded-lg object-cover w-full h-auto mb-6">
+                <div class="flex-grow">
+                     <h4 class="text-2xl font-semibold text-cyan-400">El Límite es tu Imaginación</h4>
+                    <p class="text-slate-300 mt-2">
+                        Pon lo que quieras, que el límite sea tu imaginación. Creamos cualquier tipo de página que necesites.
+                    </p>
+                </div>
+                <button onclick="showModal('https://jmb-138.github.io/Ponloquequieras/')" class="mt-6 w-full inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                    Ver Ejemplo
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Acortador de Links Section -->
+    <section id="acortador-links" class="py-16 md:py-24 bg-slate-900/50">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Acortadores de Links</h2>
+            </div>
+            <div class="mt-12 max-w-lg mx-auto bg-slate-800 rounded-xl border border-slate-700 p-8 reveal flex flex-col items-center text-center" style="transition-delay: 200ms;">
+                <img src="https://raw.githubusercontent.com/juone0450/Creador/main/imagen.png" alt="Imagen de Acortador de Links" class="rounded-lg object-cover w-full h-auto mb-6">
+                <div class="flex-grow">
+                     <h4 class="text-2xl font-semibold text-orange-400">Un Link para Dominarlos a Todos</h4>
+                    <p class="text-slate-300 mt-2">
+                        Creamos un link único para que agrupes todas tus redes sociales y contactos en un solo lugar. Simple, elegante y poderoso.
+                    </p>
+                </div>
+                <a href="https://juone0450.github.io/Creador/" target="_blank" class="mt-6 w-full inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                    Ver Ejemplo
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Maqueta de Radio Section -->
+    <section id="maqueta-radio" class="relative py-24 md:py-32 bg-cover bg-center" style="background-image: url('https://raw.githubusercontent.com/juone0450/roblox2/main/radiorosca.png');">
+        <!-- Overlay -->
+        <div class="absolute inset-0 w-full h-full bg-slate-900/60"></div>
+        <div class="relative z-10 container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Maqueta de Radio</h2>
+            <p class="mt-4 text-2xl md:text-3xl text-slate-200 font-light max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
+                "El Cine es una simulación del Futuro"
+            </p>
+            <div class="mt-8 reveal" style="transition-delay: 200ms;">
+                <button onclick="showModal('https://juone0450.github.io/radio-ciber-punk/')" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+                    Ver Maqueta
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-700">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
+            <p>&copy; <span id="copyright-year"></span> PUFF. Todos los derechos reservados.</p>
+            <p class="mt-2 text-sm">Construyendo la próxima generación de líderes en la Comunidad Privada.</p>
+            <div class="flex justify-center gap-6 mt-4">
+                <a href="https://jmb-138.github.io/puff/Terminos-de-Servicios.html" class="hover:text-white">Términos de Servicio</a>
+                <a href="https://jmb-138.github.io/puff/Politica-de-Privacidad.html" class="hover:text-white">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-70 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-slate-800 border border-slate-700 rounded-lg p-8 text-center shadow-2xl max-w-sm mx-auto reveal">
+            <h3 id="modal-title" class="text-white text-xl font-bold mb-4">Confirmar Salida</h3>
+            <p class="text-slate-300 mb-8">Estás a punto de abandonar nuestro sitio. ¿Deseas continuar?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelButton" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-6 rounded-lg transition-colors">Cancelar</button>
+                <button id="confirmButton" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Script to run when the document is fully loaded ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Script for dynamic copyright year ---
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+            // --- Script for scroll animations ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            revealElements.forEach(el => observer.observe(el));
+        });
+
+
+        // --- Script for Confirmation Modal ---
+        const modal = document.getElementById('confirmationModal');
+        const cancelButton = document.getElementById('cancelButton');
+        const confirmButton = document.getElementById('confirmButton');
+        let redirectUrl = '';
+
+        function showModal(url) {
+            redirectUrl = url;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Force the modal's entry animation
+            setTimeout(() => {
+                 modal.querySelector('.reveal').classList.add('visible');
+            }, 10);
+        }
+
+        function hideModal() {
+            modal.querySelector('.reveal').classList.remove('visible');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300); // Wait for the exit animation to finish
+        }
+
+        cancelButton.onclick = hideModal;
+
+        confirmButton.onclick = () => {
+            if(redirectUrl) {
+                window.open(redirectUrl, '_blank');
+            }
+            hideModal();
+        };
+
+        // Close modal when clicking outside of it
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                hideModal();
+            }
+        };
+    </script>
+
+</body>
+</html>
