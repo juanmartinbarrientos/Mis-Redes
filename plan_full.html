@@ -121,6 +121,20 @@
             transform: translateY(-10px);
             box-shadow: 0 0 40px -10px rgba(168, 85, 247, 0.5);
         }
+        /* Nueva clase para el efecto de luz en las tarjetas de modelos */
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+        .hover-glow:hover {
+            transform: translateY(-8px);
+            z-index: 10;
+        }
+        /* Colores específicos de resplandor según el tipo */
+        .glow-green:hover { box-shadow: 0 0 30px -5px rgba(34, 197, 94, 0.5); border-color: rgba(34, 197, 94, 0.5); }
+        .glow-red:hover { box-shadow: 0 0 30px -5px rgba(239, 68, 68, 0.5); border-color: rgba(239, 68, 68, 0.5); }
+        .glow-cyan:hover { box-shadow: 0 0 30px -5px rgba(6, 182, 212, 0.5); border-color: rgba(6, 182, 212, 0.5); }
+        .glow-orange:hover { box-shadow: 0 0 30px -5px rgba(249, 115, 22, 0.5); border-color: rgba(249, 115, 22, 0.5); }
+
         /* Estilo para video responsivo */
         .video-container {
             position: relative;
@@ -488,12 +502,17 @@
         <div class="container mx-auto px-6">
             <div class="text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Más Allá de los Perfiles</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
+                    Explora nuestras soluciones versátiles para diferentes necesidades digitales.
+                </p>
             </div>
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Grid ajustado a 2 columnas para 4 elementos -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                
                 <!-- Modelo de Negocio -->
-                <div class="reveal" style="transition-delay: 100ms;">
-                    <h3 class="text-2xl font-semibold text-white text-center mb-4">Modelos de Negocio</h3>
-                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full">
+                <div class="reveal h-full" style="transition-delay: 100ms;">
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full hover-glow glow-green">
+                        <h3 class="text-2xl font-semibold text-white mb-6">Modelos de Negocio</h3>
                         <img src="https://aremsaprod.vtexassets.com/arquivos/ids/668170-800-auto?v=638640553539600000&width=800&height=auto&aspect=true" alt="Ejemplo de producto de electrodoméstico" class="rounded-lg object-cover w-full h-48 mb-6">
                         <div class="flex-grow">
                              <h4 class="text-xl font-semibold text-green-400">ElectroHogar E-commerce</h4>
@@ -506,10 +525,11 @@
                         </a>
                     </div>
                 </div>
+
                 <!-- Modelo de Fandom -->
-                 <div class="reveal" style="transition-delay: 300ms;">
-                    <h3 class="text-2xl font-semibold text-white text-center mb-4">Cuenta Fandom</h3>
-                     <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full">
+                 <div class="reveal h-full" style="transition-delay: 200ms;">
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full hover-glow glow-red">
+                        <h3 class="text-2xl font-semibold text-white mb-6">Cuenta Fandom</h3>
                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Cosplayer_of_Hatsune_Miku_at_Taipei_Game_Show_20160201a.jpg/250px-Cosplayer_of_Hatsune_Miku_at_Taipei_Game_Show_20160201a.jpg" alt="Ejemplo de cuenta Fandom" class="rounded-lg object-cover w-full h-48 mb-6">
                         <div class="flex-grow">
                             <h4 class="text-xl font-semibold text-red-400">Maqueta Fandom</h4>
@@ -522,52 +542,45 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Pon lo que Quieras (Movido aquí) -->
+                <div class="reveal h-full" style="transition-delay: 300ms;">
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full hover-glow glow-cyan">
+                        <h3 class="text-2xl font-semibold text-white mb-6">Pon lo que Quieras</h3>
+                        <img src="https://raw.githubusercontent.com/jmb-138/Ponloquequieras/main/imagen.png" alt="Imagen de Pon lo que quieras" class="rounded-lg object-cover w-full h-48 mb-6">
+                        <div class="flex-grow">
+                             <h4 class="text-xl font-semibold text-cyan-400">El Límite es tu Imaginación</h4>
+                            <p class="text-slate-300 mt-2 text-sm">
+                                Pon lo que quieras, que el límite sea tu imaginación. Creamos cualquier tipo de página que necesites.
+                            </p>
+                        </div>
+                        <button onclick="showModal('https://jmb-138.github.io/Ponloquequieras/')" class="mt-6 w-full inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                            Ver Ejemplo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Acortador de Links (Movido aquí) -->
+                <div class="reveal h-full" style="transition-delay: 400ms;">
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 flex flex-col items-center text-center h-full hover-glow glow-orange">
+                        <h3 class="text-2xl font-semibold text-white mb-6">Acortadores de Links</h3>
+                        <img src="https://raw.githubusercontent.com/juone0450/Creador/main/imagen.png" alt="Imagen de Acortador de Links" class="rounded-lg object-cover w-full h-48 mb-6">
+                        <div class="flex-grow">
+                             <h4 class="text-xl font-semibold text-orange-400">Un Link para Dominarlos a Todos</h4>
+                            <p class="text-slate-300 mt-2 text-sm">
+                                Creamos un link único para que agrupes todas tus redes sociales y contactos en un solo lugar. Simple, elegante y poderoso.
+                            </p>
+                        </div>
+                        <a href="https://juone0450.github.io/Creador/" target="_blank" class="mt-6 w-full inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
+                            Ver Ejemplo
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Pon lo que quieras Section -->
-    <section id="ponloquequieras" class="py-16 md:py-24">
-        <div class="container mx-auto px-6">
-            <div class="text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Pon lo que Quieras</h2>
-            </div>
-            <div class="mt-12 max-w-lg mx-auto bg-slate-800 rounded-xl border border-slate-700 p-8 reveal flex flex-col items-center text-center" style="transition-delay: 200ms;">
-                <img src="https://raw.githubusercontent.com/jmb-138/Ponloquequieras/main/imagen.png" alt="Imagen de Pon lo que quieras" class="rounded-lg object-cover w-full h-auto mb-6">
-                <div class="flex-grow">
-                     <h4 class="text-2xl font-semibold text-cyan-400">El Límite es tu Imaginación</h4>
-                    <p class="text-slate-300 mt-2">
-                        Pon lo que quieras, que el límite sea tu imaginación. Creamos cualquier tipo de página que necesites.
-                    </p>
-                </div>
-                <button onclick="showModal('https://jmb-138.github.io/Ponloquequieras/')" class="mt-6 w-full inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
-                    Ver Ejemplo
-                </button>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Acortador de Links Section -->
-    <section id="acortador-links" class="py-16 md:py-24 bg-slate-900/50">
-        <div class="container mx-auto px-6">
-            <div class="text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white reveal">Acortadores de Links</h2>
-            </div>
-            <div class="mt-12 max-w-lg mx-auto bg-slate-800 rounded-xl border border-slate-700 p-8 reveal flex flex-col items-center text-center" style="transition-delay: 200ms;">
-                <img src="https://raw.githubusercontent.com/juone0450/Creador/main/imagen.png" alt="Imagen de Acortador de Links" class="rounded-lg object-cover w-full h-auto mb-6">
-                <div class="flex-grow">
-                     <h4 class="text-2xl font-semibold text-orange-400">Un Link para Dominarlos a Todos</h4>
-                    <p class="text-slate-300 mt-2">
-                        Creamos un link único para que agrupes todas tus redes sociales y contactos en un solo lugar. Simple, elegante y poderoso.
-                    </p>
-                </div>
-                <a href="https://juone0450.github.io/Creador/" target="_blank" class="mt-6 w-full inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300">
-                    Ver Ejemplo
-                </a>
-            </div>
-        </div>
-    </section>
-    
     <!-- Maqueta de Radio Section -->
     <section id="maqueta-radio" class="relative py-24 md:py-32 bg-cover bg-center" style="background-image: url('https://raw.githubusercontent.com/juone0450/roblox2/main/radiorosca.png');">
         <!-- Overlay -->
