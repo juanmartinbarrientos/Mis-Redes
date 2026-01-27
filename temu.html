@@ -64,7 +64,8 @@
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#productos" class="text-gray-600 hover:text-orange-600 font-medium transition-colors">Productos</a>
+                    <a href="#ofertas-principales" class="text-orange-600 hover:text-orange-700 font-bold transition-colors">🔥 Ofertas Top</a>
+                    <a href="#productos" class="text-gray-600 hover:text-orange-600 font-medium transition-colors">Más Productos</a>
                     <a href="#beneficios" class="text-gray-600 hover:text-orange-600 font-medium transition-colors">Beneficios</a>
                     <button class="bg-gray-900 text-white px-5 py-2 rounded-full font-medium hover:bg-gray-800 transition-all text-sm">
                         Ver Todo
@@ -83,7 +84,8 @@
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
             <div class="px-4 pt-2 pb-4 space-y-1">
-                <a href="#productos" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-md">Productos</a>
+                <a href="#ofertas-principales" class="block px-3 py-2 text-base font-bold text-orange-600 hover:bg-orange-50 rounded-md">🔥 Ofertas Top</a>
+                <a href="#productos" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-md">Más Productos</a>
                 <a href="#beneficios" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-md">Beneficios</a>
             </div>
         </div>
@@ -176,7 +178,7 @@
             </div>
 
             <div class="mt-8 flex justify-center gap-4">
-                <a href="#productos" class="bg-white/10 backdrop-blur text-white border border-white/40 px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:text-orange-600 transition-all">
+                <a href="#ofertas-principales" class="bg-white/10 backdrop-blur text-white border border-white/40 px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:text-orange-600 transition-all">
                     Ver productos individuales ↓
                 </a>
             </div>
@@ -212,11 +214,37 @@
         </div>
     </div>
 
-    <!-- Product Grid -->
+    <!-- Main Featured Section (New) -->
+    <div id="ofertas-principales" class="bg-orange-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                <div>
+                    <span class="text-orange-600 font-bold tracking-wider uppercase text-sm mb-2 block">Seleccionados para ti</span>
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        Ofertas Destacadas del Día 🔥
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-500 bg-white px-4 py-2 rounded-full shadow-sm">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                    Precios actualizados en tiempo real
+                </div>
+            </div>
+
+            <!-- Contenedor para ofertas principales -->
+            <div id="featured-container" class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <!-- Se inyectan vía JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Existing Product Grid -->
     <div id="productos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                Selección Destacada
+                Más Productos Imperdibles
             </h2>
             <p class="mt-4 text-lg text-gray-500">
                 Productos virales con precios de liquidación en Pesos Argentinos (ARS)
@@ -224,7 +252,7 @@
         </div>
 
         <div id="product-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Los productos se inyectarán aquí mediante JavaScript -->
+            <!-- Los productos originales se inyectan aquí -->
         </div>
     </div>
 
@@ -255,7 +283,51 @@
 
     <!-- Scripts -->
     <script>
-        // Datos de los productos
+        // Nuevas Ofertas Principales (Top 5)
+        const mainOffers = [
+            {
+                id: 'm1',
+                title: "Juego de Brocas Torx Impact (75-150mm)",
+                description: "Juego completo T5-T40 para destornillador estrella. Indispensable para reparaciones DIY y mantenimiento del hogar.",
+                price: "ARS 36.812",
+                link: "https://temu.to/k/guez2v5654v",
+                image: "https://placehold.co/600x600/f97316/ffffff?text=Brocas+Torx" 
+            },
+            {
+                id: 'm2',
+                title: "60 Hebillas de Correa de Amarre Universal",
+                description: "Nailon duradero para mantenimiento de vehículos y agrupación de cables. Diseño compacto, ligero y resistente.",
+                price: "ARS 6.520",
+                link: "https://temu.to/k/gxuw8r2btn7",
+                image: "https://placehold.co/600x600/2563eb/ffffff?text=Hebillas+Nailon"
+            },
+            {
+                id: 'm3',
+                title: "Probador USB Compacto DT3",
+                description: "Identificación rápida de líneas de datos para iOS, Android y Tipo-C. PCB con protección multinivel.",
+                price: "ARS 5.824",
+                link: "https://temu.to/k/gunrvqbtxti",
+                image: "https://placehold.co/600x600/16a34a/ffffff?text=Probador+USB"
+            },
+            {
+                id: 'm4',
+                title: "Antifaz de Sueño Ultra Cómodo",
+                description: "Cubierta totalmente oscura con correa ajustable. Tela suave y transpirable, ideal para viajes y siestas.",
+                price: "ARS 4.289",
+                link: "https://temu.to/k/g5nryu6d4j7",
+                image: "https://placehold.co/600x600/9333ea/ffffff?text=Antifaz+Sueño"
+            },
+            {
+                id: 'm5',
+                title: "Juego de 10 Fresas (Vástago 3mm)",
+                description: "Cabezales de corte rotativos de doble corte para madera, metal y piedra. Compatible con taladros eléctricos.",
+                price: "ARS 10.735",
+                link: "https://temu.to/k/gt2xihmgv4q",
+                image: "https://placehold.co/600x600/dc2626/ffffff?text=Fresas+3mm"
+            }
+        ];
+
+        // Productos existentes (se mantienen debajo)
         const products = [
             {
                 id: 1,
@@ -284,7 +356,7 @@
             {
                 id: 5,
                 title: "Funda Rick y Morty - Xiaomi Poco",
-                description: "Diseño de aventura en nave espacial, carcasa protectora antideslizante negra. Cristal templado, ligera y duradera. Compatible con modelos Poco M4, M5, X5, F5 y más.",
+                description: "Diseño de aventura en nave espacial, carcasa protectora antideslizante negra. Cristal templado, ligera y duradera.",
                 price: "ARS 10.034",
                 link: "https://temu.to/k/g138uqybmdg",
                 image: "https://img.kwcdn.com/product/open/d7bb8d5096504929b9b00bdd4f6cce34-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
@@ -292,7 +364,7 @@
             {
                 id: 6,
                 title: "Placa Base SOYO B450M - AMD Ryzen",
-                description: "Compatible con CPUs Ryzen 1000-5000 (Socket AM4). Soporta DDR4 3200MHz, SATA/M.2, PCIe 3.0 x16. Formato Micro ATX con USB 3.0.",
+                description: "Compatible con CPUs Ryzen 1000-5000 (Socket AM4). Soporta DDR4 3200MHz, SATA/M.2, PCIe 3.0 x16.",
                 price: "ARS 169.015",
                 link: "https://temu.to/k/gjen18gqjs6",
                 image: "https://img.kwcdn.com/product/fancy/cc61d189-703e-4b9d-955b-8abdd4c26d22.jpg?imageView2/2/w/1300/q/90/format/avif"
@@ -300,14 +372,49 @@
             {
                 id: 7,
                 title: "Probador de Cables USB DT3",
-                description: "Identificación rápida de líneas de datos para iOS, Android y Tipo-C. PCB duradero con protección multinivel e indicadores LED.",
+                description: "Identificación rápida de líneas de datos para iOS, Android y Tipo-C. PCB duradero con protección multinivel.",
                 price: "ARS 6.851",
                 link: "https://temu.to/k/gxgw1pv7zem",
                 image: "https://img.kwcdn.com/product/open/2023-12-01/1701400431348-f3049d7c8557458b84d98bfb340d7998-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
             }
         ];
 
-        // Función para renderizar los productos
+        // Función para renderizar Ofertas Principales
+        function renderMainOffers() {
+            const container = document.getElementById('featured-container');
+            let html = '';
+
+            mainOffers.forEach(product => {
+                html += `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-orange-100 flex flex-col h-full group">
+                     <div class="relative bg-gray-100 h-40 overflow-hidden">
+                        <div class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded shadow-sm z-10">HOT</div>
+                        <img 
+                            src="${product.image}" 
+                            alt="${product.title}" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x600?text=TopOfertas';"
+                        />
+                     </div>
+                     <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-bold text-gray-900 text-sm leading-snug mb-2 line-clamp-2 min-h-[2.5em]">${product.title}</h3>
+                        
+                        <div class="mt-auto">
+                            <p class="text-xs text-gray-500 mb-1">Cupón Especial</p>
+                            <p class="text-xl font-black text-red-600 tracking-tight mb-3">${product.price}</p>
+                            
+                            <a href="${product.link}" target="_blank" class="block w-full text-center bg-gray-900 hover:bg-orange-600 text-white text-xs font-bold py-2 rounded-lg transition-colors">
+                                VER OFERTA
+                            </a>
+                        </div>
+                     </div>
+                </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Función para renderizar productos normales
         function renderProducts() {
             const container = document.getElementById('product-container');
             let productsHTML = '';
@@ -315,12 +422,9 @@
             products.forEach(product => {
                 productsHTML += `
                 <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full transform hover:-translate-y-1">
-                    <!-- Badge de Oferta -->
                     <div class="absolute top-3 left-3 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                         OFERTA
                     </div>
-
-                    <!-- Imagen del Producto -->
                     <div class="relative h-64 overflow-hidden bg-gray-50 group">
                         <img 
                             src="${product.image}" 
@@ -328,11 +432,8 @@
                             class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110 mix-blend-multiply"
                             onerror="this.onerror=null;this.src='https://placehold.co/600x600?text=Imagen+No+Disponible';"
                         />
-                        <!-- Overlay en hover -->
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-300"></div>
                     </div>
-
-                    <!-- Contenido -->
                     <div class="p-5 flex flex-col flex-grow">
                         <div class="mb-2 flex items-center gap-1 text-yellow-400 text-sm">
                             <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
@@ -342,15 +443,12 @@
                             <i data-lucide="star" fill="currentColor" width="16" height="16"></i>
                             <span class="text-gray-400 text-xs ml-1">(Verificado)</span>
                         </div>
-
                         <h3 class="font-bold text-gray-800 text-lg leading-tight mb-2 line-clamp-2" title="${product.title}">
                             ${product.title}
                         </h3>
-                        
                         <p class="text-gray-500 text-sm line-clamp-3 mb-4 flex-grow overflow-hidden text-ellipsis display-box" style="-webkit-line-clamp: 3; -webkit-box-orient: vertical; display: -webkit-box;">
                             ${product.description}
                         </p>
-
                         <div class="mt-auto border-t pt-4 border-gray-100">
                             <div class="flex justify-between items-end mb-4">
                                 <div>
@@ -360,7 +458,6 @@
                                     </p>
                                 </div>
                             </div>
-                            
                             <a 
                                 href="${product.link}" 
                                 target="_blank" 
@@ -377,7 +474,6 @@
             });
 
             container.innerHTML = productsHTML;
-            // Reinicializar iconos para el nuevo contenido
             lucide.createIcons();
         }
 
@@ -400,7 +496,6 @@
                 lucide.createIcons();
             });
 
-            // Cerrar menú al hacer clic en un enlace
             document.querySelectorAll('#mobile-menu a').forEach(link => {
                 link.addEventListener('click', () => {
                     isMenuOpen = false;
@@ -410,10 +505,10 @@
                 });
             });
 
-            // Establecer el año actual
             document.getElementById('year').textContent = new Date().getFullYear();
 
-            // Renderizar productos e inicializar iconos
+            // Renderizar TODO
+            renderMainOffers();
             renderProducts();
             lucide.createIcons();
         });
