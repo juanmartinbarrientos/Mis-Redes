@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Técnica: Agente Gemini VPS (macOS Style)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.3);
+            border-radius: 20px;
+            border: 3px solid transparent;
+            background-clip: content-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(156, 163, 175, 0.5);
+        }
+
+        /* Animations */
+        @keyframes scale-in {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-scale-in {
+            animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.4s ease-out forwards;
+        }
+
+        /* Glassmorphism utilities not in Tailwind standard config */
+        .glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass {
+            background: rgba(30, 30, 30, 0.65);
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        macos: {
+                            gray: '#f5f5f7',
+                            dark: '#1e1e1e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100 overflow-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Wrapper para usar Lucide Icons en React sin build step
+        const Icon = ({ name, size = 18, className = "" }) => {
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [name]);
+            
+            // Mapeo manual de nombres de componentes a nombres de atributos data-lucide (kebab-case)
+            const iconName = name.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase().replace(/^-/, '');
+            
+            return <i data-lucide={iconName} width={size} height={size} className={className}></i>;
+        };
+
+        const CodeBlock = ({ command, id }) => {
+            const [copied, setCopied] = useState(false);
+
+            const copyToClipboard = () => {
+                navigator.clipboard.writeText(command);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+
+            return (
+                <div className="relative group mt-4 mb-6 rounded-lg overflow-hidden shadow-sm border border-gray-700/50">
+                    <div className="bg-[#1e1e1e] px-4 py-2 flex items-center justify-between border-b border-gray-700/50">
+                        <div className="flex gap-2">
+                            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        </div>
+                        <span className="text-xs text-gray-400 font-mono">bash — 80x24</span>
+                    </div>
+                    <div className="bg-[#0d0d0d] p-4 font-mono text-sm text-green-400 overflow-x-auto selection:bg-green-900 selection:text-white">
+                        <div className="flex">
+                            <span className="select-none text-gray-500 mr-3">$</span>
+                            <span>{command}</span>
+                        </div>
+                    </div>
+                    <button 
+                        onClick={copyToClipboard}
+                        className="absolute top-10 right-2 p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 border border-white/10 backdrop-blur-sm cursor-pointer"
+                        title="Copiar comando"
+                    >
+                        {copied ? <Icon name="Check" size={14} className="text-green-400" /> : <Icon name="Copy" size={14} className="text-gray-300" />}
+                    </button>
+                </div>
+            );
+        };
+
+        const NavItem = ({ id, iconName, title, subtitle, activeStep, setActiveStep }) => (
+            <button 
+                onClick={() => setActiveStep(id)}
+                className={`w-full text-left px-3 py-2 rounded-lg mb-1 flex items-center gap-3 transition-all duration-200 ${
+                    activeStep === id 
+                    ? 'bg-blue-500 text-white shadow-sm' 
+                    : 'text-gray-600 hover:bg-black/5 dark:text-gray-300 dark:hover:bg-white/10'
+                }`}
+            >
+                <div className={activeStep === id ? 'text-white' : 'text-blue-500'}>
+                    <Icon name={iconName} size={18} />
+                </div>
+                <div>
+                    <div className="text-sm font-medium leading-none">{title}</div>
+                    {subtitle && <div className={`text-[10px] mt-1 ${activeStep === id ? 'text-blue-100' : 'text-gray-400'}`}>{subtitle}</div>}
+                </div>
+            </button>
+        );
+
+        const App = () => {
+            const [activeStep, setActiveStep] = useState('intro');
+            const [currentTime, setCurrentTime] = useState('');
+
+            useEffect(() => {
+                const updateTime = () => {
+                    const now = new Date();
+                    setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                };
+                updateTime();
+                const interval = setInterval(updateTime, 1000);
+                return () => clearInterval(interval);
+            }, []);
+
+            // Asegurar que los iconos se rendericen al cambiar el paso
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [activeStep]);
+
+            const steps = {
+                intro: (
+                    <div className="animate-fade-in space-y-6">
+                        <div className="flex flex-col items-center justify-center text-center py-10 space-y-4">
+                            <div className="w-24 h-24 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-[22px] shadow-2xl flex items-center justify-center mb-2">
+                                <Icon name="Cpu" size={48} className="text-white" />
+                            </div>
+                            <h1 className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">Agente Gemini VPS</h1>
+                            <p className="text-xl text-gray-500 dark:text-gray-400 max-w-lg">
+                                Guía de implementación técnica realista. Sin costos ocultos. Infraestructura 100% gratuita.
+                            </p>
+                            <div className="flex gap-3 mt-4">
+                                <span className="px-3 py-1 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 rounded-full text-xs font-semibold border border-green-200 dark:border-green-500/30">Costo: $0 USD</span>
+                                <span className="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400 rounded-full text-xs font-semibold border border-blue-200 dark:border-blue-500/30">Tiempo: 15 min</span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                            <div className="bg-white/50 dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/10 backdrop-blur-sm">
+                                <h3 className="font-semibold mb-2 flex items-center gap-2"><Icon name="ShieldAlert" size={16} className="text-yellow-500"/> La Verdad sobre AWS</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                    Muchos tutoriales recomiendan instancias "Large" que cuestan $60/mes. Esta guía usa estrictamente la capa gratuita <strong>t2.micro</strong>.
+                                </p>
+                            </div>
+                            <div className="bg-white/50 dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/10 backdrop-blur-sm">
+                                <h3 className="font-semibold mb-2 flex items-center gap-2"><Icon name="Server" size={16} className="text-blue-500"/> Requisitos Reales</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                    Necesitas una cuenta AWS (pide tarjeta para validar identidad), cuenta Google (para Gemini API) y Telegram.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div className="flex justify-center mt-8">
+                            <button onClick={() => setActiveStep('aws')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition-colors shadow-lg shadow-blue-500/30">
+                                Comenzar Instalación
+                            </button>
+                        </div>
+                    </div>
+                ),
+                aws: (
+                    <div className="animate-fade-in space-y-6">
+                        <h2 className="text-2xl font-semibold mb-4">1. Infraestructura (AWS EC2)</h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            El objetivo es configurar una máquina virtual Linux que funcione 24/7 sin costo.
+                        </p>
+
+                        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700/50 rounded-lg p-4 my-4">
+                            <div className="flex items-start gap-3">
+                                <div className="text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5">
+                                    <Icon name="ShieldAlert" size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold text-yellow-800 dark:text-yellow-500 text-sm">Advertencia de Costos</h4>
+                                    <p className="text-sm text-yellow-700 dark:text-yellow-400/80 mt-1">
+                                        No selecciones `t3.large`. Para mantener el costo en $0, debes elegir <strong>t2.micro</strong> o <strong>t3.micro</strong> con la etiqueta "Free Tier Eligible".
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul className="space-y-4 text-sm text-gray-700 dark:text-gray-300">
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 font-bold text-xs">1</span>
+                                <span>Ingresa a <strong>aws.amazon.com/ec2</strong> e inicia sesión.</span>
+                            </li>
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 font-bold text-xs">2</span>
+                                <span>Ve a <strong>Instances</strong> y haz clic en el botón naranja <strong>Launch Instance</strong>.</span>
+                            </li>
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 font-bold text-xs">3</span>
+                                <div className="space-y-2 w-full">
+                                    <p>Configura los parámetros exactos:</p>
+                                    <div className="bg-gray-100 dark:bg-black/40 rounded border border-gray-200 dark:border-white/10 p-3 grid grid-cols-2 gap-2 font-mono text-xs">
+                                        <span className="text-gray-500">Name:</span> <span>Gemini-Bot</span>
+                                        <span className="text-gray-500">OS Image:</span> <span>Ubuntu (LTS)</span>
+                                        <span className="text-gray-500">Instance Type:</span> <span className="text-green-600 dark:text-green-400 font-bold">t2.micro (Free tier)</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 font-bold text-xs">4</span>
+                                <span>Crea un <strong>Key Pair</strong> (.pem), descárgalo y guárdalo. <span className="text-red-500 text-xs">(Sin esto no podrás entrar).</span></span>
+                            </li>
+                        </ul>
+                    </div>
+                ),
+                terminal: (
+                    <div className="animate-fade-in space-y-6">
+                        <h2 className="text-2xl font-semibold mb-4">2. Configuración del Entorno</h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Una vez conectada la instancia (Connect &rarr; EC2 Instance Connect), actualiza el sistema e instala Node.js.
+                        </p>
+
+                        <div className="space-y-6">
+                            <div>
+                                <label className="text-xs font-semibold uppercase text-gray-500 tracking-wider">Paso 1: Actualizar Sistema</label>
+                                <CodeBlock id="cmd1" command="sudo apt update && sudo apt upgrade -y" />
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-semibold uppercase text-gray-500 tracking-wider">Paso 2: Herramientas Base</label>
+                                <CodeBlock id="cmd2" command="sudo apt install -y curl software-properties-common" />
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-semibold uppercase text-gray-500 tracking-wider">Paso 3: Instalar Node.js</label>
+                                <CodeBlock id="cmd3" command="curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt install -y nodejs" />
+                            </div>
+                        </div>
+                    </div>
+                ),
+                agent: (
+                    <div className="animate-fade-in space-y-6">
+                        <h2 className="text-2xl font-semibold mb-4">3. Instalación del Agente</h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Descarga el script que conecta los servicios. Usaremos el comando estándar para ClawdBot/Agente Genérico.
+                        </p>
+                        
+                        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/50 rounded-lg p-4">
+                            <p className="text-sm text-blue-800 dark:text-blue-300">
+                                <strong>Nota:</strong> Este comando clona el repositorio y ejecuta el asistente de configuración.
+                            </p>
+                        </div>
+
+                        <CodeBlock id="cmd4" command="git clone https://github.com/usuario/repo-agente.git && cd repo-agente && npm install && npm start" />
+                        
+                        <p className="text-xs text-gray-500 italic mt-2 text-center">
+                            *El comando anterior es un placeholder genérico. Usa el comando específico del instalador que tengas (ej: el de clawd.bot).
+                        </p>
+                    </div>
+                ),
+                brain: (
+                    <div className="animate-fade-in space-y-6">
+                        <h2 className="text-2xl font-semibold mb-4">4. El Cerebro (Gemini)</h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Configuramos la API de Google para obtener inteligencia gratuita.
+                        </p>
+
+                        <div className="grid gap-4">
+                            <div className="flex items-center gap-4 p-4 bg-white dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10">
+                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                    <svg viewBox="0 0 24 24" className="w-6 h-6 text-blue-600"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Google AI Studio</h4>
+                                    <p className="text-sm text-gray-500">aistudio.google.com</p>
+                                </div>
+                            </div>
+
+                            <ol className="list-decimal list-inside space-y-3 text-sm text-gray-700 dark:text-gray-300 ml-2">
+                                <li>Inicia sesión y haz clic en <strong>Get API Key</strong>.</li>
+                                <li>Selecciona <strong>Create API Key</strong>.</li>
+                                <li>Recomendación: Usa el modelo <strong>Gemini 1.5 Flash</strong> (Rápido y eficiente para bots).</li>
+                                <li>Copia la clave que empieza con <code>AIza...</code></li>
+                            </ol>
+
+                            <div className="mt-4 p-4 bg-gray-100 dark:bg-black/30 rounded-lg border border-dashed border-gray-300 dark:border-gray-700 text-center">
+                                <p className="text-sm text-gray-500">Cuando la terminal te pida "API Key", pega la clave de Google.</p>
+                            </div>
+                        </div>
+                    </div>
+                ),
+                telegram: (
+                    <div className="animate-fade-in space-y-6">
+                        <h2 className="text-2xl font-semibold mb-4">5. Interfaz (Telegram)</h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Usamos Telegram porque su API es 100% gratuita y estable.
+                        </p>
+
+                        <div className="space-y-4">
+                            <div className="flex gap-4 items-start">
+                                <div className="bg-blue-500 text-white p-2 rounded-lg mt-1">
+                                    <Icon name="MessageSquare" size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">@BotFather</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">El bot oficial de Telegram para crear otros bots.</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-white dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
+                                <div className="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10 px-4 py-2 text-xs font-semibold text-gray-500">CHAT DE TELEGRAM</div>
+                                <div className="p-4 space-y-3 font-sans text-sm">
+                                    <div className="flex justify-end">
+                                        <div className="bg-blue-500 text-white px-3 py-2 rounded-2xl rounded-tr-none max-w-[80%]">
+                                            /newbot
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-start">
+                                        <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 rounded-2xl rounded-tl-none max-w-[80%]">
+                                            Alright, a new bot. How are we going to call it?
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <div className="bg-blue-500 text-white px-3 py-2 rounded-2xl rounded-tr-none max-w-[80%]">
+                                            MiAgenteGemini_bot
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-start">
+                                        <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 rounded-2xl rounded-tl-none max-w-[80%]">
+                                            Done! Congratulations. Use this token to access the HTTP API:<br/>
+                                            <span className="font-mono text-xs bg-black/10 dark:bg-black/30 px-1 rounded mt-1 block select-all">728192:AAHyq9...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+                                Copia el token y pégalo en la terminal cuando lo solicite.
+                            </p>
+                        </div>
+                    </div>
+                ),
+                verify: (
+                    <div className="animate-fade-in space-y-6">
+                        <h2 className="text-2xl font-semibold mb-4">6. Verificación</h2>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-5 rounded-2xl bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 flex flex-col items-center text-center">
+                                <Icon name="CheckCircle" size={40} className="text-green-600 mb-3" />
+                                <h3 className="font-semibold text-green-800 dark:text-green-400">Todo Listo</h3>
+                                <p className="text-sm text-green-700 dark:text-green-500 mt-2">
+                                    Si ves "Wake up my friend" en la terminal, tu bot está vivo.
+                                </p>
+                            </div>
+                            
+                            <div className="p-5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex flex-col justify-center">
+                                <h3 className="font-semibold mb-2 text-sm uppercase text-gray-500">Prueba Final</h3>
+                                <p className="text-sm mb-2">1. Abre tu bot en Telegram.</p>
+                                <p className="text-sm mb-2">2. Escribe <code>/start</code>.</p>
+                                <p className="text-sm">3. Pregúntale: "¿Quién eres?".</p>
+                            </div>
+                        </div>
+
+                        <div className="mt-8 border-t border-gray-200 dark:border-white/10 pt-6">
+                            <h3 className="font-semibold mb-3">Mantenimiento y Realidad</h3>
+                            <ul className="text-sm space-y-2 text-gray-600 dark:text-gray-400">
+                                <li className="flex items-start gap-2">
+                                    <span className="mt-1 w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></span>
+                                    <span><strong>Memoria RAM:</strong> Al usar 1GB (gratis), el bot puede cerrarse si envías archivos muy pesados. Si deja de responder, reinicia el servidor.</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+                                    <span><strong>Latencia:</strong> Es normal que tarde 2-3 segundos en responder. Estás usando infraestructura compartida.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                )
+            };
+
+            return (
+                <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1721345914660-3183594162eb?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center font-sans text-gray-900 dark:text-gray-100 overflow-hidden flex flex-col">
+                
+                {/* macOS Menu Bar */}
+                <div className="h-8 bg-white/30 dark:bg-black/30 backdrop-blur-md flex items-center justify-between px-4 text-xs font-medium text-white shadow-sm z-50 select-none">
+                    <div className="flex items-center gap-4">
+                        <span className="font-bold text-lg"></span>
+                        <span className="font-bold hidden sm:inline">Guía Técnica</span>
+                        <span className="hidden sm:inline">Archivo</span>
+                        <span className="hidden sm:inline">Edición</span>
+                        <span className="hidden sm:inline">Visualización</span>
+                        <span className="hidden sm:inline">Ayuda</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <Icon name="Battery" size={14} className="opacity-80"/>
+                            <Icon name="Wifi" size={14} className="opacity-80"/>
+                            <Icon name="Search" size={14} className="opacity-80"/>
+                            <Icon name="Command" size={14} className="opacity-80"/>
+                        </div>
+                        <span>{currentTime}</span>
+                    </div>
+                </div>
+
+                {/* Desktop Area */}
+                <div className="flex-1 flex items-center justify-center p-4 sm:p-8 relative">
+                    
+                    {/* Main Window */}
+                    <div className="w-full max-w-5xl h-[85vh] bg-[#f5f5f7]/80 dark:bg-[#1e1e1e]/80 backdrop-blur-xl rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-white/20 ring-1 ring-black/5 animate-scale-in">
+                    
+                    {/* Sidebar */}
+                    <div className="flex h-full">
+                        <div className="w-64 bg-[#e8e8ed]/50 dark:bg-[#2d2d2d]/50 backdrop-blur-md border-r border-gray-300/50 dark:border-white/10 flex flex-col p-4 hidden md:flex">
+                            {/* Traffic Lights */}
+                            <div className="flex gap-2 mb-8 px-1">
+                                <div className="w-3 h-3 rounded-full bg-[#ff5f57] border border-[#e33e32]"></div>
+                                <div className="w-3 h-3 rounded-full bg-[#febc2e] border border-[#dba037]"></div>
+                                <div className="w-3 h-3 rounded-full bg-[#28c840] border border-[#1cb533]"></div>
+                            </div>
+
+                            <div className="space-y-6 overflow-y-auto custom-scrollbar">
+                                <div>
+                                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2">INTRODUCCIÓN</h3>
+                                    <NavItem id="intro" iconName="Cpu" title="General" subtitle="Visión global" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                </div>
+                                
+                                <div>
+                                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2">INSTALACIÓN</h3>
+                                    <NavItem id="aws" iconName="Server" title="Infraestructura" subtitle="AWS EC2 (Gratis)" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                    <NavItem id="terminal" iconName="Terminal" title="Entorno" subtitle="Ubuntu Setup" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                    <NavItem id="agent" iconName="Copy" title="El Agente" subtitle="ClawdBot Script" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                </div>
+
+                                <div>
+                                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2">CONFIGURACIÓN</h3>
+                                    <NavItem id="brain" iconName="CheckCircle" title="Gemini API" subtitle="Google AI Studio" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                    <NavItem id="telegram" iconName="MessageSquare" title="Telegram" subtitle="BotFather" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                    <NavItem id="verify" iconName="Check" title="Verificación" subtitle="Prueba final" activeStep={activeStep} setActiveStep={setActiveStep} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Mobile Nav (Visible only on small screens) */}
+                        <div className="md:hidden absolute top-0 left-0 right-0 bg-white/90 dark:bg-[#2d2d2d]/90 z-20 border-b p-2 overflow-x-auto flex gap-2 whitespace-nowrap">
+                            <button onClick={() => setActiveStep('intro')} className="px-3 py-1 rounded-md bg-blue-500 text-white text-xs">Inicio</button>
+                            <button onClick={() => setActiveStep('aws')} className="px-3 py-1 rounded-md bg-gray-200 dark:bg-white/10 text-xs">1. AWS</button>
+                            <button onClick={() => setActiveStep('terminal')} className="px-3 py-1 rounded-md bg-gray-200 dark:bg-white/10 text-xs">2. Terminal</button>
+                            <button onClick={() => setActiveStep('brain')} className="px-3 py-1 rounded-md bg-gray-200 dark:bg-white/10 text-xs">3. Gemini</button>
+                        </div>
+
+                        {/* Main Content */}
+                        <div className="flex-1 bg-white/60 dark:bg-[#121212]/60 overflow-y-auto relative p-6 md:p-10 custom-scrollbar scroll-smooth">
+                            <div className="max-w-3xl mx-auto">
+                                {steps[activeStep]}
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+
+                {/* Dock (Decorative) */}
+                <div className="h-20 mb-4 flex justify-center items-end pointer-events-none">
+                    <div className="bg-white/20 dark:bg-black/20 backdrop-blur-2xl border border-white/10 px-4 pb-2 pt-2 rounded-2xl flex gap-4 items-end pointer-events-auto transform transition-all hover:scale-105 shadow-2xl">
+                        <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center shadow-lg hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                            <Icon name="Terminal" className="text-green-400" />
+                        </div>
+                        <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                            <svg viewBox="0 0 24 24" className="w-8 h-8 text-white fill-current"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-300"></div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
