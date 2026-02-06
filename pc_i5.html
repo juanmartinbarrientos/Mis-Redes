@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Gamer Core i5 13400 | Juan Martin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #0f172a;
+        }
+
+        /* Fondo Animado */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(125deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Efecto de Malla/Grid */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(74, 222, 128, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 222, 128, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: top;
+            animation: moveGrid 10s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 50px; }
+        }
+
+        h1, h2, h3, .gamer-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #4ade80, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .btn-whatsapp {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(34, 197, 94, 0.5);
+        }
+
+        .timer-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.5);
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Capas de Fondo -->
+    <div class="animated-bg"></div>
+    <div class="bg-grid"></div>
+
+    <!-- Navbar -->
+    <nav class="w-full py-6 px-6 md:px-12 flex justify-between items-center border-b border-gray-800 relative z-10">
+        <a href="https://www.juanmartinbarrientos.com/" target="_blank" class="text-2xl font-bold tracking-wider text-white hover:opacity-80 transition">
+            JUAN <span class="text-green-500">MARTIN</span>
+        </a>
+        <a href="#contacto" class="hidden md:block text-gray-400 hover:text-white transition">Soporte</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="flex-grow flex flex-col md:flex-row items-center justify-center px-6 md:px-12 py-12 gap-12 max-w-7xl mx-auto relative z-10">
+        
+        <!-- Text Content -->
+        <div class="w-full md:w-1/2 space-y-6 text-center md:text-left z-10">
+            <div class="inline-block bg-green-900/30 border border-green-500/30 text-green-400 px-3 py-1 rounded-full text-sm font-semibold tracking-wide mb-2">
+                NUEVA GENERACIÓN
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                Domina el juego con <br>
+                <span class="gradient-text">i5 13ª Gen + RTX 3050</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-lg mx-auto md:mx-0">
+                Experimenta la velocidad de la memoria DDR5, el poder híbrido de 10 núcleos y gráficos Ray Tracing. Diseñada para ganar.
+            </p>
+            
+            <!-- Price and Offer Section -->
+            <div class="flex flex-col gap-6 mt-8">
+                <!-- Standard Price -->
+                <div class="flex flex-col md:flex-row items-center md:items-end gap-2">
+                    <div class="text-gray-400 text-lg line-through decoration-red-500 decoration-2">
+                        $2.090.000 (Lista)
+                    </div>
+                </div>
+
+                <!-- Discount Timer Box -->
+                <div class="timer-box rounded-xl p-4 max-w-md mx-auto md:mx-0 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-bl-lg">
+                        -8% OFF EFECTIVO
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <p class="text-sm text-red-300 font-semibold uppercase tracking-wider mb-1 text-xs">Oferta Flash termina en:</p>
+                            <div id="countdown" class="text-2xl font-mono font-bold text-white tracking-widest">
+                                <span id="days">00</span>d <span id="hours">00</span>h <span id="minutes">00</span>m <span id="seconds">00</span>s
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400">Precio Efectivo</p>
+                            <div class="text-3xl font-bold text-green-400">
+                                $1.922.800
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de Compra con Script de WhatsApp -->
+                <button onclick="comprarWhatsApp()" class="btn-whatsapp bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-8 rounded-lg flex items-center gap-3 w-full md:w-auto justify-center cursor-pointer mt-2">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                    <span>COMPRAR AHORA</span>
+                </button>
+            </div>
+            
+        </div>
+
+        <!-- Image Content -->
+        <div class="w-full md:w-1/2 flex justify-center relative">
+            <div class="absolute inset-0 bg-blue-500 blur-[100px] opacity-10 rounded-full"></div>
+            <div class="relative z-10 p-4 border border-gray-700/50 rounded-2xl bg-gray-800/10 backdrop-blur-sm transform hover:scale-105 transition duration-500">
+                <img src="https://www.necxus.com.ar/products_image/36500/1000x1000_1.jpg" 
+                     alt="PC Gamer Intel i5 13400" 
+                     class="w-full max-w-md h-auto rounded-lg object-contain shadow-2xl">
+            </div>
+        </div>
+    </header>
+
+    <!-- Specs Grid -->
+    <section class="py-16 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Especificaciones de Poder</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-xl flex flex-col items-center text-center space-y-3">
+                    <div class="p-4 bg-blue-600/20 rounded-full text-blue-400 mb-2">
+                        <i class="fas fa-microchip text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Intel Core i5 13400</h3>
+                    <p class="text-sm text-gray-400">10 Núcleos (6P + 4E) <br> Turbo hasta 4.6 GHz</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl flex flex-col items-center text-center space-y-3">
+                    <div class="p-4 bg-purple-600/20 rounded-full text-purple-400 mb-2">
+                        <i class="fas fa-memory text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">16GB RAM DDR5</h3>
+                    <p class="text-sm text-gray-400">Tecnología de última generación <br> Más velocidad y ancho de banda</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl flex flex-col items-center text-center space-y-3">
+                    <div class="p-4 bg-yellow-600/20 rounded-full text-yellow-400 mb-2">
+                        <i class="fas fa-hdd text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">512GB SSD M.2</h3>
+                    <p class="text-sm text-gray-400">Almacenamiento NVMe ultrarrápido <br> Cargas instantáneas</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl flex flex-col items-center text-center space-y-3">
+                    <div class="p-4 bg-green-600/20 rounded-full text-green-400 mb-2">
+                        <i class="fas fa-video text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">NVIDIA RTX 3050</h3>
+                    <p class="text-sm text-gray-400">Gráficos GDDR6 con Ray Tracing <br> Rendimiento Gamer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Section -->
+    <section class="py-16 px-6 max-w-5xl mx-auto relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Rendimiento sin límites</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span class="text-gray-300">Arquitectura híbrida de Intel para multitarea fluida y juegos intensos.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span class="text-gray-300">Gráficos NVIDIA RTX 3050: Juega con DLSS y Ray Tracing activado.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span class="text-gray-300">Memoria DDR5: El nuevo estándar de velocidad para creadores y gamers.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span class="text-gray-300">Estética profesional con gabinete de alto flujo de aire.</span>
+                    </li>
+                </ul>
+                <button onclick="comprarWhatsApp()" class="mt-8 text-green-400 hover:text-green-300 font-bold flex items-center gap-2 transition">
+                    CONSULTAR DISPONIBILIDAD <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="bg-gradient-to-br from-gray-800/40 to-gray-900/60 backdrop-blur-md p-8 rounded-2xl border border-gray-700">
+                <h3 class="text-xl font-bold mb-4 text-white">Resumen del Equipo</h3>
+                <div class="space-y-3 text-sm text-gray-400">
+                    <div class="flex justify-between border-b border-gray-700 pb-2">
+                        <span>Modelo CPU</span>
+                        <span class="text-white">Core i5 13400</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-700 pb-2">
+                        <span>Video</span>
+                        <span class="text-white font-bold text-green-400">NVIDIA RTX 3050</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-700 pb-2">
+                        <span>Memoria</span>
+                        <span class="text-white">16GB DDR5</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-700 pb-2">
+                        <span>Almacenamiento</span>
+                        <span class="text-white">512GB SSD NVMe</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-700 pb-2">
+                        <span>Condición</span>
+                        <span class="text-white">Nuevo / Garantía</span>
+                    </div>
+                    <div class="flex justify-between pt-2">
+                        <span class="text-lg font-bold text-white">Total Lista</span>
+                        <span class="text-lg font-bold text-gray-400 line-through">$2.090.000</span>
+                    </div>
+                    <div class="flex justify-between pt-2 border-t border-gray-600 mt-2">
+                        <span class="text-lg font-bold text-green-400">Total Efectivo (-8%)</span>
+                        <span class="text-xl font-bold text-green-400">$1.922.800</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FPS Performance Section -->
+    <section class="py-16 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Rendimiento en Juegos <span class="text-green-500">FPS</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Fortnite -->
+                <div class="glass-card p-6 rounded-xl hover:bg-gray-700/50 transition transform hover:-translate-y-1">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-hammer text-green-400 text-xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-white">Fortnite</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Alcanza entre <span class="text-green-400 font-bold">120 y 160 FPS</span> en Full HD con gráficos altos.
+                    </p>
+                </div>
+                <!-- Warzone -->
+                <div class="glass-card p-6 rounded-xl hover:bg-gray-700/50 transition transform hover:-translate-y-1">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-crosshairs text-green-400 text-xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-white">COD Warzone</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Rendimiento estimado de <span class="text-green-400 font-bold">80 a 100 FPS</span> en Full HD con calidad alta y DLSS.
+                    </p>
+                </div>
+                <!-- GTA V -->
+                <div class="glass-card p-6 rounded-xl hover:bg-gray-700/50 transition transform hover:-translate-y-1">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-car text-green-400 text-xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-white">GTA V</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Supera los <span class="text-green-400 font-bold">100 FPS</span> en Full HD con gráficos muy altos.
+                    </p>
+                </div>
+                <!-- CS2 -->
+                <div class="glass-card p-6 rounded-xl hover:bg-gray-700/50 transition transform hover:-translate-y-1">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-bomb text-green-400 text-xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-white">CS2</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Puede lograr entre <span class="text-green-400 font-bold">200 y 300 FPS</span> en Full HD competitivo.
+                    </p>
+                </div>
+                <!-- Valorant -->
+                <div class="glass-card p-6 rounded-xl hover:bg-gray-700/50 transition transform hover:-translate-y-1 lg:col-span-2 lg:w-1/2 lg:mx-auto">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-shield-alt text-green-400 text-xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-white">Valorant</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Excelente rendimiento, superando los <span class="text-green-400 font-bold">250 FPS</span> en Full HD.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-black/80 backdrop-blur-md py-8 border-t border-gray-800 mt-auto relative z-10">
+        <div class="text-center">
+            <p class="text-gray-500 text-sm">© <span id="year"></span> Juan Martin. Todos los derechos reservados.</p>
+            <div class="mt-4 space-x-4">
+                <a href="https://www.juanmartinbarrientos.com/" target="_blank" class="text-gray-600 hover:text-white" title="Sitio Web"><i class="fas fa-globe"></i></a>
+                <a href="https://www.instagram.com/juanmartinbarrientos/" target="_blank" class="text-gray-600 hover:text-white" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientoslorusso/" target="_blank" class="text-gray-600 hover:text-white" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const OFFER_DURATION_DAYS = 3;
+        const STORAGE_KEY = 'juanmartin_offer_end_time';
+
+        function initCountdown() {
+            let endTime = localStorage.getItem(STORAGE_KEY);
+            if (!endTime) {
+                const now = new Date();
+                const targetDate = new Date(now.getTime() + (OFFER_DURATION_DAYS * 24 * 60 * 60 * 1000));
+                endTime = targetDate.getTime();
+                localStorage.setItem(STORAGE_KEY, endTime);
+            }
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        initCountdown();
+
+        function comprarWhatsApp() {
+            const telefono = "5491169578193";
+            const mensaje = `Hola Juan Martin! 👋 Me interesa la PC Gamer con oferta Flash:
+            
+- CPU: Intel i5 13400
+- Video: NVIDIA RTX 3050
+- RAM: 16GB DDR5
+- Almacenamiento: 512GB SSD
+- Precio Lista: $2.090.000
+🔥 Precio Efectivo (-8%): $1.922.800
+
+¿Podrías confirmarme disponibilidad? Gracias!`;
+            window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
