@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Gamer AMD Ryzen 3 Starter Kit</title>
+    
+    <!-- Título Principal -->
+    <title>PC Gamer AMD Ryzen 3 Starter Kit - Oferta Limitada</title>
+
+    <!-- ========================================== -->
+    <!-- METADATOS PARA WHATSAPP Y REDES SOCIALES   -->
+    <!-- ========================================== -->
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="🔥 ¡Oferta Flash! PC Gamer AMD Ryzen 3">
+    <meta property="og:description" content="Solo por 3 DÍAS ⏰: Llévate el Starter Kit Completo por $571.900 (Antes $650.000). Incluye Ryzen 3 3200G, 8GB RAM, SSD y Periféricos. ¡Entra antes de que el reloj llegue a cero!">
+    <meta property="og:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/pcbasica.jpg">
+    
+    <!-- Configuraciones adicionales para asegurar que la imagen se vea grande -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/pcbasica.jpg">
+    <!-- ========================================== -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -15,7 +33,7 @@
             background-color: #1a1a1a;
         }
 
-        h1, h2, .tech-font {
+        h1, h2, .tech-font, .countdown-font {
             font-family: 'Orbitron', sans-serif;
         }
 
@@ -69,6 +87,21 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
         }
+
+        /* Estilos del Contador */
+        .countdown-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            backdrop-filter: blur(4px);
+        }
+        
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen flex flex-col items-center justify-center p-4">
@@ -81,38 +114,92 @@
     <main class="w-full max-w-4xl glass-card rounded-2xl overflow-hidden animate-fade-in-up mt-4 mb-20 md:mb-4">
         
         <!-- Cabecera del Producto -->
-        <div class="relative h-64 md:h-80 overflow-hidden">
-            <!-- Usamos la misma imagen pero estática y recortada para el header visual -->
+        <div class="relative h-auto md:h-96 overflow-hidden flex flex-col justify-end">
+            <!-- Imagen de fondo del header -->
             <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/pcbasica.jpg" 
                  alt="PC Gamer Setup" 
-                 class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700">
+                 class="absolute inset-0 w-full h-full object-cover opacity-60 hover:scale-105 transition-transform duration-700 z-0">
             
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-6 pt-20">
-                <span class="bg-green-500 text-black text-xs font-bold px-2 py-1 rounded uppercase tracking-wider mb-2 inline-block">
-                    <i class="fas fa-check-circle mr-1"></i> Stock Disponible
-                </span>
-                <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 text-shadow-lg">
+            <div class="relative z-10 w-full bg-gradient-to-t from-[#121212] via-[#121212]/90 to-transparent p-6 pt-24">
+                
+                <!-- BADGES SUPERIORES -->
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="bg-green-500 text-black text-xs font-bold px-2 py-1 rounded uppercase tracking-wider inline-flex items-center">
+                        <i class="fas fa-check-circle mr-1"></i> Stock Disponible
+                    </span>
+                    <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider inline-flex items-center animate-pulse">
+                        <i class="fas fa-fire mr-1"></i> Oferta Flash
+                    </span>
+                </div>
+
+                <!-- TÍTULO -->
+                <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 text-shadow-lg leading-tight">
                     AMD Ryzen 3 <span class="text-red-500">Starter Kit</span>
                 </h1>
+                
+                <!-- CONTADOR DE TIEMPO (NUEVO) -->
+                <div class="mt-4 mb-4 p-4 rounded-xl border border-red-500/30 bg-red-900/10 backdrop-blur-sm max-w-md">
+                    <p class="text-red-400 text-xs uppercase font-bold tracking-widest mb-2 text-center">La oferta termina en:</p>
+                    <div id="countdown" class="flex justify-center items-center gap-2 md:gap-4 text-white countdown-font">
+                        <!-- Días -->
+                        <div class="flex flex-col items-center">
+                            <div class="countdown-box w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-xl md:text-3xl font-bold text-red-500 shadow-lg shadow-red-900/20">
+                                <span id="days">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-400 mt-1 uppercase">Días</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-xl md:text-2xl mb-4">:</span>
+                        <!-- Horas -->
+                        <div class="flex flex-col items-center">
+                            <div class="countdown-box w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-xl md:text-3xl font-bold text-white">
+                                <span id="hours">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-400 mt-1 uppercase">Horas</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-xl md:text-2xl mb-4 blink">:</span>
+                        <!-- Minutos -->
+                        <div class="flex flex-col items-center">
+                            <div class="countdown-box w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-xl md:text-3xl font-bold text-white">
+                                <span id="minutes">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-400 mt-1 uppercase">Min</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-xl md:text-2xl mb-4 blink">:</span>
+                        <!-- Segundos -->
+                        <div class="flex flex-col items-center">
+                            <div class="countdown-box w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-xl md:text-3xl font-bold text-red-500">
+                                <span id="seconds">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-400 mt-1 uppercase">Seg</span>
+                        </div>
+                    </div>
+                </div>
+
                 <p class="text-gray-300 text-sm md:text-base max-w-2xl">
                     La configuración ideal para iniciar en el mundo del gaming y productividad.
                 </p>
             </div>
         </div>
 
-        <div class="p-6 md:p-8">
+        <div class="p-6 md:p-8 pt-4">
             
             <!-- Precio y CTA Desktop -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-700 pb-6">
                 <div>
                     <p class="text-gray-400 text-sm uppercase tracking-wide">Precio Total Contado</p>
-                    <div class="text-4xl md:text-5xl font-bold text-white tech-font">
-                        $ 571.900
+                    <div class="flex items-end gap-3">
+                        <div class="text-4xl md:text-5xl font-bold text-white tech-font">
+                            $ 571.900
+                        </div>
+                        <!-- Precio anterior tachado para efecto psicológico -->
+                        <div class="text-lg text-gray-500 line-through mb-1 font-bold">
+                            $ 650.000
+                        </div>
                     </div>
                 </div>
-                <!-- Botón Desktop (oculto en móvil muy pequeño si se prefiere usar el sticky) -->
+                <!-- Botón Desktop -->
                 <div class="hidden md:block mt-4 md:mt-0">
-                    <button onclick="comprarWhatsApp()" class="floating-cta text-white font-bold py-3 px-8 rounded-full flex items-center gap-3 transition-all transform text-lg">
+                    <button onclick="comprarWhatsApp()" class="floating-cta text-white font-bold py-3 px-8 rounded-full flex items-center gap-3 transition-all transform text-lg hover:scale-105 active:scale-95">
                         <i class="fab fa-whatsapp text-2xl"></i>
                         COMPRAR AHORA
                     </button>
@@ -216,13 +303,13 @@
     </footer>
 
     <!-- Botón Flotante Fijo para Móviles (Sticky Footer) -->
-    <div class="fixed bottom-0 left-0 w-full p-4 bg-black/80 backdrop-blur-md border-t border-gray-800 md:hidden z-50">
+    <div class="fixed bottom-0 left-0 w-full p-4 bg-black/90 backdrop-blur-md border-t border-red-900/50 md:hidden z-50">
         <div class="flex items-center justify-between gap-4">
             <div class="flex flex-col">
-                <span class="text-xs text-gray-400">Total</span>
+                <span class="text-[10px] text-red-400 font-bold uppercase">¡Oferta Flash!</span>
                 <span class="text-xl font-bold text-white">$ 571.900</span>
             </div>
-            <button onclick="comprarWhatsApp()" class="floating-cta flex-1 text-white font-bold py-3 px-6 rounded-full flex justify-center items-center gap-2 text-sm shadow-lg">
+            <button onclick="comprarWhatsApp()" class="floating-cta flex-1 text-white font-bold py-3 px-6 rounded-full flex justify-center items-center gap-2 text-sm shadow-lg active:scale-95 transition-transform">
                 <i class="fab fa-whatsapp text-lg"></i>
                 LO QUIERO
             </button>
@@ -230,19 +317,72 @@
     </div>
 
     <script>
+        // LOGICA DE WHATSAPP
         function comprarWhatsApp() {
-            // Número de teléfono
             const telefono = "5491169578193";
-            
-            // Mensaje personalizado
-            const mensaje = "Hola! 👋 Estoy interesado en la PC AMD Ryzen 3 3200G Starter Kit que vi en la página por $571.900. ¿Me podrían dar más información?";
-            
-            // Codificar mensaje para URL
+            const mensaje = "Hola! 👋 Estoy interesado en la PROMO LIMITADA de la PC AMD Ryzen 3 3200G Starter Kit por $571.900 antes de que termine el tiempo. ¿Me podrían dar más información?";
             const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-            
-            // Abrir en nueva pestaña
             window.open(url, '_blank');
         }
+
+        // LOGICA DEL CONTADOR (CUENTA ATRÁS)
+        function initCountdown() {
+            // Clave para guardar en el navegador
+            const STORAGE_KEY = 'pc_gamer_offer_end_date';
+            // Duración de la oferta en días
+            const OFFER_DAYS = 3;
+
+            let endTime = localStorage.getItem(STORAGE_KEY);
+            const now = new Date().getTime();
+
+            // Si no existe fecha guardada o la fecha ya pasó hace mucho, creamos una nueva
+            if (!endTime || isNaN(endTime)) {
+                // La fecha final es AHORA + 3 días
+                const futureDate = new Date(now + (OFFER_DAYS * 24 * 60 * 60 * 1000));
+                endTime = futureDate.getTime();
+                localStorage.setItem(STORAGE_KEY, endTime);
+            }
+
+            // Elementos del DOM
+            const elDays = document.getElementById('days');
+            const elHours = document.getElementById('hours');
+            const elMinutes = document.getElementById('minutes');
+            const elSeconds = document.getElementById('seconds');
+
+            // Función de actualización cada segundo
+            const updateTimer = () => {
+                const currentTime = new Date().getTime();
+                const distance = endTime - currentTime;
+
+                if (distance < 0) {
+                    // Si el tiempo terminó, mostrar ceros
+                    elDays.innerText = "00";
+                    elHours.innerText = "00";
+                    elMinutes.innerText = "00";
+                    elSeconds.innerText = "00";
+                    return;
+                }
+
+                // Cálculos de tiempo
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Actualizar HTML con ceros a la izquierda si es necesario
+                elDays.innerText = days < 10 ? "0" + days : days;
+                elHours.innerText = hours < 10 ? "0" + hours : hours;
+                elMinutes.innerText = minutes < 10 ? "0" + minutes : minutes;
+                elSeconds.innerText = seconds < 10 ? "0" + seconds : seconds;
+            };
+
+            // Ejecutar inmediatamente y luego cada segundo
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Iniciar cuando carga la página
+        document.addEventListener('DOMContentLoaded', initCountdown);
     </script>
 </body>
 </html>
