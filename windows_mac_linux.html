@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS Experience - 2026 Blog</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Custom transitions for smoother window animations */
+        #safari-window {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Dock animation */
+        .dock-icon:hover {
+            transform: translateY(-8px) scale(1.1);
+        }
+        .dock-icon:active {
+            transform: translateY(0) scale(0.95);
+        }
+    </style>
+</head>
+<body class="h-screen w-full overflow-hidden bg-cover bg-center select-none relative text-gray-800"
+      style="background-image: url('https://images.unsplash.com/photo-1621215421295-e2a2108709a3?q=80&w=2832&auto=format&fit=crop')">
+
+    <!-- MENU BAR -->
+    <div class="h-8 w-full bg-white/20 backdrop-blur-md text-white flex justify-between items-center px-4 text-sm font-medium z-50 fixed top-0 shadow-sm border-b border-white/10">
+        <div class="flex items-center space-x-4">
+            <i data-lucide="apple" class="w-4 h-4 hover:text-gray-200 cursor-pointer fill-current"></i>
+            <span class="font-bold hidden sm:block cursor-default">Finder</span>
+            <span class="hidden sm:block hover:text-gray-200 cursor-pointer">Archivo</span>
+            <span class="hidden sm:block hover:text-gray-200 cursor-pointer">Edición</span>
+            <span class="hidden sm:block hover:text-gray-200 cursor-pointer">Ver</span>
+            <span class="hidden sm:block hover:text-gray-200 cursor-pointer">Ir</span>
+            <span class="hidden sm:block hover:text-gray-200 cursor-pointer">Ventana</span>
+            <span class="hidden sm:block hover:text-gray-200 cursor-pointer">Ayuda</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="hidden sm:flex items-center space-x-2">
+                <i data-lucide="battery" class="w-5 h-5"></i>
+                <i data-lucide="wifi" class="w-4 h-4"></i>
+                <i data-lucide="search" class="w-4 h-4"></i>
+            </div>
+            <div class="flex items-center space-x-2 cursor-default">
+                <span id="clock-date" class="hidden sm:inline"></span>
+                <span id="clock-time"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DESKTOP AREA -->
+    <div class="relative h-full w-full flex justify-center items-center pt-8 pb-24 px-4">
+        
+        <!-- Safari Window -->
+        <div id="safari-window" class="bg-white shadow-2xl rounded-xl overflow-hidden flex flex-col border border-gray-200/50 w-full max-w-5xl h-[80vh] opacity-100 scale-100 origin-bottom">
+            
+            <!-- Window Header -->
+            <div class="h-12 bg-[#f3f4f6] border-b border-gray-300 flex items-center justify-between px-4 shrink-0 transition-colors duration-300" id="window-header">
+                <!-- Traffic Lights -->
+                <div class="flex space-x-2 w-20 group">
+                    <button onclick="closeWindow()" class="w-3 h-3 rounded-full bg-[#ff5f57] border border-[#e0443e] flex items-center justify-center text-black/0 hover:text-black/50 transition-colors">
+                        <i data-lucide="x" class="w-2 h-2" stroke-width="3"></i>
+                    </button>
+                    <button onclick="minimizeWindow()" class="w-3 h-3 rounded-full bg-[#febc2e] border border-[#dba520] flex items-center justify-center text-black/0 hover:text-black/50 transition-colors">
+                        <i data-lucide="minus" class="w-2 h-2" stroke-width="3"></i>
+                    </button>
+                    <button onclick="toggleMaximize()" class="w-3 h-3 rounded-full bg-[#28c840] border border-[#1aab29] flex items-center justify-center text-black/0 hover:text-black/50 transition-colors">
+                        <i data-lucide="maximize-2" class="w-1.5 h-1.5" stroke-width="3"></i>
+                    </button>
+                </div>
+
+                <!-- URL Bar -->
+                <div class="flex-1 max-w-2xl mx-4 flex items-center space-x-3">
+                    <div class="flex space-x-1 text-gray-500">
+                        <i data-lucide="chevron-left" class="w-5 h-5 cursor-pointer hover:text-gray-800"></i>
+                        <i data-lucide="chevron-right" class="w-5 h-5 cursor-pointer hover:text-gray-800"></i>
+                    </div>
+                    <div class="flex-1 bg-white border border-gray-300 rounded-lg h-8 flex items-center px-3 shadow-sm text-xs sm:text-sm text-center justify-center group relative cursor-text hover:border-gray-400 transition-colors">
+                        <span class="text-gray-500 mr-1"><i data-lucide="lock" class="w-3 h-3 inline"></i> apple.com</span>
+                        <span class="text-gray-700">/newsroom/2026/future-of-desktop</span>
+                        <div class="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="rotate-cw" class="w-3 h-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toolbar Actions -->
+                <div class="w-20 flex justify-end space-x-3 text-gray-500">
+                    <button onclick="toggleDarkMode()" title="Modo Lectura">
+                        <i data-lucide="type" class="w-4 h-4 hover:text-blue-600 transition-colors"></i>
+                    </button>
+                    <i data-lucide="share" class="w-4 h-4 hover:text-blue-600 transition-colors cursor-pointer"></i>
+                    <i data-lucide="book-open" class="w-4 h-4 hover:text-blue-600 transition-colors cursor-pointer"></i>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div id="content-area" class="flex-1 overflow-y-auto scrollbar-hide bg-white text-gray-800 transition-colors duration-300">
+                <div class="max-w-3xl mx-auto py-12 px-6 sm:px-10">
+                    
+                    <!-- Article Header -->
+                    <div class="mb-10 text-center">
+                        <span id="tag-badge" class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 tracking-wide uppercase bg-blue-100 text-blue-800 transition-colors duration-300">
+                            Tecnología • 2026
+                        </span>
+                        <h1 id="article-title" class="text-3xl sm:text-5xl font-bold tracking-tight mb-4 text-gray-900 transition-colors duration-300">
+                            La Batalla por tu Escritorio en 2026
+                        </h1>
+                        <p id="article-subtitle" class="text-lg sm:text-xl font-light text-gray-500 transition-colors duration-300">
+                            Apple, Microsoft y la Inevitable Ascensión de Linux
+                        </p>
+                        <div class="flex justify-center items-center mt-6 space-x-2 text-sm text-gray-500">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-orange-500"></div>
+                            <span>Por <strong>Redacción Tech</strong> • 12 min de lectura</span>
+                        </div>
+                    </div>
+
+                    <!-- Main Body -->
+                    <div class="prose prose-lg max-w-none space-y-8 leading-relaxed">
+                        
+                        <p class="first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-[-6px]">
+                            En pleno 2026, la relación entre el usuario y su computadora personal ha alcanzado un punto de ruptura. Tras años de actualizaciones forzadas en momentos inoportunos, una telemetría que parece más espionaje que mantenimiento y la sensación de que somos simples inquilinos en un hardware por el que pagamos miles de dólares, el cansancio del "Status Quo" ha estallado.
+                        </p>
+
+                        <div id="quote-box" class="p-6 rounded-2xl border-l-4 bg-gray-50 border-purple-600 transition-colors duration-300">
+                            <p class="italic font-medium m-0">
+                                "Ya no se trata solo de qué sistema operativo es más bonito, sino de quién nos devuelve el control."
+                            </p>
+                        </div>
+
+                        <hr id="divider-1" class="my-8 border-t border-gray-200 transition-colors duration-300" />
+
+                        <!-- Apple Section -->
+                        <section>
+                            <h2 id="apple-heading" class="text-2xl font-bold mb-4 flex items-center text-gray-900 transition-colors duration-300">
+                                <i data-lucide="apple" class="mr-2 mb-1 w-6 h-6"></i> El Giro Inesperado de Apple
+                            </h2>
+                            <p class="mb-4">
+                                Apple ha ejecutado un movimiento maestro para responder a la democratización de la economía creativa. Al consolidar sus herramientas profesionales bajo la suscripción <strong>Apple Creator Studio</strong>, ha transformado barreras de entrada de cientos de dólares en un acceso democrático de <strong>$12.99 al mes</strong>.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                                <!-- Card 1 -->
+                                <div class="feature-card p-4 rounded-xl border bg-white border-gray-200 shadow-sm transition-colors duration-300">
+                                    <div class="text-2xl mb-2">🔍</div>
+                                    <h3 class="font-bold text-sm mb-1">Visual Search</h3>
+                                    <p class="text-xs opacity-80">IA local encuentra objetos en terabytes de video.</p>
+                                </div>
+                                <!-- Card 2 -->
+                                <div class="feature-card p-4 rounded-xl border bg-white border-gray-200 shadow-sm transition-colors duration-300">
+                                    <div class="text-2xl mb-2">🎵</div>
+                                    <h3 class="font-bold text-sm mb-1">Beat Detection</h3>
+                                    <p class="text-xs opacity-80">Sincroniza cortes de video al ritmo de la música.</p>
+                                </div>
+                                <!-- Card 3 -->
+                                <div class="feature-card p-4 rounded-xl border bg-white border-gray-200 shadow-sm transition-colors duration-300">
+                                    <div class="text-2xl mb-2">🎹</div>
+                                    <h3 class="font-bold text-sm mb-1">Synth Player</h3>
+                                    <p class="text-xs opacity-80">Músico virtual capaz de generar interpretaciones realistas.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Microsoft Section -->
+                        <section>
+                            <h2 id="ms-heading" class="text-2xl font-bold mb-4 text-blue-600 transition-colors duration-300">
+                                La Confesión de Microsoft
+                            </h2>
+                            <p class="mb-4">
+                                Para Microsoft, 2026 es el año de la "redención técnica". Bajo la nueva filosofía <strong>Performance Fundamentals</strong>, Redmond finalmente ha admitido que Windows 11 necesitaba una cura de adelgazamiento, en respuesta directa al éxito de SteamOS.
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2 marker:text-blue-500">
+                                <li><strong>Xbox Full Screen Experience (FSE):</strong> Un nuevo "shell" que suspende procesos de fondo para liberar hasta 2GB de RAM.</li>
+                                <li><strong>Advanced Shader Delivery (ASD):</strong> Reduce el "stuttering" entregando shaders precompilados.</li>
+                                <li><strong>Auto Super Resolution:</strong> Escalado por IA agnóstico al silicio, ejecutándose en NPUs modernas.</li>
+                            </ul>
+                        </section>
+
+                        <!-- Hardware Section -->
+                        <section id="hardware-box" class="p-6 rounded-2xl my-8 border border-dashed bg-gray-50 border-gray-300 transition-colors duration-300">
+                            <h2 id="hardware-heading" class="text-2xl font-bold mb-4 flex items-center text-green-700 transition-colors duration-300">
+                                <i data-lucide="cpu" class="mr-2 w-6 h-6"></i> La Revolución del Silicio: Adiós x86
+                            </h2>
+                            <p class="mb-4">
+                                Mientras el software peleaba, el hardware se unificaba. 2026 marcó el fin del dominio absoluto de la arquitectura x86. Con la consolidación de los chips <strong>Snapdragon X3 Elite</strong> y la sorpresiva entrada de NVIDIA al mercado de CPUs de consumo.
+                            </p>
+                            <p>
+                                Apple, por su parte, con el chip <strong>M5 Ultra</strong>, ha borrado la línea entre estación de trabajo y servidor personal, obligando a Intel a reinventarse con su arquitectura modular "Panther Lake".
+                            </p>
+                        </section>
+
+                        <!-- Linux Section -->
+                        <section id="linux-box" class="p-6 rounded-2xl my-8 bg-gradient-to-br from-orange-50 to-orange-100 transition-colors duration-300">
+                            <h2 id="linux-heading" class="text-2xl font-bold mb-4 flex items-center text-orange-600 transition-colors duration-300">
+                                <i data-lucide="terminal" class="mr-2 w-6 h-6"></i> El Fenómeno Linux
+                            </h2>
+                            <p class="mb-4">
+                                Linux alcanzó un hito histórico del <strong>5.04% de cuota de mercado en EE. UU.</strong> en junio de 2025. El contraste técnico de eficiencia es humillante para la competencia.
+                            </p>
+                            
+                            <!-- RAM Comparison -->
+                            <div class="space-y-4 mt-6">
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider">
+                                        <span>Windows 11 (Idle RAM)</span>
+                                        <span>4-6 GB</span>
+                                    </div>
+                                    <div class="w-full bg-gray-300 rounded-full h-2.5 overflow-hidden">
+                                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider">
+                                        <span>Linux Mint / Zorin OS (Idle RAM)</span>
+                                        <span>300 MB</span>
+                                    </div>
+                                    <div class="w-full bg-gray-300 rounded-full h-2.5 overflow-hidden">
+                                        <div class="bg-orange-500 h-2.5 rounded-full" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Cloud vs Local Section -->
+                        <section>
+                            <h2 id="cloud-heading" class="text-2xl font-bold mb-4 flex items-center text-purple-600 transition-colors duration-300">
+                                <i data-lucide="cloud-off" class="mr-2 w-6 h-6"></i> El Dilema: Nube vs. Soberanía Local
+                            </h2>
+                            <p class="mb-4">
+                                La verdadera grieta de 2026 no es Mac vs PC, es <strong>Local vs Nube</strong>. Mientras Microsoft empuja agresivamente <em>Windows 365 Consumer</em>, Linux y Apple han apostado por la "Soberanía del Silicio", ejecutando asistentes tipo GPT-5 localmente.
+                            </p>
+                        </section>
+
+                        <hr id="divider-2" class="my-8 border-t border-gray-200 transition-colors duration-300" />
+
+                        <!-- Conclusion -->
+                        <section>
+                            <h2 id="verdict-heading" class="text-2xl font-bold mb-4 text-gray-900 transition-colors duration-300">
+                                El Veredicto: ¿Qué sistema elegir?
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                                <div class="verdict-card p-5 rounded-lg border-t-4 border-blue-500 bg-gray-50 transition-colors duration-300">
+                                    <h3 class="font-bold text-lg mb-2">Windows</h3>
+                                    <p>Software contable, gestión empresarial y gaming con drivers día cero.</p>
+                                </div>
+                                <div class="verdict-card p-5 rounded-lg border-t-4 border-gray-500 bg-gray-50 transition-colors duration-300">
+                                    <h3 class="font-bold text-lg mb-2">macOS</h3>
+                                    <p>Estabilidad absoluta, ecosistema Apple y Creator Studio.</p>
+                                </div>
+                                <div class="verdict-card p-5 rounded-lg border-t-4 border-orange-500 bg-gray-50 transition-colors duration-300">
+                                    <h3 class="font-bold text-lg mb-2">Linux</h3>
+                                    <p>Desarrolladores, soberanía de datos y resurrección de hardware.</p>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <div class="mt-12 p-8 text-center opacity-70 italic border-t border-dashed border-gray-400">
+                            "En un mundo donde tu sistema operativo sabe cada vez más de ti, ¿qué valor le das hoy a tu soberanía digital?"
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCK -->
+    <div class="fixed bottom-2 left-0 right-0 flex justify-center z-50">
+        <div class="bg-white/20 backdrop-blur-xl border border-white/20 px-4 py-2 rounded-2xl flex items-end space-x-2 sm:space-x-4 shadow-2xl mb-1 hover:scale-105 transition-transform duration-300 ease-out origin-bottom">
+            
+            <!-- Launchpad -->
+            <div class="dock-icon group relative flex flex-col items-center gap-1 cursor-pointer transition-transform duration-200">
+                <div class="absolute -top-12 px-3 py-1 bg-gray-800/80 backdrop-blur text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Launchpad <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-gray-800/80 -translate-x-1/2 rotate-45"></div>
+                </div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center bg-gradient-to-br from-cyan-400 to-purple-500 text-white">
+                    <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                </div>
+                <div class="w-1 h-1 rounded-full bg-black/50 opacity-0"></div>
+            </div>
+
+            <div class="w-[1px] h-10 bg-white/20 mx-1"></div>
+
+            <!-- Finder -->
+            <div class="dock-icon group relative flex flex-col items-center gap-1 cursor-pointer transition-transform duration-200">
+                <div class="absolute -top-12 px-3 py-1 bg-gray-800/80 backdrop-blur text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Finder <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-gray-800/80 -translate-x-1/2 rotate-45"></div>
+                </div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center bg-gradient-to-b from-blue-400 to-blue-600 text-white">
+                    <i data-lucide="folder" class="w-6 h-6 fill-current"></i>
+                </div>
+                <div class="w-1 h-1 rounded-full bg-black/50 opacity-0"></div>
+            </div>
+            
+            <!-- Safari (Active) -->
+            <div class="dock-icon group relative flex flex-col items-center gap-1 cursor-pointer transition-transform duration-200" onclick="openSafari()">
+                <div class="absolute -top-12 px-3 py-1 bg-gray-800/80 backdrop-blur text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Safari <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-gray-800/80 -translate-x-1/2 rotate-45"></div>
+                </div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center bg-white text-blue-500">
+                    <i data-lucide="search" class="w-6 h-6" stroke-width="3"></i>
+                </div>
+                <div id="safari-dot" class="w-1 h-1 rounded-full bg-black/50 opacity-100"></div>
+            </div>
+
+            <!-- Terminal -->
+            <div class="dock-icon group relative flex flex-col items-center gap-1 cursor-pointer transition-transform duration-200">
+                <div class="absolute -top-12 px-3 py-1 bg-gray-800/80 backdrop-blur text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Terminal <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-gray-800/80 -translate-x-1/2 rotate-45"></div>
+                </div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center bg-gray-800 text-white">
+                    <i data-lucide="terminal" class="w-6 h-6"></i>
+                </div>
+                <div class="w-1 h-1 rounded-full bg-black/50 opacity-0"></div>
+            </div>
+
+            <!-- Settings -->
+            <div class="dock-icon group relative flex flex-col items-center gap-1 cursor-pointer transition-transform duration-200">
+                <div class="absolute -top-12 px-3 py-1 bg-gray-800/80 backdrop-blur text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Ajustes <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-gray-800/80 -translate-x-1/2 rotate-45"></div>
+                </div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center bg-gray-400 text-white">
+                    <i data-lucide="settings" class="w-6 h-6"></i>
+                </div>
+                <div class="w-1 h-1 rounded-full bg-black/50 opacity-0"></div>
+            </div>
+
+            <div class="w-[1px] h-10 bg-white/20 mx-1"></div>
+
+            <!-- Minimized Preview (Hidden by default) -->
+            <div id="minimized-preview" onclick="openSafari()" class="hidden cursor-pointer relative group dock-icon transition-transform duration-200">
+                <div class="absolute -top-12 px-3 py-1 bg-gray-800/80 backdrop-blur text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    La Batalla... <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-gray-800/80 -translate-x-1/2 rotate-45"></div>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-white opacity-80 flex items-center justify-center shadow-lg border border-gray-300/50 hover:brightness-110 transition-all">
+                    <span class="text-[6px] text-gray-800 leading-[6px] overflow-hidden p-1 text-center font-serif">
+                        La Batalla por tu Escritorio...
+                    </span>
+                    <div class="absolute bottom-[-4px] right-[-4px] w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-md">
+                        <i data-lucide="search" class="w-3 h-3 text-blue-500"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        let isWindowOpen = true;
+        let isMinimized = false;
+        let isMaximized = false;
+        let isDarkMode = false;
+
+        // --- DOM Elements ---
+        const windowEl = document.getElementById('safari-window');
+        const contentArea = document.getElementById('content-area');
+        const minimizedPreview = document.getElementById('minimized-preview');
+        const safariDot = document.getElementById('safari-dot');
+
+        // --- Clock Functionality ---
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit' };
+            const dateOptions = { weekday: 'short', day: 'numeric', month: 'short' };
+            
+            document.getElementById('clock-time').textContent = now.toLocaleTimeString('es-ES', timeOptions);
+            document.getElementById('clock-date').textContent = now.toLocaleDateString('es-ES', dateOptions);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- Window Controls ---
+        function closeWindow() {
+            isWindowOpen = false;
+            isMinimized = false;
+            updateWindowState();
+        }
+
+        function minimizeWindow() {
+            isWindowOpen = true;
+            isMinimized = true;
+            updateWindowState();
+        }
+
+        function openSafari() {
+            if (isMinimized) {
+                isMinimized = false;
+            } else if (!isWindowOpen) {
+                isWindowOpen = true;
+            } else {
+                // If already open and focused, maybe minimize? 
+                // For now, let's just make sure it stays open.
+                // Mimic standard dock behavior: if minimized, restore.
+            }
+            updateWindowState();
+        }
+
+        function toggleMaximize() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                windowEl.classList.remove('max-w-5xl', 'h-[80vh]', 'rounded-xl');
+                windowEl.classList.add('w-full', 'h-[calc(100vh-2rem)]', 'rounded-none', 'mt-8');
+            } else {
+                windowEl.classList.add('max-w-5xl', 'h-[80vh]', 'rounded-xl');
+                windowEl.classList.remove('w-full', 'h-[calc(100vh-2rem)]', 'rounded-none', 'mt-8');
+            }
+        }
+
+        function updateWindowState() {
+            if (!isWindowOpen) {
+                // Closed state
+                windowEl.classList.remove('opacity-100', 'scale-100');
+                windowEl.classList.add('opacity-0', 'scale-75', 'pointer-events-none', 'absolute', 'bottom-0');
+                safariDot.classList.remove('opacity-100');
+                safariDot.classList.add('opacity-0');
+                minimizedPreview.classList.add('hidden');
+            } else if (isMinimized) {
+                // Minimized state
+                windowEl.classList.remove('opacity-100', 'scale-100');
+                windowEl.classList.add('opacity-0', 'scale-75', 'pointer-events-none', 'absolute', 'bottom-0');
+                safariDot.classList.add('opacity-100'); // App is still running
+                minimizedPreview.classList.remove('hidden');
+            } else {
+                // Open state
+                windowEl.classList.remove('opacity-0', 'scale-75', 'pointer-events-none', 'absolute', 'bottom-0');
+                windowEl.classList.add('opacity-100', 'scale-100');
+                safariDot.classList.add('opacity-100');
+                minimizedPreview.classList.add('hidden');
+            }
+        }
+
+        // --- Dark Mode ---
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            
+            // Elements to toggle
+            const elements = {
+                content: contentArea,
+                header: document.getElementById('window-header'),
+                title: document.getElementById('article-title'),
+                subtitle: document.getElementById('article-subtitle'),
+                badge: document.getElementById('tag-badge'),
+                headings: [
+                    document.getElementById('apple-heading'),
+                    document.getElementById('verdict-heading')
+                ],
+                boxes: [
+                    document.getElementById('quote-box'),
+                    document.getElementById('hardware-box')
+                ],
+                dividers: [
+                    document.getElementById('divider-1'),
+                    document.getElementById('divider-2')
+                ],
+                featureCards: document.querySelectorAll('.feature-card'),
+                verdictCards: document.querySelectorAll('.verdict-card'),
+                coloredHeadings: [
+                   {el: document.getElementById('ms-heading'), light: 'text-blue-600', dark: 'text-blue-400'},
+                   {el: document.getElementById('linux-heading'), light: 'text-orange-600', dark: 'text-orange-400'},
+                   {el: document.getElementById('hardware-heading'), light: 'text-green-700', dark: 'text-green-400'},
+                   {el: document.getElementById('cloud-heading'), light: 'text-purple-600', dark: 'text-purple-400'},
+                ]
+            };
+
+            if (isDarkMode) {
+                // Apply Dark Mode
+                elements.content.classList.remove('bg-white', 'text-gray-800');
+                elements.content.classList.add('bg-[#1e1e1e]', 'text-gray-300');
+                
+                elements.header.classList.remove('bg-[#f3f4f6]', 'border-gray-300');
+                elements.header.classList.add('bg-[#2d2d2d]', 'border-gray-600');
+
+                elements.title.classList.replace('text-gray-900', 'text-white');
+                elements.subtitle.classList.replace('text-gray-500', 'text-gray-400');
+                
+                elements.badge.classList.replace('bg-blue-100', 'bg-blue-900/30');
+                elements.badge.classList.replace('text-blue-800', 'text-blue-400');
+
+                elements.headings.forEach(h => h.classList.replace('text-gray-900', 'text-white'));
+
+                // Boxes
+                elements.boxes[0].classList.replace('bg-gray-50', 'bg-gray-800');
+                elements.boxes[0].classList.replace('border-purple-600', 'border-purple-500'); // Quote box
+                
+                elements.boxes[1].classList.replace('bg-gray-50', 'bg-gray-800/30'); // Hardware box
+                elements.boxes[1].classList.replace('border-gray-300', 'border-gray-600');
+
+                document.getElementById('linux-box').classList.remove('from-orange-50', 'to-orange-100');
+                document.getElementById('linux-box').classList.add('from-gray-800', 'to-gray-900');
+
+                // Dividers
+                elements.dividers.forEach(d => d.classList.replace('border-gray-200', 'border-gray-700'));
+
+                // Cards
+                elements.featureCards.forEach(card => {
+                    card.classList.replace('bg-white', 'bg-gray-800/50');
+                    card.classList.replace('border-gray-200', 'border-gray-700');
+                });
+                elements.verdictCards.forEach(card => {
+                    card.classList.replace('bg-gray-50', 'bg-gray-800');
+                });
+
+                // Colored Headings
+                elements.coloredHeadings.forEach(item => {
+                    item.el.classList.replace(item.light, item.dark);
+                });
+
+            } else {
+                // Revert to Light Mode
+                elements.content.classList.add('bg-white', 'text-gray-800');
+                elements.content.classList.remove('bg-[#1e1e1e]', 'text-gray-300');
+                
+                elements.header.classList.add('bg-[#f3f4f6]', 'border-gray-300');
+                elements.header.classList.remove('bg-[#2d2d2d]', 'border-gray-600');
+
+                elements.title.classList.replace('text-white', 'text-gray-900');
+                elements.subtitle.classList.replace('text-gray-400', 'text-gray-500');
+                
+                elements.badge.classList.replace('bg-blue-900/30', 'bg-blue-100');
+                elements.badge.classList.replace('text-blue-400', 'text-blue-800');
+
+                elements.headings.forEach(h => h.classList.replace('text-white', 'text-gray-900'));
+
+                // Boxes
+                elements.boxes[0].classList.replace('bg-gray-800', 'bg-gray-50');
+                elements.boxes[0].classList.replace('border-purple-500', 'border-purple-600');
+                
+                elements.boxes[1].classList.replace('bg-gray-800/30', 'bg-gray-50');
+                elements.boxes[1].classList.replace('border-gray-600', 'border-gray-300');
+
+                document.getElementById('linux-box').classList.add('from-orange-50', 'to-orange-100');
+                document.getElementById('linux-box').classList.remove('from-gray-800', 'to-gray-900');
+
+                // Dividers
+                elements.dividers.forEach(d => d.classList.replace('border-gray-700', 'border-gray-200'));
+
+                // Cards
+                elements.featureCards.forEach(card => {
+                    card.classList.replace('bg-gray-800/50', 'bg-white');
+                    card.classList.replace('border-gray-700', 'border-gray-200');
+                });
+                elements.verdictCards.forEach(card => {
+                    card.classList.replace('bg-gray-800', 'bg-gray-50');
+                });
+
+                 // Colored Headings
+                 elements.coloredHeadings.forEach(item => {
+                    item.el.classList.replace(item.dark, item.light);
+                });
+            }
+        }
+
+        // Initialize Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
