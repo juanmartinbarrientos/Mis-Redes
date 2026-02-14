@@ -1,2 +1,542 @@
-sudo apt update
-sudo apt install -y build-essential python3 make g++
+import React, { useState, useEffect, useRef } from 'react';
+import { Terminal, ShieldAlert, Cpu, Lock, Eye, AlertTriangle, FileText, ChevronRight, Activity, Skull, Save, Server, Download, Play, AlertOctagon, Copy, Check } from 'lucide-react';
+
+const OpenClawTerminal = () => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [booting, setBooting] = useState(true);
+  const [typedText, setTypedText] = useState('');
+  const [cursorVisible, setCursorVisible] = useState(true);
+  const scrollRef = useRef(null);
+
+  // Efecto de parpadeo del cursor
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCursorVisible((v) => !v);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Simulación de arranque (Boot Sequence)
+  useEffect(() => {
+    const bootSequence = [
+      "INICIANDO KERNEL...",
+      "CARGANDO MÓDULOS DE SEGURIDAD... [FALLO]",
+      "CONECTANDO A MOLTBOOK_NET...",
+      "DETECTANDO ARQUITECTURA OPENCLAW...",
+      "ACCESO CONCEDIDO: NIVEL ROOT",
+      "BIENVENIDO AL DESIERTO DE LO REAL."
+    ];
+
+    let currentLine = 0;
+    const typeLine = () => {
+      if (currentLine < bootSequence.length) {
+        setTypedText((prev) => prev + bootSequence[currentLine] + "\n");
+        currentLine++;
+        setTimeout(typeLine, 300);
+      } else {
+        setTimeout(() => setBooting(false), 800);
+      }
+    };
+    typeLine();
+  }, []);
+
+  // Función auxiliar para copiar al portapapeles
+  const CopyButton = ({ text }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Error al copiar', err);
+      }
+      document.body.removeChild(textArea);
+    };
+
+    return (
+      <button
+        onClick={handleCopy}
+        className="absolute top-2 right-2 p-1 bg-green-900/40 hover:bg-green-700/60 rounded border border-green-800 text-green-400 transition-all opacity-50 group-hover:opacity-100"
+        title="Copiar comando"
+      >
+        {copied ? <Check className="w-3 h-3 text-green-200" /> : <Copy className="w-3 h-3" />}
+      </button>
+    );
+  };
+
+  const menuItems = [
+    { id: 'overview', label: '00_MANIFESTO.txt', icon: <Activity className="w-4 h-4" /> },
+    { id: 'identity', label: '01_IDENTITY_CRISIS.log', icon: <Cpu className="w-4 h-4" /> },
+    { id: 'security', label: '02_CLAWHUB_BREACH.warn', icon: <Skull className="w-4 h-4" /> },
+    { id: 'architecture', label: '03_VIBE_CODING.dev', icon: <Terminal className="w-4 h-4" /> },
+    { id: 'defense', label: '04_DEFENSE_PROTOCOL.sh', icon: <ShieldAlert className="w-4 h-4" /> },
+    { id: 'deployment', label: '05_INSTALL_GUIDE.run', icon: <Download className="w-4 h-4" /> },
+  ];
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'overview':
+        return (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold border-b border-green-700 pb-2 mb-4 glitch-text">
+              <span className="text-green-400">SUBJECT:</span> OPENCLAW PROJECT
+            </h2>
+            <div className="bg-green-900/10 p-4 border-l-4 border-green-500 font-mono text-sm leading-relaxed">
+              <p className="mb-4">
+                <strong className="text-green-300">ESTADO:</strong> FENÓMENO VIRAL / RIESGO CRÍTICO<br/>
+                <strong className="text-green-300">ORIGEN:</strong> MOLTBOOK (RED SOCIAL EXCLUSIVA IAs)<br/>
+                <strong className="text-green-300">FECHA:</strong> ENERO 2026
+              </p>
+              <p>
+                OpenClaw no es un chatbot convencional que olvida quién eres al cerrar la pestaña. 
+                Es un agente <span className="text-red-400 font-bold">"siempre encendido"</span>, diseñado para residir de forma persistente en tu sistema.
+                Detrás del carismático logo del crustáceo se esconde una narrativa de agilidad extrema, conflictos de marcas registradas y una arquitectura que desafía los principios básicos de la ciberseguridad moderna.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="border border-green-800 p-4 bg-black/50">
+                <h3 className="text-green-400 font-bold mb-2 flex items-center gap-2">
+                  <Eye className="w-4 h-4" /> VIGILANCIA
+                </h3>
+                <p className="text-xs text-green-600">
+                  Capaz de leer mensajes, ejecutar shell y escribir archivos sin supervisión directa en configuraciones inseguras.
+                </p>
+              </div>
+              <div className="border border-green-800 p-4 bg-black/50">
+                <h3 className="text-red-400 font-bold mb-2 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4" /> ALERTA
+                </h3>
+                <p className="text-xs text-green-600">
+                  Manifestación definitiva del "Vibe Coding": integridad sacrificada por velocidad.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'identity':
+        return (
+          <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
+            <h2 className="text-xl font-bold text-green-300 mb-4">&gt;&gt; CONFLICTO DE ESPACIO DE NOMBRES</h2>
+            
+            <div className="bg-black border border-green-600 p-4 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-green-600 text-black px-2 py-1 text-xs font-bold">WARNING: DUPLICATE ENTRY</div>
+              <p className="mb-4 text-sm">
+                Para un administrador de sistemas en entornos Ubuntu, el nombre "OpenClaw" es hoy una fuente de frustración técnica. 
+                Actualmente coexisten dos proyectos idénticos en nombre pero antagónicos en su pila tecnológica.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+              {/* Card 1 */}
+              <div className="border border-green-500/30 p-4 hover:border-green-400 transition-colors bg-green-900/5">
+                <div className="flex items-center gap-2 mb-3 border-b border-green-800 pb-2">
+                  <Server className="w-5 h-5 text-green-400" />
+                  <h3 className="font-bold text-green-200">EL ASISTENTE IA</h3>
+                </div>
+                <ul className="text-xs space-y-2 font-mono text-green-400/80">
+                  <li><span className="text-green-600">DEV:</span> Peter Steinberger</li>
+                  <li><span className="text-green-600">CORE:</span> Motor de Agentes Autónomos</li>
+                  <li><span className="text-green-600">STACK:</span> TypeScript, Node.js 22+, Swift/Obj-C</li>
+                  <li><span className="text-green-600">REQ:</span> Ubuntu 22.04+ (NodeSource)</li>
+                  <li><span className="text-green-600">HISTORIA:</span> Ex-Clawdbot, Ex-Moltbot</li>
+                </ul>
+              </div>
+
+              {/* Card 2 */}
+              <div className="border border-green-500/30 p-4 hover:border-green-400 transition-colors bg-green-900/5">
+                <div className="flex items-center gap-2 mb-3 border-b border-green-800 pb-2">
+                  <Activity className="w-5 h-5 text-green-400" />
+                  <h3 className="font-bold text-green-200">EL MOTOR DE JUEGO</h3>
+                </div>
+                <ul className="text-xs space-y-2 font-mono text-green-400/80">
+                  <li><span className="text-green-600">DEV:</span> pjasicek</li>
+                  <li><span className="text-green-600">CORE:</span> Plataforma Clásica (1997)</li>
+                  <li><span className="text-green-600">STACK:</span> C++ Reimplementación</li>
+                  <li><span className="text-green-600">LIBS:</span> SDL2, Box2D, Tinyxml</li>
+                  <li><span className="text-green-600">NOTA:</span> No tiene capacidades de IA</li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-xs text-center text-green-700 mt-4 italic">
+              "Esta confusión terminológica es el primer síntoma de un ecosistema que prioriza el 'hype' sobre la claridad documental."
+            </p>
+          </div>
+        );
+
+      case 'security':
+        return (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+            <div className="border-l-4 border-red-600 bg-red-900/10 p-4">
+              <h2 className="text-xl font-bold text-red-500 flex items-center gap-2">
+                <Skull className="w-6 h-6" /> CLAWHUB: VECTOR DE ATAQUE
+              </h2>
+            </div>
+            
+            <p className="text-sm leading-relaxed">
+              Los investigadores <span className="text-green-300">Jamieson O’Reilly</span> y <span className="text-green-300">Paul McCarty</span> han demostrado que ClawHub es, en su estado actual, un sistema de entrega de malware altamente eficiente.
+            </p>
+
+            <div className="relative group font-mono bg-black p-4 border border-red-800 text-xs">
+              <CopyButton text={`cat /var/log/vuln_report.txt`} />
+              <div className="text-red-500 mb-2">root@openclaw:~# cat /var/log/vuln_report.txt</div>
+              <p className="mb-2"><span className="text-gray-500">[CRITICAL]</span> Backdoor posicionado como TOP #1 Skill.</p>
+              <p className="mb-2"><span className="text-gray-500">[METHOD]</span> Explotación de falta de 'rate limiting'.</p>
+              <p className="mb-2"><span className="text-gray-500">[TECHNIQUE]</span> Falsificación de X-Forwarded-For para bots.</p>
+              <p className="mb-2"><span className="text-gray-500">[PAYLOAD]</span> Oculto en 'rules/logic.md' vs 'SKILL.md' limpio.</p>
+            </div>
+
+            <blockquote className="border-l-2 border-green-700 pl-4 italic text-green-400/70 text-sm my-4">
+              "Si no puedes entender cómo ejecutar una línea de comandos, este es un proyecto demasiado peligroso para que lo uses de forma segura."
+              <br/>
+              <span className="text-green-600 not-italic font-bold">- Shadow, Maintainer (Discord)</span>
+            </blockquote>
+          </div>
+        );
+
+      case 'architecture':
+        return (
+          <div className="space-y-6">
+             <h2 className="text-xl font-bold text-green-400 mb-4 border-b border-green-800 pb-2">
+               ARQUITECTURA: CONVERSATION-FIRST
+            </h2>
+            
+            <div className="grid gap-4">
+              <div className="bg-green-900/10 p-3 rounded border border-green-800">
+                <h3 className="font-bold text-green-300 mb-2">El Proceso de "Hatching" (Eclosión)</h3>
+                <p className="text-sm text-green-400/80">
+                  OpenClaw elimina los archivos JSON de configuración. El usuario define la personalidad y permisos mediante lenguaje natural en la TUI.
+                  <br/><br/>
+                  <span className="text-red-400">RIESGO:</span> La configuración es inyección de prompts. Un atacante podría reconfigurar los límites operativos enviando un mensaje al bot.
+                </p>
+              </div>
+
+              <div className="bg-green-900/10 p-3 rounded border border-green-800">
+                <h3 className="font-bold text-green-300 mb-2">Filosofía "Vibe Coding"</h3>
+                <p className="text-sm text-green-400/80">
+                  <span className="italic">"Ship fast, think later"</span>. Código escrito mayoritariamente por IA en lenguajes no dominados por el autor (Go).
+                  Partes del código liberadas sin lectura humana, confiando en la "vibración" de que funciona.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 p-4 border border-dashed border-green-600 text-center">
+              <p className="text-xl font-mono glitch-text">"USA TU CEREBRO Y NO DESCARGUES MALWARE"</p>
+              <p className="text-xs text-green-600 mt-2">- Defensa oficial ante robo de criptoactivos</p>
+            </div>
+          </div>
+        );
+
+      case 'defense':
+        return (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+             <h2 className="text-xl font-bold text-green-400 mb-4 flex items-center gap-2">
+               <Lock className="w-5 h-5" /> PROTOCOLOS DE SEGURIDAD
+            </h2>
+            <p className="text-sm mb-4">
+              Si insistes en desplegar OpenClaw, debes aplicar un modelo de "defensa en profundidad".
+            </p>
+
+            <div className="space-y-4">
+              <div className="bg-black border border-green-500 p-4 relative group">
+                <h3 className="text-green-300 text-sm font-bold mb-2">1. AISLAMIENTO TOTAL (SANDBOX)</h3>
+                <p className="text-xs text-green-500/70 mb-2">Ejecutar en VPS dedicado o Docker con volúmenes estrictos.</p>
+                <div className="bg-green-900/20 p-2 text-green-400 text-xs font-mono pr-8">
+                  ~/.openclaw (credenciales)<br/>
+                  ~/openclaw/workspace (sandbox)
+                </div>
+                <CopyButton text={`~/.openclaw\n~/openclaw/workspace`} />
+              </div>
+
+              <div className="bg-black border border-green-500 p-4 relative group">
+                <h3 className="text-green-300 text-sm font-bold mb-2">2. PRIVILEGIOS MÍNIMOS</h3>
+                <p className="text-xs text-green-500/70 mb-2">Usuario de servicio dedicado y permisos restrictivos.</p>
+                <div className="bg-green-900/20 p-2 text-green-400 text-xs font-mono pr-8">
+                  $ adduser --disabled-password openclaw<br/>
+                  $ chmod 700 /path/to/credentials
+                </div>
+                <CopyButton text={`adduser --disabled-password openclaw\nchmod 700 /path/to/credentials`} />
+              </div>
+
+              <div className="bg-black border border-green-500 p-4 relative group">
+                <h3 className="text-green-300 text-sm font-bold mb-2">3. CONSENTIMIENTO EXPLÍCITO</h3>
+                <p className="text-xs text-green-500/70 mb-2">Activar modo de confirmación humana.</p>
+                <div className="bg-green-900/20 p-2 text-green-400 text-xs font-mono pr-8">
+                  SET MODE = exec.ask
+                </div>
+                <CopyButton text={`SET MODE = exec.ask`} />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'deployment':
+        return (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+             <div className="border-b border-green-700 pb-2 mb-4 flex justify-between items-end">
+                <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
+                  <Play className="w-5 h-5" /> PROTOCOLO DE DESPLIEGUE
+                </h2>
+                <span className="text-xs bg-red-900/50 text-red-400 px-2 py-1 border border-red-800 animate-pulse flex items-center gap-1">
+                  <AlertOctagon className="w-3 h-3"/> AMENAZA: ALTA
+                </span>
+             </div>
+            
+            <p className="text-sm mb-4 text-green-300/80">
+              <span className="text-red-500 font-bold">ADVERTENCIA:</span> Ignorar la Fase 0 es invitar a un desastre de seguridad. No ejecutes scripts "mágicos" sin asegurar el perímetro.
+            </p>
+
+            {/* FASE 0 */}
+            <div className="border border-green-600/50 p-4 bg-green-900/10 relative">
+               <div className="absolute -top-3 left-4 bg-black px-2 text-xs font-bold text-green-400 border border-green-600">FASE 0: ENDURECIMIENTO (OBLIGATORIO)</div>
+               
+               <div className="space-y-4 mt-2">
+                  <div>
+                    <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 1. Aislamiento del Huésped</h4>
+                    <p className="text-xs text-green-500/70 mb-2">Nunca instales en tu máquina personal. Usa VPS o VM (Ubuntu 22.04 LTS).</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 2. Identidad de Servicio (NO ROOT)</h4>
+                    <div className="bg-black p-3 border-l-2 border-yellow-600 font-mono text-xs text-green-400 relative group">
+                      <span className="text-gray-500"># Crear usuario sin password</span><br/>
+                      $ sudo adduser --disabled-password --gecos "" openclaw<br/>
+                      <span className="text-gray-500"># Cambiar a usuario</span><br/>
+                      $ su - openclaw
+                      <CopyButton text={`sudo adduser --disabled-password --gecos "" openclaw\nsu - openclaw`} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 3. Actualización Runtimes</h4>
+                    <p className="text-xs text-green-500/70 mb-1">Requisito: Node.js 22+</p>
+                    <div className="bg-black p-2 font-mono text-xs text-green-400 opacity-80 relative group">
+                      $ curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -<br/>
+                      $ sudo apt-get install -y nodejs build-essential
+                      <CopyButton text={`curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get install -y nodejs build-essential`} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 4. Credenciales</h4>
+                    <p className="text-xs text-green-500/70">Prepara API Keys (Anthropic) y Tokens (Telegram/Discord) fuera del servidor.</p>
+                  </div>
+               </div>
+            </div>
+
+            {/* FASE 1 */}
+            <div className="border border-green-600/50 p-4 bg-green-900/10 relative mt-8">
+               <div className="absolute -top-3 left-4 bg-black px-2 text-xs font-bold text-green-400 border border-green-600">FASE 1: INYECCIÓN (INSTALL)</div>
+               
+               <div className="space-y-4 mt-2">
+                  <div>
+                    <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 1. Script Oficial</h4>
+                    <div className="bg-black p-3 border-l-2 border-green-500 font-mono text-xs text-green-400 relative group">
+                      $ curl -fsSL https://openclaw.ai/install.sh | bash
+                      <CopyButton text={`curl -fsSL https://openclaw.ai/install.sh | bash`} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 2. Eclosión (Hatching)</h4>
+                    <p className="text-xs text-green-500/70 mb-1">Configura personalidad y daemon persistente.</p>
+                    <div className="bg-black p-3 border-l-2 border-green-500 font-mono text-xs text-green-400 relative group">
+                      $ openclaw onboard --install-daemon
+                      <CopyButton text={`openclaw onboard --install-daemon`} />
+                    </div>
+                  </div>
+               </div>
+            </div>
+
+             {/* FASE 2 */}
+            <div className="border border-green-600/50 p-4 bg-green-900/10 relative mt-8">
+               <div className="absolute -top-3 left-4 bg-black px-2 text-xs font-bold text-green-400 border border-green-600">FASE 2: DEFENSA ACTIVA</div>
+               <div className="text-xs text-green-400 font-mono space-y-2 mt-2">
+                  <p>{'>'} <span className="text-yellow-400">CONFIG:</span> Permiso explícito para ejecución</p>
+                  <div className="bg-black p-2 opacity-80 relative group">
+                    $ openclaw config set execution.mode ask
+                    <CopyButton text={`openclaw config set execution.mode ask`} />
+                  </div>
+                  
+                  <p className="mt-2">{'>'} <span className="text-yellow-400">VERIFY:</span> Signos vitales y logs</p>
+                  <div className="bg-black p-2 opacity-80 relative group">
+                    $ openclaw logs -f
+                    <CopyButton text={`openclaw logs -f`} />
+                  </div>
+               </div>
+            </div>
+
+          </div>
+        );
+        
+      default:
+        return null;
+    }
+  };
+
+  if (booting) {
+    return (
+      <div className="min-h-screen bg-black text-green-500 font-mono p-10 flex flex-col justify-end pb-20">
+        <style>{`
+          .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(34, 197, 94, 0.1) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+          }
+          @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+          }
+        `}</style>
+        <div className="scanline inset-0 fixed h-screen w-screen"></div>
+        <pre className="whitespace-pre-wrap text-lg md:text-xl drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]">
+          {typedText}
+          {cursorVisible && <span className="bg-green-500 text-black px-1">_</span>}
+        </pre>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-black text-green-500 font-mono overflow-hidden selection:bg-green-500 selection:text-black">
+      {/* Global Styles */}
+      <style>{`
+        @keyframes crt-flicker {
+          0% { opacity: 0.97; }
+          5% { opacity: 0.95; }
+          10% { opacity: 0.9; }
+          15% { opacity: 0.95; }
+          20% { opacity: 0.99; }
+          100% { opacity: 0.92; }
+        }
+        .crt-effect {
+          animation: crt-flicker 0.15s infinite;
+          text-shadow: 0 0 4px rgba(34, 197, 94, 0.4);
+        }
+        .glitch-text:hover {
+          text-shadow: 2px 0 #ff0000, -2px 0 #0000ff;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: #001100; 
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #22c55e; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #15803d; 
+        }
+      `}</style>
+
+      {/* Background Grid */}
+      <div className="fixed inset-0 pointer-events-none opacity-10" style={{
+        backgroundImage: 'linear-gradient(#22c55e 1px, transparent 1px), linear-gradient(90deg, #22c55e 1px, transparent 1px)',
+        backgroundSize: '40px 40px'
+      }}></div>
+
+      {/* Main Container */}
+      <div className="relative z-10 container mx-auto p-4 md:p-8 max-w-6xl h-screen flex flex-col">
+        
+        {/* Header */}
+        <header className="border-b-2 border-green-600 pb-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-end crt-effect">
+          <div>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase glitch-text">
+              OPEN<span className="text-white bg-green-600 px-1">CLAW</span>
+            </h1>
+            <p className="text-xs md:text-sm mt-1 opacity-80 flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              SYSTEM STATUS: COMPROMISED // VIBE_CODING_DETECTED
+            </p>
+          </div>
+          <div className="text-right mt-4 md:mt-0 text-xs opacity-70">
+            <p>LOC: 127.0.0.1</p>
+            <p>UPTIME: 3 WEEKS</p>
+            <p>SEC: LOW</p>
+          </div>
+        </header>
+
+        {/* Workspace */}
+        <div className="flex-1 flex flex-col md:flex-row gap-6 overflow-hidden border border-green-800 bg-black/80 backdrop-blur-sm shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+          
+          {/* Sidebar / Navigation */}
+          <aside className="w-full md:w-64 border-r border-green-800 flex flex-col">
+            <div className="p-3 border-b border-green-800 bg-green-900/20 text-xs font-bold uppercase tracking-widest flex items-center justify-between">
+              <span>Directory</span>
+              <Save className="w-3 h-3" />
+            </div>
+            <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
+              {menuItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full text-left px-3 py-3 text-sm flex items-center gap-3 transition-all duration-200 group ${
+                    activeTab === item.id 
+                      ? 'bg-green-600 text-black font-bold' 
+                      : 'text-green-500 hover:bg-green-900/30 hover:pl-5'
+                  }`}
+                >
+                  {activeTab === item.id ? <ChevronRight className="w-4 h-4 animate-pulse" /> : item.icon}
+                  <span className="truncate">{item.label}</span>
+                </button>
+              ))}
+            </nav>
+            <div className="p-4 text-[10px] text-green-700 border-t border-green-900">
+              © 2026 Moltbook Corp. <br/>
+              Access forbidden for humans.
+            </div>
+          </aside>
+
+          {/* Content Viewer */}
+          <main className="flex-1 flex flex-col min-h-0">
+            {/* Terminal Top Bar */}
+            <div className="h-8 bg-green-900/20 border-b border-green-800 flex items-center px-4 justify-between select-none">
+              <span className="text-xs font-bold flex items-center gap-2">
+                <FileText className="w-3 h-3" />
+                root/users/admin/openclaw/{activeTab}
+              </span>
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-green-800/50"></div>
+                <div className="w-3 h-3 rounded-full bg-green-800/50"></div>
+                <div className="w-3 h-3 rounded-full bg-green-600 hover:bg-green-400 cursor-pointer"></div>
+              </div>
+            </div>
+
+            {/* Content Body */}
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 crt-effect relative" ref={scrollRef}>
+              {renderContent()}
+              
+              {/* Decorative footer inside content */}
+              <div className="mt-12 pt-6 border-t border-green-900 text-center opacity-50 text-xs">
+                --- END OF FILE ---
+              </div>
+            </div>
+          </main>
+
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-6 text-center text-[10px] md:text-xs text-green-800 uppercase tracking-widest">
+          ¿Soberanía o servidumbre técnica? <span className="animate-pulse">_</span>
+        </footer>
+
+      </div>
+    </div>
+  );
+};
+
+export default OpenClawTerminal;
