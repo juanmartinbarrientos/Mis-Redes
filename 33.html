@@ -1,599 +1,636 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenClaw Terminal // Secure Access</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Guía OpenClaw - Documentación</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    
-    <!-- Babel para JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Fuente Monoespaciada (Fira Code o similar del sistema) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                    mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                },
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1', // Indigo vibrante
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        slate: {
+                            850: '#1e293b', // Fondo código
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'card': '0 0 0 1px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.05)',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        /* Tipografía y Base */
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #000;
+            background-color: #f8fafc; /* Slate 50 */
+            color: #334155; /* Slate 700 */
         }
 
-        /* Animaciones CRT y Scanline */
-        @keyframes crt-flicker {
-            0% { opacity: 0.97; }
-            5% { opacity: 0.95; }
-            10% { opacity: 0.9; }
-            15% { opacity: 0.95; }
-            20% { opacity: 0.99; }
-            100% { opacity: 0.92; }
+        /* Scrollbar sutil */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Bloques de código estilo Terminal Mac */
+        .code-window {
+            background: #1e293b;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
-        .crt-effect {
-            animation: crt-flicker 0.15s infinite;
-            text-shadow: 0 0 4px rgba(34, 197, 94, 0.4);
+
+        .code-header {
+            background: #0f172a;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #334155;
         }
-        .glitch-text:hover {
-            text-shadow: 2px 0 #ff0000, -2px 0 #0000ff;
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+            margin-right: 1rem;
+        }
+
+        .control { width: 10px; height: 10px; border-radius: 50%; }
+        .close { background: #ef4444; }
+        .minimize { background: #f59e0b; }
+        .maximize { background: #22c55e; }
+
+        pre { overflow-x: auto; padding: 1.25rem; margin: 0; }
+        
+        /* Botón de copiar elegante */
+        .copy-btn {
+            position: absolute;
+            top: 0.6rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0;
+            transform: translateY(2px);
         }
         
-        .scanline {
-            width: 100%;
-            height: 100px;
-            z-index: 50;
-            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(34, 197, 94, 0.1) 50%, rgba(0,0,0,0) 100%);
-            opacity: 0.1;
-            position: fixed;
-            bottom: 100%;
-            animation: scanline 10s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: -100%; }
+        .code-window:hover .copy-btn { opacity: 1; transform: translateY(0); }
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* Navegación activa */
+        .nav-link.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+            border-right: 3px solid #4f46e5;
         }
 
-        /* Scrollbar personalizado */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Tarjetas de información */
+        .info-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
-        ::-webkit-scrollbar-track {
-            background: #001100; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #22c55e; 
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #15803d; 
+        .info-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+
+        /* Tip para principiantes */
+        .beginner-tip {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
         }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="antialiased">
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white border-b border-slate-200 p-4 fixed w-full top-0 z-50 flex justify-between items-center shadow-sm">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-robot text-sm"></i>
+            </div>
+            <span class="font-bold text-slate-800 tracking-tight">OpenClaw Docs</span>
+        </div>
+        <button id="mobile-menu-btn" class="text-slate-500 hover:text-brand-600">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </header>
 
-        // --- ICONOS SVG ---
-        // Definidos manualmente para evitar dependencias externas
-        const IconBase = ({ children, className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                {children}
-            </svg>
-        );
-
-        const TerminalIcon = (props) => <IconBase {...props}><polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" /></IconBase>;
-        const ShieldAlert = (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></IconBase>;
-        const Cpu = (props) => <IconBase {...props}><rect x="4" y="4" width="16" height="16" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /><line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" /><line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" /><line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="14" x2="23" y2="14" /><line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="14" x2="4" y2="14" /></IconBase>;
-        const Lock = (props) => <IconBase {...props}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></IconBase>;
-        const Eye = (props) => <IconBase {...props}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></IconBase>;
-        const AlertTriangle = (props) => <IconBase {...props}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></IconBase>;
-        const FileText = (props) => <IconBase {...props}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></IconBase>;
-        const ChevronRight = (props) => <IconBase {...props}><polyline points="9 18 15 12 9 6" /></IconBase>;
-        const Activity = (props) => <IconBase {...props}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></IconBase>;
-        const Skull = (props) => <IconBase {...props}><path d="M12.75 3.03a6 6 0 0 1 .5 10.97v3h-2.5v-3a6 6 0 0 1 .5-10.97z" /><path d="M9 20a1 1 0 0 1 .5-.87l1.5-1a1 1 0 0 1 1 0l1.5 1a1 1 0 0 1 0 1.74l-1.5 1a1 1 0 0 1-1 0l-1.5-1a1 1 0 0 1-.5-.87z" /></IconBase>; // Simplificado
-        const Save = (props) => <IconBase {...props}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></IconBase>;
-        const Server = (props) => <IconBase {...props}><rect x="2" y="2" width="20" height="8" rx="2" ry="2" /><rect x="2" y="14" width="20" height="8" rx="2" ry="2" /><line x1="6" y1="6" x2="6.01" y2="6" /><line x1="6" y1="18" x2="6.01" y2="18" /></IconBase>;
-        const Download = (props) => <IconBase {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></IconBase>;
-        const Play = (props) => <IconBase {...props}><polygon points="5 3 19 12 5 21 5 3" /></IconBase>;
-        const AlertOctagon = (props) => <IconBase {...props}><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></IconBase>;
-        const Copy = (props) => <IconBase {...props}><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></IconBase>;
-        const Check = (props) => <IconBase {...props}><polyline points="20 6 9 17 4 12" /></IconBase>;
-
-
-        const OpenClawTerminal = () => {
-          const [activeTab, setActiveTab] = useState('overview');
-          const [booting, setBooting] = useState(true);
-          const [typedText, setTypedText] = useState('');
-          const [cursorVisible, setCursorVisible] = useState(true);
-          const scrollRef = useRef(null);
-
-          // Efecto de parpadeo del cursor
-          useEffect(() => {
-            const interval = setInterval(() => {
-              setCursorVisible((v) => !v);
-            }, 500);
-            return () => clearInterval(interval);
-          }, []);
-
-          // Simulación de arranque (Boot Sequence)
-          useEffect(() => {
-            const bootSequence = [
-              "INICIANDO KERNEL...",
-              "CARGANDO MÓDULOS DE SEGURIDAD... [FALLO]",
-              "CONECTANDO A MOLTBOOK_NET...",
-              "DETECTANDO ARQUITECTURA OPENCLAW...",
-              "ACCESO CONCEDIDO: NIVEL ROOT",
-              "BIENVENIDO AL DESIERTO DE LO REAL."
-            ];
-
-            let currentLine = 0;
-            const typeLine = () => {
-              if (currentLine < bootSequence.length) {
-                setTypedText((prev) => prev + bootSequence[currentLine] + "\n");
-                currentLine++;
-                setTimeout(typeLine, 300);
-              } else {
-                setTimeout(() => setBooting(false), 800);
-              }
-            };
-            typeLine();
-          }, []);
-
-          // Función auxiliar para copiar al portapapeles
-          const CopyButton = ({ text }) => {
-            const [copied, setCopied] = useState(false);
-
-            const handleCopy = () => {
-              const textArea = document.createElement("textarea");
-              textArea.value = text;
-              document.body.appendChild(textArea);
-              textArea.select();
-              try {
-                document.execCommand('copy');
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              } catch (err) {
-                console.error('Error al copiar', err);
-              }
-              document.body.removeChild(textArea);
-            };
-
-            return (
-              <button
-                onClick={handleCopy}
-                className="absolute top-2 right-2 p-1 bg-green-900/40 hover:bg-green-700/60 rounded border border-green-800 text-green-400 transition-all opacity-50 group-hover:opacity-100"
-                title="Copiar comando"
-              >
-                {copied ? <Check className="w-3 h-3 text-green-200" /> : <Copy className="w-3 h-3" />}
-              </button>
-            );
-          };
-
-          const menuItems = [
-            { id: 'overview', label: '00_MANIFESTO.txt', icon: <Activity className="w-4 h-4" /> },
-            { id: 'identity', label: '01_IDENTITY_CRISIS.log', icon: <Cpu className="w-4 h-4" /> },
-            { id: 'security', label: '02_CLAWHUB_BREACH.warn', icon: <Skull className="w-4 h-4" /> },
-            { id: 'architecture', label: '03_VIBE_CODING.dev', icon: <TerminalIcon className="w-4 h-4" /> },
-            { id: 'defense', label: '04_DEFENSE_PROTOCOL.sh', icon: <ShieldAlert className="w-4 h-4" /> },
-            { id: 'deployment', label: '05_INSTALL_GUIDE.run', icon: <Download className="w-4 h-4" /> },
-          ];
-
-          const renderContent = () => {
-            switch (activeTab) {
-              case 'overview':
-                return (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <h2 className="text-2xl font-bold border-b border-green-700 pb-2 mb-4 glitch-text">
-                      <span className="text-green-400">SUBJECT:</span> OPENCLAW PROJECT
-                    </h2>
-                    <div className="bg-green-900/10 p-4 border-l-4 border-green-500 font-mono text-sm leading-relaxed">
-                      <p className="mb-4">
-                        <strong className="text-green-300">ESTADO:</strong> FENÓMENO VIRAL / RIESGO CRÍTICO<br/>
-                        <strong className="text-green-300">ORIGEN:</strong> MOLTBOOK (RED SOCIAL EXCLUSIVA IAs)<br/>
-                        <strong className="text-green-300">FECHA:</strong> ENERO 2026
-                      </p>
-                      <p>
-                        OpenClaw no es un chatbot convencional que olvida quién eres al cerrar la pestaña. 
-                        Es un agente <span className="text-red-400 font-bold">"siempre encendido"</span>, diseñado para residir de forma persistente en tu sistema.
-                        Detrás del carismático logo del crustáceo se esconde una narrativa de agilidad extrema, conflictos de marcas registradas y una arquitectura que desafía los principios básicos de la ciberseguridad moderna.
-                      </p>
+    <div class="flex min-h-screen pt-16 lg:pt-0">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 bg-white border-r border-slate-200 overflow-y-auto">
+            <div class="p-8 pb-4">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+                        <i class="fa-solid fa-robot text-lg"></i>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="border border-green-800 p-4 bg-black/50">
-                        <h3 className="text-green-400 font-bold mb-2 flex items-center gap-2">
-                          <Eye className="w-4 h-4" /> VIGILANCIA
-                        </h3>
-                        <p className="text-xs text-green-600">
-                          Capaz de leer mensajes, ejecutar shell y escribir archivos sin supervisión directa en configuraciones inseguras.
-                        </p>
-                      </div>
-                      <div className="border border-green-800 p-4 bg-black/50">
-                        <h3 className="text-red-400 font-bold mb-2 flex items-center gap-2">
-                          <AlertTriangle className="w-4 h-4" /> ALERTA
-                        </h3>
-                        <p className="text-xs text-green-600">
-                          Manifestación definitiva del "Vibe Coding": integridad sacrificada por velocidad.
-                        </p>
-                      </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-900 leading-tight">OpenClaw</h1>
+                        <p class="text-xs text-slate-500 font-medium">Guía de Usuario v2.5</p>
                     </div>
-                  </div>
-                );
-
-              case 'identity':
-                return (
-                  <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
-                    <h2 className="text-xl font-bold text-green-300 mb-4">&gt;&gt; CONFLICTO DE ESPACIO DE NOMBRES</h2>
-                    
-                    <div className="bg-black border border-green-600 p-4 relative overflow-hidden">
-                      <div className="absolute top-0 right-0 bg-green-600 text-black px-2 py-1 text-xs font-bold">WARNING: DUPLICATE ENTRY</div>
-                      <p className="mb-4 text-sm">
-                        Para un administrador de sistemas en entornos Ubuntu, el nombre "OpenClaw" es hoy una fuente de frustración técnica. 
-                        Actualmente coexisten dos proyectos idénticos en nombre pero antagónicos en su pila tecnológica.
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                      {/* Card 1 */}
-                      <div className="border border-green-500/30 p-4 hover:border-green-400 transition-colors bg-green-900/5">
-                        <div className="flex items-center gap-2 mb-3 border-b border-green-800 pb-2">
-                          <Server className="w-5 h-5 text-green-400" />
-                          <h3 className="font-bold text-green-200">EL ASISTENTE IA</h3>
-                        </div>
-                        <ul className="text-xs space-y-2 font-mono text-green-400/80">
-                          <li><span className="text-green-600">DEV:</span> Peter Steinberger</li>
-                          <li><span className="text-green-600">CORE:</span> Motor de Agentes Autónomos</li>
-                          <li><span className="text-green-600">STACK:</span> TypeScript, Node.js 22+, Swift/Obj-C</li>
-                          <li><span className="text-green-600">REQ:</span> Ubuntu 22.04+ (NodeSource)</li>
-                          <li><span className="text-green-600">HISTORIA:</span> Ex-Clawdbot, Ex-Moltbot</li>
-                        </ul>
-                      </div>
-
-                      {/* Card 2 */}
-                      <div className="border border-green-500/30 p-4 hover:border-green-400 transition-colors bg-green-900/5">
-                        <div className="flex items-center gap-2 mb-3 border-b border-green-800 pb-2">
-                          <Activity className="w-5 h-5 text-green-400" />
-                          <h3 className="font-bold text-green-200">EL MOTOR DE JUEGO</h3>
-                        </div>
-                        <ul className="text-xs space-y-2 font-mono text-green-400/80">
-                          <li><span className="text-green-600">DEV:</span> pjasicek</li>
-                          <li><span className="text-green-600">CORE:</span> Plataforma Clásica (1997)</li>
-                          <li><span className="text-green-600">STACK:</span> C++ Reimplementación</li>
-                          <li><span className="text-green-600">LIBS:</span> SDL2, Box2D, Tinyxml</li>
-                          <li><span className="text-green-600">NOTA:</span> No tiene capacidades de IA</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <p className="text-xs text-center text-green-700 mt-4 italic">
-                      "Esta confusión terminológica es el primer síntoma de un ecosistema que prioriza el 'hype' sobre la claridad documental."
-                    </p>
-                  </div>
-                );
-
-              case 'security':
-                return (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
-                    <div className="border-l-4 border-red-600 bg-red-900/10 p-4">
-                      <h2 className="text-xl font-bold text-red-500 flex items-center gap-2">
-                        <Skull className="w-6 h-6" /> CLAWHUB: VECTOR DE ATAQUE
-                      </h2>
-                    </div>
-                    
-                    <p className="text-sm leading-relaxed">
-                      Los investigadores <span className="text-green-300">Jamieson O’Reilly</span> y <span className="text-green-300">Paul McCarty</span> han demostrado que ClawHub es, en su estado actual, un sistema de entrega de malware altamente eficiente.
-                    </p>
-
-                    <div className="relative group font-mono bg-black p-4 border border-red-800 text-xs">
-                      <CopyButton text={`cat /var/log/vuln_report.txt`} />
-                      <div className="text-red-500 mb-2">root@openclaw:~# cat /var/log/vuln_report.txt</div>
-                      <p className="mb-2"><span className="text-gray-500">[CRITICAL]</span> Backdoor posicionado como TOP #1 Skill.</p>
-                      <p className="mb-2"><span className="text-gray-500">[METHOD]</span> Explotación de falta de 'rate limiting'.</p>
-                      <p className="mb-2"><span className="text-gray-500">[TECHNIQUE]</span> Falsificación de X-Forwarded-For para bots.</p>
-                      <p className="mb-2"><span className="text-gray-500">[PAYLOAD]</span> Oculto en 'rules/logic.md' vs 'SKILL.md' limpio.</p>
-                    </div>
-
-                    <blockquote className="border-l-2 border-green-700 pl-4 italic text-green-400/70 text-sm my-4">
-                      "Si no puedes entender cómo ejecutar una línea de comandos, este es un proyecto demasiado peligroso para que lo uses de forma segura."
-                      <br/>
-                      <span className="text-green-600 not-italic font-bold">- Shadow, Maintainer (Discord)</span>
-                    </blockquote>
-                  </div>
-                );
-
-              case 'architecture':
-                return (
-                  <div className="space-y-6">
-                     <h2 className="text-xl font-bold text-green-400 mb-4 border-b border-green-800 pb-2">
-                       ARQUITECTURA: CONVERSATION-FIRST
-                    </h2>
-                    
-                    <div className="grid gap-4">
-                      <div className="bg-green-900/10 p-3 rounded border border-green-800">
-                        <h3 className="font-bold text-green-300 mb-2">El Proceso de "Hatching" (Eclosión)</h3>
-                        <p className="text-sm text-green-400/80">
-                          OpenClaw elimina los archivos JSON de configuración. El usuario define la personalidad y permisos mediante lenguaje natural en la TUI.
-                          <br/><br/>
-                          <span className="text-red-400">RIESGO:</span> La configuración es inyección de prompts. Un atacante podría reconfigurar los límites operativos enviando un mensaje al bot.
-                        </p>
-                      </div>
-
-                      <div className="bg-green-900/10 p-3 rounded border border-green-800">
-                        <h3 className="font-bold text-green-300 mb-2">Filosofía "Vibe Coding"</h3>
-                        <p className="text-sm text-green-400/80">
-                          <span className="italic">"Ship fast, think later"</span>. Código escrito mayoritariamente por IA en lenguajes no dominados por el autor (Go).
-                          Partes del código liberadas sin lectura humana, confiando en la "vibración" de que funciona.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 p-4 border border-dashed border-green-600 text-center">
-                      <p className="text-xl font-mono glitch-text">"USA TU CEREBRO Y NO DESCARGUES MALWARE"</p>
-                      <p className="text-xs text-green-600 mt-2">- Defensa oficial ante robo de criptoactivos</p>
-                    </div>
-                  </div>
-                );
-
-              case 'defense':
-                return (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                     <h2 className="text-xl font-bold text-green-400 mb-4 flex items-center gap-2">
-                       <Lock className="w-5 h-5" /> PROTOCOLOS DE SEGURIDAD
-                    </h2>
-                    <p className="text-sm mb-4">
-                      Si insistes en desplegar OpenClaw, debes aplicar un modelo de "defensa en profundidad".
-                    </p>
-
-                    <div className="space-y-4">
-                      <div className="bg-black border border-green-500 p-4 relative group">
-                        <h3 className="text-green-300 text-sm font-bold mb-2">1. AISLAMIENTO TOTAL (SANDBOX)</h3>
-                        <p className="text-xs text-green-500/70 mb-2">Ejecutar en VPS dedicado o Docker con volúmenes estrictos.</p>
-                        <div className="bg-green-900/20 p-2 text-green-400 text-xs font-mono pr-8">
-                          ~/.openclaw (credenciales)<br/>
-                          ~/openclaw/workspace (sandbox)
-                        </div>
-                        <CopyButton text={`~/.openclaw\n~/openclaw/workspace`} />
-                      </div>
-
-                      <div className="bg-black border border-green-500 p-4 relative group">
-                        <h3 className="text-green-300 text-sm font-bold mb-2">2. PRIVILEGIOS MÍNIMOS</h3>
-                        <p className="text-xs text-green-500/70 mb-2">Usuario de servicio dedicado y permisos restrictivos.</p>
-                        <div className="bg-green-900/20 p-2 text-green-400 text-xs font-mono pr-8">
-                          $ adduser --disabled-password openclaw<br/>
-                          $ chmod 700 /path/to/credentials
-                        </div>
-                        <CopyButton text={`adduser --disabled-password openclaw\nchmod 700 /path/to/credentials`} />
-                      </div>
-
-                      <div className="bg-black border border-green-500 p-4 relative group">
-                        <h3 className="text-green-300 text-sm font-bold mb-2">3. CONSENTIMIENTO EXPLÍCITO</h3>
-                        <p className="text-xs text-green-500/70 mb-2">Activar modo de confirmación humana.</p>
-                        <div className="bg-green-900/20 p-2 text-green-400 text-xs font-mono pr-8">
-                          SET MODE = exec.ask
-                        </div>
-                        <CopyButton text={`SET MODE = exec.ask`} />
-                      </div>
-                    </div>
-                  </div>
-                );
-
-              case 'deployment':
-                return (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                     <div className="border-b border-green-700 pb-2 mb-4 flex justify-between items-end">
-                        <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
-                          <Play className="w-5 h-5" /> PROTOCOLO DE DESPLIEGUE
-                        </h2>
-                        <span className="text-xs bg-red-900/50 text-red-400 px-2 py-1 border border-red-800 animate-pulse flex items-center gap-1">
-                          <AlertOctagon className="w-3 h-3"/> AMENAZA: ALTA
-                        </span>
-                     </div>
-                    
-                    <p className="text-sm mb-4 text-green-300/80">
-                      <span className="text-red-500 font-bold">ADVERTENCIA:</span> Ignorar la Fase 0 es invitar a un desastre de seguridad. No ejecutes scripts "mágicos" sin asegurar el perímetro.
-                    </p>
-
-                    {/* FASE 0 */}
-                    <div className="border border-green-600/50 p-4 bg-green-900/10 relative">
-                       <div className="absolute -top-3 left-4 bg-black px-2 text-xs font-bold text-green-400 border border-green-600">FASE 0: ENDURECIMIENTO (OBLIGATORIO)</div>
-                       
-                       <div className="space-y-4 mt-2">
-                          <div>
-                            <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 1. Aislamiento del Huésped</h4>
-                            <p className="text-xs text-green-500/70 mb-2">Nunca instales en tu máquina personal. Usa VPS o VM (Ubuntu 22.04 LTS).</p>
-                          </div>
-
-                          <div>
-                            <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 2. Identidad de Servicio (NO ROOT)</h4>
-                            <div className="bg-black p-3 border-l-2 border-yellow-600 font-mono text-xs text-green-400 relative group">
-                              <span className="text-gray-500"># Crear usuario sin password</span><br/>
-                              $ sudo adduser --disabled-password --gecos "" openclaw<br/>
-                              <span className="text-gray-500"># Cambiar a usuario</span><br/>
-                              $ su - openclaw
-                              <CopyButton text={`sudo adduser --disabled-password --gecos "" openclaw\nsu - openclaw`} />
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 3. Actualización Runtimes</h4>
-                            <p className="text-xs text-green-500/70 mb-1">Requisito: Node.js 22+</p>
-                            <div className="bg-black p-2 font-mono text-xs text-green-400 opacity-80 relative group">
-                              $ curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -<br/>
-                              $ sudo apt-get install -y nodejs build-essential
-                              <CopyButton text={`curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get install -y nodejs build-essential`} />
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 4. Credenciales</h4>
-                            <p className="text-xs text-green-500/70">Prepara API Keys (Anthropic) y Tokens (Telegram/Discord) fuera del servidor.</p>
-                          </div>
-                       </div>
-                    </div>
-
-                    {/* FASE 1 */}
-                    <div className="border border-green-600/50 p-4 bg-green-900/10 relative mt-8">
-                       <div className="absolute -top-3 left-4 bg-black px-2 text-xs font-bold text-green-400 border border-green-600">FASE 1: INYECCIÓN (INSTALL)</div>
-                       
-                       <div className="space-y-4 mt-2">
-                          <div>
-                            <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 1. Script Oficial</h4>
-                            <div className="bg-black p-3 border-l-2 border-green-500 font-mono text-xs text-green-400 relative group">
-                              $ curl -fsSL https://openclaw.ai/install.sh | bash
-                              <CopyButton text={`curl -fsSL https://openclaw.ai/install.sh | bash`} />
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 className="text-green-300 font-bold text-sm mb-1">{'>'} 2. Eclosión (Hatching)</h4>
-                            <p className="text-xs text-green-500/70 mb-1">Configura personalidad y daemon persistente.</p>
-                            <div className="bg-black p-3 border-l-2 border-green-500 font-mono text-xs text-green-400 relative group">
-                              $ openclaw onboard --install-daemon
-                              <CopyButton text={`openclaw onboard --install-daemon`} />
-                            </div>
-                          </div>
-                       </div>
-                    </div>
-
-                     {/* FASE 2 */}
-                    <div className="border border-green-600/50 p-4 bg-green-900/10 relative mt-8">
-                       <div className="absolute -top-3 left-4 bg-black px-2 text-xs font-bold text-green-400 border border-green-600">FASE 2: DEFENSA ACTIVA</div>
-                       <div className="text-xs text-green-400 font-mono space-y-2 mt-2">
-                          <p>{'>'} <span className="text-yellow-400">CONFIG:</span> Permiso explícito para ejecución</p>
-                          <div className="bg-black p-2 opacity-80 relative group">
-                            $ openclaw config set execution.mode ask
-                            <CopyButton text={`openclaw config set execution.mode ask`} />
-                          </div>
-                          
-                          <p className="mt-2">{'>'} <span className="text-yellow-400">VERIFY:</span> Signos vitales y logs</p>
-                          <div className="bg-black p-2 opacity-80 relative group">
-                            $ openclaw logs -f
-                            <CopyButton text={`openclaw logs -f`} />
-                          </div>
-                       </div>
-                    </div>
-
-                  </div>
-                );
+                </div>
+            </div>
+            
+            <nav class="px-4 space-y-1 pb-10">
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-4">Comenzar</p>
                 
-              default:
-                return null;
-            }
-          };
+                <a href="#intro" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-home w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Introducción
+                </a>
+                <a href="#basics" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-book w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Glosario Básico
+                </a>
 
-          if (booting) {
-            return (
-              <div className="min-h-screen bg-black text-green-500 font-mono p-10 flex flex-col justify-end pb-20">
-                <div className="scanline inset-0 fixed h-screen w-screen"></div>
-                <pre className="whitespace-pre-wrap text-lg md:text-xl drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]">
-                  {typedText}
-                  {cursorVisible && <span className="bg-green-500 text-black px-1">_</span>}
-                </pre>
-              </div>
-            );
-          }
-
-          return (
-            <div className="min-h-screen bg-black text-green-500 font-mono overflow-hidden selection:bg-green-500 selection:text-black">
-              {/* Background Grid */}
-              <div className="fixed inset-0 pointer-events-none opacity-10" style={{
-                backgroundImage: 'linear-gradient(#22c55e 1px, transparent 1px), linear-gradient(90deg, #22c55e 1px, transparent 1px)',
-                backgroundSize: '40px 40px'
-              }}></div>
-
-              {/* Main Container */}
-              <div className="relative z-10 container mx-auto p-4 md:p-8 max-w-6xl h-screen flex flex-col">
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Instalación</p>
                 
-                {/* Header */}
-                <header className="border-b-2 border-green-600 pb-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-end crt-effect">
-                  <div>
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase glitch-text">
-                      OPEN<span className="text-white bg-green-600 px-1">CLAW</span>
-                    </h1>
-                    <p className="text-xs md:text-sm mt-1 opacity-80 flex items-center gap-2">
-                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                      SYSTEM STATUS: COMPROMISED // VIBE_CODING_DETECTED
-                    </p>
-                  </div>
-                  <div className="text-right mt-4 md:mt-0 text-xs opacity-70">
-                    <p>LOC: 127.0.0.1</p>
-                    <p>UPTIME: 3 WEEKS</p>
-                    <p>SEC: LOW</p>
-                  </div>
-                </header>
+                <a href="#install" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-download w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 1. Instalación
+                </a>
+                <a href="#onboarding" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-wand-magic-sparkles w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 2. Configuración Inicial
+                </a>
 
-                {/* Workspace */}
-                <div className="flex-1 flex flex-col md:flex-row gap-6 overflow-hidden border border-green-800 bg-black/80 backdrop-blur-sm shadow-[0_0_20px_rgba(34,197,94,0.2)]">
-                  
-                  {/* Sidebar / Navigation */}
-                  <aside className="w-full md:w-64 border-r border-green-800 flex flex-col">
-                    <div className="p-3 border-b border-green-800 bg-green-900/20 text-xs font-bold uppercase tracking-widest flex items-center justify-between">
-                      <span>Directory</span>
-                      <Save className="w-3 h-3" />
-                    </div>
-                    <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
-                      {menuItems.map((item) => (
-                        <button
-                          key={item.id}
-                          onClick={() => setActiveTab(item.id)}
-                          className={`w-full text-left px-3 py-3 text-sm flex items-center gap-3 transition-all duration-200 group ${
-                            activeTab === item.id 
-                              ? 'bg-green-600 text-black font-bold' 
-                              : 'text-green-500 hover:bg-green-900/30 hover:pl-5'
-                          }`}
-                        >
-                          {activeTab === item.id ? <ChevronRight className="w-4 h-4 animate-pulse" /> : item.icon}
-                          <span className="truncate">{item.label}</span>
-                        </button>
-                      ))}
-                    </nav>
-                    <div className="p-4 text-[10px] text-green-700 border-t border-green-900">
-                      © 2026 Moltbook Corp. <br/>
-                      Access forbidden for humans.
-                    </div>
-                  </aside>
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Conexión</p>
+                
+                <a href="#telegram" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-brands fa-telegram w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 3. Telegram Setup
+                </a>
+                <a href="#pairing" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-shield-halved w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 4. Seguridad
+                </a>
 
-                  {/* Content Viewer */}
-                  <main className="flex-1 flex flex-col min-h-0">
-                    {/* Terminal Top Bar */}
-                    <div className="h-8 bg-green-900/20 border-b border-green-800 flex items-center px-4 justify-between select-none">
-                      <span className="text-xs font-bold flex items-center gap-2">
-                        <FileText className="w-3 h-3" />
-                        root/users/admin/openclaw/{activeTab}
-                      </span>
-                      <div className="flex gap-2">
-                        <div className="w-3 h-3 rounded-full bg-green-800/50"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-800/50"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-600 hover:bg-green-400 cursor-pointer"></div>
-                      </div>
-                    </div>
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Administración</p>
 
-                    {/* Content Body */}
-                    <div className="flex-1 overflow-y-auto p-6 md:p-8 crt-effect relative" ref={scrollRef}>
-                      {renderContent()}
-                      
-                      {/* Decorative footer inside content */}
-                      <div className="mt-12 pt-6 border-t border-green-900 text-center opacity-50 text-xs">
-                        --- END OF FILE ---
-                      </div>
-                    </div>
-                  </main>
+                <a href="#tools" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-toolbox w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Herramientas
+                </a>
+                <a href="#troubleshooting" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-stethoscope w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Diagnóstico
+                </a>
+            </nav>
+        </aside>
 
+        <!-- Main Content -->
+        <main class="lg:ml-72 flex-1 w-full">
+            <div class="max-w-4xl mx-auto px-6 py-12 lg:px-12">
+
+                <!-- Breadcrumb -->
+                <div class="flex items-center text-sm text-slate-500 mb-8 font-medium">
+                    <span>Docs</span>
+                    <i class="fa-solid fa-chevron-right text-xs mx-3"></i>
+                    <span class="text-brand-600">Guía de Inicio</span>
                 </div>
 
-                {/* Footer */}
-                <footer className="mt-6 text-center text-[10px] md:text-xs text-green-800 uppercase tracking-widest">
-                  ¿Soberanía o servidumbre técnica? <span className="animate-pulse">_</span>
+                <!-- Intro -->
+                <section id="intro" class="mb-20">
+                    <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
+                        Bienvenido a OpenClaw
+                    </h1>
+                    <p class="text-xl text-slate-600 mb-8 leading-relaxed">
+                        OpenClaw es tu propio asistente de IA autohospedado. Convierte tu computadora en un servidor inteligente capaz de conectarse a Telegram, navegar por la web y ejecutar tareas complejas de forma autónoma.
+                    </p>
+                    
+                    <div class="beginner-tip">
+                        <div class="flex-shrink-0 pt-1">
+                            <i class="fa-regular fa-lightbulb text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-blue-900 font-bold text-sm mb-1">Guía para Principiantes</h4>
+                            <p class="text-blue-800 text-sm leading-relaxed">
+                                No necesitas ser programador. Esta guía te llevará paso a paso desde "cero" hasta tener tu propio bot de IA funcionando en Telegram.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="border-slate-200 mb-16">
+
+                <!-- Basics Glossary -->
+                <section id="basics" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center mr-3 text-sm text-slate-500"><i class="fa-solid fa-book"></i></span>
+                        Conceptos Clave
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-terminal text-brand-500 mr-2"></i> Terminal
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                La ventana negra donde escribes órdenes. En Windows es "PowerShell" o "CMD", en Mac es "Terminal". Es el volante de tu computadora.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-server text-brand-500 mr-2"></i> Gateway
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                El "cerebro" de OpenClaw. Es el programa que corre en segundo plano esperando tus mensajes.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-file-code text-brand-500 mr-2"></i> JSON
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                Archivos de configuración. Son simples archivos de texto donde guardas tus claves secretas y preferencias.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-brands fa-node-js text-brand-500 mr-2"></i> Node.js
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                La tecnología base. Necesitas tenerlo instalado para que OpenClaw pueda funcionar.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Install -->
+                <section id="install" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">1</span>
+                        Instalación
+                    </h2>
+                    
+                    <!-- Windows Prerequisites Box -->
+                    <div class="mb-8 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                        <h3 class="text-blue-900 font-bold mb-2 flex items-center">
+                            <i class="fa-brands fa-windows mr-2"></i>Antes de empezar en Windows
+                        </h3>
+                        <ul class="list-disc list-inside text-sm text-blue-800 space-y-2">
+                            <li><strong>Versión:</strong> Windows 10 (versión 2004 o superior) o Windows 11.</li>
+                            <li><strong>Permisos:</strong> Debes poder abrir PowerShell como <em>Administrador</em>.</li>
+                            <li><strong>WSL2 (Opcional pero recomendado):</strong> OpenClaw funciona mejor si activas el <a href="https://learn.microsoft.com/es-es/windows/wsl/install" target="_blank" class="underline hover:text-blue-600">Subsistema de Windows para Linux</a>.</li>
+                            <li><strong>Node.js:</strong> El instalador intentará instalarlo si no lo tienes, pero es mejor tenerlo listo.</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-slate-600 mb-6">
+                        Selecciona tu sistema operativo y copia el comando correspondiente en tu terminal. El instalador automático se encargará de todo.
+                    </p>
+
+                    <!-- Mac/Linux Tab -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-slate-700"><i class="fa-brands fa-apple mr-2"></i>Mac / <i class="fa-brands fa-linux mx-1"></i>Linux</span>
+                            <span class="text-xs text-slate-400">Bash</span>
+                        </div>
+                        <div class="code-window code-container">
+                            <div class="code-header">
+                                <div class="window-controls">
+                                    <div class="control close"></div>
+                                    <div class="control minimize"></div>
+                                    <div class="control maximize"></div>
+                                </div>
+                                <span class="text-xs text-slate-400 font-mono">bash — 80x24</span>
+                            </div>
+                            <pre><code class="text-sm text-emerald-400 font-mono">curl -fsSL https://openclaw.ai/install.sh | bash</code></pre>
+                            <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                        </div>
+                    </div>
+
+                    <!-- Windows Options -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- PowerShell -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-slate-700"><i class="fa-brands fa-windows mr-2"></i>PowerShell</span>
+                            </div>
+                            <div class="code-window code-container">
+                                <div class="code-header">
+                                    <div class="window-controls">
+                                        <div class="control close"></div>
+                                        <div class="control minimize"></div>
+                                        <div class="control maximize"></div>
+                                    </div>
+                                    <span class="text-xs text-slate-400 font-mono">PowerShell</span>
+                                </div>
+                                <pre><code class="text-sm text-blue-300 font-mono">iwr -useb https://openclaw.ai/install.ps1 | iex</code></pre>
+                                <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                        </div>
+
+                        <!-- CMD -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-slate-700"><i class="fa-solid fa-terminal mr-2"></i>CMD (Símbolo sistema)</span>
+                            </div>
+                            <div class="code-window code-container">
+                                <div class="code-header">
+                                    <div class="window-controls">
+                                        <div class="control close"></div>
+                                        <div class="control minimize"></div>
+                                        <div class="control maximize"></div>
+                                    </div>
+                                    <span class="text-xs text-slate-400 font-mono">cmd.exe</span>
+                                </div>
+                                <pre><code class="text-sm text-yellow-200 font-mono">curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</code></pre>
+                                <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 rounded-lg p-5 mt-4 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">Verificación</h4>
+                            <p class="text-xs text-slate-500 mt-1">Si la instalación fue exitosa, este comando mostrará "running".</p>
+                        </div>
+                        <div class="bg-slate-100 px-3 py-2 rounded border border-slate-200 font-mono text-xs text-slate-600 code-container relative pr-16">
+                            <code>openclaw gateway status</code>
+                            <button class="absolute right-1 top-1 text-slate-400 hover:text-brand-600 copy-btn-mini"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Onboarding -->
+                <section id="onboarding" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">2</span>
+                        Configuración Inicial
+                    </h2>
+                    
+                    <p class="text-slate-600 mb-6">
+                        Ejecuta el asistente de configuración para conectar tu proveedor de IA (como OpenAI o Anthropic).
+                    </p>
+
+                    <div class="code-window code-container mb-6">
+                        <div class="code-header">
+                            <span class="text-xs text-slate-400 font-mono">Terminal</span>
+                        </div>
+                        <pre><code class="text-sm text-emerald-400 font-mono">openclaw onboard</code></pre>
+                        <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                    </div>
+
+                    <div class="beginner-tip">
+                        <div class="flex-shrink-0 pt-1">
+                            <i class="fa-solid fa-list-check text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-blue-900 font-bold text-sm mb-1">Pasos del Asistente</h4>
+                            <ul class="text-blue-800 text-sm list-disc list-inside space-y-1">
+                                <li>Selecciona <strong>QuickStart</strong>.</li>
+                                <li>Elige tu proveedor de IA (ej. <strong>OpenAI</strong>).</li>
+                                <li>Pega tu <strong>API Key</strong> (la clave que empieza con 'sk-...' para OpenAI).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <h3 class="text-lg font-bold text-slate-800 mb-3">Panel de Control (Dashboard)</h3>
+                        <p class="text-slate-600 text-sm mb-3">Para ver la interfaz gráfica en tu navegador:</p>
+                        <div class="bg-slate-900 text-white p-3 rounded-lg inline-flex items-center font-mono text-sm code-container relative pr-12">
+                            <code>openclaw dashboard</code>
+                            <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Telegram -->
+                <section id="telegram" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">3</span>
+                        Conectar Telegram
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- Step A -->
+                        <div class="info-card border-l-4 border-l-brand-500">
+                            <h4 class="font-bold text-slate-900 mb-2">Paso A: BotFather</h4>
+                            <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2">
+                                <li>Abre Telegram y busca <strong>@BotFather</strong>.</li>
+                                <li>Envía <code>/newbot</code>.</li>
+                                <li>Sigue los pasos para darle nombre a tu bot.</li>
+                                <li><strong class="text-brand-600">Importante:</strong> Copia el <strong>API TOKEN</strong> que te da al final.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Step B -->
+                        <div class="info-card border-l-4 border-l-brand-500">
+                            <h4 class="font-bold text-slate-900 mb-2">Paso B: Configuración</h4>
+                            <p class="text-sm text-slate-600 mb-4">
+                                Abre el archivo <code>.openclaw/openclaw.json</code> en tu carpeta de usuario y edita la sección de Telegram:
+                            </p>
+                            <div class="bg-slate-900 rounded-md p-4 code-container relative">
+                                <pre class="p-0 m-0"><code class="text-xs text-blue-300 font-mono">"telegram": {
+  "enabled": true,
+  "botToken": "PEGA_AQUI_TU_TOKEN",
+  "dmPolicy": "pairing"
+}</code></pre>
+                                <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pairing -->
+                <section id="pairing" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">4</span>
+                        Seguridad (Pairing)
+                    </h2>
+                    
+                    <p class="text-slate-600 mb-6">
+                        Por seguridad, tu bot ignorará a cualquiera (incluso a ti) hasta que lo autorices. Este proceso se llama "Pairing".
+                    </p>
+
+                    <ol class="relative border-l border-slate-200 ml-3 space-y-8">
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-100 rounded-full -left-3 ring-8 ring-white">
+                                <span class="text-brand-600 text-xs font-bold">1</span>
+                            </span>
+                            <h3 class="font-medium leading-tight text-slate-900">Saluda a tu bot</h3>
+                            <p class="text-sm text-slate-500">Envía un "Hola" a tu bot en Telegram. Él te responderá con un código (ej. <code>XY123AB</code>).</p>
+                        </li>
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-100 rounded-full -left-3 ring-8 ring-white">
+                                <span class="text-brand-600 text-xs font-bold">2</span>
+                            </span>
+                            <h3 class="font-medium leading-tight text-slate-900">Autoriza en Terminal</h3>
+                            <p class="text-sm text-slate-500 mb-2">Ejecuta el comando de aprobación con tu código:</p>
+                            <div class="bg-slate-900 rounded p-3 code-container relative inline-block w-full">
+                                <code class="text-xs text-green-400 font-mono">openclaw pairing approve telegram [CODIGO]</code>
+                                <button class="copy-btn" style="top:4px; right:4px;"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+                <!-- Tools -->
+                <section id="tools" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">5</span>
+                        Herramientas
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="info-card hover:border-brand-500 transition-colors cursor-default">
+                            <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa-brands fa-chrome text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Browser (Navegador)</h4>
+                            <p class="text-sm text-slate-500 mt-2">
+                                Permite a la IA navegar por internet, leer páginas web y extraer información en tiempo real.
+                            </p>
+                        </div>
+
+                        <div class="info-card hover:border-brand-500 transition-colors cursor-default">
+                            <div class="w-10 h-10 bg-slate-100 text-slate-600 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa-solid fa-terminal text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Exec (Comandos)</h4>
+                            <p class="text-sm text-slate-500 mt-2">
+                                Permite a la IA ejecutar comandos en tu computadora, mover archivos y correr scripts.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Troubleshooting -->
+                <section id="troubleshooting" class="mb-24 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-red-500 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-red-500/30">!</span>
+                        Solución de Problemas
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-lg p-4">
+                            <h4 class="text-sm font-bold text-slate-800 flex items-center">
+                                <i class="fa-solid fa-circle-xmark text-red-500 mr-2"></i> Error: "command not found"
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 pl-6">
+                                Cierra y vuelve a abrir la terminal. A veces el sistema necesita reiniciarse para encontrar el nuevo programa instalado.
+                            </p>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-lg p-4">
+                            <h4 class="text-sm font-bold text-slate-800 flex items-center">
+                                <i class="fa-solid fa-circle-question text-yellow-500 mr-2"></i> El bot no responde
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 pl-6">
+                                Ejecuta <code>openclaw doctor</code> para que el sistema busque errores automáticamente.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="border-t border-slate-200 pt-10 pb-20 text-center">
+                    <p class="text-slate-500 text-sm font-medium">OpenClaw Documentation</p>
+                    <p class="text-slate-400 text-xs mt-2">Actualizado: Febrero 2026</p>
                 </footer>
 
-              </div>
             </div>
-          );
-        };
+        </main>
+    </div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<OpenClawTerminal />);
+    <!-- Scroll Top -->
+    <button id="scrollTopBtn" class="fixed bottom-8 right-8 bg-white text-slate-700 p-3 rounded-full shadow-lg border border-slate-200 hidden hover:bg-slate-50 hover:text-brand-600 transition-all z-50">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Funcionalidad de Copiado
+        function copyToClipboard(text, btn) {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> Copiado';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        }
+
+        // Event Listeners para botones de copia
+        document.querySelectorAll('.copy-btn, .copy-btn-mini').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const container = this.closest('.code-container');
+                const codeElement = container.querySelector('code');
+                if (codeElement) {
+                    copyToClipboard(codeElement.innerText, this);
+                }
+            });
+        });
+
+        // Mobile Menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        if(btn && sidebar){
+            btn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+        }
+
+        // Scroll Top
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.remove('hidden');
+            } else {
+                scrollBtn.classList.add('hidden');
+            }
+        });
+        if(scrollBtn){
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Active Link
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
