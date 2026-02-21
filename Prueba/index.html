@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Barrientos - Equipos de Alto Rendimiento</title>
+    <meta name="description"
+        content="La mejor tienda de computadoras, laptops y accesorios con la más alta tecnología.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-microchip"></i>
+                Juan <span>Barrientos</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="icon-btn tooltip" data-tooltip="Buscar">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+                <button class="icon-btn cart-btn tooltip" id="open-cart-btn" data-tooltip="Carrito">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cart-total">$0</span>
+                </button>
+                <div class="mobile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="inicio">
+        <div class="hero-overlay"></div>
+        <div class="hero-content fade-in-up">
+            <span class="badge">Nueva Generación</span>
+            <h1>Potencia sin <br><span class="gradient-text">límites.</span></h1>
+            <p>Descubre nuestra nueva línea de computadoras diseñadas para gaming extremo y productividad profesional.
+                Supera cualquier obstáculo.</p>
+            <div class="hero-buttons">
+                <a href="#productos" class="btn btn-primary">
+                    Explorar Productos <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#contacto" class="btn btn-secondary">
+                    Armar mi PC
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Highlights/Stats -->
+    <section class="stats fade-in-scroll">
+        <div class="stat-card">
+            <h3>+5000</h3>
+            <p>Equipos Vendidos</p>
+        </div>
+        <div class="stat-card">
+            <h3>4.9/5</h3>
+            <p>Valoración de Clientes</p>
+        </div>
+        <div class="stat-card">
+            <h3>24h</h3>
+            <p>Soporte Técnico</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="productos">
+        <div class="section-header fade-in-scroll">
+            <h2>Nuestros equipos <span class="gradient-text">Destacados</span></h2>
+            <p>Tecnología de punta para cada necesidad. Desde laptops ultra-delgadas hasta bestias de escritorio.</p>
+        </div>
+
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card fade-in-scroll">
+                <div class="product-image">
+                    <img src="assets/desktop.png" alt="PC Gaming Desktop">
+                    <div class="product-badge">Top Ventas</div>
+                    <div class="product-overlay">
+                        <button class="btn btn-icon"><i class="fa-regular fa-heart"></i></button>
+                        <button class="btn btn-icon" onclick="addToCart(3499, 'Nexus Titan i9')"><i
+                                class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="category">Desktop / Gaming</div>
+                    <h3>Nexus Titan i9</h3>
+                    <p class="specs">RTX 4090 • 64GB RAM • 2TB NVMe</p>
+                    <div class="price-row">
+                        <span class="price">$3,499</span>
+                        <button class="btn-buy" onclick="addToCart(3499, 'Nexus Titan i9')">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card fade-in-scroll" style="transition-delay: 100ms;">
+                <div class="product-image">
+                    <img src="assets/laptop.png" alt="Laptop Ultra-thin">
+                    <div class="product-overlay">
+                        <button class="btn btn-icon"><i class="fa-regular fa-heart"></i></button>
+                        <button class="btn btn-icon" onclick="addToCart(2199, 'Nexus Book Pro')"><i
+                                class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="category">Laptop / Creadores</div>
+                    <h3>Nexus Book Pro</h3>
+                    <p class="specs">M3 Max • 32GB RAM • Pantalla OLED 4K</p>
+                    <div class="price-row">
+                        <span class="price">$2,199</span>
+                        <button class="btn-buy" onclick="addToCart(2199, 'Nexus Book Pro')">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card fade-in-scroll" style="transition-delay: 200ms;">
+                <div class="product-image">
+                    <img src="assets/monitor.png" alt="Monitor Ultrawide">
+                    <div class="product-badge new">Nuevo</div>
+                    <div class="product-overlay">
+                        <button class="btn btn-icon"><i class="fa-regular fa-heart"></i></button>
+                        <button class="btn btn-icon" onclick="addToCart(1099, 'Monitor Nexus Vision 49&quot;')"><i
+                                class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="category">Periféricos / Monitores</div>
+                    <h3>Monitor Nexus Vision 49"</h3>
+                    <p class="specs">Ultrawide 240Hz • 1ms • HDR 1000</p>
+                    <div class="price-row">
+                        <span class="price">$1,099</span>
+                        <button class="btn-buy" onclick="addToCart(1099, 'Monitor Nexus Vision 49&quot;')">Añadir al
+                            carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="beneficios">
+        <div class="features-container">
+            <div class="feature-box fade-in-scroll">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <h3>Envío Relámpago</h3>
+                <p>Recibe tu equipo en menos de 24 horas en todo el país, totalmente gratis.</p>
+            </div>
+            <div class="feature-box fade-in-scroll" style="transition-delay: 100ms;">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3>Garantía Extendida</h3>
+                <p>Todos nuestros equipos cuentan con hasta 3 años de garantía oficial.</p>
+            </div>
+            <div class="feature-box fade-in-scroll" style="transition-delay: 200ms;">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h3>Soporte Técnico 24/7</h3>
+                <p>Nuestro equipo de expertos está listo para ayudarte en cualquier momento.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <i class="fa-solid fa-microchip"></i>
+                    Juan <span>Barrientos</span>
+                </a>
+                <p>Revolucionando la forma en que interactúas con la tecnología. Ensamblados con precisión, diseñados
+                    para triunfar.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#beneficios">Beneficios</a></li>
+                    <li><a href="#">Soporte</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Suscríbete</h4>
+                <p>Recibe ofertas exclusivas y noticias de hardware.</p>
+                <form onsubmit="event.preventDefault(); alert('¡Suscrito!');">
+                    <input type="email" placeholder="Tu correo electrónico" required>
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Juan Barrientos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Añadido al carrito</div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tu Carrito</h2>
+                <button class="close-modal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="cart-items">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total-display">
+                    <span>Total:</span>
+                    <span id="modal-total" class="gradient-text">$0</span>
+                </div>
+                <button id="whatsapp-checkout" class="btn btn-primary"
+                    style="width: 100%; justify-content: center; margin-top: 1rem;">
+                    <i class="fa-brands fa-whatsapp"></i> Consultar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
