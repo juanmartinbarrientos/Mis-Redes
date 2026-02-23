@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalación de OpenClaw | Guía Neo-Brutalista</title>
+    
+    <!-- Etiquetas SEO y descripción básica -->
+    <meta name="description" content="Guía paso a paso para principiantes: Aprende a instalar el asistente de IA OpenClaw en una máquina virtual de Windows 11. Automatiza tareas y usa DeepSeek R1 gratis.">
+    
+    <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Instalación Segura de OpenClaw | Guía Paso a Paso">
+    <meta property="og:description" content="Descubre cómo instalar tu propio asistente de IA (OpenClaw) en un entorno seguro (VirtualBox). Automatiza tareas con Excel y correos fácilmente usando DeepSeek R1.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/OpenClawPortable.jpg">
+    
+    <!-- Twitter Cards (X) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Instalación Segura de OpenClaw | Guía Paso a Paso">
+    <meta name="twitter:description" content="Descubre cómo instalar tu asistente de IA OpenClaw en un entorno seguro. Automatiza tareas usando DeepSeek R1 gratis.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/OpenClawPortable.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #fdf8e3; /* Fondo crema retro */
+            /* Patrón de puntos para estilo brutalista */
+            background-image: radial-gradient(#000000 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        
+        /* Clases utilitarias personalizadas para el Neo-Brutalismo */
+        .neo-border { border: 4px solid #000; }
+        .neo-shadow { box-shadow: 8px 8px 0px 0px #000; }
+        .neo-shadow-sm { box-shadow: 4px 4px 0px 0px #000; }
+        
+        .neo-card {
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0px 0px #000;
+            transition: all 0.2s ease;
+        }
+        
+        .neo-btn {
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px 0px #000;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .neo-btn:active {
+            box-shadow: 0px 0px 0px 0px #000;
+            transform: translate(4px, 4px);
+        }
+
+        .cmd-text {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Colores Brutalistas */
+        .bg-neo-yellow { background-color: #ffe600; }
+        .bg-neo-pink { background-color: #ff90e8; }
+        .bg-neo-cyan { background-color: #00f0ff; }
+        .bg-neo-green { background-color: #a3e635; }
+        .bg-neo-purple { background-color: #c084fc; }
+        .bg-neo-orange { background-color: #ff6b2b; }
+        .bg-neo-white { background-color: #ffffff; }
+    </style>
+</head>
+<body class="text-black min-h-screen pb-20">
+
+    <!-- Notificación de Copiado -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-neo-green neo-border neo-shadow-sm px-6 py-3 z-50 font-bold hidden transition-opacity duration-300">
+        ¡Comando copiado al portapapeles! 🚀
+    </div>
+
+    <header class="max-w-4xl mx-auto pt-12 px-4 mb-12">
+        <div class="bg-neo-white neo-card p-8 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-4 bg-neo-pink border-b-4 border-black"></div>
+            <h1 class="text-4xl md:text-6xl font-black mt-4 mb-8 uppercase tracking-tighter">
+                Guía de Instalación<br>
+                <span class="text-neo-pink bg-black text-white px-2 py-1 leading-snug">OpenClaw</span><br>
+                <span class="inline-block mt-6 text-2xl md:text-3xl bg-neo-green text-black px-4 py-2 border-4 border-black transform -rotate-2 shadow-[6px_6px_0_0_#000]">Nivel: 100% Novato 🔰</span>
+            </h1>
+            <p class="text-lg md:text-xl font-semibold mb-6 max-w-2xl mx-auto">Aprende a instalar y configurar tu asistente de IA desde cero en un entorno seguro y automatiza tus tareas aburridas.</p>
+            <div class="flex flex-wrap justify-center gap-2">
+                <span class="bg-neo-yellow border-2 border-black font-bold px-3 py-1 text-sm shadow-[2px_2px_0_0_#000]">#VirtualBox</span>
+                <span class="bg-neo-cyan border-2 border-black font-bold px-3 py-1 text-sm shadow-[2px_2px_0_0_#000]">#DeepSeekR1</span>
+                <span class="bg-neo-green border-2 border-black font-bold px-3 py-1 text-sm shadow-[2px_2px_0_0_#000]">#Windows11</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 space-y-10">
+        
+        <!-- PASO 1 -->
+        <section class="bg-neo-yellow neo-card p-6 md:p-8 relative">
+            <div class="absolute -top-6 -left-4 bg-black text-white text-3xl font-black w-14 h-14 flex items-center justify-center neo-border">1</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 uppercase">El Entorno Seguro</h2>
+            <p class="mb-4 text-lg">Para experimentar sin riesgos y mantener tu PC principal intacta, el primer paso es instalar una <strong>Máquina Virtual con Windows 11</strong>.</p>
+            <ul class="list-disc list-inside font-semibold space-y-2 ml-2">
+                <li>Descarga e instala VirtualBox.</li>
+                <li>Crea una nueva máquina e instala una imagen ISO de Windows 11.</li>
+                <li>Inicia tu entorno virtual limpio y prepárate para la magia.</li>
+            </ul>
+        </section>
+
+        <!-- PASO 2 -->
+        <section class="bg-neo-cyan neo-card p-6 md:p-8 relative">
+            <div class="absolute -top-6 -left-4 bg-black text-white text-3xl font-black w-14 h-14 flex items-center justify-center neo-border">2</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 uppercase">Requisitos Previos (CMD)</h2>
+            <p class="mb-4 text-lg">Antes de instalar OpenClaw, tu máquina virtual necesita tres herramientas esenciales. Abre tu Símbolo del Sistema (CMD) <span class="bg-black text-neo-yellow px-2 py-1 font-black uppercase inline-block my-1 border-2 border-white shadow-[2px_2px_0_0_#ff90e8]">SIEMPRE en Modo Administrador</span> e instala:</p>
+            
+            <div class="bg-white neo-border p-4 mb-4">
+                <h3 class="font-bold mb-2">1. Instalar WSL2 (Subsistema de Windows para Linux)</h3>
+                <div class="flex items-center gap-2 mb-3">
+                    <code class="cmd-text bg-gray-200 p-2 flex-grow border-2 border-black">wsl --install</code>
+                    <button onclick="copyText('wsl --install')" class="neo-btn bg-neo-pink px-4 py-2 text-sm">Copiar</button>
+                </div>
+                <div class="text-sm font-semibold border-t-2 border-black pt-2 bg-gray-50 p-2 border-2">
+                    🚨 <span class="uppercase font-black text-neo-pink bg-black px-1">Plan B:</span> Si el comando falla, <a href="https://learn.microsoft.com/es-es/windows/wsl/install-manual" target="_blank" rel="noopener noreferrer" class="bg-neo-yellow border border-black px-1 hover:bg-black hover:text-white transition-colors">sigue la guía manual de Microsoft</a> o busca "Ubuntu" en la Microsoft Store.
+                </div>
+            </div>
+
+            <div class="bg-white neo-border p-4 mb-4">
+                <h3 class="font-bold mb-2">2. Instalar Git</h3>
+                <div class="flex items-center gap-2 mb-3">
+                    <code class="cmd-text bg-gray-200 p-2 flex-grow border-2 border-black">winget install --id Git.Git -e --source winget</code>
+                    <button onclick="copyText('winget install --id Git.Git -e --source winget')" class="neo-btn bg-neo-pink px-4 py-2 text-sm">Copiar</button>
+                </div>
+                <div class="text-sm font-semibold border-t-2 border-black pt-2 bg-gray-50 p-2 border-2">
+                    🚨 <span class="uppercase font-black text-neo-pink bg-black px-1">Plan B:</span> ¿No funciona winget? <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer" class="bg-neo-yellow border border-black px-1 hover:bg-black hover:text-white transition-colors">Descarga el instalador manual de Git (.exe) aquí</a> y dale a "Siguiente" a todo.
+                </div>
+            </div>
+
+            <div class="bg-white neo-border p-4">
+                <h3 class="font-bold mb-2">3. Instalar Node.js</h3>
+                <div class="flex items-center gap-2 mb-3">
+                    <code class="cmd-text bg-gray-200 p-2 flex-grow border-2 border-black">winget install OpenJS.NodeJS</code>
+                    <button onclick="copyText('winget install OpenJS.NodeJS')" class="neo-btn bg-neo-pink px-4 py-2 text-sm">Copiar</button>
+                </div>
+                <div class="text-sm font-semibold border-t-2 border-black pt-2 bg-gray-50 p-2 border-2">
+                    🚨 <span class="uppercase font-black text-neo-pink bg-black px-1">Plan B:</span> Si te da error, <a href="https://nodejs.org/es/download/prebuilt-installer" target="_blank" rel="noopener noreferrer" class="bg-neo-yellow border border-black px-1 hover:bg-black hover:text-white transition-colors">descarga el instalador de Node.js (.msi) desde su web oficial</a>.
+                </div>
+            </div>
+            <p class="mt-4 text-sm font-bold bg-black text-white inline-block px-2 py-1">* Reinicia tu máquina virtual tras instalar estos componentes.</p>
+        </section>
+
+        <!-- PASO 3 -->
+        <section class="bg-neo-pink neo-card p-6 md:p-8 relative">
+            <div class="absolute -top-6 -left-4 bg-black text-white text-3xl font-black w-14 h-14 flex items-center justify-center neo-border">3</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 uppercase">Instalación de OpenClaw</h2>
+            <p class="mb-4 text-lg">Con los requisitos listos, abre el Símbolo del Sistema (CMD) <span class="bg-black text-neo-yellow px-2 py-1 font-black uppercase inline-block my-1 border-2 border-white shadow-[2px_2px_0_0_#00f0ff]">SIEMPRE en Modo Administrador</span> y ejecuta el instalador principal de OpenClaw.</p>
+            <div class="bg-white neo-border p-4">
+                <div class="flex flex-col sm:flex-row items-center gap-2">
+                    <code class="cmd-text bg-gray-200 p-2 flex-grow border-2 border-black break-all w-full text-sm">curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</code>
+                    <button onclick="copyText('curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd')" class="neo-btn bg-neo-green px-4 py-2 text-sm whitespace-nowrap w-full sm:w-auto mt-2 sm:mt-0">Copiar</button>
+                </div>
+            </div>
+            <p class="mt-4 font-semibold">Este comando descargará e iniciará el asistente de configuración interactivo.</p>
+        </section>
+
+        <!-- PASO 4 -->
+        <section class="bg-neo-purple neo-card p-6 md:p-8 relative text-white">
+            <div class="absolute -top-6 -left-4 bg-black text-white text-3xl font-black w-14 h-14 flex items-center justify-center neo-border border-white">4</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 uppercase text-black bg-neo-yellow inline-block px-2 border-2 border-black">Configuración del Modelo</h2>
+            <p class="mb-4 text-lg font-medium">Durante la instalación, el asistente te hará algunas preguntas. Sigue estos pasos para usar el modelo free, que te dará 1 millón de token:</p>
+            <ul class="space-y-3 font-semibold text-lg">
+                <li class="flex items-start gap-3">
+                    <span class="bg-white text-black px-2 py-1 border-2 border-black mt-1">A</span>
+                    <p>Cuando pregunte qué proveedor usar, selecciona <strong>OpenRouter</strong>.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="bg-white text-black px-2 py-1 border-2 border-black mt-1">B</span>
+                    <p>En la selección de modelo, escribe o elige la versión: <code class="bg-black text-neo-cyan px-2 py-1">deepseek/deepseek-r1</code>.</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- PASO 5 -->
+        <section class="bg-neo-orange neo-card p-6 md:p-8 relative">
+            <div class="absolute -top-6 -left-4 bg-black text-white text-3xl font-black w-14 h-14 flex items-center justify-center neo-border">5</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 uppercase">Canal de Comunicación</h2>
+            <p class="mb-4 text-lg font-semibold">El siguiente paso del instalador es definir por dónde vas a hablar con tu asistente.</p>
+            <div class="bg-white p-6 neo-border flex items-center gap-6 flex-col md:flex-row">
+                <div class="text-6xl">📱</div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">Selecciona Telegram</h3>
+                    <p>Configura el *Channel* (Canal) utilizando <strong>Telegram</strong>. Esto te permitirá darle instrucciones a OpenClaw directamente desde la app de mensajería, ¡incluso mediante notas de voz!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASO 6 -->
+        <section class="bg-neo-green neo-card p-6 md:p-8 relative">
+            <div class="absolute -top-6 -left-4 bg-black text-white text-3xl font-black w-14 h-14 flex items-center justify-center neo-border">6</div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 uppercase">¡A Automatizar!</h2>
+            <p class="mb-4 text-lg font-semibold">¡Listo! OpenClaw ya está corriendo en tu Windows 11 virtual.</p>
+            <p class="mb-4">Abre tu chat de Telegram y dile a la IA lo que necesitas. Por ejemplo:</p>
+            
+            <div class="bg-white p-4 neo-border mb-4 italic text-lg font-bold border-l-8 border-l-neo-pink">
+                "Crea un script que revise un archivo de Excel en mi escritorio, y si detecta cambios, envíe automáticamente un correo electrónico a los usuarios correspondientes."
+            </div>
+            
+            <p class="font-bold mt-6 text-xl text-center">¡Deja que la IA escriba el código y haga el trabajo pesado por ti! 🚀</p>
+        </section>
+
+        <!-- ATAJO SUPREMO - IMAGEN PRE-CONFIGURADA -->
+        <section class="bg-neo-white neo-card p-8 md:p-12 relative border-8 border-neo-pink mt-16">
+            <div class="absolute -top-6 -right-2 md:-right-6 bg-neo-yellow text-black text-xl md:text-2xl font-black px-4 py-2 neo-border transform rotate-6 shadow-[4px_4px_0_0_#000] z-10">¡ATAJO!</div>
+            <h2 class="text-3xl md:text-5xl font-black mb-6 uppercase text-center tracking-tight">¿No quieres instalar nada? 🛑</h2>
+            <div class="max-w-2xl mx-auto text-center">
+                <p class="text-xl font-bold mb-6 bg-black text-white inline-block px-4 py-2 neo-border border-white shadow-[4px_4px_0_0_#ff90e8]">Tengo la solución perfecta para ti.</p>
+                <p class="text-lg font-medium mb-8">Te ofrezco una imagen de VirtualBox <strong>ya creada y 100% pre-configurada</strong>. Solo tienes que importarla, poner tu API Key, conectar tu Bot de Telegram... ¡y a trabajar! Ahorra tiempo y empieza a usar OpenClaw de manera segura en minutos.</p>
+                
+                <a href="https://wa.me/5491169578193?text=Hola,%20quiero%20solicitar%20la%20imagen%20pre-configurada%20de%20OpenClaw%20para%20VirtualBox." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-neo-green text-black px-6 md:px-8 py-4 text-xl md:text-2xl font-black neo-border neo-shadow hover:-translate-y-1 active:translate-y-1 active:shadow-none transition-all uppercase w-full sm:w-auto">
+                    <span class="text-3xl">💬</span> Pedir por WhatsApp
+                </a>
+                <p class="mt-4 text-base font-bold text-gray-700">O envía un mensaje al: <span class="text-black bg-neo-yellow px-1 border border-black">+54 9 11 6957-8193</span></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-16 bg-black text-white py-12 border-t-8 border-neo-pink">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-3xl md:text-4xl font-black mb-8 uppercase text-neo-yellow">Video Tutorial Completo</h3>
+            
+            <!-- Contenedor del Video Neo-Brutalista -->
+            <div class="max-w-3xl mx-auto bg-neo-cyan p-2 sm:p-4 neo-card mb-10">
+                <div class="relative w-full aspect-video border-4 border-black bg-black">
+                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/1gDpjCYLN5U?si=1mMllbgChsHRb6CH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <h4 class="text-2xl font-bold mb-4 uppercase">#OpenClaw #IA #Automatizacion</h4>
+            <p class="text-gray-300 font-semibold mb-4 text-lg">Tutorial de instalación segura mediante Máquina Virtual para principiantes.</p>
+        </div>
+    </footer>
+
+    <!-- Botón Flotante para Compartir -->
+    <button onclick="sharePage()" class="fixed bottom-6 right-6 z-50 bg-neo-cyan border-4 border-black shadow-[4px_4px_0_0_#000] p-3 md:p-4 rounded-full hover:-translate-y-1 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center group" aria-label="Compartir página" title="Compartir esta guía">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-12 transition-transform">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <polyline points="16 6 12 2 8 6"/>
+            <line x1="12" x2="12" y1="2" y2="15"/>
+        </svg>
+    </button>
+
+    <script>
+        // Función para copiar texto y mostrar notificación (Actualizada para recibir mensajes personalizados)
+        function copyText(text, customMessage = "¡Comando copiado al portapapeles! 🚀") {
+            // Crear elemento temporal para copiar
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            // Mostrar Toast (Notificación)
+            const toast = document.getElementById("toast");
+            toast.innerText = customMessage;
+            toast.classList.remove("hidden");
+            toast.style.opacity = "1";
+
+            // Ocultar Toast después de 2 segundos
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 300);
+            }, 2000);
+        }
+
+        // Función para compartir la página nativamente o copiar el enlace
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    text: '¡Descubre cómo instalar OpenClaw en un entorno seguro y automatizar tareas! 🤖🚀',
+                    url: window.location.href
+                }).catch((error) => console.log('Error al compartir:', error));
+            } else {
+                // Si el navegador no soporta la API nativa de compartir, copia el enlace
+                copyText(window.location.href, "¡Enlace copiado listo para compartir! 🔗");
+            }
+        }
+    </script>
+</body>
+</html>
