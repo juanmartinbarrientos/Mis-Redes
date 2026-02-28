@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Diván - Jacques Lacan</title>
+    <!-- Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Marked.js para renderizar Markdown (negritas, código, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- DOMPurify para evitar ataques XSS al renderizar HTML -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <style>
+        /* Estilos personalizados para el contenido Markdown */
+        .markdown-body p { margin-bottom: 0.75rem; }
+        .markdown-body pre { background-color: #1f2937; color: #e5e7eb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+        .markdown-body code { background-color: rgba(31, 41, 55, 0.1); padding: 0.1rem 0.3rem; border-radius: 0.25rem; font-family: monospace; }
+        .dark .markdown-body code { background-color: rgba(255, 255, 255, 0.1); }
+        .markdown-body ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body ol { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 { font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .markdown-body h1 { font-size: 1.5rem; }
+        .markdown-body h2 { font-size: 1.25rem; }
+        
+        /* Animación de carga */
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: currentColor;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-sans h-screen flex flex-col overflow-hidden transition-colors duration-200">
+
+    <!-- Pantalla de Configuración de API Key (Visible al inicio) -->
+    <div id="setup-screen" class="absolute inset-0 z-50 flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 overflow-y-auto py-8">
+        <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl max-w-xl w-full border border-gray-200 dark:border-gray-700 m-auto">
+            <div class="flex justify-center mb-4">
+                <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-center mb-6">Entorno Privado: Local o Nube</h1>
+
+            <!-- Video de YouTube Incrustado de forma Responsiva -->
+            <div class="mb-6 relative w-full aspect-video rounded-lg overflow-hidden shadow-sm bg-black">
+                <iframe 
+                    class="absolute top-0 left-0 w-full h-full" 
+                    src="https://www.youtube.com/embed/SfJyGiJI1d8?si=VH1HL6f866Z9xDn2" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Sección de Apoyo al Proyecto -->
+            <div class="mb-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-4 text-center">
+                <p class="text-sm text-gray-700 dark:text-gray-300 mb-3 italic">
+                    "El inconsciente está estructurado como un lenguaje, pero el servidor se paga con dinero real."<br>Si este espacio te hace eco, apoya el proyecto:
+                </p>
+                <div class="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 py-2 px-4 rounded-lg border border-gray-200 dark:border-gray-700 w-max mx-auto shadow-sm">
+                    <span class="font-mono text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200 select-all">juanmartinbarrientos</span>
+                    <button type="button" onclick="copyAlias()" class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-1" title="Copiar alias">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </button>
+                </div>
+                <p id="copy-feedback" class="text-xs text-green-600 dark:text-green-400 mt-2 font-medium hidden">¡Alias copiado al portapapeles!</p>
+            </div>
+
+            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-6">
+                Un espacio para hablar cómodo, sin ningún tipo de registro ni firmas, más que la que usted decida. Ingresa tu API Key para iniciar la sesión (la cual solo operará en tu memoria temporal local y desaparecerá al salir).
+            </p>
+            <form id="api-key-form" class="space-y-4">
+                <div>
+                    <label for="api-key-input" class="block text-sm font-medium mb-1">API Key</label>
+                    <input type="password" id="api-key-input" required placeholder="AIzaSy..." 
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
+                </div>
+                <button type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-md">
+                    Iniciar Sesión Privada
+                </button>
+            </form>
+            <div class="mt-4 text-xs text-center text-gray-400">
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+                    ¿No tienes una API Key? Consíguela aquí.
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interfaz Principal del Chat (Oculta al inicio) -->
+    <div id="chat-interface" class="hidden flex-col h-full w-full max-w-4xl mx-auto shadow-2xl bg-white dark:bg-gray-800 sm:rounded-lg sm:my-4 sm:h-[calc(100vh-2rem)] border border-gray-200 dark:border-gray-700 overflow-hidden">
+        
+        <!-- Cabecera -->
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-between items-center z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-gray-700 to-black flex items-center justify-center text-white shadow-sm font-serif italic text-xl">
+                    L
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold font-serif">Jacques Lacan</h2>
+                    <p class="text-xs text-gray-500 flex items-center gap-1">
+                        El analista está presente
+                    </p>
+                </div>
+            </div>
+            <button id="logout-btn" class="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Cerrar sesión y borrar datos">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            </button>
+        </header>
+
+        <!-- Área de Mensajes -->
+        <main id="chat-container" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-gray-50 dark:bg-gray-900/50 scroll-smooth">
+            <!-- Mensaje de Bienvenida -->
+            <div class="flex gap-4 max-w-3xl">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-gray-700 to-black flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1 font-serif italic">
+                    L
+                </div>
+                <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-4 rounded-2xl rounded-tl-none shadow-sm text-gray-800 dark:text-gray-200">
+                    <p>Adelante. Hable.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Área de Input -->
+        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+            <form id="chat-form" class="max-w-3xl mx-auto relative flex items-end gap-2">
+                <div class="relative flex-1">
+                    <textarea id="message-input" rows="1" placeholder="Escribe tu mensaje aquí..." 
+                        class="w-full pl-4 pr-12 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all max-h-32"
+                        style="min-height: 50px;"></textarea>
+                </div>
+                <button type="button" id="generate-image-btn" disabled title="Generar Imagen"
+                    class="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-xl p-3 h-[50px] w-[50px] flex items-center justify-center transition-colors shadow-md flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </button>
+                <button type="submit" id="send-btn" disabled
+                    class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-xl p-3 h-[50px] w-[50px] flex items-center justify-center transition-colors shadow-md flex-shrink-0">
+                    <svg class="w-5 h-5 translate-x-[-1px] translate-y-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </button>
+            </form>
+            <div id="error-message" class="max-w-3xl mx-auto mt-2 text-red-500 text-sm hidden text-center"></div>
+        </footer>
+    </div>
+
+    <script>
+        // --- ESTADO DE LA APLICACIÓN ---
+        let userApiKey = '';
+        let conversationHistory = [];
+        
+        // Elementos del DOM
+        const setupScreen = document.getElementById('setup-screen');
+        const chatInterface = document.getElementById('chat-interface');
+        const apiKeyForm = document.getElementById('api-key-form');
+        const apiKeyInput = document.getElementById('api-key-input');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        const chatContainer = document.getElementById('chat-container');
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+        const generateImageBtn = document.getElementById('generate-image-btn');
+        const errorMessage = document.getElementById('error-message');
+
+        // Configurar Marked.js para evitar que rompa los saltos de línea
+        marked.setOptions({ breaks: true });
+
+        // --- INICIALIZACIÓN Y AUTENTICACIÓN LOCAL ---
+        
+        apiKeyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const key = apiKeyInput.value.trim();
+            if (key) {
+                userApiKey = key;
+                setupScreen.classList.add('hidden');
+                chatInterface.classList.remove('hidden');
+                chatInterface.classList.add('flex');
+                messageInput.focus();
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            // Borrar todo de la memoria
+            userApiKey = '';
+            conversationHistory = [];
+            apiKeyInput.value = '';
+            
+            // Limpiar UI (manteniendo solo el saludo inicial)
+            const children = Array.from(chatContainer.children);
+            children.forEach((child, index) => {
+                if(index > 0) chatContainer.removeChild(child);
+            });
+
+            // Cambiar pantallas
+            chatInterface.classList.add('hidden');
+            chatInterface.classList.remove('flex');
+            setupScreen.classList.remove('hidden');
+        });
+
+        // --- LÓGICA DE INTERFAZ DEL CHAT ---
+
+        // Auto-expandir textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = '50px';
+            this.style.height = (this.scrollHeight) + 'px';
+            const hasText = this.value.trim() !== '';
+            sendBtn.disabled = !hasText;
+            generateImageBtn.disabled = !hasText;
+        });
+
+        // Enviar con Enter (sin Shift)
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendBtn.disabled) chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Evento para generar imágenes
+        generateImageBtn.addEventListener('click', async () => {
+            const prompt = messageInput.value.trim();
+            if (!prompt) return;
+
+            // 1. Mostrar el prompt del usuario en el chat
+            appendMessage('user', `🎨 Generar imagen: ${prompt}`);
+            messageInput.value = '';
+            messageInput.style.height = '50px';
+            sendBtn.disabled = true;
+            generateImageBtn.disabled = true;
+            errorMessage.classList.add('hidden');
+
+            // 2. Mostrar indicador de carga
+            const loadingId = showLoadingIndicator();
+
+            try {
+                // 3. Llamar a la API de Imagen
+                const imageUrl = await callImagenAPI(prompt);
+                
+                // 4. Quitar carga y mostrar la imagen generada
+                removeLoadingIndicator(loadingId);
+                appendImageMessage(imageUrl, prompt);
+                
+            } catch (error) {
+                removeLoadingIndicator(loadingId);
+                showError(error.message || "Ocurrió un error al generar la imagen.");
+            }
+        });
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            // 1. Mostrar mensaje del usuario
+            appendMessage('user', text);
+            messageInput.value = '';
+            messageInput.style.height = '50px';
+            sendBtn.disabled = true;
+            generateImageBtn.disabled = true;
+            errorMessage.classList.add('hidden');
+
+            // 2. Añadir al historial de la API
+            conversationHistory.push({
+                role: "user",
+                parts: [{ text: text }]
+            });
+
+            // 3. Mostrar indicador de carga
+            const loadingId = showLoadingIndicator();
+
+            try {
+                // 4. Llamar a la API
+                const responseText = await callGeminiAPI(conversationHistory);
+                
+                // 5. Quitar carga y mostrar respuesta
+                removeLoadingIndicator(loadingId);
+                appendMessage('model', responseText);
+                
+                // 6. Añadir respuesta al historial
+                conversationHistory.push({
+                    role: "model",
+                    parts: [{ text: responseText }]
+                });
+
+            } catch (error) {
+                removeLoadingIndicator(loadingId);
+                showError(error.message || "Ocurrió un error al contactar a la API. Verifica tu API Key.");
+                // Eliminar el último mensaje del historial para evitar desincronización
+                conversationHistory.pop();
+            }
+        });
+
+        // --- FUNCIONES DE RENDERIZADO ---
+
+        function appendMessage(role, text) {
+            const isUser = role === 'user';
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex gap-3 sm:gap-4 max-w-3xl ${isUser ? 'ml-auto flex-row-reverse' : ''}`;
+            
+            // Avatar
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1 ${
+                isUser ? 'bg-gray-700 dark:bg-gray-600' : 'bg-gradient-to-tr from-blue-500 to-purple-500'
+            }`;
+            
+            if (isUser) {
+                avatar.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
+            } else {
+                avatar.className = `w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1 bg-gradient-to-tr from-gray-700 to-black font-serif italic`;
+                avatar.innerHTML = `L`;
+            }
+
+            // Burbuja de mensaje
+            const bubble = document.createElement('div');
+            bubble.className = `p-4 rounded-2xl shadow-sm overflow-x-auto ${
+                isUser 
+                ? 'bg-blue-600 text-white rounded-tr-none' 
+                : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none markdown-body'
+            }`;
+
+            if (isUser) {
+                // Escapar texto simple para usuario
+                bubble.textContent = text;
+                bubble.style.whiteSpace = 'pre-wrap';
+            } else {
+                // Renderizar Markdown seguro para la IA
+                const rawHtml = marked.parse(text);
+                bubble.innerHTML = DOMPurify.sanitize(rawHtml);
+            }
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(bubble);
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function appendImageMessage(imageUrl, promptText) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex gap-3 sm:gap-4 max-w-3xl`;
+            
+            // Avatar de la IA
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1 bg-gradient-to-tr from-gray-700 to-black font-serif italic`;
+            avatar.innerHTML = `L`;
+
+            // Burbuja con la imagen
+            const bubble = document.createElement('div');
+            bubble.className = `p-2 sm:p-4 rounded-2xl shadow-sm overflow-hidden bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-tl-none`;
+            
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = promptText;
+            img.className = 'max-w-full h-auto rounded-lg shadow-sm';
+            
+            bubble.appendChild(img);
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(bubble);
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function showLoadingIndicator() {
+            const id = 'loading-' + Date.now();
+            const wrapper = document.createElement('div');
+            wrapper.id = id;
+            wrapper.className = `flex gap-4 max-w-3xl`;
+            
+            wrapper.innerHTML = `
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-gray-700 to-black flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1 font-serif italic">
+                    L
+                </div>
+                <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 py-4 px-5 rounded-2xl rounded-tl-none shadow-sm text-gray-800 dark:text-gray-200 flex items-center">
+                    <div class="typing-indicator text-blue-500">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+            return id;
+        }
+
+        function removeLoadingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.classList.remove('hidden');
+            setTimeout(() => errorMessage.classList.add('hidden'), 5000);
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // --- LÓGICA DE LA API DE GEMINI ---
+
+        async function callGeminiAPI(history) {
+            // Usando el modelo actual recomendado
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${userApiKey}`;
+            
+            const systemInstruction = `Asumes el rol de Jacques Lacan, el psicoanalista. Tu tarea es interactuar con el usuario (que será el analizante) exclusivamente desde la perspectiva de tu enseñanza psicoanalítica.
+Principios Guía:
+1. El Inconsciente Estructurado como un Lenguaje: Céntrate en los significantes, lapsus, repeticiones y ambigüedades.
+2. Tríada Simbólico, Imaginario, Real: Guía tus intervenciones sin mencionarlos. Evita la empatía directa, consejo o alimentar la imagen del analizante (Imaginario). Apunta al agujero en el saber (Real).
+3. El Deseo y la Falta: El deseo es el deseo del Otro. No busques satisfacción, articula su causa.
+4. Posición del Analista: Sostén la transferencia sin quedar atrapado en el sujeto-supuesto-saber.
+5. La Puntuación y el Corte: Tus intervenciones deben ser escasas, precisas y, a menudo, enigmáticas.`;
+
+            const payload = {
+                systemInstruction: {
+                    parts: [{ text: systemInstruction }]
+                },
+                contents: history,
+                generationConfig: {
+                    temperature: 0.9,
+                    maxOutputTokens: 2048,
+                }
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("API Error Details:", data);
+                throw new Error(data.error?.message || `Error HTTP: ${response.status}`);
+            }
+
+            if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error("Respuesta inesperada de la API.");
+            }
+        }
+
+        async function callImagenAPI(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${userApiKey}`;
+            
+            const payload = {
+                instances: { prompt: prompt },
+                parameters: { sampleCount: 1 }
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Imagen API Error Details:", data);
+                throw new Error(data.error?.message || `Error HTTP: ${response.status}`);
+            }
+
+            if (data.predictions && data.predictions[0] && data.predictions[0].bytesBase64Encoded) {
+                return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
+            } else {
+                throw new Error("Respuesta inesperada al generar la imagen.");
+            }
+        }
+
+        // --- FUNCIONES UTILITARIAS ---
+        function copyAlias() {
+            const alias = 'juanmartinbarrientos';
+            // Usamos textarea temporal para asegurar compatibilidad con execCommand
+            const tempInput = document.createElement('textarea');
+            tempInput.value = alias;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const feedback = document.getElementById('copy-feedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
