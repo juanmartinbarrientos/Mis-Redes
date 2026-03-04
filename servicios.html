@@ -3,82 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juan Martin Barrientos | Consultoría IT para PYMES</title>
+    <title>Juan Martin Barrientos | Consultoría IT & Ciberseguridad</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Contraste Editorial -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        :root {
+            --x: 50vw;
+            --y: 50vh;
+            --radius: 0vmax; /* Controla el tamaño de la "linterna" */
+            --bg-dark: #050505;
+            --bg-light: #f4f4f0;
+            --accent: #ff003c;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-dark);
+            color: var(--bg-light);
+            cursor: crosshair;
+            overflow-x: hidden;
         }
-        .hero-bg {
-            background-color: #1e293b;
-            background-image: linear-gradient(to bottom right, #0f172a, #334155);
-        }
-        .check-list li {
+
+        /* Tipografías Custom */
+        .font-serif-elegant { font-family: 'Bodoni Moda', serif; }
+        .font-sans-clean { font-family: 'Inter', sans-serif; }
+
+        /* --- SECCIÓN HERO (DUALIDAD) --- */
+        #hero-dual {
             position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
         }
-        .check-list li::before {
-            content: "✓";
+
+        .layer {
             position: absolute;
-            left: 0;
-            color: #10b981; /* emerald-500 */
-            font-weight: bold;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            width: 100vw;
+            height: 100vh;
         }
+
+        /* CAPA 1: LA ILUSIÓN */
+        #layer-light {
+            background-color: var(--bg-light);
+            color: var(--bg-dark);
+            z-index: 10;
+        }
+
+        /* CAPA 2: LA VERDAD OCULTA */
+        #layer-dark {
+            background-color: var(--bg-dark);
+            color: var(--bg-light);
+            z-index: 20;
+            clip-path: circle(var(--radius) at var(--x) var(--y));
+            transition: clip-path 0.1s ease-out;
+        }
+
+        /* Animación de entrada */
+        .animating #layer-dark {
+            transition: clip-path 1.5s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        /* Elementos posicionales del Hero */
+        .corner-text {
+            position: absolute;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+        .top-left { top: 2rem; left: 2rem; }
+        .top-right { top: 2rem; right: 2rem; text-align: right; z-index: 100; }
+        .bottom-right { bottom: 2rem; right: 2rem; text-align: right; }
+        .bottom-left { bottom: 2rem; left: 2rem; }
+
+        /* --- TEXTURAS --- */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* --- ESTILOS EDITORIALES (BRUTALISMO) --- */
+        .editorial-border {
+            border: 1px solid #333;
+        }
+        .editorial-border-b { border-bottom: 1px solid #333; }
+        .editorial-border-t { border-top: 1px solid #333; }
+        
         .pillar-card {
             transition: all 0.3s ease;
         }
         .pillar-card:hover {
+            background-color: #111;
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .pillar-number {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            width: 40px;
-            height: 40px;
-            background: #2563eb;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.25rem;
-            border: 4px solid #fff;
-        }
-        
-        /* Animación para el fondo dinámico */
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-            animation-delay: 4s;
         }
 
-        /* Estilos del Modal */
-        .modal-open {
-            overflow: hidden;
-        }
+        /* --- MODAL DE PAGOS BRUTALISTA --- */
+        .modal-open { overflow: hidden; }
         .modal-backdrop {
             opacity: 0;
             pointer-events: none;
@@ -88,402 +133,423 @@
             opacity: 1;
             pointer-events: auto;
         }
-        .modal-content {
-            transform: scale(0.95) translateY(10px);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .modal-backdrop.active .modal-content {
-            transform: scale(1) translateY(0);
-            opacity: 1;
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px 0px rgba(255, 0, 60, 1);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="antialiased">
 
-    <!-- Navbar con Glassmorphism -->
-    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Brand -->
-                <div class="flex items-center gap-2">
-                    <div class="bg-blue-600/90 text-white p-1.5 rounded-lg shadow-sm">
-                        <i data-lucide="monitor-check" class="h-5 w-5"></i>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-bold text-base leading-tight text-slate-900 tracking-tight">JM Barrientos</span>
-                        <span class="text-[10px] text-blue-600 font-bold tracking-widest uppercase">Consultor IT</span>
-                    </div>
-                </div>
+    <!-- Filtro SVG de Ruido/Grano -->
+    <svg class="hidden">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+    </svg>
+    <div class="grain-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
 
-                <!-- Desktop Navigation (Hidden on Mobile) -->
-                <div class="hidden md:flex items-center gap-1">
-                    <div class="flex items-center bg-slate-100/50 rounded-full px-1 py-1 mr-4 border border-slate-200/50">
-                        <a href="#maintenance" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-white rounded-full transition-all">Mantenimiento</a>
-                        <a href="#security" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-white rounded-full transition-all">Seguridad</a>
-                        <button onclick="togglePaymentModal()" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-emerald-600 hover:bg-white rounded-full transition-all flex items-center gap-1.5">
-                            <i data-lucide="credit-card" class="w-3.5 h-3.5"></i> Pagos
-                        </button>
-                    </div>
-                    <a href="#contact" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-full transition-all text-sm font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2">
-                        Agendar <i data-lucide="calendar" class="w-3.5 h-3.5 opacity-70"></i>
-                    </a>
-                </div>
+    <!-- PANTALLA DE CARGA -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-[#050505] flex items-center justify-center transition-opacity duration-700">
+        <span class="font-sans-clean text-[10px] tracking-[0.5em] text-neutral-600 uppercase">Auditando Sistemas...</span>
+    </div>
 
-                <!-- Mobile Menu Button (Visible only on Mobile) -->
-                <div class="md:hidden">
-                    <button onclick="toggleMobileMenu()" class="text-slate-600 p-2 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
-                        <i id="mobileMenuIcon" data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
-                </div>
-            </div>
+    <!-- NAVBAR (Fija, contraste invertido) -->
+    <nav class="fixed top-0 w-full z-[90] mix-blend-difference pointer-events-none p-6 flex justify-between items-start">
+        <div class="font-sans-clean font-bold text-white uppercase tracking-widest text-xs pointer-events-auto">
+            JM Barrientos <span class="text-[#ff003c] ml-2">IT</span>
         </div>
-
-        <!-- Mobile Menu Panel (Hidden by default) -->
-        <div id="mobileMenu" class="hidden md:hidden absolute top-16 left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl transition-all duration-300 origin-top">
-            <div class="px-4 py-6 space-y-4 flex flex-col">
-                <a href="#maintenance" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 hover:text-blue-600 py-2 border-b border-slate-100">
-                    Mantenimiento
-                </a>
-                <a href="#security" onclick="toggleMobileMenu()" class="text-lg font-medium text-slate-700 hover:text-blue-600 py-2 border-b border-slate-100">
-                    Seguridad
-                </a>
-                <button onclick="togglePaymentModal(); toggleMobileMenu()" class="text-left text-lg font-medium text-slate-700 hover:text-emerald-600 py-2 border-b border-slate-100 flex items-center gap-2">
-                    <i data-lucide="credit-card" class="w-5 h-5"></i> Pagos
-                </button>
-                <a href="#contact" onclick="toggleMobileMenu()" class="bg-blue-600 text-white text-center py-3 rounded-lg font-bold shadow-md hover:bg-blue-700 mt-4">
-                    Agendar Diagnóstico
-                </a>
-            </div>
+        <div class="hidden md:flex gap-8 text-white font-sans-clean text-xs tracking-widest uppercase pointer-events-auto">
+            <a href="#why-update" class="hover:text-[#ff003c] transition-colors">Seguridad</a>
+            <a href="#maintenance" class="hover:text-[#ff003c] transition-colors">Mantenimiento</a>
+            <a href="#pillars" class="hover:text-[#ff003c] transition-colors">Arquitectura</a>
+            <button onclick="togglePaymentModal()" class="hover:text-[#ff003c] transition-colors">Pagos</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-bg text-white pt-32 pb-24 relative overflow-hidden">
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-
-        <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
-            <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-sm font-semibold mb-6 backdrop-blur-sm">
-                Especialista en Modernización de PYMES
-            </span>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                No deje que la tecnología antigua <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">frene el crecimiento de su empresa</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto">
-                Hola, soy <strong>Juan Martin Barrientos</strong>. Ayudo a pequeñas empresas a dejar de "apagar incendios" informáticos y construir una estructura tecnológica segura, rápida y fiable.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#why-update" class="bg-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition shadow-lg flex items-center justify-center gap-2">
-                    <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-600"></i>
-                    ¿Por qué actualizar?
-                </a>
-                <a href="#security" class="bg-white/10 backdrop-blur-sm border-2 border-slate-500/50 text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition flex items-center justify-center gap-2">
-                    Ver los 7 Pilares
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- SECCIÓN: IMPORTANCIA DE ACTUALIZAR -->
-    <div id="why-update" class="bg-white py-20 border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span class="text-indigo-600 font-bold tracking-wider text-sm uppercase">Seguridad Crítica</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-2">¿Es realmente necesario actualizar siempre?</h2>
-                <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
-                    Muchos creen que las actualizaciones solo cambian colores o agregan funciones inútiles. La realidad es que son la única barrera entre sus datos y las nuevas amenazas.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div class="grid md:grid-cols-2">
-                    <div class="p-8 md:p-12 flex flex-col justify-center bg-white">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="bg-indigo-100 p-3 rounded-full">
-                                <i data-lucide="shield-alert" class="text-indigo-600 w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-slate-900">Lo que las actualizaciones hacen por usted</h3>
-                        </div>
-                        <div class="space-y-6">
-                            <p class="text-slate-600 text-lg leading-relaxed">
-                                El software (Windows, Office, Antivirus) no es perfecto. Con el tiempo, los hackers encuentran "agujeros" para entrar. Una actualización es, literalmente, un "parche" para tapar ese agujero.
-                            </p>
-                            <div class="space-y-4">
-                                <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
-                                    <div class="bg-white p-2 rounded shadow-sm h-fit"><i data-lucide="bug" class="text-red-500 w-5 h-5"></i></div>
-                                    <div>
-                                        <h4 class="font-bold text-slate-800">Cierra "Puertas Traseras"</h4>
-                                        <p class="text-sm text-slate-600">Corrige errores de código que los virus usan para entrar sin contraseña.</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
-                                    <div class="bg-white p-2 rounded shadow-sm h-fit"><i data-lucide="zap" class="text-amber-500 w-5 h-5"></i></div>
-                                    <div>
-                                        <h4 class="font-bold text-slate-800">Mejora la Velocidad</h4>
-                                        <p class="text-sm text-slate-600">El software nuevo optimiza recursos, haciendo que su PC trabaje menos para hacer lo mismo.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 text-sm italic">
-                                "El 90% de los ataques de Ransomware exitosos ocurrieron en equipos que no tenían las últimas actualizaciones de seguridad instaladas."
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-900 text-white p-8 md:p-12 flex flex-col justify-center relative overflow-hidden">
-                        <div class="absolute bottom-0 right-0 -mb-10 -mr-10 w-64 h-64 bg-indigo-600 rounded-full opacity-20 blur-3xl"></div>
-                        <h3 class="text-xl font-bold mb-6 relative z-10 flex items-center gap-2">
-                            <i data-lucide="lightbulb" class="text-yellow-400"></i> Para entenderlo mejor:
-                        </h3>
-                        <div class="relative z-10 space-y-6">
-                            <h4 class="text-2xl font-bold text-white">La Analogía de la Caja Fuerte</h4>
-                            <p class="text-slate-300 leading-relaxed text-lg">
-                                Imagine que compró la mejor caja fuerte del mundo en el año 2015. Era impenetrable.
-                            </p>
-                            <div class="bg-white/10 p-4 rounded-lg border border-white/10">
-                                <p class="text-slate-200 mb-2"><strong class="text-white">El problema:</strong> En 2024, los ladrones ya aprendieron cómo abrir ese modelo específico de 2015.</p>
-                            </div>
-                            <div class="bg-indigo-600/30 p-4 rounded-lg border border-indigo-500/50">
-                                <p class="text-slate-200"><strong class="text-white">La Actualización:</strong> Es como si el fabricante de la caja fuerte viniera a su oficina GRATIS y le cambiara la cerradura por una nueva.</p>
-                            </div>
-                            <p class="font-bold text-center text-indigo-300 mt-4">
-                                No actualizar es decidir quedarse con la cerradura que los ladrones ya saben abrir.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SECCIÓN: MANTENIMIENTO -->
-    <div id="maintenance" class="bg-slate-50 py-20 border-b border-slate-200 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-emerald-500 to-blue-500"></div>
+    <!-- ==================== HERO SECTION (DUALIDAD) ==================== -->
+    <section id="hero-dual">
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span class="text-blue-600 font-bold tracking-wider text-sm uppercase">Ahorro de Costos</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-2">¿Por qué es vital el Mantenimiento Preventivo?</h2>
-                <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
-                    Muchos empresarios confunden "equipo viejo" con "equipo sin mantenimiento". Antes de gastar en computadoras nuevas, vea este ejemplo real.
+        <!-- CAPA 1: LA ILUSIÓN (BLANCA) -->
+        <div id="layer-light" class="layer">
+            <div class="corner-text top-left text-neutral-400">01 / LA SUPERFICIE</div>
+            
+            <!-- Créditos -->
+            <div class="corner-text top-right text-neutral-400">
+                Creado por <a href="https://www.juanmartinbarrientos.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-neutral-800 hover:text-black transition-colors" style="pointer-events: auto;">Juan Martin Barrientos</a>
+            </div>
+
+            <div class="text-center max-w-4xl z-10 pointer-events-none">
+                <h2 class="font-sans-clean text-xs tracking-[0.4em] mb-8 text-neutral-500">LO QUE LA EMPRESA PERCIBE</h2>
+                <h1 class="font-serif-elegant text-6xl md:text-[8vw] leading-none tracking-tight mb-6 uppercase">
+                    Soporte IT
+                </h1>
+                <p class="font-serif-elegant italic text-xl md:text-3xl text-neutral-600">
+                    "La tecnología funciona. No hay de qué preocuparse."
+                </p>
+            </div>
+            
+            <div class="corner-text bottom-right text-neutral-500 max-w-[200px] leading-relaxed">
+                Sistemas operando.<br>Conexión estable.<br>La ilusión del control corporativo.
+            </div>
+            <div class="corner-text bottom-left font-serif-elegant italic normal-case text-lg text-neutral-400">
+                Mantenga el status quo.
+            </div>
+        </div>
+
+        <!-- CAPA 2: LA VERDAD (NEGRA) -->
+        <div id="layer-dark" class="layer">
+            <div class="corner-text top-left text-[#ff003c]">00 / LA ESTRUCTURA</div>
+            
+            <!-- Créditos Ocultos -->
+            <div class="corner-text top-right text-neutral-500">
+                Creado por <a href="https://www.juanmartinbarrientos.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-[#ff003c] transition-colors" style="pointer-events: auto;">Juan Martin Barrientos</a>
+            </div>
+
+            <div class="text-center max-w-4xl z-10 pointer-events-none">
+                <h2 class="font-sans-clean text-xs tracking-[0.4em] mb-8 text-neutral-400">LO QUE EL CONSULTOR VE</h2>
+                <h1 class="font-serif-elegant text-6xl md:text-[8vw] leading-none tracking-tight mb-6 text-white uppercase">
+                    Vulnerabilidad
+                </h1>
+                <p class="font-serif-elegant italic text-xl md:text-3xl text-[#ff003c]">
+                    "Cada sistema desactualizado es una puerta abierta."
                 </p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div class="grid md:grid-cols-2">
-                    <div class="p-8 md:p-12 flex flex-col justify-center">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="bg-amber-100 p-3 rounded-full">
-                                <i data-lucide="alert-circle" class="text-amber-600 w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-slate-900">El Caso Real: "La PC Lenta"</h3>
-                        </div>
-                        <div class="space-y-6">
-                            <div>
-                                <h4 class="font-bold text-slate-800 mb-2">🔴 El Problema</h4>
-                                <p class="text-slate-600 leading-relaxed">
-                                    Un cliente necesitaba comprar 5 computadoras nuevas ($4.000 USD) porque "el sistema estaba lento".
-                                </p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-blue-600 mb-2">🔵 Mi Diagnóstico</h4>
-                                <p class="text-slate-600 leading-relaxed">
-                                    Los equipos tenían 3 años. El problema era suciedad física y lógica.
-                                </p>
-                            </div>
-                            <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-lg">
-                                <h4 class="font-bold text-emerald-700 mb-1">✅ La Solución y Ahorro</h4>
-                                <p class="text-emerald-800 text-sm">
-                                    Mantenimiento completo. <strong>Costo: $300 USD.</strong> Ahorro total de <strong>$3.700 USD</strong>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-900 text-white p-8 md:p-12 flex flex-col justify-center relative overflow-hidden">
-                        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-500 rounded-full opacity-20 blur-2xl"></div>
-                        <h3 class="text-xl font-bold mb-6 relative z-10">La Regla de Oro del Mantenimiento</h3>
-                        <div class="space-y-8 relative z-10">
-                            <div class="flex items-start gap-4">
-                                <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="car" class="text-blue-400 w-6 h-6"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-blue-200">La Analogía del Automóvil</h4>
-                                    <p class="text-slate-300 text-sm mt-1">Usted no espera a que el motor se funda para cambiar el aceite.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="server" class="text-emerald-400 w-6 h-6"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-emerald-200">En Informática es Igual</h4>
-                                    <p class="text-slate-300 text-sm mt-1">El mantenimiento preventivo evita la pérdida catastrófica de datos.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="corner-text bottom-right text-neutral-400 max-w-[200px] leading-relaxed">
+                Brechas invisibles.<br>Datos expuestos.<br>El silencio antes del colapso.
+            </div>
+            <div class="corner-text bottom-left font-serif-elegant italic normal-case text-lg text-white">
+                Cuestione su seguridad.
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Main Content: 7 Pillars Grid -->
-    <div id="security" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-slate-900">Mi Propuesta de Arquitectura Segura</h2>
-            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
-                Implementaré estos <span class="text-blue-600 font-bold">7 pilares fundamentales</span> para garantizar que su empresa opere con estándares corporativos.
+    <!-- ==================== CONTENIDO EDITORIAL ==================== -->
+    <main class="relative z-20 bg-[var(--bg-dark)] border-t border-neutral-800">
+        
+        <!-- INTRO -->
+        <section class="py-24 px-6 md:px-12 max-w-5xl mx-auto text-center editorial-border-b">
+            <h2 class="font-serif-elegant text-3xl md:text-5xl mb-8 leading-tight">
+                No deje que la tecnología antigua <br>
+                <span class="text-[#ff003c] italic">frene el crecimiento</span> de su empresa.
+            </h2>
+            <p class="font-sans-clean text-neutral-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                Hola, soy <strong class="text-white font-bold">Juan Martin Barrientos</strong>. Especialista en Modernización de PYMES/Comercios. Ayudo a pequeñas empresas a dejar de "apagar incendios" informáticos y construir una estructura tecnológica segura, rápida y fiable.
             </p>
-        </div>
+        </section>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
-                <div class="pillar-number">1</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="users" class="text-blue-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Autenticación (LDAP)</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Centralizamos usuarios y eliminamos el riesgo de claves compartidas.</p>
-            </div>
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
-                <div class="pillar-number">2</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="brick-wall" class="text-emerald-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Firewall de Red</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Barrera esencial contra accesos no autorizados desde Internet.</p>
-            </div>
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
-                <div class="pillar-number">3</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="layers" class="text-emerald-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">VLANs</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Dividimos su red para que las visitas no accedan a sus servidores.</p>
-            </div>
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
-                <div class="pillar-number">4</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="globe-2" class="text-emerald-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">VPN Segura</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Trabajo remoto seguro mediante túneles encriptados OpenVPN.</p>
-            </div>
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
-                <div class="pillar-number">5</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="lock-keyhole" class="text-rose-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">HTTPS</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Transmisión segura de datos de clientes y empleados.</p>
-            </div>
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
-                <div class="pillar-number">6</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="file-check" class="text-indigo-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Privacidad</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Datos sensibles accesibles solo bajo solicitud aprobada.</p>
-            </div>
-            <div class="pillar-card bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative md:col-span-2 lg:col-span-3 lg:w-2/3 lg:mx-auto">
-                <div class="pillar-number">7</div>
-                <div class="flex items-center gap-3 mb-4"><i data-lucide="radar" class="text-rose-600 w-8 h-8"></i><h4 class="text-xl font-bold text-slate-900">Detección IDS</h4></div>
-                <p class="text-slate-600 mb-4 text-sm leading-relaxed">Sistemas de alarma que monitorean ataques en tiempo real.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- CTA Section -->
-    <div id="contact" class="bg-blue-900 text-white py-20 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] opacity-10 bg-cover bg-center"></div>
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">¿Su empresa está lista para el siguiente nivel?</h2>
-            <p class="text-blue-100 mb-10 text-lg max-w-2xl mx-auto">
-                No espere a tener una brecha de seguridad. Hablemos hoy y diseñemos un plan a medida.
-            </p>
-            <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://www.juanmartinbarrientos.com" target="_blank" class="bg-white text-blue-900 px-10 py-4 rounded-full font-bold hover:bg-blue-50 transition shadow-xl transform hover:scale-105">
-                    Visitar Web Oficial
-                </a>
-                <button onclick="togglePaymentModal()" class="bg-transparent border-2 border-blue-400 text-blue-100 px-8 py-3.5 rounded-full font-bold hover:bg-blue-800/50 hover:text-white transition flex items-center gap-2">
-                    <i data-lucide="credit-card" class="w-5 h-5"></i>
-                    Centro de Pagos
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer Moderno -->
-    <footer class="relative bg-slate-900 text-slate-300 py-16 overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-        <div class="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-blue-600/30 rounded-full blur-[80px] animate-blob"></div>
-        <div class="absolute top-10 right-1/4 w-[250px] h-[250px] bg-indigo-500/20 rounded-full blur-[60px] animate-blob animation-delay-2000"></div>
-
-        <div class="max-w-7xl mx-auto px-4 relative z-10">
-            <div class="backdrop-blur-md bg-white/5 p-8 rounded-2xl border border-white/10 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="text-center md:text-left">
-                    <h3 class="text-white font-bold text-2xl tracking-tight">Juan Martin Barrientos</h3>
-                    <p class="text-blue-400 font-medium text-sm mt-1">Consultoría Tecnológica Integral</p>
-                </div>
-                <div class="flex gap-6">
-                    <a href="https://www.linkedin.com/in/juanmartinbarrientoslorusso/" target="_blank" class="p-3 bg-white/10 rounded-full hover:bg-white/20 hover:text-white transition hover:-translate-y-1 transform border border-white/5"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                    <a href="https://www.youtube.com/@JuanMartinBarrientosLorusso" target="_blank" class="p-3 bg-white/10 rounded-full hover:bg-white/20 hover:text-white transition hover:-translate-y-1 transform border border-white/5"><i data-lucide="youtube" class="w-5 h-5"></i></a>
-                    <a href="mailto:juanmartinbarrientos@me.com" class="p-3 bg-white/10 rounded-full hover:bg-white/20 hover:text-white transition hover:-translate-y-1 transform border border-white/5"><i data-lucide="mail" class="w-5 h-5"></i></a>
-                </div>
-                <div class="text-center md:text-right text-sm text-slate-400">
-                     <p>&copy; 2025 Todos los derechos reservados.</p>
-                     <p class="text-xs mt-1 text-slate-500">Diseñado con estándares de seguridad.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- MODAL DE PAGOS (Oculto por defecto) -->
-    <div id="paymentModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative border border-slate-200">
-            <div class="bg-slate-50 p-6 border-b border-slate-100 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="bg-blue-100 p-2 rounded-lg">
-                        <i data-lucide="wallet" class="text-blue-600 w-5 h-5"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900">Portal de Pagos</h3>
-                </div>
-                <button onclick="togglePaymentModal()" class="text-slate-400 hover:text-slate-600 transition p-2 rounded-full hover:bg-slate-200">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-            <div class="p-8 space-y-6">
-                <p class="text-slate-600 text-sm mb-4">
-                    Seleccione su método de pago preferido. Copie los datos a continuación para realizar la transferencia.
+        <!-- SECCIÓN: IMPORTANCIA DE ACTUALIZAR -->
+        <section id="why-update" class="grid md:grid-cols-2 editorial-border-b">
+            <!-- Columna Izquierda (Explicación) -->
+            <div class="p-8 md:p-16 border-b md:border-b-0 md:border-r border-neutral-800 flex flex-col justify-center">
+                <div class="font-sans-clean text-[#ff003c] text-xs tracking-[0.3em] uppercase mb-4">La Falsa Seguridad</div>
+                <h3 class="font-serif-elegant text-4xl mb-6">¿Es necesario actualizar?</h3>
+                <p class="font-sans-clean text-neutral-400 text-sm leading-relaxed mb-8">
+                    Muchos creen que las actualizaciones solo cambian colores o agregan funciones inútiles. La realidad es que son la única barrera entre sus datos corporativos y las nuevas amenazas.
                 </p>
+                <div class="space-y-6 font-sans-clean text-sm">
+                    <div class="pl-4 border-l-2 border-[#ff003c]">
+                        <h4 class="text-white font-bold mb-1 uppercase tracking-wide">Cierra "Puertas Traseras"</h4>
+                        <p class="text-neutral-500">Corrige errores de código que los virus usan para entrar sin contraseña.</p>
+                    </div>
+                    <div class="pl-4 border-l-2 border-neutral-700">
+                        <h4 class="text-white font-bold mb-1 uppercase tracking-wide">Mejora la Velocidad</h4>
+                        <p class="text-neutral-500">El software nuevo optimiza recursos; su PC trabaja menos para hacer lo mismo.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna Derecha (Analogía) -->
+            <div class="p-8 md:p-16 bg-[#0a0a0a] flex flex-col justify-center">
+                <i data-lucide="shield-alert" class="text-[#ff003c] w-10 h-10 mb-6"></i>
+                <h3 class="font-serif-elegant text-3xl text-white mb-6">La Analogía de la Caja Fuerte</h3>
+                <div class="font-sans-clean text-sm space-y-4 text-neutral-400 leading-relaxed">
+                    <p>Imagine que compró la mejor caja fuerte del mundo en el año 2015. Era impenetrable.</p>
+                    <p class="text-white p-4 border border-neutral-800 bg-neutral-900/50">
+                        <strong class="text-[#ff003c]">El Problema:</strong> En 2024, los ladrones ya aprendieron cómo abrir ese modelo específico.
+                    </p>
+                    <p>
+                        <strong class="text-white">La Actualización:</strong> Es como si el fabricante viniera a su oficina gratis y le cambiara la cerradura por una nueva.
+                    </p>
+                    <p class="font-serif-elegant italic text-lg text-[#ff003c] mt-6">
+                        "No actualizar es decidir quedarse con la cerradura que los ladrones ya saben abrir."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: MANTENIMIENTO -->
+        <section id="maintenance" class="grid md:grid-cols-2 editorial-border-b">
+            <!-- Columna Izquierda (Analogía) -->
+            <div class="p-8 md:p-16 bg-[#0a0a0a] flex flex-col justify-center order-2 md:order-1 border-t md:border-t-0 md:border-r border-neutral-800">
+                <h3 class="font-serif-elegant text-3xl text-white mb-8">La Regla del Motor</h3>
+                <div class="space-y-8 font-sans-clean text-sm">
+                    <div class="flex gap-4">
+                        <i data-lucide="car" class="text-neutral-500 w-6 h-6 shrink-0"></i>
+                        <div>
+                            <h4 class="text-white font-bold mb-1 uppercase tracking-wide">El Automóvil</h4>
+                            <p class="text-neutral-500">Usted no espera a que el motor se funda para cambiar el aceite.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <i data-lucide="server-crash" class="text-[#ff003c] w-6 h-6 shrink-0"></i>
+                        <div>
+                            <h4 class="text-[#ff003c] font-bold mb-1 uppercase tracking-wide">La Informática</h4>
+                            <p class="text-neutral-500">El mantenimiento preventivo evita la pérdida catastrófica de datos y el paro total de operaciones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha (Caso Real) -->
+            <div class="p-8 md:p-16 flex flex-col justify-center order-1 md:order-2">
+                <div class="font-sans-clean text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Ahorro de Costos</div>
+                <h3 class="font-serif-elegant text-4xl mb-6">El Caso: "La PC Lenta"</h3>
+                <p class="font-sans-clean text-neutral-400 text-sm leading-relaxed mb-8">
+                    Muchos empresarios confunden "equipo viejo" con "equipo sin mantenimiento". Antes de gastar miles en hardware, lea esto.
+                </p>
+                <div class="font-sans-clean text-sm border border-neutral-800 p-6 space-y-4 bg-neutral-900/20">
+                    <div>
+                        <span class="text-neutral-500 uppercase text-[10px] tracking-widest block mb-1">El Problema</span>
+                        <p class="text-white">Un cliente necesitaba 5 PCs nuevas ($4.000 USD) porque "todo estaba lento".</p>
+                    </div>
+                    <div class="border-t border-neutral-800 pt-4">
+                        <span class="text-neutral-500 uppercase text-[10px] tracking-widest block mb-1">El Diagnóstico</span>
+                        <p class="text-white">Equipos de 3 años. El problema era suciedad física y lógica del sistema operativo.</p>
+                    </div>
+                    <div class="border-t border-neutral-800 pt-4">
+                        <span class="text-[#ff003c] uppercase text-[10px] tracking-widest block mb-1">El Resultado</span>
+                        <p class="text-white">Mantenimiento completo: <strong class="text-[#ff003c] font-normal">$300 USD.</strong> Ahorro total de <strong class="font-normal">$3.700 USD.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: 7 PILARES -->
+        <section id="pillars" class="py-24">
+            <div class="text-center mb-16 px-4">
+                <h2 class="font-serif-elegant text-4xl md:text-5xl text-white mb-4">Arquitectura Segura</h2>
+                <p class="font-sans-clean text-neutral-500 text-sm tracking-widest uppercase">7 Pilares Corporativos</p>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-800 border border-neutral-800">
+                
+                <!-- Pillar 1 -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group">
+                    <div class="font-serif-elegant text-7xl text-neutral-900 absolute top-2 right-4 group-hover:text-[#ff003c]/20 transition-colors">1</div>
+                    <i data-lucide="users" class="text-neutral-400 w-6 h-6 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2">Autenticación LDAP</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm">Centralizamos usuarios y eliminamos el riesgo de claves compartidas en la oficina.</p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group">
+                    <div class="font-serif-elegant text-7xl text-neutral-900 absolute top-2 right-4 group-hover:text-[#ff003c]/20 transition-colors">2</div>
+                    <i data-lucide="brick-wall" class="text-neutral-400 w-6 h-6 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2">Firewall Perimetral</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm">Barrera dura y esencial contra accesos no autorizados desde Internet.</p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group">
+                    <div class="font-serif-elegant text-7xl text-neutral-900 absolute top-2 right-4 group-hover:text-[#ff003c]/20 transition-colors">3</div>
+                    <i data-lucide="layers" class="text-neutral-400 w-6 h-6 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2">Segmentación VLAN</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm">Dividimos la red físicamente para que las visitas no toquen sus servidores.</p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group">
+                    <div class="font-serif-elegant text-7xl text-neutral-900 absolute top-2 right-4 group-hover:text-[#ff003c]/20 transition-colors">4</div>
+                    <i data-lucide="router" class="text-neutral-400 w-6 h-6 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2">Conexión Redundante</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm">Respaldo automático de internet (Failover) para que su facturación y cobro con tarjetas nunca se detengan.</p>
+                </div>
+
+                <!-- Pillar 5 -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group">
+                    <div class="font-serif-elegant text-7xl text-neutral-900 absolute top-2 right-4 group-hover:text-[#ff003c]/20 transition-colors">5</div>
+                    <i data-lucide="hard-drive" class="text-neutral-400 w-6 h-6 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2">Backups Automatizados</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm">Implementación de la regla 3-2-1 para garantizar la recuperación inmediata ante fallos físicos o ransomware.</p>
+                </div>
+
+                <!-- Pillar 6 -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group">
+                    <div class="font-serif-elegant text-7xl text-neutral-900 absolute top-2 right-4 group-hover:text-[#ff003c]/20 transition-colors">6</div>
+                    <i data-lucide="eye-off" class="text-neutral-400 w-6 h-6 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2">Privacidad Estricta</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm">Documentos sensibles accesibles únicamente bajo roles aprobados.</p>
+                </div>
+
+                <!-- Pillar 7 (Spans full on desktop to close grid nicely) -->
+                <div class="pillar-card bg-[var(--bg-dark)] p-8 relative overflow-hidden group md:col-span-2 lg:col-span-3">
+                    <div class="font-serif-elegant text-8xl text-neutral-900 absolute top-0 right-8 group-hover:text-[#ff003c]/20 transition-colors">7</div>
+                    <i data-lucide="radar" class="text-[#ff003c] w-8 h-8 mb-6"></i>
+                    <h4 class="font-sans-clean font-bold uppercase tracking-wide text-white mb-2 text-xl">Detección IDS (Monitoreo Activo)</h4>
+                    <p class="font-sans-clean text-neutral-500 text-sm max-w-2xl">Sistemas de alarma algorítmica que escanean, detectan y reportan intentos de ataque a la infraestructura en tiempo real, antes de que el daño ocurra.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CTA & FOOTER -->
+        <footer class="border-t border-neutral-800">
+            <div class="py-24 px-4 text-center">
+                <h2 class="font-serif-elegant text-4xl md:text-5xl text-white mb-8">
+                    Me encanta lo que hago.
+                </h2>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6 font-sans-clean text-xs tracking-widest uppercase">
+                    <a href="https://www.juanmartinbarrientos.com" target="_blank" class="px-8 py-4 bg-white text-black font-bold hover:bg-[#ff003c] hover:text-white transition-colors">
+                        Agendar Diagnóstico
+                    </a>
+                    <button onclick="togglePaymentModal()" class="px-8 py-4 border border-neutral-700 text-neutral-400 hover:text-white hover:border-white transition-colors flex items-center gap-2">
+                        <i data-lucide="credit-card" class="w-4 h-4"></i> Centro de Pagos
+                    </button>
+                </div>
+            </div>
+            
+            <div class="border-t border-neutral-900 py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 font-sans-clean text-[10px] text-neutral-600 uppercase tracking-widest">
+                <p>&copy; 2026 Juan Martin Barrientos.</p>
+                <div class="flex gap-4">
+                    <a href="https://www.linkedin.com/in/juanmartinbarrientos/" class="hover:text-white transition-colors">LinkedIn</a>
+                    <a href="https://www.youtube.com/@JuanMartinBarrientosLorusso" class="hover:text-white transition-colors">YouTube</a>
+                    <a href="mailto:juanmartinbarrientos@me.com" class="hover:text-white transition-colors">Email</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ==================== MODAL DE PAGOS BRUTALISTA ==================== -->
+    <div id="paymentModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="modal-content bg-white w-full max-w-lg border-4 border-black brutalist-shadow relative p-8">
+            
+            <button onclick="togglePaymentModal()" class="absolute top-4 right-4 text-black hover:text-[#ff003c] transition-colors">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+
+            <h3 class="font-serif-elegant text-3xl text-black mb-6">Portal de Pagos</h3>
+            <p class="font-sans-clean text-neutral-600 text-sm mb-8">
+                Copie los identificadores para proceder con la transferencia segura.
+            </p>
+
+            <div class="space-y-6">
                 <!-- PayPal -->
-                <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100 transition hover:border-blue-300">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-blue-900">PayPal</span>
-                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-medium">Internacional</span>
+                <div class="border-2 border-black p-4">
+                    <div class="flex justify-between items-end mb-4">
+                        <div>
+                            <span class="font-sans-clean font-bold text-black uppercase tracking-widest text-xs block mb-1">PayPal</span>
+                            <span class="font-sans-clean text-[10px] text-neutral-500 uppercase tracking-wider">Internacional</span>
                         </div>
-                        <i data-lucide="globe" class="text-blue-300 w-5 h-5"></i>
+                        <i data-lucide="globe" class="text-neutral-300 w-5 h-5"></i>
                     </div>
-                    <div class="flex items-center gap-2 bg-white p-3 rounded-lg border border-blue-100 shadow-sm mt-2">
-                        <code id="paypalEmail" class="text-sm font-mono text-slate-700 flex-grow">juanmartinbarrientos@me.com</code>
-                        <button onclick="copyText('paypalEmail', this)" class="text-blue-600 hover:text-blue-800 text-xs font-bold uppercase px-3 py-1.5 rounded hover:bg-blue-50 transition">
+                    <div class="flex items-center gap-2 bg-neutral-100 p-2 border border-black">
+                        <code id="paypalEmail" class="text-sm font-mono text-black flex-grow">juanmartinbarrientos@me.com</code>
+                        <button onclick="copyText('paypalEmail', this)" class="font-sans-clean font-bold uppercase text-[10px] px-3 py-2 bg-black text-white hover:bg-[#ff003c] transition-colors">
                             Copiar
                         </button>
                     </div>
                 </div>
+
                 <!-- Mercado Pago -->
-                <div class="bg-sky-50/50 rounded-xl p-4 border border-sky-100 transition hover:border-sky-300">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-slate-900">Mercado Pago</span>
-                            <span class="text-xs bg-sky-100 text-sky-600 px-2 py-0.5 rounded-full font-medium">Argentina</span>
+                <div class="border-2 border-black p-4">
+                    <div class="flex justify-between items-end mb-4">
+                        <div>
+                            <span class="font-sans-clean font-bold text-black uppercase tracking-widest text-xs block mb-1">Mercado Pago</span>
+                            <span class="font-sans-clean text-[10px] text-neutral-500 uppercase tracking-wider">Argentina</span>
                         </div>
-                        <i data-lucide="smartphone" class="text-sky-300 w-5 h-5"></i>
+                        <i data-lucide="smartphone" class="text-neutral-300 w-5 h-5"></i>
                     </div>
-                    <div class="flex items-center gap-2 bg-white p-3 rounded-lg border border-sky-100 shadow-sm mt-2">
-                        <span class="text-xs text-slate-400 font-medium mr-1">Alias:</span>
-                        <code id="mpAlias" class="text-sm font-mono text-slate-700 flex-grow">juanmartinbarrientos</code>
-                        <button onclick="copyText('mpAlias', this)" class="text-sky-600 hover:text-sky-800 text-xs font-bold uppercase px-3 py-1.5 rounded hover:bg-sky-50 transition">
+                    <div class="flex items-center gap-2 bg-neutral-100 p-2 border border-black">
+                        <span class="text-xs text-neutral-400 font-mono mr-1">Alias:</span>
+                        <code id="mpAlias" class="text-sm font-mono text-black flex-grow">juanmartinbarrientos</code>
+                        <button onclick="copyText('mpAlias', this)" class="font-sans-clean font-bold uppercase text-[10px] px-3 py-2 bg-black text-white hover:bg-[#ff003c] transition-colors">
                             Copiar
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="bg-slate-50 px-8 py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="lock" class="w-3 h-3"></i> Transacción segura
-                </div>
-                <span>Envíe el comprobante por email</span>
+
+            <div class="mt-8 pt-4 border-t-2 border-black font-sans-clean text-[10px] text-neutral-500 uppercase tracking-widest text-center">
+                Envíe el comprobante tras la operación.
             </div>
         </div>
     </div>
 
-    <!-- Initialize Icons & Scripts -->
+    <!-- ==================== SCRIPTS ==================== -->
     <script>
+        // Inicializar iconos
         lucide.createIcons();
 
-        // Lógica del Modal de Pagos
+        document.addEventListener('DOMContentLoaded', () => {
+            const root = document.documentElement;
+            const loader = document.getElementById('loader');
+            const hero = document.getElementById('hero-dual');
+            let isAnimating = true;
+
+            // --- SECUENCIA DE ENTRADA HERO ---
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    document.body.classList.add('animating');
+
+                    // Flash visual: Abre la máscara por completo
+                    root.style.setProperty('--radius', '150vmax');
+                    
+                    // Colapso dramático hacia el centro
+                    setTimeout(() => {
+                        root.style.setProperty('--x', '50vw');
+                        root.style.setProperty('--y', '50vh');
+                        root.style.setProperty('--radius', '15vw'); // Tamaño de la "linterna"
+                        
+                        setTimeout(() => {
+                            document.body.classList.remove('animating');
+                            isAnimating = false;
+                        }, 1500);
+                    }, 800);
+                }, 700);
+            }, 1000);
+
+            // --- INTERACCIÓN DEL RATÓN (EFECTO LINTERNA) ---
+            window.addEventListener('mousemove', (e) => {
+                if (isAnimating) return;
+                
+                // Solo calcula la posición si estamos en la sección del Hero
+                // Se suma scrollY para que el círculo no se "quede atrás" al hacer scroll
+                const rect = hero.getBoundingClientRect();
+                if(e.clientY < rect.bottom) {
+                    requestAnimationFrame(() => {
+                        root.style.setProperty('--x', `${e.clientX}px`);
+                        // Consideramos el scroll para que la máscara se posicione correctamente en el layer absoluto
+                        root.style.setProperty('--y', `${e.clientY + window.scrollY}px`);
+                    });
+                }
+            });
+
+            // Expandir un poco al hacer clic
+            window.addEventListener('mousedown', () => {
+                if (!isAnimating) root.style.setProperty('--radius', '22vw');
+            });
+            window.addEventListener('mouseup', () => {
+                if (!isAnimating) root.style.setProperty('--radius', '15vw');
+            });
+
+            // Soporte táctil
+            window.addEventListener('touchmove', (e) => {
+                if (isAnimating) return;
+                const rect = hero.getBoundingClientRect();
+                if(e.touches[0].clientY < rect.bottom) {
+                    requestAnimationFrame(() => {
+                        root.style.setProperty('--x', `${e.touches[0].clientX}px`);
+                        root.style.setProperty('--y', `${e.touches[0].clientY + window.scrollY}px`);
+                    });
+                }
+            });
+        });
+
+        // --- LÓGICA DEL MODAL DE PAGOS ---
         function togglePaymentModal() {
             const modal = document.getElementById('paymentModal');
             const body = document.body;
@@ -497,31 +563,16 @@
             }
         }
 
-        // Lógica del Menú Móvil
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            // Toggle visibility classes
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                // Optional: Change icon to 'X'
-                // document.getElementById('mobileMenuIcon').setAttribute('data-lucide', 'x');
-                // lucide.createIcons();
-            } else {
-                menu.classList.add('hidden');
-            }
-        }
-
-        // Cerrar modal al hacer clic fuera del contenido
+        // Cerrar modal al hacer clic fuera
         document.getElementById('paymentModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                togglePaymentModal();
-            }
+            if (e.target === this) togglePaymentModal();
         });
 
-        // Función de Copiado con Feedback visual
+        // --- FUNCIÓN DE COPIADO ---
         function copyText(elementId, btnElement) {
             const textToCopy = document.getElementById(elementId).innerText;
             const originalText = btnElement.innerText;
+            
             const textArea = document.createElement("textarea");
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
@@ -529,14 +580,14 @@
             
             try {
                 document.execCommand('copy');
-                btnElement.innerText = "¡Copiado!";
-                btnElement.classList.remove('text-blue-600', 'text-sky-600');
-                btnElement.classList.add('text-emerald-600');
+                btnElement.innerText = "COPIADO";
+                btnElement.classList.add('bg-[#ff003c]');
+                btnElement.classList.remove('bg-black');
+                
                 setTimeout(() => {
                     btnElement.innerText = originalText;
-                    btnElement.classList.remove('text-emerald-600');
-                    if(elementId === 'paypalEmail') btnElement.classList.add('text-blue-600');
-                    else btnElement.classList.add('text-sky-600');
+                    btnElement.classList.remove('bg-[#ff003c]');
+                    btnElement.classList.add('bg-black');
                 }, 2000);
             } catch (err) {
                 console.error('Error al copiar', err);
