@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte IT - Juan Martin Barrientos</title>
+    
+    <!-- Fuentes modernas 2026: Inter y JetBrains Mono para la terminal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Tailwind CSS (via CDN para un solo archivo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        glass: {
+                            100: 'rgba(255, 255, 255, 0.05)',
+                            200: 'rgba(255, 255, 255, 0.08)',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            highlight: 'rgba(255, 255, 255, 0.15)',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'blob-reverse': 'blob-reverse 12s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'blob-reverse': {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(-30px, 50px) scale(1.2)' },
+                            '66%': { transform: 'translate(20px, -20px) scale(0.8)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos base 2026: Fondos oscuros profundos y scrollbar invisible */
+        body {
+            background-color: #050505;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar futurista */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Bento Box / Glassmorphism */
+        .bento-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 1.5rem;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(6, 182, 212, 0.1); /* Brillo cyan */
+        }
+        
+        .bento-card:hover::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.5), rgba(168, 85, 247, 0.5));
+        }
+
+        /* Elementos de fondo Aurora */
+        .aurora-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #050505;
+        }
+        
+        .blob-1 { position: absolute; top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(60px); }
+        .blob-2 { position: absolute; bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(168,85,247,0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(60px); }
+        .blob-3 { position: absolute; top: 40%; left: 30%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(60px); }
+
+        /* Efecto de ruido sutil para textura 2026 */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Terminal 2026 Style */
+        .cmd-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+        .cmd-line:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        /* Notificación Toast */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: rgba(16, 185, 129, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 99px;
+            padding: 12px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+    <!-- Ruido visual y fondo -->
+    <div class="noise-overlay"></div>
+    <div class="aurora-bg">
+        <div class="blob-1 animate-blob"></div>
+        <div class="blob-2 animate-blob-reverse"></div>
+        <div class="blob-3 animate-blob" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Contenedor Principal Bento Grid -->
+    <main class="max-w-6xl mx-auto p-4 md:p-8 min-h-screen flex flex-col justify-center relative z-10">
+        
+        <!-- Header minimalista -->
+        <header class="flex justify-between items-center mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]"></div>
+                <span class="text-sm font-medium text-gray-400 tracking-wider uppercase">Equipo Optimizado</span>
+            </div>
+            <a href="https://www.juanmartinbarrientos.com" target="_blank" class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-semibold flex items-center">
+                <i class="fas fa-globe mr-2"></i> Mi Sitio Web
+            </a>
+        </header>
+
+        <!-- Grid Bento -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            
+            <!-- TARJETA 1: Perfil y Bienvenida (Colspan 8) -->
+            <div class="bento-card md:col-span-8 p-8 md:p-10 flex flex-col justify-center">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <div class="relative group">
+                        <!-- Avatar -->
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-cyan-500/50 p-1 relative z-10 bg-black">
+                            <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/fotocarnet.png" alt="Juan Martin Barrientos" class="w-full h-full rounded-full object-cover grayscale opacity-90 group-hover:grayscale-0 transition-all duration-500">
+                        </div>
+                        <!-- Glow effect detrás del avatar -->
+                        <div class="absolute inset-0 bg-cyan-500 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
+                    </div>
+                    
+                    <div class="text-center md:text-left mt-4 md:mt-0 flex-1">
+                        <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-2">Hola, soy Juan Martin.</h1>
+                        <h2 class="text-xl md:text-2xl text-cyan-400 font-light mb-4">Tu equipo informático ya está listo.</h2>
+                        <p class="text-gray-400 text-sm md:text-base leading-relaxed">
+                            Dejé esta página configurada en tu navegador para que tengas acceso directo a mis herramientas, comandos útiles de autogestión y vías de contacto en caso de que necesites asistencia en el futuro.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETA 2: Contacto Rápido (Colspan 4) -->
+            <div class="bento-card md:col-span-4 p-8 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                        <i class="fas fa-address-card text-purple-400 mr-3"></i> Contacto Rápido
+                    </h3>
+                    <div class="space-y-4">
+                        <a href="https://wa.me/5491169578193" target="_blank" class="w-full bg-green-500/10 border border-green-500/30 hover:bg-green-500/20 text-green-400 font-semibold py-3 px-4 rounded-xl flex items-center justify-between transition-all group">
+                            <span class="flex items-center"><i class="fab fa-whatsapp text-xl mr-3"></i> WhatsApp</span>
+                            <i class="fas fa-arrow-right opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all"></i>
+                        </a>
+                        
+                        <div class="w-full bg-glass-100 border border-glass-border p-3 rounded-xl flex items-center justify-between group">
+                            <div class="flex items-center overflow-hidden">
+                                <i class="fas fa-envelope text-gray-400 mr-3"></i>
+                                <span class="text-sm text-gray-300 truncate" id="email-text">juanmartinbarrientos@me.com</span>
+                            </div>
+                            <button onclick="copyToClipboard('juanmartinbarrientos@me.com', '¡Email copiado!')" class="text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 p-2 rounded-lg transition-colors">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-white/10 flex justify-center space-x-4">
+                    <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[#0A66C2] hover:bg-white/10 transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/juone0450" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/juanmartinbarrientos/" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[#E1306C] hover:bg-white/10 transition-colors"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- TARJETA 3: Asistencia Remota AnyDesk (Colspan 6) -->
+            <div class="bento-card md:col-span-6 p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/20 blur-3xl rounded-full"></div>
+                
+                <h3 class="text-2xl font-bold text-white mb-2 flex items-center">
+                    <i class="fas fa-headset text-red-400 mr-3"></i> Asistencia Remota
+                </h3>
+                <p class="text-gray-400 text-sm mb-6">Si necesitas ayuda urgente sin que me desplace a tu domicilio, utilizo <strong>AnyDesk</strong> para conectarme a tu equipo de forma segura.</p>
+                
+                <!-- Pasos Stepper 2026 -->
+                <div class="space-y-5 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-glass-border before:to-transparent mb-8">
+                    <!-- Paso 1 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-9 h-9 rounded-full border border-glass-border bg-glass-100 text-cyan-400 font-bold text-sm shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">1</div>
+                        <div class="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-glass-border bg-glass-100">
+                            <h4 class="font-bold text-white text-sm">Descargar</h4>
+                            <p class="text-xs text-gray-400 mt-1">Descarga AnyDesk gratis.</p>
+                        </div>
+                    </div>
+                    <!-- Paso 2 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-9 h-9 rounded-full border border-glass-border bg-glass-100 text-cyan-400 font-bold text-sm shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">2</div>
+                        <div class="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-glass-border bg-glass-100">
+                            <h4 class="font-bold text-white text-sm">Ejecutar</h4>
+                            <p class="text-xs text-gray-400 mt-1">Abre el archivo descargado.</p>
+                        </div>
+                    </div>
+                    <!-- Paso 3 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-9 h-9 rounded-full border border-glass-border bg-glass-100 text-cyan-400 font-bold text-sm shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">3</div>
+                        <div class="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-glass-border bg-glass-100">
+                            <h4 class="font-bold text-white text-sm">Conectar</h4>
+                            <p class="text-xs text-gray-400 mt-1">Envíame el ID de 9 dígitos por WhatsApp.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones Descarga -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" class="flex-1 bg-gradient-to-r from-red-600/80 to-red-500/80 hover:from-red-500 hover:to-red-400 border border-red-500/50 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center transition-all shadow-[0_0_15px_rgba(239,68,68,0.2)] hover:shadow-[0_0_25px_rgba(239,68,68,0.4)]">
+                        <i class="fab fa-windows mr-2 text-xl"></i> Windows
+                    </a>
+                    <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" class="flex-1 bg-glass-200 border border-glass-border hover:bg-glass-highlight text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center transition-all">
+                        <i class="fab fa-apple mr-2 text-xl"></i> macOS
+                    </a>
+                </div>
+            </div>
+
+            <!-- TARJETA 4: Terminal de Comandos (Colspan 6) -->
+            <div class="bento-card md:col-span-6 flex flex-col p-0 overflow-hidden">
+                <!-- Barra titulo terminal -->
+                <div class="bg-black/40 px-4 py-3 border-b border-white/5 flex items-center justify-between backdrop-blur-md">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 font-mono">Autogestión - Windows CMD</span>
+                    <i class="fas fa-terminal text-gray-500 text-sm"></i>
+                </div>
+                
+                <!-- Cuerpo Terminal -->
+                <div class="p-6 bg-[#0a0a0a]/80 flex-1 overflow-y-auto font-mono text-sm">
+                    <p class="text-gray-400 mb-4 text-xs">Abre CMD como administrador y prueba estos comandos si tienes problemas:</p>
+                    
+                    <!-- Comando 1 -->
+                    <div class="cmd-line group">
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] text-gray-500 mb-1 uppercase tracking-wider">Solucionar Internet / DNS</p>
+                            <span class="text-green-400 mr-2">></span><span class="text-cyan-200">ipconfig /flushdns</span>
+                        </div>
+                        <button onclick="copyToClipboard('ipconfig /flushdns', 'Comando copiado')" class="text-gray-600 hover:text-cyan-400 p-2 transition-colors">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <!-- Comando 2 -->
+                    <div class="cmd-line group">
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] text-gray-500 mb-1 uppercase tracking-wider">Renovar IP / Conexión inestable</p>
+                            <span class="text-green-400 mr-2">></span><span class="text-cyan-200">ipconfig /release && ipconfig /renew</span>
+                        </div>
+                        <button onclick="copyToClipboard('ipconfig /release && ipconfig /renew', 'Comando copiado')" class="text-gray-600 hover:text-cyan-400 p-2 transition-colors">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <!-- Comando 3 -->
+                    <div class="cmd-line group">
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] text-gray-500 mb-1 uppercase tracking-wider">Reparar archivos de Windows</p>
+                            <span class="text-green-400 mr-2">></span><span class="text-cyan-200">sfc /scannow</span>
+                        </div>
+                        <button onclick="copyToClipboard('sfc /scannow', 'Comando copiado')" class="text-gray-600 hover:text-cyan-400 p-2 transition-colors">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <!-- Comando 4 -->
+                    <div class="cmd-line group">
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] text-gray-500 mb-1 uppercase tracking-wider">Resetear configuración de red</p>
+                            <span class="text-green-400 mr-2">></span><span class="text-cyan-200">netsh winsock reset</span>
+                        </div>
+                        <button onclick="copyToClipboard('netsh winsock reset', 'Comando copiado')" class="text-gray-600 hover:text-cyan-400 p-2 transition-colors">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETA 5: Medios de Pago (Colspan 12) -->
+            <div class="bento-card md:col-span-12 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-1 flex items-center">
+                            <i class="fas fa-wallet text-yellow-400 mr-3"></i> Opciones de Pago
+                        </h3>
+                        <p class="text-gray-400 text-sm">Acepto múltiples medios para tu comodidad.</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center justify-center md:justify-end gap-4">
+                        <div class="flex items-center gap-2 bg-glass-100 border border-glass-border px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                            <i class="fas fa-money-bill-wave text-green-400"></i> Efectivo
+                        </div>
+                        <div class="flex items-center gap-2 bg-[#009EE3]/10 border border-[#009EE3]/30 px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                            <i class="fas fa-handshake text-[#009EE3]"></i> Mercado Pago
+                        </div>
+                        <div class="flex items-center gap-2 bg-glass-100 border border-glass-border px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                            <i class="fas fa-university text-gray-300"></i> Transferencia Bancaria
+                        </div>
+                        <div class="flex items-center gap-2 bg-orange-500/10 border border-orange-500/30 px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                            <i class="fab fa-bitcoin text-orange-400"></i> Cripto (USDT)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm text-gray-500 pb-4">
+            <p>&copy; 2026 Juan Martin Barrientos - Soporte IT Especializado.</p>
+        </footer>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast"><i class="fas fa-check-circle mr-2"></i> <span id="toast-msg">Copiado</span></div>
+
+    <!-- Script de interacciones -->
+    <script>
+        function copyToClipboard(text, successMsg) {
+            // Crear elemento temporal
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                // Copiar al portapapeles
+                document.execCommand('copy');
+                showToast(successMsg);
+            } catch (err) {
+                console.error('Error al copiar: ', err);
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toast-msg");
+            
+            toastMsg.innerText = message;
+            toast.className = "show";
+            
+            // Ocultar después de 3 segundos
+            setTimeout(function(){ 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
