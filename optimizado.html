@@ -142,10 +142,10 @@
         <!-- Grid Bento -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
             
-            <!-- TARJETA 1: Perfil y Bienvenida (Colspan 8) -->
-            <div class="bento-card md:col-span-8 p-8 md:p-10 flex flex-col justify-center">
+            <!-- TARJETA 1: Perfil y Bienvenida (Colspan 7) -->
+            <div class="bento-card md:col-span-7 p-8 md:p-10 flex flex-col justify-center">
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                    <div class="relative group">
+                    <div class="relative group shrink-0">
                         <!-- Avatar - Sin sombras complejas -->
                         <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-cyan-500/50 p-1 bg-black">
                             <img src="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/fotocarnet.png" alt="Juan Martin Barrientos" class="w-full h-full rounded-full object-cover grayscale opacity-90 group-hover:grayscale-0 transition-all duration-300">
@@ -162,25 +162,25 @@
                 </div>
             </div>
 
-            <!-- TARJETA 2: Contacto Rápido (Colspan 4) -->
-            <div class="bento-card md:col-span-4 p-8 flex flex-col justify-between">
+            <!-- TARJETA 2: Contacto Rápido (Colspan 5) -->
+            <div class="bento-card md:col-span-5 p-8 flex flex-col justify-between">
                 <div>
                     <h3 class="text-xl font-bold text-white mb-6 flex items-center">
                         <i class="fas fa-address-card text-purple-400 mr-3"></i> Contacto Rápido
                     </h3>
                     <div class="space-y-4">
-                        <a href="https://wa.me/5491169578193" target="_blank" class="w-full bg-[#0a2e1d] border border-green-500/30 hover:bg-[#0c3d26] text-green-400 font-semibold py-3 px-4 rounded-xl flex items-center justify-between transition-colors">
-                            <span class="flex items-center"><i class="fab fa-whatsapp text-xl mr-3"></i> WhatsApp</span>
-                            <i class="fas fa-arrow-right text-sm"></i>
+                        <a href="https://wa.me/5491169578193" target="_blank" class="w-full bg-[#0a2e1d] border border-green-500/30 hover:bg-[#0c3d26] text-green-400 font-semibold py-4 px-5 rounded-xl flex items-center justify-between transition-colors">
+                            <span class="flex items-center text-lg"><i class="fab fa-whatsapp text-2xl mr-3"></i> WhatsApp</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                         
-                        <div class="w-full bg-black border border-[#222] p-3 rounded-xl flex items-center justify-between">
-                            <div class="flex items-center overflow-hidden">
-                                <i class="fas fa-envelope text-gray-500 mr-3"></i>
-                                <span class="text-sm text-gray-300 truncate" id="email-text">juanmartinbarrientos@me.com</span>
+                        <div class="w-full bg-[#151515] border border-[#444] p-4 rounded-xl flex items-center justify-between gap-3 shadow-lg">
+                            <div class="flex items-center min-w-0">
+                                <i class="fas fa-envelope text-[#00d8ff] mr-3 text-xl shrink-0"></i>
+                                <span class="text-sm md:text-base text-white break-words font-bold tracking-wide" id="email-text" style="color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.3);">juanmartinbarrientos@me.com</span>
                             </div>
-                            <button onclick="copyToClipboard('juanmartinbarrientos@me.com', '¡Email copiado!')" class="text-gray-400 hover:text-cyan-400 bg-[#111] hover:bg-[#222] p-2 rounded-lg transition-colors border border-transparent hover:border-cyan-500/30">
-                                <i class="far fa-copy"></i>
+                            <button onclick="copyToClipboard('juanmartinbarrientos@me.com', '¡Email copiado!')" class="text-white hover:text-[#00d8ff] bg-[#2a2a2a] hover:bg-[#3a3a3a] p-3 rounded-lg transition-all border border-[#555] hover:border-[#00d8ff] shrink-0" style="color: #ffffff;">
+                                <i class="far fa-copy text-xl"></i>
                             </button>
                         </div>
                     </div>
@@ -316,9 +316,12 @@
                         <div class="flex items-center gap-2 bg-[#111] border border-[#222] px-4 py-2 rounded-lg text-sm font-semibold text-white">
                             <i class="fas fa-money-bill-wave text-green-500"></i> Efectivo
                         </div>
-                        <div class="flex items-center gap-2 bg-[#009EE3]/10 border border-[#009EE3]/30 px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                        <button onclick="copyToClipboard('juanmartinbarrientos', '¡Alias copiado: juanmartinbarrientos!')" class="flex items-center gap-2 bg-[#009EE3]/10 hover:bg-[#009EE3]/20 border border-[#009EE3]/30 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all cursor-pointer group relative overflow-hidden">
                             <i class="fas fa-handshake text-[#009EE3]"></i> Mercado Pago
-                        </div>
+                            <div class="absolute inset-0 flex items-center justify-center bg-[#009EE3] opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-bold w-full h-full">
+                                <i class="far fa-copy mr-1"></i> Copiar Alias
+                            </div>
+                        </button>
                         <div class="flex items-center gap-2 bg-[#111] border border-[#222] px-4 py-2 rounded-lg text-sm font-semibold text-white">
                             <i class="fas fa-university text-gray-400"></i> Transferencia
                         </div>
