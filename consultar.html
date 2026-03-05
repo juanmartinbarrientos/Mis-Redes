@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth bg-black text-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Martin Barrientos | Soluciones IT Premium</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Syne (Ultra Moderna) e Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Configuración Tailwind Avanzada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f0ff',
+                            purple: '#7000ff',
+                            pink: '#ff003c',
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#0f0f13',
+                            700: '#1a1a24',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- ESTILOS BASE Y RENDIMIENTO --- */
+        * {
+            cursor: none; /* Ocultamos cursor nativo para usar el personalizado */
+        }
+        body {
+            background-color: #000;
+            overflow-x: hidden;
+            overscroll-behavior: none;
+        }
+
+        /* --- FONDO DE PLASMA INTERACTIVO --- */
+        #plasma-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: #000;
+        }
+        .plasma-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.6;
+            animation: pulse 10s infinite alternate;
+            transition: top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
+            transform: translate(-50%, -50%);
+            will-change: top, left;
+        }
+        .blob-1 { width: 600px; height: 600px; background: rgba(112, 0, 255, 0.3); }
+        .blob-2 { width: 400px; height: 400px; background: rgba(0, 240, 255, 0.2); }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* --- CURSOR PERSONALIZADO --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        #custom-cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 4px; height: 4px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+        }
+        .cursor-hover #custom-cursor {
+            width: 60px; height: 60px;
+            background-color: rgba(255,255,255,0.1);
+            border-color: transparent;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- TARJETAS DE CRISTAL RASTREADORAS DE RATÓN --- */
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px; /* Grosor del borde */
+            background: linear-gradient(
+                var(--mouse-angle, 0deg), 
+                rgba(255,255,255,0.3) 0%, 
+                rgba(255,255,255,0.0) 40%, 
+                rgba(0, 240, 255, 0.3) 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glass-panel:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        /* --- EFECTO HOLOGRÁFICO GOOGLE CERT --- */
+        .holographic-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .holographic-card::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(
+                45deg, 
+                transparent 40%, 
+                rgba(255,255,255,0.1) 45%, 
+                rgba(255,255,255,0.4) 50%, 
+                rgba(255,255,255,0.1) 55%, 
+                transparent 60%
+            );
+            transform: rotate(25deg) translateY(100%);
+            animation: shimmer 6s infinite;
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0% { transform: rotate(25deg) translateY(100%); }
+            20%, 100% { transform: rotate(25deg) translateY(-100%); }
+        }
+
+        /* --- ANIMACIONES SCROLL REVEAL (GPU Acelerado) --- */
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            filter: blur(10px);
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            will-change: transform, opacity, filter;
+        }
+        .gsap-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* SCROLLBAR INVISIBLE PERO FUNCIONAL */
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body class="text-slate-300 relative">
+
+    <!-- CURSOR PERSONALIZADO -->
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-dot"></div>
+
+    <!-- FONDO DE PLASMA -->
+    <div id="plasma-bg">
+        <div class="plasma-blob blob-1" id="blob1"></div>
+        <div class="plasma-blob blob-2" id="blob2"></div>
+    </div>
+
+    <!-- NAVEGACIÓN (Efecto Glass Avanzado) -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/40 backdrop-blur-2xl border border-white/10 rounded-full px-2 py-2 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+        <div class="pl-6 text-white font-display font-bold text-xl tracking-tight flex items-center gap-2 hoverable">
+            <i data-lucide="cpu" class="text-neon-cyan w-6 h-6"></i>
+            JMB<span class="text-neon-purple">.</span>
+        </div>
+        
+        <div class="hidden md:flex gap-8 text-sm font-medium">
+            <a href="#home" class="hoverable text-white hover:text-neon-cyan transition-colors">Inicio</a>
+            <a href="#expertise" class="hoverable text-slate-400 hover:text-white transition-colors">Expertise</a>
+            <a href="#formacion" class="hoverable text-slate-400 hover:text-white transition-colors">Formación</a>
+            <a href="#trayectoria" class="hoverable text-slate-400 hover:text-white transition-colors">Trayectoria</a>
+        </div>
+        
+        <a href="#asistencia" class="hoverable magnetic-btn relative overflow-hidden group bg-white text-black px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2">
+            <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            <i data-lucide="headset" class="w-4 h-4 relative z-10 group-hover:text-white transition-colors"></i> 
+            <span class="relative z-10 group-hover:text-white transition-colors">Soporte Inmediato</span>
+        </a>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="relative z-10 max-w-7xl mx-auto px-6 pt-48 pb-32 space-y-48">
+        
+        <!-- HERO SECTION (Tipografía Kinética) -->
+        <section id="home" class="min-h-[70vh] flex flex-col justify-center items-center text-center scroll-mt-48">
+            <div class="gsap-reveal mb-8 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-sm font-medium text-slate-300 inline-flex items-center gap-3 hoverable">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-cyan opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-neon-cyan"></span>
+                </span>
+                En línea y disponible para ayudarte
+            </div>
+            
+            <h1 class="gsap-reveal delay-100 font-display text-6xl md:text-[7.5rem] font-bold text-white tracking-tighter leading-[0.9] mb-8 mix-blend-screen">
+                Tu Tecnología <br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple" style="background-size: 200% auto; animation: textGradient 5s linear infinite;">
+                    Sin Complicaciones.
+                </span>
+            </h1>
+            
+            <div class="gsap-reveal delay-200 h-8 mb-16">
+                <p id="typewriter" class="text-xl md:text-2xl text-slate-400 font-light font-display tracking-wide"></p>
+            </div>
+            
+            <div class="gsap-reveal delay-300 flex flex-wrap justify-center gap-6">
+                <a href="#asistencia" class="hoverable magnetic-btn flex items-center gap-3 bg-neon-purple hover:bg-neon-cyan text-white px-10 py-5 rounded-full font-display font-bold text-lg transition-colors duration-500 shadow-[0_0_40px_rgba(112,0,255,0.4)] hover:shadow-[0_0_60px_rgba(0,240,255,0.6)]">
+                    <i data-lucide="zap" class="w-6 h-6 fill-current"></i>
+                    Iniciar Asistencia
+                </a>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hoverable flex items-center gap-3 border border-slate-700 hover:border-white hover:bg-white hover:text-black text-white px-10 py-5 rounded-full font-display font-bold text-lg transition-all duration-300">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                    Conectar
+                </a>
+            </div>
+        </section>
+
+        <!-- EXPERTISE (Glass Panels con rastreo de ratón) -->
+        <section id="expertise" class="space-y-16 scroll-mt-32">
+            <div class="gsap-reveal text-center">
+                <h2 class="font-display text-5xl md:text-6xl font-bold text-white tracking-tight mb-6">Arquitectura & Soporte</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-lg font-light">Transformando incidencias complejas en procesos optimizados con un enfoque centrado en la empatía y la eficiencia técnica.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-10 gsap-reveal delay-100 hoverable interactive-border">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-cyan/20 to-transparent flex items-center justify-center mb-8 border border-neon-cyan/30">
+                        <i data-lucide="server" class="text-neon-cyan w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-4">Administración SysAdmin</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Gestión de Active Directory, Microsoft Exchange, Office 365 y mantenimiento integral de infraestructura corporativa.</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Windows Server</span>
+                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">PowerShell</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-panel p-10 gsap-reveal delay-200 hoverable interactive-border">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-purple/20 to-transparent flex items-center justify-center mb-8 border border-neon-purple/30">
+                        <i data-lucide="headset" class="text-neon-purple w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-4">Field & Remote Support</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Diagnóstico remoto ágil y asistencia presencial de Nivel 1 y 2. Reducción de tiempos de inactividad garantizada.</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Troubleshooting</span>
+                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Ticketing</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 (Impact) -->
+                <div class="glass-panel holographic-card p-10 gsap-reveal delay-300 hoverable flex flex-col justify-center text-center">
+                    <div class="text-7xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 mb-4">
+                        362K
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-3">Impresiones Digitales</h3>
+                    <p class="text-slate-400 text-sm">Compartiendo consejos prácticos sobre seguridad digital, protección de datos y cuidado de equipos en LinkedIn.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- GOOGLE CERTIFICATION (Diseño Premium) -->
+        <section class="gsap-reveal">
+            <div class="glass-panel p-1 hoverable">
+                <div class="bg-dark-900 rounded-[23px] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
+                    <!-- Foco de luz decorativo interno -->
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-neon-cyan/10 blur-[100px] rounded-full"></div>
+                    
+                    <div class="flex-1 relative z-10">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 text-white text-xs font-bold uppercase tracking-widest mb-6 border border-white/10">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i> Certificación Oficial
+                        </div>
+                        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Google IT Support Professional</h2>
+                        <p class="text-slate-400 text-lg mb-8 max-w-2xl font-light leading-relaxed">
+                            Acreditación avanzada en redes, sistemas operativos, seguridad informática y administración de sistemas directamente avalada por Google.
+                        </p>
+                        <a href="https://www.coursera.org/account/accomplishments/professional-cert/6RKLGWZV9GL9" target="_blank" rel="noreferrer" class="inline-flex items-center gap-3 text-neon-cyan font-bold hover:text-white transition-colors group/link text-lg">
+                            Validar Credencial
+                            <i data-lucide="arrow-right" class="w-6 h-6 group-hover/link:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="w-40 h-40 md:w-48 md:h-48 bg-white rounded-full flex items-center justify-center shrink-0 shadow-[0_0_50px_rgba(255,255,255,0.2)] relative z-10">
+                        <div class="flex gap-1 font-display font-black text-4xl tracking-tighter">
+                            <span class="text-[#4285F4]">G</span>
+                            <span class="text-[#EA4335]">o</span>
+                            <span class="text-[#FBBC05]">o</span>
+                            <span class="text-[#4285F4]">g</span>
+                            <span class="text-[#34A853]">l</span>
+                            <span class="text-[#EA4335]">e</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORMACIÓN CONTINUA -->
+        <section id="formacion" class="space-y-16 scroll-mt-32">
+            <div class="flex items-center justify-between gsap-reveal">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">Formación Continua</h2>
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent ml-10 hidden md:block"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Los 4 grupos usan el glass-panel unificado -->
+                
+                <!-- Grupo 1 -->
+                <div class="glass-panel p-8 gsap-reveal delay-100 hoverable interactive-border">
+                    <h3 class="font-display text-2xl font-bold text-neon-cyan mb-8 flex items-center gap-4">
+                        <i data-lucide="server" class="w-7 h-7"></i> Infraestructura & SO
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Admin. de Sistemas e Infraestructura IT</span>
+                            <span class="text-xs font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Coursera</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Sistemas Operativos Avanzados</span>
+                            <span class="text-xs font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Coursera</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Administración de Servidores (Linux)</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Grupo 2 -->
+                <div class="glass-panel p-8 gsap-reveal delay-200 hoverable interactive-border">
+                    <h3 class="font-display text-2xl font-bold text-neon-purple mb-8 flex items-center gap-4">
+                        <i data-lucide="network" class="w-7 h-7"></i> Redes & Soporte
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Curso Avanzado de Redes de Internet</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Servicio al Cliente y Soporte a Usuarios</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Terminal de Comandos</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- (Por brevedad visual en este diseño premium agrupamos los más importantes, pero respetamos la estructura) -->
+                 <!-- Grupo 3 -->
+                 <div class="glass-panel p-8 gsap-reveal delay-100 hoverable interactive-border">
+                    <h3 class="font-display text-2xl font-bold text-neon-pink mb-8 flex items-center gap-4">
+                        <i data-lucide="shield-alert" class="w-7 h-7"></i> Seguridad & IoT
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Seguridad Informática para Empresas</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Introducción al Pentesting</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Grupo 4 -->
+                <div class="glass-panel p-8 gsap-reveal delay-200 hoverable interactive-border">
+                    <h3 class="font-display text-2xl font-bold text-yellow-400 mb-8 flex items-center gap-4">
+                        <i data-lucide="code" class="w-7 h-7"></i> Software & Tools
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Git y GitHub Profesional</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Fundamentos de Ingeniería de Software</span>
+                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRAYECTORIA (Rediseño Estructural) -->
+        <section id="trayectoria" class="space-y-16 scroll-mt-32">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-white tracking-tight gsap-reveal">Experiencia Técnica</h2>
+            
+            <div class="space-y-6">
+                <!-- Job 1 -->
+                <div class="glass-panel p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between gsap-reveal hoverable interactive-border">
+                    <div class="flex-1">
+                        <div class="text-neon-cyan font-mono text-sm mb-3 tracking-widest uppercase">Dic 2023 — Mar 2024</div>
+                        <h3 class="font-display text-3xl font-bold text-white mb-2">Field Support IT</h3>
+                        <div class="text-slate-400 text-lg mb-4">Smartway SRL (Cinemark Hoyts)</div>
+                        <p class="text-slate-500 font-light">Instalación corporativa crítica, Active Directory, Office 365 y configuración de kioscos de autoservicio.</p>
+                    </div>
+                    <div class="shrink-0 px-6 py-3 rounded-full border border-white/10 bg-black/40 text-white text-sm font-medium backdrop-blur-md">
+                        Presencial & Remoto
+                    </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="glass-panel p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between gsap-reveal delay-100 hoverable interactive-border opacity-80 hover:opacity-100">
+                    <div class="flex-1">
+                        <div class="text-slate-500 font-mono text-sm mb-3 tracking-widest uppercase">Jul 2023 — Oct 2023</div>
+                        <h3 class="font-display text-2xl font-bold text-white mb-2">Técnico de Ensamble Notebook del Gobierno</h3>
+                        <div class="text-slate-400 text-lg mb-4">DINATECH</div>
+                        <p class="text-slate-500 font-light">Producción y armado de equipos portátiles. Resolución de incidencias de hardware a gran escala.</p>
+                    </div>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="glass-panel p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between gsap-reveal delay-200 hoverable interactive-border opacity-70 hover:opacity-100">
+                    <div class="flex-1">
+                        <div class="text-slate-500 font-mono text-sm mb-3 tracking-widest uppercase">Feb 2022 — Feb 2023</div>
+                        <h3 class="font-display text-2xl font-bold text-white mb-2">Especialista Field Support</h3>
+                        <div class="text-slate-400 text-lg mb-4">FP Soluciones (Rapipago)</div>
+                        <p class="text-slate-500 font-light">Diagnóstico remoto ágil y ejecución en sitio para terminales comerciales. Puesta en marcha de redes en nuevas sucursales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ZONA DE ASISTENCIA Y CONTACTO FUSIONADA (Estilo Epic Finale) -->
+    <footer id="asistencia" class="relative mt-32 bg-dark-900 border-t border-white/5 pt-32 pb-16 overflow-hidden scroll-mt-32">
+        <!-- Resplandor de fondo inmenso -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-neon-purple/20 via-neon-cyan/10 to-transparent blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 z-10 relative gsap-reveal">
+            
+            <div class="text-center mb-24">
+                <h2 class="font-display text-5xl md:text-7xl font-black text-white mb-8 leading-[1.1]">
+                    ¿Tu tecnología te frena? <br/> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple">Conectemos la solución.</span>
+                </h2>
+                <p class="text-slate-400 text-xl max-w-2xl mx-auto font-light">
+                    Resolución de incidencias al instante. Envía un mensaje directo o inicia un rescate remoto.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch mb-24">
+                <!-- Columna Izquierda: Contacto -->
+                <div class="glass-panel p-12 hoverable flex flex-col justify-center">
+                    <h3 class="font-display text-3xl font-bold text-white mb-4">Contacto Directo</h3>
+                    <p class="text-slate-400 mb-12 font-light text-lg">Escríbeme por WhatsApp o correo detallando el problema de tu equipo.</p>
+                    
+                    <div class="flex flex-col gap-6">
+                        <a href="https://wa.me/5491169578193" target="_blank" rel="noreferrer" class="magnetic-btn flex items-center justify-center lg:justify-start gap-4 bg-white text-black hover:bg-gray-200 px-8 py-6 rounded-2xl font-bold text-lg transition-transform">
+                            <div class="bg-black/10 p-3 rounded-full"><i data-lucide="message-circle" class="w-6 h-6"></i></div>
+                            WhatsApp (+54 9 11 6957-8193)
+                        </a>
+                        <a href="mailto:info@juanmartinbarrientos.com" class="magnetic-btn flex items-center justify-center lg:justify-start gap-4 border border-white/20 text-white hover:bg-white/10 px-8 py-6 rounded-2xl font-bold text-lg transition-all">
+                            <div class="bg-white/10 p-3 rounded-full"><i data-lucide="mail" class="w-6 h-6"></i></div>
+                            info@juanmartinbarrientos.com
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Rescate Remoto -->
+                <div class="glass-panel p-12 hoverable interactive-border">
+                    <h3 class="font-display text-3xl font-bold text-white mb-4 flex items-center gap-4">
+                        <i data-lucide="monitor-check" class="text-neon-cyan w-8 h-8"></i> Rescate Remoto
+                    </h3>
+                    <p class="text-slate-400 mb-10 font-light text-lg">Si necesitas que ingrese a tu PC de forma segura (vía AnyDesk):</p>
+                    
+                    <div class="space-y-6 mb-12">
+                        <div class="flex items-center gap-6 bg-black/30 p-4 rounded-2xl border border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg shrink-0">1</div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Descargar</h4>
+                                <p class="text-slate-400 text-sm">Baja la app con los botones inferiores.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6 bg-black/30 p-4 rounded-2xl border border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg shrink-0">2</div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Ejecutar</h4>
+                                <p class="text-slate-400 text-sm">Abre el archivo (no requiere instalación).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6 bg-black/30 p-4 rounded-2xl border border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-lg shrink-0">3</div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Conectar</h4>
+                                <p class="text-slate-400 text-sm">Pásame tu "Puesto de trabajo" (9 dígitos).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-neon-cyan text-white px-6 py-4 rounded-xl font-bold text-lg transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+                            <i data-lucide="download" class="w-5 h-5"></i> Windows
+                        </a>
+                        <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-6 py-4 rounded-xl font-bold text-lg transition-all border border-white/10">
+                            <i data-lucide="download" class="w-5 h-5"></i> macOS
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="flex items-center justify-between border-t border-white/10 pt-8">
+                <span class="text-sm font-medium text-slate-500">© 2026 Juan Martin Barrientos</span>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noreferrer" class="hoverable text-slate-500 hover:text-white transition-colors">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCIPTS INTERACTIVOS AVANZADOS (Vanilla JS) -->
+    <script>
+        // 1. Inicializar Iconos Lucide
+        lucide.createIcons();
+
+        // 2. FÍSICAS DE CURSOR Y PLASMA (Alta frecuencia / RequestAnimationFrame)
+        const cursor = document.getElementById('custom-cursor');
+        const cursorDot = document.getElementById('custom-cursor-dot');
+        const blob1 = document.getElementById('blob1');
+        const blob2 = document.getElementById('blob2');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cursorX = mouseX;
+        let cursorY = mouseY;
+        let blob1X = mouseX;
+        let blob1Y = mouseY;
+        let blob2X = mouseX;
+        let blob2Y = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Cursor Dot instantáneo
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+            
+            // Efecto Hover State global
+            if (e.target.closest('.hoverable, a, button')) {
+                document.body.classList.add('cursor-hover');
+            } else {
+                document.body.classList.remove('cursor-hover');
+            }
+        });
+
+        // Loop de animación fluida para el cursor exterior y los blobs del fondo
+        function renderLoop() {
+            // Lerp (Linear Interpolation) para suavidad extrema
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = `${cursorX}px`;
+            cursor.style.top = `${cursorY}px`;
+
+            // Movimiento retrasado para el plasma de fondo
+            blob1X += (mouseX - blob1X) * 0.02;
+            blob1Y += (mouseY - blob1Y) * 0.02;
+            blob1.style.left = `${blob1X}px`;
+            blob1.style.top = `${blob1Y}px`;
+
+            blob2X += (mouseX - blob2X) * 0.01;
+            blob2Y += (mouseY - blob2Y) * 0.01;
+            blob2.style.left = `${window.innerWidth - blob2X}px`; // Se mueve en espejo
+            blob2.style.top = `${window.innerHeight - blob2Y}px`;
+
+            requestAnimationFrame(renderLoop);
+        }
+        renderLoop();
+
+        // 3. TARJETAS DE CRISTAL (Luz rastreadora de borde)
+        document.querySelectorAll('.interactive-border').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calcular ángulo desde el centro para el gradiente cónico simulado
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                let angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+                angle = angle + 90; // Ajuste CSS
+                
+                card.style.setProperty('--mouse-angle', `${angle}deg`);
+            });
+        });
+
+        // 4. BOTONES MAGNÉTICOS
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+
+        // 5. SCROLL REVEAL (Intersection Observer acelerado)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gsap-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 6. TYPEWRITER (Terminal moderna)
+        const text = "> Juan Martin Barrientos. SysAdmin, Redes y Hardware Support.";
+        const typeContainer = document.getElementById('typewriter');
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                typeContainer.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            } else {
+                typeContainer.innerHTML += '<span class="animate-pulse text-neon-cyan">_</span>';
+            }
+        }
+        setTimeout(typeWriter, 1200);
+    </script>
+</body>
+</html>
