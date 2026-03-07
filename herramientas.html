@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth bg-black text-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Toolbox | Ayuda de Memoria para Técnicos</title>
+
+    <!-- Recursos de Identidad Visual -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Syne e Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Configuración Tailwind Avanzada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f0ff',
+                            purple: '#7000ff',
+                            pink: '#ff003c',
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#0f0f13',
+                            700: '#1a1a24',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- ESTILOS BASE --- */
+        * { cursor: none; }
+        body { background-color: #000; overflow-x: hidden; overscroll-behavior: none; }
+
+        /* --- FONDO DE PLASMA --- */
+        #plasma-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0; pointer-events: none; overflow: hidden; background: #000;
+        }
+        .plasma-blob {
+            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5;
+            animation: pulse 10s infinite alternate;
+            transition: top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
+            transform: translate(-50%, -50%); will-change: top, left;
+        }
+        .blob-1 { width: 600px; height: 600px; background: rgba(0, 240, 255, 0.2); }
+        .blob-2 { width: 400px; height: 400px; background: rgba(255, 0, 60, 0.15); }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* --- CURSOR PERSONALIZADO --- */
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.5); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        #custom-cursor-dot {
+            position: fixed; top: 0; left: 0; width: 4px; height: 4px;
+            background: white; border-radius: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 10000;
+        }
+        .cursor-hover #custom-cursor {
+            width: 50px; height: 50px; background-color: rgba(255,255,255,0.1);
+            border-color: transparent; backdrop-filter: blur(2px);
+        }
+
+        /* --- TARJETAS DE CRISTAL --- */
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.6);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px; position: relative; isolation: isolate; overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        /* --- ANIMACIONES SCROLL --- */
+        .gsap-reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .gsap-reveal.is-visible { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+
+        /* BLOQUES DE CÓDIGO COPIABLES */
+        .code-block {
+            position: relative;
+            cursor: pointer; /* Override para indicar que es clickeable pero manteniendo el custom cursor */
+        }
+        .code-block::after {
+            content: 'Click para copiar';
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            font-size: 10px; font-family: 'Inter'; background: rgba(0,240,255,0.2);
+            color: #00f0ff; padding: 4px 8px; border-radius: 6px;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .code-block:hover::after { opacity: 1; }
+        .code-block.copied::after {
+            content: '¡Copiado!'; background: rgba(52, 211, 153, 0.2); color: #34d399; opacity: 1;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        @media (hover: none) and (pointer: coarse) {
+            #custom-cursor, #custom-cursor-dot { display: none !important; }
+            * { cursor: auto !important; }
+            .code-block::after { display: none; }
+        }
+    </style>
+</head>
+<body class="text-slate-300 relative">
+
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-dot"></div>
+
+    <div id="plasma-bg">
+        <div class="plasma-blob blob-1" id="blob1"></div>
+        <div class="plasma-blob blob-2" id="blob2"></div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/60 backdrop-blur-2xl border border-white/10 rounded-full px-4 py-3 flex justify-between items-center shadow-lg">
+        <div class="text-white font-display font-bold text-lg tracking-tight flex items-center gap-2 hoverable">
+            <i data-lucide="terminal" class="text-neon-cyan w-5 h-5"></i>
+            JMB<span class="text-neon-pink">.Toolbox</span>
+        </div>
+        
+        <div class="hidden md:flex gap-6 text-sm font-medium">
+            <a href="#instalacion" class="hoverable text-slate-400 hover:text-white transition-colors">Windows Setup</a>
+            <a href="#seguridad" class="hoverable text-slate-400 hover:text-white transition-colors">Accesos</a>
+            <a href="#rendimiento" class="hoverable text-slate-400 hover:text-white transition-colors">Rendimiento</a>
+            <a href="#atajos" class="hoverable text-slate-400 hover:text-white transition-colors">Atajos</a>
+            <a href="#linux" class="hoverable text-slate-400 hover:text-white transition-colors">Linux</a>
+        </div>
+        
+        <a href="https://www.juanmartinbarrientos.com/" class="hoverable text-xs md:text-sm bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full transition-colors flex items-center gap-2">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Volver
+        </a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 pt-36 pb-32 space-y-24">
+        
+        <!-- HEADER -->
+        <section class="text-center gsap-reveal">
+            <h1 class="font-display text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">
+                Tech <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Cheat Sheet</span>
+            </h1>
+            <p class="text-slate-400 text-lg max-w-2xl mx-auto font-light">
+                Comandos rápidos, bypass de restricciones y configuraciones esenciales para resolver problemas técnicos en tiempo récord.
+            </p>
+        </section>
+
+        <!-- CATEGORÍA 1: INSTALACIÓN WINDOWS 11 -->
+        <section id="instalacion" class="space-y-8 scroll-mt-32">
+            <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3 gsap-reveal border-b border-white/10 pb-4">
+                <i data-lucide="monitor-down" class="text-neon-cyan"></i> Instalación de Windows 11
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- BYPASS TPM -->
+                <div class="glass-panel p-6 gsap-reveal hoverable">
+                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-5 h-5 text-neon-pink"></i> Bypass TPM & Secure Boot
+                    </h3>
+                    <p class="text-sm text-slate-400 mb-4">Permite instalar Win11 en hardware no compatible (sin chip TPM 2.0). Ejecutar en la primera pantalla de instalación.</p>
+                    
+                    <ol class="text-sm text-slate-300 space-y-3 mb-4 list-decimal list-inside">
+                        <li>Presiona <kbd class="bg-white/10 px-1.5 py-0.5 rounded text-neon-cyan">Shift + F10</kbd> para abrir CMD.</li>
+                        <li>Escribe <code>regedit</code> y presiona Enter.</li>
+                        <li>Navega a: <span class="text-neon-cyan text-xs">HKEY_LOCAL_MACHINE\SYSTEM\Setup</span></li>
+                        <li>Crea una nueva clave llamada <code>LabConfig</code></li>
+                        <li>Dentro, crea tres valores <strong>DWORD (32-bit)</strong>:</li>
+                    </ol>
+                    <div class="space-y-2">
+                        <div class="code-block bg-black/50 p-3 rounded-xl font-mono text-sm border border-white/5 hoverable text-green-400" onclick="copyToClipboard(this, 'BypassTPMCheck')">
+                            BypassTPMCheck = 1
+                        </div>
+                        <div class="code-block bg-black/50 p-3 rounded-xl font-mono text-sm border border-white/5 hoverable text-green-400" onclick="copyToClipboard(this, 'BypassRAMCheck')">
+                            BypassRAMCheck = 1
+                        </div>
+                        <div class="code-block bg-black/50 p-3 rounded-xl font-mono text-sm border border-white/5 hoverable text-green-400" onclick="copyToClipboard(this, 'BypassSecureBootCheck')">
+                            BypassSecureBootCheck = 1
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BYPASS INTERNET -->
+                <div class="glass-panel p-6 gsap-reveal delay-100 hoverable">
+                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                        <i data-lucide="wifi-off" class="w-5 h-5 text-neon-pink"></i> Bypass "Cuenta de Microsoft" (OOBE)
+                    </h3>
+                    <p class="text-sm text-slate-400 mb-4">Omite la exigencia de conectarse a internet y usar una cuenta Microsoft al configurar el equipo nuevo (Out Of Box Experience).</p>
+                    
+                    <ol class="text-sm text-slate-300 space-y-3 mb-4 list-decimal list-inside">
+                        <li>Llega a la pantalla de "Vamos a conectarte a una red".</li>
+                        <li>Presiona <kbd class="bg-white/10 px-1.5 py-0.5 rounded text-neon-cyan">Shift + F10</kbd> para abrir CMD.</li>
+                        <li>Escribe el siguiente comando y presiona Enter:</li>
+                    </ol>
+                    <div class="code-block bg-black/50 p-4 rounded-xl font-mono text-sm border border-white/5 hoverable text-neon-cyan mb-4" onclick="copyToClipboard(this, 'OOBE\\\\BYPASSNRO')">
+                        OOBE\BYPASSNRO
+                    </div>
+                    <p class="text-sm text-slate-400">El equipo se reiniciará. Vuelve a hacer los pasos y ahora aparecerá el botón <strong>"No tengo internet"</strong> -> "Continuar con la configuración limitada".</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 2: SEGURIDAD Y ACCESOS -->
+        <section id="seguridad" class="space-y-8 scroll-mt-32">
+            <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3 gsap-reveal border-b border-white/10 pb-4">
+                <i data-lucide="shield-alert" class="text-neon-purple"></i> Recuperación y Accesos
+            </h2>
+            
+            <div class="glass-panel p-6 md:p-8 gsap-reveal hoverable">
+                <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i data-lucide="key" class="w-5 h-5 text-yellow-400"></i> Restablecer Contraseña Local (Truco Utilman)
+                </h3>
+                <p class="text-sm text-slate-400 mb-6">Si un usuario olvidó la contraseña local de Windows. Requiere un USB booteable de instalación de Windows.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-white font-semibold mb-3 text-sm">Fase 1: Preparación (Boot USB)</h4>
+                        <ol class="text-sm text-slate-300 space-y-3 list-decimal list-inside mb-4">
+                            <li>Bootea con el USB de instalación de Windows.</li>
+                            <li>En la primer pantalla, presiona <kbd class="bg-white/10 px-1 py-0.5 rounded">Shift + F10</kbd>.</li>
+                            <li>Identifica la letra del disco (usualmente C: o D:). Escribe los comandos:</li>
+                        </ol>
+                        <div class="code-block bg-black/50 p-3 rounded-xl font-mono text-xs border border-white/5 hoverable text-yellow-200" onclick="copyToClipboard(this, 'c:\ncd windows\\system32\nren utilman.exe utilman.exe.bak\ncopy cmd.exe utilman.exe')">
+                            c:<br>
+                            cd windows\system32<br>
+                            ren utilman.exe utilman.exe.bak<br>
+                            copy cmd.exe utilman.exe
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">Cierra todo y reinicia la PC normalmente.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-semibold mb-3 text-sm">Fase 2: Ejecución de NET USER</h4>
+                        <ol class="text-sm text-slate-300 space-y-3 list-decimal list-inside mb-4">
+                            <li>En la pantalla de bloqueo, haz clic en el icono de <strong>Accesibilidad</strong> (esquina inferior derecha).</li>
+                            <li>¡Se abrirá el CMD con privilegios SYSTEM!</li>
+                            <li>Escribe el comando para cambiar la clave:</li>
+                        </ol>
+                        <div class="code-block bg-black/50 p-3 rounded-xl font-mono text-xs border border-white/5 hoverable text-yellow-200" onclick="copyToClipboard(this, 'net user [nombre_usuario] [nueva_contraseña]')">
+                            net user [nombre_usuario] [nueva_contraseña]
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">Ejemplo: <code>net user Administrador 1234</code>. Luego inicia sesión. <br><span class="text-red-400">No olvides revertir el cambio de utilman.exe luego.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 3: MANTENIMIENTO Y RENDIMIENTO -->
+        <section id="rendimiento" class="space-y-8 scroll-mt-32">
+            <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3 gsap-reveal border-b border-white/10 pb-4">
+                <i data-lucide="gauge" class="text-green-400"></i> Rendimiento y Mantenimiento
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- SENSOR DE ALMACENAMIENTO -->
+                <div class="glass-panel p-6 gsap-reveal hoverable">
+                    <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                        <i data-lucide="hard-drive" class="w-5 h-5 text-green-400"></i> Sensor de Almacenamiento
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-4">Automatiza la limpieza de temporales y papelera sin instalar software de terceros (como CCleaner).</p>
+                    <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+                        <li>Ir a <strong>Configuración > Sistema > Almacenamiento</strong>.</li>
+                        <li>Activar "Sensor de almacenamiento".</li>
+                        <li>Clic en configurar:
+                            <ul class="pl-5 mt-1 text-xs text-slate-400 space-y-1">
+                                <li>- Ejecutar: Cada semana.</li>
+                                <li>- Papelera: Borrar si tienen > 14 días.</li>
+                                <li>- Descargas: Borrar si no se abren en 30 días (opcional).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- SFC & DISM -->
+                <div class="glass-panel p-6 gsap-reveal delay-100 hoverable">
+                    <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                        <i data-lucide="wrench" class="w-5 h-5 text-green-400"></i> Reparación de Imagen (CMD Admin)
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-3">Si Windows falla, hay pantallazos azules o errores de sistema, corre estos comandos en orden.</p>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">1. Chequea y repara archivos de sistema</span>
+                            <div class="code-block bg-black/50 p-2 mt-1 rounded text-xs font-mono border border-white/5 text-slate-200" onclick="copyToClipboard(this, 'sfc /scannow')">
+                                sfc /scannow
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">2. Repara la imagen de Windows usando WinUpdate</span>
+                            <div class="code-block bg-black/50 p-2 mt-1 rounded text-xs font-mono border border-white/5 text-slate-200" onclick="copyToClipboard(this, 'DISM /Online /Cleanup-Image /RestoreHealth')">
+                                DISM /Online /Cleanup-Image /RestoreHealth
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAST STARTUP & RED -->
+                <div class="glass-panel p-6 gsap-reveal delay-200 hoverable flex flex-col gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                            <i data-lucide="power" class="w-5 h-5 text-red-400"></i> Apagar "Fast Startup"
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-2">Soluciona problemas de discos que no se montan bien en dual-boot o cuelgues al iniciar.</p>
+                        <p class="text-xs text-slate-300">Panel de Control > Opciones de energía > Elegir comportamiento de botones > Cambiar configuración no disponible > <strong>Desmarcar "Activar inicio rápido"</strong>.</p>
+                    </div>
+                    <div class="border-t border-white/10 pt-4">
+                        <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                            <i data-lucide="network" class="w-5 h-5 text-blue-400"></i> Resetear Red
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-2">Soluciona el típico "Conectado, sin internet".</p>
+                        <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-slate-200" onclick="copyToClipboard(this, 'ipconfig /flushdns\nnetsh winsock reset')">
+                            ipconfig /flushdns<br>
+                            netsh winsock reset
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DNS RÁPIDO Y ADAPTADORES -->
+                <div class="glass-panel p-6 gsap-reveal hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="globe" class="w-5 h-5 text-blue-400"></i> DNS & Adaptadores
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">El atajo definitivo para abrir "Conexiones de red" sin navegar por 50 menús del nuevo Windows.</p>
+                        
+                        <div class="flex items-center gap-2 mb-2">
+                            <kbd class="bg-black/50 px-2 py-1.5 rounded text-white font-mono text-xs border border-white/10">Win + R</kbd>
+                            <span class="text-[10px] text-slate-500">➜</span>
+                            <div class="code-block bg-black/50 p-1.5 rounded text-xs font-mono border border-white/5 text-blue-300 inline-block px-3" onclick="copyToClipboard(this, 'ncpa.cpl')">ncpa.cpl</div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mb-4">Click derecho en el adaptador > Propiedades > IPv4.</p>
+                    </div>
+
+                    <div class="border-t border-white/10 pt-3">
+                        <p class="text-[11px] font-bold text-white mb-2">DNS Recomendados:</p>
+                        <div class="grid grid-cols-2 gap-2 text-[10px] font-mono text-center">
+                            <div class="code-block bg-black/40 border border-white/5 p-2 rounded relative group hoverable" onclick="copyToClipboard(this, '1.1.1.1\n1.0.0.1')">
+                                <span class="text-orange-400 font-bold block mb-1">Cloudflare</span>
+                                <span class="text-slate-300">1.1.1.1</span><br>
+                                <span class="text-slate-300">1.0.0.1</span>
+                            </div>
+                            <div class="code-block bg-black/40 border border-white/5 p-2 rounded relative group hoverable" onclick="copyToClipboard(this, '8.8.8.8\n8.8.4.4')">
+                                <span class="text-green-400 font-bold block mb-1">Google</span>
+                                <span class="text-slate-300">8.8.8.8</span><br>
+                                <span class="text-slate-300">8.8.4.4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOD MODE -->
+                <div class="glass-panel p-6 gsap-reveal delay-100 hoverable md:col-span-2 lg:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                        <i data-lucide="settings" class="w-5 h-5 text-purple-400"></i> "Modo Dios" (God Mode)
+                    </h3>
+                    <p class="text-sm text-slate-400 mb-3">Crea una carpeta que unifica TODAS las configuraciones del Panel de Control de Windows en un solo lugar. Ideal para llevar en un pendrive o dejar oculta en tu usuario admin.</p>
+                    <ol class="text-sm text-slate-300 space-y-2 list-decimal list-inside mb-3">
+                        <li>Crea una nueva carpeta en el Escritorio.</li>
+                        <li>Renómbrala pegando exactamente el siguiente código:</li>
+                    </ol>
+                    <div class="code-block bg-black/50 p-3 rounded-xl font-mono text-sm border border-white/5 hoverable text-purple-300 inline-block w-full text-center" onclick="copyToClipboard(this, 'GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}')">
+                        GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}
+                    </div>
+                </div>
+
+                <!-- 1. WINGET UPGRADE (NUEVO) -->
+                <div class="glass-panel p-6 gsap-reveal hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="zap" class="w-5 h-5 text-yellow-400"></i> Actualizar Todo (Winget)
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">La navaja suiza moderna. Actualiza todos los programas de terceros del equipo de un solo golpe. Ideal para solucionar bugs y lentitud por software obsoleto.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-yellow-300 text-center mt-auto" onclick="copyToClipboard(this, 'winget upgrade --all')">winget upgrade --all</div>
+                </div>
+
+                <!-- 2. WINSXS CLEANUP (NUEVO) -->
+                <div class="glass-panel p-6 gsap-reveal delay-100 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="trash-2" class="w-5 h-5 text-neon-pink"></i> Limpieza WinSxS (GBs extra)
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">¿Disco C: lleno? Esto purga las copias de seguridad de Windows Update incrustadas profundamente en el sistema. Recupera GBs que el limpiador normal ignora.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-[10px] font-mono border border-white/5 text-neon-pink text-center mt-auto" onclick="copyToClipboard(this, 'DISM /Online /Cleanup-Image /StartComponentCleanup /ResetBase')">DISM /Online /Cleanup-Image<br>/StartComponentCleanup /ResetBase</div>
+                </div>
+
+                <!-- 3. APPX REPAIR (NUEVO) -->
+                <div class="glass-panel p-6 gsap-reveal delay-200 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="layout-template" class="w-5 h-5 text-neon-purple"></i> Reparar UI (PowerShell)
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">El rescate absoluto cuando el Menú Inicio no abre, la barra se congela o las apps nativas crashean sin motivo (Requiere abrir PowerShell como Admin).</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-[9px] font-mono border border-white/5 text-neon-purple leading-tight mt-auto break-all" onclick="copyToClipboard(this, 'Get-AppxPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register &quot;$($_.InstallLocation)\\\\AppXManifest.xml&quot;}')">Get-AppxPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 4: ATAJOS DE TECLADO PRO -->
+        <section id="atajos" class="space-y-8 scroll-mt-32">
+            <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3 gsap-reveal border-b border-white/10 pb-4">
+                <i data-lucide="keyboard" class="text-neon-pink"></i> Atajos de Teclado Pro
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1: Gestión de Ventanas -->
+                <div class="glass-panel p-6 gsap-reveal hoverable">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-5 h-5 text-neon-cyan"></i> Gestión de Ventanas
+                    </h3>
+                    <div class="mb-3">
+                        <kbd class="bg-black/50 px-2.5 py-1.5 rounded-md text-neon-cyan font-mono text-sm border border-white/10 shadow-inner">Win + Z</kbd>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">Olvídate de arrastrar ventanas. Abre los Snap Layouts y permite asignar ventanas a zonas específicas usando números. Vital para manejar múltiples sesiones RDP o logs en monitores ultrawide.</p>
+                </div>
+
+                <!-- 2: Copiar Ruta -->
+                <div class="glass-panel p-6 gsap-reveal delay-100 hoverable">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="copy" class="w-5 h-5 text-neon-purple"></i> Copiar Ruta de Acceso
+                    </h3>
+                    <div class="mb-3">
+                        <kbd class="bg-black/50 px-2.5 py-1.5 rounded-md text-neon-purple font-mono text-sm border border-white/10 shadow-inner">Ctrl + Shift + C</kbd>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">En el Explorador de archivos, copia la ruta completa entre comillas al portapapeles.<br><br><span class="text-neon-purple/90 font-medium">💡 Uso:</span> Pegar directo en scripts de PowerShell o configs JSON sin añadir comillas manualmente.</p>
+                </div>
+
+                <!-- 3: Salvavidas Gráfico -->
+                <div class="glass-panel p-6 gsap-reveal delay-200 hoverable">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="monitor-x" class="w-5 h-5 text-red-400"></i> Salvavidas Gráfico
+                    </h3>
+                    <div class="mb-3">
+                        <kbd class="bg-black/50 px-2.5 py-1.5 rounded-md text-red-400 font-mono text-sm border border-white/10 shadow-inner">Win + Ctrl + Shift + B</kbd>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">¿Pantalla negra o driver congelado en sesión remota? Reinicia el controlador gráfico sin cerrar tus aplicaciones. Escucharás un "beep" y la pantalla parpadeará. Magia pura.</p>
+                </div>
+
+                <!-- 4: Clipboard con Memoria -->
+                <div class="glass-panel p-6 gsap-reveal hoverable">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 text-yellow-400"></i> Clipboard Histórico
+                    </h3>
+                    <div class="mb-3">
+                        <kbd class="bg-black/50 px-2.5 py-1.5 rounded-md text-yellow-400 font-mono text-sm border border-white/10 shadow-inner">Win + V</kbd>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">Activa el historial del portapapeles. No solo guarda lo último copiado; puedes anclar (pin) elementos.<br><br><span class="text-yellow-400/90 font-medium">💡 Uso:</span> Deja ancladas esas IPs de servidores o comandos CLI que usas todo el día.</p>
+                </div>
+
+                <!-- 5: Multitarea Terminal -->
+                <div class="glass-panel p-6 gsap-reveal delay-100 hoverable">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="split-square-horizontal" class="w-5 h-5 text-green-400"></i> Multitarea Terminal
+                    </h3>
+                    <div class="mb-3">
+                        <kbd class="bg-black/50 px-2.5 py-1.5 rounded-md text-green-400 font-mono text-sm border border-white/10 shadow-inner">Alt + Shift + D</kbd>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">Dentro de Windows Terminal, divide el panel actual. Puedes tener tu servidor corriendo a la izquierda y un <code class="text-green-400 bg-green-400/10 px-1 rounded">tail -f</code> del log a la derecha en la misma ventana.</p>
+                </div>
+
+                <!-- BONUS: Terminal Admin -->
+                <div class="glass-panel p-6 gsap-reveal delay-200 hoverable md:col-span-2 lg:col-span-1 border border-neon-cyan/30 shadow-[0_0_20px_rgba(0,240,255,0.05)] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-neon-cyan text-black text-[10px] font-bold px-3 py-1 rounded-bl-xl z-10">BONUS</div>
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="terminal-square" class="w-5 h-5 text-neon-cyan"></i> CMD Admin Ninja
+                    </h3>
+                    <p class="text-xs text-slate-300 mb-4 leading-relaxed">El combo más rápido para abrir Terminal como Administrador. Olvídate del ratón.</p>
+                    <div class="flex flex-wrap items-center gap-2 mb-4">
+                        <kbd class="bg-black/50 px-2 py-1.5 rounded-md text-white font-mono text-sm border border-white/10">Win + X</kbd>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">suelta, y presiona</span>
+                        <kbd class="bg-neon-cyan/10 px-3 py-1.5 rounded-md text-neon-cyan font-mono text-sm border border-neon-cyan/30 shadow-[0_0_10px_rgba(0,240,255,0.2)]">A</kbd>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">En menos de 1 segundo tienes el prompt del UAC. Una vez que tu memoria muscular lo aprende, no hay vuelta atrás. ⏳</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 5: COMANDOS LINUX ESENCIALES -->
+        <section id="linux" class="space-y-8 scroll-mt-32">
+            <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3 gsap-reveal border-b border-white/10 pb-4">
+                <i data-lucide="server" class="text-orange-400"></i> Comandos Linux Pro
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 1: ncdu -->
+                <div class="glass-panel p-5 gsap-reveal hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="w-4 h-4 text-orange-400"></i> ncdu
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">Olvida el <code>du -h</code>. Analiza qué carpeta se comió tu disco duro de forma visual e interactiva.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-orange-300 text-center" onclick="copyToClipboard(this, 'ncdu')">ncdu</div>
+                </div>
+
+                <!-- 2: tldr -->
+                <div class="glass-panel p-5 gsap-reveal delay-100 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-4 h-4 text-blue-400"></i> tldr
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">¿Te da pereza leer el <code>man</code>? Muestra solo los ejemplos prácticos que realmente usas.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-blue-300 text-center" onclick="copyToClipboard(this, 'tldr [comando]')">tldr [comando]</div>
+                </div>
+
+                <!-- 3: lsof -->
+                <div class="glass-panel p-5 gsap-reveal delay-200 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="lock" class="w-4 h-4 text-red-400"></i> lsof
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">"File system busy"? Encuentra qué proceso tiene secuestrado tu archivo. Ideal para debug.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-red-300 text-center" onclick="copyToClipboard(this, 'lsof [archivo]')">lsof [archivo]</div>
+                </div>
+
+                <!-- 4: pgrep / pkill -->
+                <div class="glass-panel p-5 gsap-reveal delay-300 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="crosshair" class="w-4 h-4 text-neon-purple"></i> pgrep / pkill
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">Busca o mata procesos por nombre directamente. Adiós a buscar el PID manualmente con <code>ps aux</code>.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-neon-purple text-center" onclick="copyToClipboard(this, 'pkill [nombre]')">pkill [nombre]</div>
+                </div>
+
+                <!-- 5: rsync -->
+                <div class="glass-panel p-5 gsap-reveal hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="refresh-cw" class="w-4 h-4 text-green-400"></i> rsync
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">El rey de las copias. Sincroniza archivos local o remotamente con precisión quirúrgica.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-green-300 text-center" onclick="copyToClipboard(this, 'rsync -avz [origen] [destino]')">rsync -avz [orig] [dest]</div>
+                </div>
+
+                <!-- 6: curl ifconfig.me -->
+                <div class="glass-panel p-5 gsap-reveal delay-100 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="globe" class="w-4 h-4 text-neon-cyan"></i> IP Pública
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">Tu IP pública al instante, directo en terminal, sin abrir navegadores pesados ni webs de terceros.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-neon-cyan text-center" onclick="copyToClipboard(this, 'curl ifconfig.me')">curl ifconfig.me</div>
+                </div>
+
+                <!-- 7: tree -->
+                <div class="glass-panel p-5 gsap-reveal delay-200 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="folder-tree" class="w-4 h-4 text-yellow-400"></i> tree
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">Visualiza la estructura de tus directorios como un árbol. Perfecto para documentar proyectos.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-yellow-300 text-center" onclick="copyToClipboard(this, 'tree -L 2')">tree -L 2</div>
+                </div>
+
+                <!-- 8: dstat -->
+                <div class="glass-panel p-5 gsap-reveal delay-300 hoverable flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="activity" class="w-4 h-4 text-neon-pink"></i> dstat
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-3">Estadísticas en tiempo real de CPU, RAM, disco y red. Todo consolidado en una sola pantalla visualmente amigable.</p>
+                    </div>
+                    <div class="code-block bg-black/50 p-2 rounded text-xs font-mono border border-white/5 text-neon-pink text-center" onclick="copyToClipboard(this, 'dstat')">dstat</div>
+                </div>
+
+                <!-- BONUS TRACKS -->
+                <div class="glass-panel p-6 gsap-reveal hoverable md:col-span-2 lg:col-span-4 border border-orange-400/30 shadow-[0_0_20px_rgba(251,146,60,0.05)] relative overflow-hidden flex flex-col md:flex-row gap-6">
+                    <div class="absolute top-0 left-0 bg-orange-400 text-black text-[10px] font-bold px-3 py-1 rounded-br-xl z-10">🔥 BONUS TRACK</div>
+                    
+                    <div class="flex-1 mt-4 md:mt-0 border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                                <i data-lucide="edit-3" class="w-5 h-5 text-orange-400"></i> Corrector 'fc'
+                            </h3>
+                            <p class="text-xs text-slate-300 mb-4 leading-relaxed">¿Te equivocaste en un comando larguísimo? Escribe <code class="text-orange-300 bg-orange-400/10 px-1 rounded">fc</code>, edítalo en tu editor favorito (nano/vim) y al guardar se ejecuta corregido automáticamente. Magia pura.</p>
+                        </div>
+                        <div class="code-block bg-black/50 p-2 rounded text-sm font-mono border border-white/5 text-orange-300 inline-block px-4 text-center" onclick="copyToClipboard(this, 'fc')">fc</div>
+                    </div>
+
+                    <div class="flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                                <i data-lucide="rocket" class="w-5 h-5 text-orange-400"></i> autojump (j)
+                            </h3>
+                            <p class="text-xs text-slate-300 mb-4 leading-relaxed">Aprende tus rutas más usadas. En vez de escribir largas rutas como <code>cd /var/www/html/proyecto_largo</code>, simplemente usas el comando <code>j proyecto</code> y ¡bum! Estás ahí al instante.</p>
+                        </div>
+                        <div class="code-block bg-black/50 p-2 rounded text-sm font-mono border border-white/5 text-orange-300 inline-block px-4 text-center" onclick="copyToClipboard(this, 'j proyecto')">j proyecto</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER SIMPLE -->
+    <footer class="border-t border-white/10 py-8 text-center text-slate-500 text-sm">
+        <p>Juan Martin Barrientos - IT Toolbox Internal Reference</p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Inicializar iconos
+        lucide.createIcons();
+
+        // Cursor interactivo
+        const cursor = document.getElementById('custom-cursor');
+        const cursorDot = document.getElementById('custom-cursor-dot');
+        const blob1 = document.getElementById('blob1');
+        const blob2 = document.getElementById('blob2');
+        
+        let mouseX = window.innerWidth / 2; let mouseY = window.innerHeight / 2;
+        let cursorX = mouseX; let cursorY = mouseY;
+        let blob1X = mouseX; let blob1Y = mouseY;
+        let blob2X = mouseX; let blob2Y = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`;
+            if (e.target.closest('.hoverable, a, button, .code-block')) {
+                document.body.classList.add('cursor-hover');
+            } else {
+                document.body.classList.remove('cursor-hover');
+            }
+        });
+
+        function renderLoop() {
+            cursorX += (mouseX - cursorX) * 0.2; cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = `${cursorX}px`; cursor.style.top = `${cursorY}px`;
+            blob1X += (mouseX - blob1X) * 0.03; blob1Y += (mouseY - blob1Y) * 0.03;
+            blob1.style.left = `${blob1X}px`; blob1.style.top = `${blob1Y}px`;
+            blob2X += (mouseX - blob2X) * 0.02; blob2Y += (mouseY - blob2Y) * 0.02;
+            blob2.style.left = `${window.innerWidth - blob2X}px`; blob2.style.top = `${window.innerHeight - blob2Y}px`;
+            requestAnimationFrame(renderLoop);
+        }
+        renderLoop();
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.gsap-reveal').forEach(el => observer.observe(el));
+
+        // Función para copiar comandos
+        function copyToClipboard(element, text) {
+            // Reemplazar saltos de linea \n literales a saltos reales si es necesario
+            const textToCopy = text.replace(/\\n/g, '\n'); 
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+                // Fallback para navegadores antiguos
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    element.classList.add('copied');
+                    setTimeout(() => element.classList.remove('copied'), 2000);
+                } catch (err) {}
+                document.body.removeChild(textArea);
+            });
+        }
+    </script>
+</body>
+</html>
