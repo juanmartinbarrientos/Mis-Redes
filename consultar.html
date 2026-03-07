@@ -188,6 +188,12 @@
 
         /* SCROLLBAR INVISIBLE PERO FUNCIONAL */
         ::-webkit-scrollbar { width: 0px; }
+
+        /* --- OPTIMIZACIÓN MOBILE (Ocultar cursor en táctil) --- */
+        @media (hover: none) and (pointer: coarse) {
+            #custom-cursor, #custom-cursor-dot { display: none !important; }
+            * { cursor: auto !important; }
+        }
     </style>
 </head>
 <body class="text-slate-300 relative">
@@ -204,8 +210,8 @@
 
     <!-- NAVEGACIÓN (Efecto Glass Avanzado) -->
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/40 backdrop-blur-2xl border border-white/10 rounded-full px-2 py-2 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
-        <div class="pl-6 text-white font-display font-bold text-xl tracking-tight flex items-center gap-2 hoverable">
-            <i data-lucide="cpu" class="text-neon-cyan w-6 h-6"></i>
+        <div class="pl-4 md:pl-6 text-white font-display font-bold text-lg md:text-xl tracking-tight flex items-center gap-2 hoverable">
+            <i data-lucide="cpu" class="text-neon-cyan w-5 h-5 md:w-6 md:h-6"></i>
             JMB<span class="text-neon-purple">.</span>
         </div>
         
@@ -216,90 +222,91 @@
             <a href="#trayectoria" class="hoverable text-slate-400 hover:text-white transition-colors">Trayectoria</a>
         </div>
         
-        <a href="#asistencia" class="hoverable magnetic-btn relative overflow-hidden group bg-white text-black px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2">
+        <a href="#asistencia" class="hoverable magnetic-btn relative overflow-hidden group bg-white text-black px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-bold flex items-center gap-1 md:gap-2">
             <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             <i data-lucide="headset" class="w-4 h-4 relative z-10 group-hover:text-white transition-colors"></i> 
-            <span class="relative z-10 group-hover:text-white transition-colors">Soporte Inmediato</span>
+            <span class="relative z-10 group-hover:text-white transition-colors hidden sm:inline">Soporte Inmediato</span>
+            <span class="relative z-10 group-hover:text-white transition-colors sm:hidden">Soporte</span>
         </a>
     </nav>
 
     <!-- CONTENEDOR PRINCIPAL -->
-    <main class="relative z-10 max-w-7xl mx-auto px-6 pt-48 pb-32 space-y-48">
+    <main class="relative z-10 max-w-7xl mx-auto px-4 md:px-6 pt-36 md:pt-48 pb-32 space-y-32 md:space-y-48">
         
         <!-- HERO SECTION (Tipografía Kinética) -->
         <section id="home" class="min-h-[70vh] flex flex-col justify-center items-center text-center scroll-mt-48">
-            <div class="gsap-reveal mb-8 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-sm font-medium text-slate-300 inline-flex items-center gap-3 hoverable">
-                <span class="relative flex h-3 w-3">
+            <div class="gsap-reveal mb-8 px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-xs md:text-sm font-medium text-slate-300 inline-flex items-center gap-3 hoverable">
+                <span class="relative flex h-2 w-2 md:h-3 md:w-3">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-cyan opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3 bg-neon-cyan"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-neon-cyan"></span>
                 </span>
                 En línea y disponible para ayudarte
             </div>
             
-            <h1 class="gsap-reveal delay-100 font-display text-6xl md:text-[7.5rem] font-bold text-white tracking-tighter leading-[0.9] mb-8 mix-blend-screen">
+            <h1 class="gsap-reveal delay-100 font-display text-5xl sm:text-6xl md:text-[7.5rem] font-bold text-white tracking-tighter leading-[1] md:leading-[0.9] mb-6 md:mb-8 mix-blend-screen">
                 Tu Tecnología <br />
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple" style="background-size: 200% auto; animation: textGradient 5s linear infinite;">
                     Sin Complicaciones.
                 </span>
             </h1>
             
-            <div class="gsap-reveal delay-200 h-8 mb-16">
-                <p id="typewriter" class="text-xl md:text-2xl text-slate-400 font-light font-display tracking-wide"></p>
+            <div class="gsap-reveal delay-200 h-12 md:h-8 mb-12 md:mb-16">
+                <p id="typewriter" class="text-base sm:text-xl md:text-2xl text-slate-400 font-light font-display tracking-wide"></p>
             </div>
             
-            <div class="gsap-reveal delay-300 flex flex-wrap justify-center gap-6">
-                <a href="#asistencia" class="hoverable magnetic-btn flex items-center gap-3 bg-neon-purple hover:bg-neon-cyan text-white px-10 py-5 rounded-full font-display font-bold text-lg transition-colors duration-500 shadow-[0_0_40px_rgba(112,0,255,0.4)] hover:shadow-[0_0_60px_rgba(0,240,255,0.6)]">
-                    <i data-lucide="zap" class="w-6 h-6 fill-current"></i>
+            <div class="gsap-reveal delay-300 flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-6 w-full sm:w-auto px-4 sm:px-0">
+                <a href="#asistencia" class="hoverable magnetic-btn flex justify-center items-center gap-3 bg-neon-purple hover:bg-neon-cyan text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-display font-bold text-base md:text-lg transition-colors duration-500 shadow-[0_0_40px_rgba(112,0,255,0.4)] hover:shadow-[0_0_60px_rgba(0,240,255,0.6)] w-full sm:w-auto">
+                    <i data-lucide="zap" class="w-5 h-5 md:w-6 md:h-6 fill-current"></i>
                     Iniciar Asistencia
                 </a>
-                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hoverable flex items-center gap-3 border border-slate-700 hover:border-white hover:bg-white hover:text-black text-white px-10 py-5 rounded-full font-display font-bold text-lg transition-all duration-300">
-                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hoverable flex justify-center items-center gap-3 border border-slate-700 hover:border-white hover:bg-white hover:text-black text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-display font-bold text-base md:text-lg transition-all duration-300 w-full sm:w-auto">
+                    <i data-lucide="linkedin" class="w-5 h-5 md:w-6 md:h-6"></i>
                     Conectar
                 </a>
             </div>
         </section>
 
         <!-- EXPERTISE (Glass Panels con rastreo de ratón) -->
-        <section id="expertise" class="space-y-16 scroll-mt-32">
-            <div class="gsap-reveal text-center">
-                <h2 class="font-display text-5xl md:text-6xl font-bold text-white tracking-tight mb-6">Arquitectura & Soporte</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto text-lg font-light">Transformando incidencias complejas en procesos optimizados con un enfoque centrado en la empatía y la eficiencia técnica.</p>
+        <section id="expertise" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <div class="gsap-reveal text-center px-4">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white tracking-tight mb-4 md:mb-6">Arquitectura & Soporte</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg font-light">Transformando incidencias complejas en procesos optimizados con un enfoque centrado en la empatía y la eficiencia técnica.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 <!-- Card 1 -->
-                <div class="glass-panel p-10 gsap-reveal delay-100 hoverable interactive-border">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-cyan/20 to-transparent flex items-center justify-center mb-8 border border-neon-cyan/30">
-                        <i data-lucide="server" class="text-neon-cyan w-8 h-8"></i>
+                <div class="glass-panel p-6 md:p-10 gsap-reveal delay-100 hoverable interactive-border">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-neon-cyan/20 to-transparent flex items-center justify-center mb-6 md:mb-8 border border-neon-cyan/30">
+                        <i data-lucide="server" class="text-neon-cyan w-6 h-6 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="font-display text-2xl font-bold text-white mb-4">Administración SysAdmin</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Gestión de Active Directory, Microsoft Exchange, Office 365 y mantenimiento integral de infraestructura corporativa.</p>
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Administración SysAdmin</h3>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">Gestión de Active Directory, Microsoft Exchange, Office 365 y mantenimiento integral de infraestructura corporativa.</p>
                     <div class="flex gap-2 flex-wrap">
-                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Windows Server</span>
-                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">PowerShell</span>
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Windows Server</span>
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">PowerShell</span>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="glass-panel p-10 gsap-reveal delay-200 hoverable interactive-border">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-purple/20 to-transparent flex items-center justify-center mb-8 border border-neon-purple/30">
-                        <i data-lucide="headset" class="text-neon-purple w-8 h-8"></i>
+                <div class="glass-panel p-6 md:p-10 gsap-reveal delay-200 hoverable interactive-border">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-neon-purple/20 to-transparent flex items-center justify-center mb-6 md:mb-8 border border-neon-purple/30">
+                        <i data-lucide="headset" class="text-neon-purple w-6 h-6 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="font-display text-2xl font-bold text-white mb-4">Field & Remote Support</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Diagnóstico remoto ágil y asistencia presencial de Nivel 1 y 2. Reducción de tiempos de inactividad garantizada.</p>
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Field & Remote Support</h3>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">Diagnóstico remoto ágil y asistencia presencial de Nivel 1 y 2. Reducción de tiempos de inactividad garantizada.</p>
                     <div class="flex gap-2 flex-wrap">
-                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Troubleshooting</span>
-                        <span class="text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Ticketing</span>
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Troubleshooting</span>
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Ticketing</span>
                     </div>
                 </div>
 
                 <!-- Card 3 (Impact) -->
-                <div class="glass-panel holographic-card p-10 gsap-reveal delay-300 hoverable flex flex-col justify-center text-center">
-                    <div class="text-7xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 mb-4">
+                <div class="glass-panel holographic-card p-8 md:p-10 gsap-reveal delay-300 hoverable flex flex-col justify-center text-center">
+                    <div class="text-6xl md:text-7xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 mb-2 md:mb-4">
                         362K
                     </div>
-                    <h3 class="font-display text-xl font-bold text-white mb-3">Impresiones Digitales</h3>
-                    <p class="text-slate-400 text-sm">Compartiendo consejos prácticos sobre seguridad digital, protección de datos y cuidado de equipos en LinkedIn.</p>
+                    <h3 class="font-display text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Impresiones Digitales</h3>
+                    <p class="text-slate-400 text-xs md:text-sm">Compartiendo consejos prácticos sobre seguridad digital, protección de datos y cuidado de equipos en LinkedIn.</p>
                 </div>
             </div>
         </section>
@@ -307,25 +314,25 @@
         <!-- GOOGLE CERTIFICATION (Diseño Premium) -->
         <section class="gsap-reveal">
             <div class="glass-panel p-1 hoverable">
-                <div class="bg-dark-900 rounded-[23px] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
+                <div class="bg-dark-900 rounded-[23px] p-6 sm:p-10 md:p-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 md:gap-12 relative overflow-hidden text-center lg:text-left">
                     <!-- Foco de luz decorativo interno -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-neon-cyan/10 blur-[100px] rounded-full"></div>
+                    <div class="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-neon-cyan/10 blur-[80px] md:blur-[100px] rounded-full"></div>
                     
-                    <div class="flex-1 relative z-10">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 text-white text-xs font-bold uppercase tracking-widest mb-6 border border-white/10">
-                            <i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i> Certificación Oficial
+                    <div class="flex-1 relative z-10 flex flex-col items-center lg:items-start">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/5 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4 md:mb-6 border border-white/10">
+                            <i data-lucide="shield-check" class="w-3 h-3 md:w-4 md:h-4 text-green-400"></i> Certificación Oficial
                         </div>
-                        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Google IT Support Professional</h2>
-                        <p class="text-slate-400 text-lg mb-8 max-w-2xl font-light leading-relaxed">
+                        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">Google IT Support Professional</h2>
+                        <p class="text-slate-400 text-sm md:text-lg mb-6 md:mb-8 max-w-2xl font-light leading-relaxed">
                             Acreditación avanzada en redes, sistemas operativos, seguridad informática y administración de sistemas directamente avalada por Google.
                         </p>
-                        <a href="https://www.coursera.org/account/accomplishments/professional-cert/6RKLGWZV9GL9" target="_blank" rel="noreferrer" class="inline-flex items-center gap-3 text-neon-cyan font-bold hover:text-white transition-colors group/link text-lg">
+                        <a href="https://www.coursera.org/account/accomplishments/professional-cert/6RKLGWZV9GL9" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 md:gap-3 text-neon-cyan font-bold hover:text-white transition-colors group/link text-base md:text-lg">
                             Validar Credencial
-                            <i data-lucide="arrow-right" class="w-6 h-6 group-hover/link:translate-x-2 transition-transform"></i>
+                            <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6 group-hover/link:translate-x-2 transition-transform"></i>
                         </a>
                     </div>
-                    <div class="w-40 h-40 md:w-48 md:h-48 bg-white rounded-full flex items-center justify-center shrink-0 shadow-[0_0_50px_rgba(255,255,255,0.2)] relative z-10">
-                        <div class="flex gap-1 font-display font-black text-4xl tracking-tighter">
+                    <div class="w-32 h-32 md:w-48 md:h-48 bg-white rounded-full flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(255,255,255,0.2)] md:shadow-[0_0_50px_rgba(255,255,255,0.2)] relative z-10">
+                        <div class="flex gap-[1px] md:gap-1 font-display font-black text-2xl md:text-4xl tracking-tighter">
                             <span class="text-[#4285F4]">G</span>
                             <span class="text-[#EA4335]">o</span>
                             <span class="text-[#FBBC05]">o</span>
@@ -339,88 +346,87 @@
         </section>
 
         <!-- FORMACIÓN CONTINUA -->
-        <section id="formacion" class="space-y-16 scroll-mt-32">
-            <div class="flex items-center justify-between gsap-reveal">
-                <h2 class="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">Formación Continua</h2>
+        <section id="formacion" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <div class="flex items-center justify-center md:justify-between gsap-reveal text-center md:text-left">
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight">Formación Continua</h2>
                 <div class="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent ml-10 hidden md:block"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 <!-- Los 4 grupos usan el glass-panel unificado -->
                 
                 <!-- Grupo 1 -->
-                <div class="glass-panel p-8 gsap-reveal delay-100 hoverable interactive-border">
-                    <h3 class="font-display text-2xl font-bold text-neon-cyan mb-8 flex items-center gap-4">
-                        <i data-lucide="server" class="w-7 h-7"></i> Infraestructura & SO
+                <div class="glass-panel p-6 md:p-8 gsap-reveal delay-100 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-neon-cyan mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="server" class="w-6 h-6 md:w-7 md:h-7"></i> Infraestructura & SO
                     </h3>
-                    <div class="space-y-3">
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Admin. de Sistemas e Infraestructura IT</span>
-                            <span class="text-xs font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Coursera</span>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Admin. de Sistemas e Infraestructura IT</span>
+                            <span class="text-[10px] md:text-xs font-mono text-blue-400 bg-blue-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Coursera</span>
                         </a>
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Sistemas Operativos Avanzados</span>
-                            <span class="text-xs font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Coursera</span>
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Sistemas Operativos Avanzados</span>
+                            <span class="text-[10px] md:text-xs font-mono text-blue-400 bg-blue-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Coursera</span>
                         </a>
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Administración de Servidores (Linux)</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Administración de Servidores (Linux)</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Grupo 2 -->
-                <div class="glass-panel p-8 gsap-reveal delay-200 hoverable interactive-border">
-                    <h3 class="font-display text-2xl font-bold text-neon-purple mb-8 flex items-center gap-4">
-                        <i data-lucide="network" class="w-7 h-7"></i> Redes & Soporte
+                <div class="glass-panel p-6 md:p-8 gsap-reveal delay-200 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-neon-purple mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="network" class="w-6 h-6 md:w-7 md:h-7"></i> Redes & Soporte
                     </h3>
-                    <div class="space-y-3">
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Curso Avanzado de Redes de Internet</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Curso Avanzado de Redes de Internet</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Servicio al Cliente y Soporte a Usuarios</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Servicio al Cliente y Soporte a Usuarios</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Terminal de Comandos</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Terminal de Comandos</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
                     </div>
                 </div>
                 
-                <!-- (Por brevedad visual en este diseño premium agrupamos los más importantes, pero respetamos la estructura) -->
                  <!-- Grupo 3 -->
-                 <div class="glass-panel p-8 gsap-reveal delay-100 hoverable interactive-border">
-                    <h3 class="font-display text-2xl font-bold text-neon-pink mb-8 flex items-center gap-4">
-                        <i data-lucide="shield-alert" class="w-7 h-7"></i> Seguridad & IoT
+                 <div class="glass-panel p-6 md:p-8 gsap-reveal delay-100 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-neon-pink mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="shield-alert" class="w-6 h-6 md:w-7 md:h-7"></i> Seguridad & IoT
                     </h3>
-                    <div class="space-y-3">
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Seguridad Informática para Empresas</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Seguridad Informática para Empresas</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Introducción al Pentesting</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Introducción al Pentesting</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Grupo 4 -->
-                <div class="glass-panel p-8 gsap-reveal delay-200 hoverable interactive-border">
-                    <h3 class="font-display text-2xl font-bold text-yellow-400 mb-8 flex items-center gap-4">
-                        <i data-lucide="code" class="w-7 h-7"></i> Software & Tools
+                <div class="glass-panel p-6 md:p-8 gsap-reveal delay-200 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-yellow-400 mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="code" class="w-6 h-6 md:w-7 md:h-7"></i> Software & Tools
                     </h3>
-                    <div class="space-y-3">
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Git y GitHub Profesional</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Git y GitHub Profesional</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
-                        <a href="#" class="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
-                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Fundamentos de Ingeniería de Software</span>
-                            <span class="text-xs font-mono text-green-400 bg-green-400/10 px-3 py-1 rounded-full">Platzi</span>
+                        <a href="#" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Fundamentos de Ingeniería de Software</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
                         </a>
                     </div>
                 </div>
@@ -428,40 +434,50 @@
         </section>
 
         <!-- TRAYECTORIA (Rediseño Estructural) -->
-        <section id="trayectoria" class="space-y-16 scroll-mt-32">
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-white tracking-tight gsap-reveal">Experiencia Técnica</h2>
+        <section id="trayectoria" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight gsap-reveal text-center md:text-left">Experiencia Técnica</h2>
             
             <div class="space-y-6">
                 <!-- Job 1 -->
-                <div class="glass-panel p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between gsap-reveal hoverable interactive-border">
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal hoverable interactive-border">
                     <div class="flex-1">
-                        <div class="text-neon-cyan font-mono text-sm mb-3 tracking-widest uppercase">Dic 2023 — Mar 2024</div>
-                        <h3 class="font-display text-3xl font-bold text-white mb-2">Field Support IT</h3>
-                        <div class="text-slate-400 text-lg mb-4">Smartway SRL (Cinemark Hoyts)</div>
-                        <p class="text-slate-500 font-light">Instalación corporativa crítica, Active Directory, Office 365 y configuración de kioscos de autoservicio.</p>
+                        <div class="text-neon-cyan font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Dic 2023 — Mar 2024</div>
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-2">Field Support IT</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">Smartway SRL (Cinemark Hoyts)</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Instalación corporativa crítica, Active Directory, Office 365 y configuración de kioscos de autoservicio.</p>
                     </div>
-                    <div class="shrink-0 px-6 py-3 rounded-full border border-white/10 bg-black/40 text-white text-sm font-medium backdrop-blur-md">
+                    <div class="shrink-0 px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10 bg-black/40 text-white text-xs md:text-sm font-medium backdrop-blur-md self-start md:self-auto">
                         Presencial & Remoto
                     </div>
                 </div>
 
                 <!-- Job 2 -->
-                <div class="glass-panel p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between gsap-reveal delay-100 hoverable interactive-border opacity-80 hover:opacity-100">
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal delay-100 hoverable interactive-border opacity-100 md:opacity-80 hover:opacity-100">
                     <div class="flex-1">
-                        <div class="text-slate-500 font-mono text-sm mb-3 tracking-widest uppercase">Jul 2023 — Oct 2023</div>
-                        <h3 class="font-display text-2xl font-bold text-white mb-2">Técnico de Ensamble Notebook del Gobierno</h3>
-                        <div class="text-slate-400 text-lg mb-4">DINATECH</div>
-                        <p class="text-slate-500 font-light">Producción y armado de equipos portátiles. Resolución de incidencias de hardware a gran escala.</p>
+                        <div class="text-slate-500 font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Jul 2023 — Oct 2023</div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Técnico de Ensamble Notebook del Gobierno</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">DINATECH</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Producción y armado de equipos portátiles. Resolución de incidencias de hardware a gran escala.</p>
                     </div>
                 </div>
 
                 <!-- Job 3 -->
-                <div class="glass-panel p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between gsap-reveal delay-200 hoverable interactive-border opacity-70 hover:opacity-100">
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal delay-200 hoverable interactive-border opacity-100 md:opacity-70 hover:opacity-100">
                     <div class="flex-1">
-                        <div class="text-slate-500 font-mono text-sm mb-3 tracking-widest uppercase">Feb 2022 — Feb 2023</div>
-                        <h3 class="font-display text-2xl font-bold text-white mb-2">Especialista Field Support</h3>
-                        <div class="text-slate-400 text-lg mb-4">FP Soluciones (Rapipago)</div>
-                        <p class="text-slate-500 font-light">Diagnóstico remoto ágil y ejecución en sitio para terminales comerciales. Puesta en marcha de redes en nuevas sucursales.</p>
+                        <div class="text-slate-500 font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Feb 2022 — Feb 2023</div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Especialista Field Support</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">FP Soluciones (Rapipago)</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Diagnóstico remoto ágil y ejecución en sitio para terminales comerciales. Puesta en marcha de redes en nuevas sucursales.</p>
+                    </div>
+                </div>
+
+                <!-- Job 4 (Experiencia Previa Condensada) -->
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal delay-300 hoverable interactive-border opacity-100 md:opacity-60 hover:opacity-100">
+                    <div class="flex-1">
+                        <div class="text-slate-500 font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Jun 2007 — Nov 2017</div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Especialista IT, BackOffice & Operaciones</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">MegaTech, UniversoPC, Bibici SRL & Adgem S.r.l</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Más de 10 años de experiencia consolidada en soporte técnico de campo, supervisión de BackOffice para clientes bancarios/estatales (AFIP, Banco Galicia), ventas corporativas de tecnología y administración general de sistemas y locales informáticos.</p>
                     </div>
                 </div>
             </div>
@@ -470,87 +486,87 @@
     </main>
 
     <!-- ZONA DE ASISTENCIA Y CONTACTO FUSIONADA (Estilo Epic Finale) -->
-    <footer id="asistencia" class="relative mt-32 bg-dark-900 border-t border-white/5 pt-32 pb-16 overflow-hidden scroll-mt-32">
+    <footer id="asistencia" class="relative mt-20 md:mt-32 bg-dark-900 border-t border-white/5 pt-20 pb-10 md:pt-32 md:pb-16 overflow-hidden scroll-mt-32">
         <!-- Resplandor de fondo inmenso -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-neon-purple/20 via-neon-cyan/10 to-transparent blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[500px] bg-gradient-to-b from-neon-purple/20 via-neon-cyan/10 to-transparent blur-[80px] md:blur-[120px] pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-6 z-10 relative gsap-reveal">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 z-10 relative gsap-reveal">
             
-            <div class="text-center mb-24">
-                <h2 class="font-display text-5xl md:text-7xl font-black text-white mb-8 leading-[1.1]">
-                    ¿Tu tecnología te frena? <br/> 
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple">Conectemos la solución.</span>
+            <div class="text-center mb-16 md:mb-24">
+                <h2 class="font-display text-4xl sm:text-5xl md:text-7xl font-black text-white mb-6 md:mb-8 leading-[1.1]">
+                    ¿Tu tecnología te frena? <br class="hidden sm:block"/> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple block sm:inline mt-2 sm:mt-0">Conectemos la solución.</span>
                 </h2>
-                <p class="text-slate-400 text-xl max-w-2xl mx-auto font-light">
+                <p class="text-slate-400 text-base sm:text-xl max-w-2xl mx-auto font-light">
                     Resolución de incidencias al instante. Envía un mensaje directo o inicia un rescate remoto.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch mb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-stretch mb-16 md:mb-24">
                 <!-- Columna Izquierda: Contacto -->
-                <div class="glass-panel p-12 hoverable flex flex-col justify-center">
-                    <h3 class="font-display text-3xl font-bold text-white mb-4">Contacto Directo</h3>
-                    <p class="text-slate-400 mb-12 font-light text-lg">Escríbeme por WhatsApp o correo detallando el problema de tu equipo.</p>
+                <div class="glass-panel p-8 md:p-12 hoverable flex flex-col justify-center text-center lg:text-left">
+                    <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Contacto Directo</h3>
+                    <p class="text-slate-400 mb-8 md:mb-12 font-light text-base md:text-lg">Escríbeme por WhatsApp o correo detallando el problema de tu equipo.</p>
                     
-                    <div class="flex flex-col gap-6">
-                        <a href="https://wa.me/5491169578193" target="_blank" rel="noreferrer" class="magnetic-btn flex items-center justify-center lg:justify-start gap-4 bg-white text-black hover:bg-gray-200 px-8 py-6 rounded-2xl font-bold text-lg transition-transform">
-                            <div class="bg-black/10 p-3 rounded-full"><i data-lucide="message-circle" class="w-6 h-6"></i></div>
+                    <div class="flex flex-col gap-4 md:gap-6">
+                        <a href="https://wa.me/5491169578193" target="_blank" rel="noreferrer" class="magnetic-btn flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 bg-white text-black hover:bg-gray-200 px-6 py-4 md:px-8 md:py-6 rounded-2xl font-bold text-sm sm:text-base md:text-lg transition-transform text-center">
+                            <div class="bg-black/10 p-2 md:p-3 rounded-full"><i data-lucide="message-circle" class="w-5 h-5 md:w-6 md:h-6"></i></div>
                             WhatsApp (+54 9 11 6957-8193)
                         </a>
-                        <a href="mailto:info@juanmartinbarrientos.com" class="magnetic-btn flex items-center justify-center lg:justify-start gap-4 border border-white/20 text-white hover:bg-white/10 px-8 py-6 rounded-2xl font-bold text-lg transition-all">
-                            <div class="bg-white/10 p-3 rounded-full"><i data-lucide="mail" class="w-6 h-6"></i></div>
+                        <a href="mailto:info@juanmartinbarrientos.com" class="magnetic-btn flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 border border-white/20 text-white hover:bg-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl font-bold text-sm sm:text-base md:text-lg transition-all text-center">
+                            <div class="bg-white/10 p-2 md:p-3 rounded-full"><i data-lucide="mail" class="w-5 h-5 md:w-6 md:h-6"></i></div>
                             info@juanmartinbarrientos.com
                         </a>
                     </div>
                 </div>
 
                 <!-- Columna Derecha: Rescate Remoto -->
-                <div class="glass-panel p-12 hoverable interactive-border">
-                    <h3 class="font-display text-3xl font-bold text-white mb-4 flex items-center gap-4">
-                        <i data-lucide="monitor-check" class="text-neon-cyan w-8 h-8"></i> Rescate Remoto
+                <div class="glass-panel p-8 md:p-12 hoverable interactive-border">
+                    <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 flex items-center justify-center lg:justify-start gap-3 md:gap-4">
+                        <i data-lucide="monitor-check" class="text-neon-cyan w-6 h-6 md:w-8 md:h-8"></i> Rescate Remoto
                     </h3>
-                    <p class="text-slate-400 mb-10 font-light text-lg">Si necesitas que ingrese a tu PC de forma segura (vía AnyDesk):</p>
+                    <p class="text-slate-400 mb-8 md:mb-10 font-light text-base md:text-lg text-center lg:text-left">Si necesitas que ingrese a tu PC de forma segura (vía AnyDesk):</p>
                     
-                    <div class="space-y-6 mb-12">
-                        <div class="flex items-center gap-6 bg-black/30 p-4 rounded-2xl border border-white/5">
-                            <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg shrink-0">1</div>
+                    <div class="space-y-4 md:space-y-6 mb-8 md:mb-12">
+                        <div class="flex items-center gap-4 md:gap-6 bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-base md:text-lg shrink-0">1</div>
                             <div>
-                                <h4 class="text-white font-bold text-lg">Descargar</h4>
-                                <p class="text-slate-400 text-sm">Baja la app con los botones inferiores.</p>
+                                <h4 class="text-white font-bold text-base md:text-lg">Descargar</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Baja la app con los botones inferiores.</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-6 bg-black/30 p-4 rounded-2xl border border-white/5">
-                            <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg shrink-0">2</div>
+                        <div class="flex items-center gap-4 md:gap-6 bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-base md:text-lg shrink-0">2</div>
                             <div>
-                                <h4 class="text-white font-bold text-lg">Ejecutar</h4>
-                                <p class="text-slate-400 text-sm">Abre el archivo (no requiere instalación).</p>
+                                <h4 class="text-white font-bold text-base md:text-lg">Ejecutar</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Abre el archivo (no requiere instalación).</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-6 bg-black/30 p-4 rounded-2xl border border-white/5">
-                            <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-lg shrink-0">3</div>
+                        <div class="flex items-center gap-4 md:gap-6 bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-base md:text-lg shrink-0">3</div>
                             <div>
-                                <h4 class="text-white font-bold text-lg">Conectar</h4>
-                                <p class="text-slate-400 text-sm">Pásame tu "Puesto de trabajo" (9 dígitos).</p>
+                                <h4 class="text-white font-bold text-base md:text-lg">Conectar</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Pásame tu "Puesto de trabajo" (9 dígitos).</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-neon-cyan text-white px-6 py-4 rounded-xl font-bold text-lg transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
-                            <i data-lucide="download" class="w-5 h-5"></i> Windows
+                    <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                        <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-blue-600 to-neon-cyan text-white px-4 py-3 md:px-6 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+                            <i data-lucide="download" class="w-4 h-4 md:w-5 md:h-5"></i> Windows
                         </a>
-                        <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-6 py-4 rounded-xl font-bold text-lg transition-all border border-white/10">
-                            <i data-lucide="download" class="w-5 h-5"></i> macOS
+                        <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-2 md:gap-3 bg-white/10 hover:bg-white/20 text-white px-4 py-3 md:px-6 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all border border-white/10">
+                            <i data-lucide="download" class="w-4 h-4 md:w-5 md:h-5"></i> macOS
                         </a>
                     </div>
                 </div>
             </div>
 
             <!-- Copyright -->
-            <div class="flex items-center justify-between border-t border-white/10 pt-8">
-                <span class="text-sm font-medium text-slate-500">© 2026 Juan Martin Barrientos</span>
+            <div class="flex flex-col sm:flex-row items-center justify-between border-t border-white/10 pt-6 md:pt-8 gap-4 sm:gap-0">
+                <span class="text-xs md:text-sm font-medium text-slate-500 text-center">© 2026 Juan Martin Barrientos</span>
                 <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noreferrer" class="hoverable text-slate-500 hover:text-white transition-colors">
-                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                    <i data-lucide="linkedin" class="w-5 h-5 md:w-6 md:h-6"></i>
                 </a>
             </div>
         </div>
