@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master en Raspberry Pi 5 - Guía de Comandos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .command-card {
+            transition: all 0.2s ease;
+            border: 1px solid #1e293b;
+        }
+
+        .command-card:hover {
+            transform: translateY(-2px);
+            border-color: #38bdf8;
+            box-shadow: 0 4px 20px -5px rgba(56, 189, 248, 0.2);
+        }
+
+        .category-badge {
+            background: linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
+        }
+
+        details summary::-webkit-details-marker {
+            display:none;
+        }
+        
+        details[open] summary i {
+            transform: rotate(180deg);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">
+                <i class="fab fa-raspberry-pi text-red-500 mr-3"></i>RPi 5 Terminal Master
+            </h1>
+            <p class="text-slate-400 text-lg">Conectividad, Hardware e Impresión.</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="relative mb-10">
+            <input type="text" id="searchInput" placeholder="Buscar comando, ejemplo o categoría..." 
+                   class="w-full bg-slate-800 border border-slate-700 rounded-xl py-4 px-12 focus:outline-none focus:ring-2 focus:ring-sky-500 text-white placeholder-slate-500 shadow-xl">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+        </div>
+
+        <div id="commandsContainer" class="space-y-12">
+            <!-- El contenido se genera mediante JavaScript -->
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm pb-10">
+            <a href="http://www.juanmartinbarrientos.com" target="_blank" class="text-sky-400 hover:text-sky-300 transition-colors font-semibold text-lg">
+                Juan Martin Barrientos
+            </a>
+            <p class="mt-1 text-slate-500 uppercase tracking-widest text-xs">www.juanmartinbarrientos.com</p>
+        </footer>
+    </div>
+
+    <!-- Notification system -->
+    <div id="notif" class="fixed bottom-5 right-5 bg-sky-600 text-white px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+        Copiado al portapapeles
+    </div>
+
+    <script>
+        const data = [
+            // CATEGORIA: CONECTIVIDAD AVANZADA
+            { 
+                cat: "Conectividad", 
+                cmd: "ping -i 0.5 google.com", 
+                desc: "Prueba de latencia y estabilidad de red.",
+                exp: "Envía paquetes de eco para medir el tiempo de respuesta. El parámetro '-i 0.5' acelera las pruebas para detectar micro-cortes rápidamente.",
+                ej: "Si el SSH se siente 'lageado', corre esto. Si ves 'Request timeout' o variaciones de ms muy grandes, tu conexión Wi-Fi es inestable."
+            },
+            { 
+                cat: "Conectividad", 
+                cmd: "sudo ss -tulpn", 
+                desc: "Listar puertos abiertos y servicios.",
+                exp: "Muestra qué aplicaciones están escuchando conexiones en la red (TCP/UDP) y en qué puerto.",
+                ej: "Usa esto para verificar si el servidor de impresión CUPS está activo en el puerto 631 escribiendo: 'sudo ss -tulpn | grep 631'."
+            },
+            { 
+                cat: "Conectividad", 
+                cmd: "mtr google.com", 
+                desc: "Diagnóstico de ruta de red (Traceroute + Ping).",
+                exp: "Combina ping y traceroute. Te dice exactamente en qué punto de la red se están perdiendo los datos entre tú y el servidor.",
+                ej: "Si no puedes enviar tickets a una base de datos remota, 'mtr' te dirá si el problema es tu router o el proveedor de internet."
+            },
+            { 
+                cat: "Conectividad", 
+                cmd: "curl -I https://www.google.com", 
+                desc: "Verificar respuesta de servidor web.",
+                exp: "Solicita solo el encabezado (Header) de una URL. Es la forma más rápida de saber si un servidor está vivo sin descargar toda la página.",
+                ej: "Úsalo para probar si la API de tu sistema de ventas está respondiendo correctamente desde la Raspberry Pi."
+            },
+            { 
+                cat: "Conectividad", 
+                cmd: "hostname -I", 
+                desc: "Obtener solo la dirección IP.",
+                exp: "Devuelve de forma limpia las direcciones IP asignadas a la Raspberry Pi, ideal para scripts.",
+                ej: "Si necesitas que tu script de Python sepa su propia IP para mostrarla en un ticket de inicio, este es el comando más directo."
+            },
+
+            // CATEGORIA: SISTEMA
+            { 
+                cat: "Sistema", 
+                cmd: "sudo raspi-config", 
+                desc: "Configuración global de la Raspberry Pi.",
+                exp: "Es la herramienta oficial para configurar el hardware. Permite cambiar la contraseña, expandir el sistema de archivos y activar interfaces como I2C o Serial.",
+                ej: "Navega a 'Interface Options' y activa 'Serial Port' si tu impresora térmica no es USB, o activa 'VNC' si quieres ver el escritorio de forma remota."
+            },
+            { 
+                cat: "Sistema", 
+                cmd: "sudo apt update && sudo apt upgrade -y", 
+                desc: "Mantenimiento y seguridad del software.",
+                exp: "Update descarga la lista de versiones nuevas; Upgrade las instala. El '-y' evita que el sistema te pregunte '¿Deseas continuar?' en cada paso.",
+                ej: "Ejecútalo antes de instalar cualquier librería de impresión para evitar conflictos de versiones."
+            },
+            { 
+                cat: "Sistema", 
+                cmd: "sudo journalctl -xe", 
+                desc: "Depuración de errores del sistema.",
+                exp: "Muestra los mensajes de error más recientes del sistema con detalles técnicos. Es el primer lugar donde mirar si algo falló.",
+                ej: "Si tu servicio de tickets no arranca, escribe esto. Verás exactamente en qué línea de código o por qué permiso falló el inicio."
+            },
+            { 
+                cat: "Sistema", 
+                cmd: "sudo reboot", 
+                desc: "Reiniciar el equipo.",
+                exp: "Cierra todos los procesos de forma ordenada y vuelve a arrancar el sistema.",
+                ej: "Usa este comando después de hacer cambios críticos en 'raspi-config' para que surtan efecto."
+            },
+            { 
+                cat: "Sistema", 
+                cmd: "sudo shutdown -h now", 
+                desc: "Apagado seguro e inmediato.",
+                exp: "Detiene el sistema operativo completamente. Es vital para no corromper la tarjeta microSD.",
+                ej: "No desconectes la fuente de poder sin antes correr este comando y esperar a que el LED verde de la Pi deje de parpadear."
+            },
+
+            // CATEGORIA: REMOTO PRO
+            { 
+                cat: "Remoto Pro", 
+                cmd: "ssh usuario@ip_de_la_pi", 
+                desc: "Acceso remoto seguro por terminal.",
+                exp: "Permite controlar la Raspberry desde otra computadora en la misma red.",
+                ej: "Desde tu PC principal: 'ssh pi@192.168.1.50'. Te pedirá la clave y entrarás a la terminal de la Pi."
+            },
+            { 
+                cat: "Remoto Pro", 
+                cmd: "scp archivo.py usuario@ip:/ruta/", 
+                desc: "Transferir archivos por red.",
+                exp: "Copia archivos entre tu computadora y la Raspberry Pi de forma segura usando el protocolo SSH.",
+                ej: "Desde tu laptop: 'scp mi_ticket.py pi@192.168.1.50:/home/pi/' para enviar tu código a la Pi sin usar pendrives."
+            },
+            { 
+                cat: "Remoto Pro", 
+                cmd: "screen", 
+                desc: "Sesiones persistentes (Multiplexor).",
+                exp: "Crea una sesión de terminal que no se cierra si el SSH se desconecta.",
+                ej: "Lanza tu script de impresión dentro de 'screen'. Si se cae el Wi-Fi, vuelve a entrar por SSH y escribe 'screen -r' para ver tu script todavía corriendo."
+            },
+            { 
+                cat: "Remoto Pro", 
+                cmd: "tail -f /var/log/syslog", 
+                desc: "Monitor de eventos en tiempo real.",
+                exp: "Muestra los últimos registros del sistema. Útil para ver qué pasa cuando conectas algo nuevo.",
+                ej: "Deja esta terminal abierta mientras conectas la impresora térmica para ver si el sistema reporta algún error de hardware."
+            },
+
+            // CATEGORIA: IMPRESORA
+            { 
+                cat: "Impresora", 
+                cmd: "lsusb", 
+                desc: "Lista de dispositivos USB conectados.",
+                exp: "Muestra todos los periféricos USB. Sirve para confirmar si la Pi 've' físicamente la impresora.",
+                ej: "Conecta la impresora y corre el comando. Debería aparecer una línea con el nombre del fabricante (ej. Epson, Xprinter)."
+            },
+            { 
+                cat: "Impresora", 
+                cmd: "ls -l /dev/usb/lp*", 
+                desc: "Nodo de dispositivo de impresión.",
+                exp: "Verifica si Linux asignó un archivo de comunicación a la impresora USB.",
+                ej: "Si aparece '/dev/usb/lp0', tu impresora está lista para recibir datos directamente desde scripts de Python."
+            },
+            { 
+                cat: "Impresora", 
+                cmd: "lpstat -p -d", 
+                desc: "Estado del servidor CUPS.",
+                exp: "Muestra si las impresoras configuradas en el sistema están activas o en pausa.",
+                ej: "Si el ticket no sale, este comando te dirá si el sistema detectó que la impresora 'se quedó sin papel' o está 'fuera de línea'."
+            },
+            { 
+                cat: "Impresora", 
+                cmd: "cancel -a", 
+                desc: "Limpiar cola de impresión.",
+                exp: "Borra todos los documentos o tickets que estén esperando ser impresos.",
+                ej: "Si enviaste un ticket con error y la impresora está imprimiendo símbolos extraños, usa esto para detener la locura."
+            },
+
+            // CATEGORIA: HARDWARE
+            { 
+                cat: "Hardware", 
+                cmd: "vcgencmd measure_temp", 
+                desc: "Monitor de temperatura del SoC.",
+                exp: "La Pi 5 es potente; vigilar el calor es esencial para que no baje su rendimiento por seguridad.",
+                ej: "Si marca más de 80°C, la Pi bajará su velocidad. Es señal de que necesitas un ventilador o un gabinete mejor ventilado."
+            },
+            { 
+                cat: "Hardware", 
+                cmd: "vcgencmd get_throttled", 
+                desc: "Estado de salud eléctrica.",
+                exp: "Indica si el sistema ha detectado baja tensión o sobrecalentamiento extremo.",
+                ej: "Si el resultado no es '0x0', tu fuente de poder no es suficiente para la Pi 5 y la impresora térmica simultáneamente."
+            },
+            { 
+                cat: "Hardware", 
+                cmd: "htop", 
+                desc: "Administrador de tareas visual.",
+                exp: "Muestra uso de CPU por núcleo, memoria RAM y procesos activos.",
+                ej: "Úsalo para ver si tu script de Python está consumiendo demasiada memoria o si hay algún proceso bloqueando el sistema."
+            },
+            { 
+                cat: "Hardware", 
+                cmd: "ps aux | grep python", 
+                desc: "Buscar procesos específicos.",
+                exp: "Lista todos los programas que se están ejecutando y filtra solo los que contienen la palabra elegida.",
+                ej: "Si quieres saber si tu script de tickets se quedó trabado en el fondo, este comando te dirá su ID de proceso (PID) para poder cerrarlo."
+            },
+            { 
+                cat: "Hardware", 
+                cmd: "pinout", 
+                desc: "Esquema visual de los pines GPIO.",
+                exp: "Muestra el mapa de pines de la Raspberry Pi directamente en la terminal.",
+                ej: "Excelente si estás conectando una impresora por puerto Serial (UART) y necesitas saber cuáles son los pines 14 y 15 rápidamente."
+            },
+
+            // CATEGORIA: ARCHIVOS
+            { 
+                cat: "Archivos", 
+                cmd: "cat archivo.txt", 
+                desc: "Leer contenido rápidamente.",
+                exp: "Muestra todo el texto de un archivo en la terminal sin abrir un editor. Es ideal para leer archivos de configuración o logs cortos.",
+                ej: "Escribe 'cat /home/pi/logs_tickets.txt' para revisar rápidamente qué imprimió tu programa por última vez."
+            },
+            { 
+                cat: "Archivos", 
+                cmd: "grep 'texto' archivo", 
+                desc: "Buscador de palabras dentro de archivos.",
+                exp: "Escanea un archivo y te muestra solo las líneas donde aparece la palabra que buscas.",
+                ej: "Si tienes un log gigante, usa 'grep \"ERROR\" logs.txt' para saltar directo a los problemas sin leer miles de líneas."
+            },
+            { 
+                cat: "Archivos", 
+                cmd: "chmod +x script.py", 
+                desc: "Hacer un archivo ejecutable.",
+                exp: "En Linux, los archivos no son 'programas' por defecto. Este comando les da permiso de correr.",
+                ej: "Corre esto sobre tu script de tickets para poder lanzarlo simplemente escribiendo './script.py'."
+            },
+            { 
+                cat: "Archivos", 
+                cmd: "rm -rf carpeta_o_archivo", 
+                desc: "Borrado permanente.",
+                exp: "Borra de forma recursiva y forzada. No hay papelera de reciclaje.",
+                ej: "Usa 'rm ticket_viejo.txt' para limpiar archivos temporales. Ten extremo cuidado con el '-rf'."
+            },
+            { 
+                cat: "Archivos", 
+                cmd: "df -h", 
+                desc: "Espacio libre en disco.",
+                exp: "Muestra cuánto espacio queda en la tarjeta microSD en formato Gigabytes.",
+                ej: "Si tu script de base de datos falla, revisa esto; quizás la tarjeta SD se llenó de logs de error."
+            },
+
+            // CATEGORIA: REDES (BÁSICAS)
+            { 
+                cat: "Redes", 
+                cmd: "ip a", 
+                desc: "Ver dirección IP local.",
+                exp: "Muestra todas las interfaces de red (Wi-Fi, Ethernet) y sus direcciones IP.",
+                ej: "Úsalo para saber a qué IP debes conectarte por SSH desde tu computadora."
+            },
+            { 
+                cat: "Redes", 
+                cmd: "nmcli dev wifi", 
+                desc: "Gestión avanzada de Wi-Fi.",
+                exp: "Lista las redes disponibles y la calidad de la señal actual.",
+                ej: "Si el acceso remoto es lento, verifica la columna 'SIGNAL'. Si es baja, mueve la Pi o el router."
+            }
+        ];
+
+        function renderCards(filter = "") {
+            const container = document.getElementById('commandsContainer');
+            const categories = [...new Set(data.map(item => item.cat))];
+            let html = "";
+
+            categories.forEach(category => {
+                const items = data.filter(i => 
+                    i.cat === category && 
+                    (i.cmd.toLowerCase().includes(filter.toLowerCase()) || 
+                     i.desc.toLowerCase().includes(filter.toLowerCase()) ||
+                     i.exp.toLowerCase().includes(filter.toLowerCase()))
+                );
+
+                if (items.length > 0) {
+                    html += `
+                        <section class="mb-10">
+                            <div class="flex items-center mb-6">
+                                <span class="category-badge px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white mr-4">${category}</span>
+                                <div class="h-px bg-slate-800 flex-grow"></div>
+                            </div>
+                            <div class="grid grid-cols-1 gap-6">
+                                ${items.map(item => `
+                                    <div class="command-card bg-slate-800/40 rounded-xl overflow-hidden border border-slate-700/50">
+                                        <div class="p-5">
+                                            <div class="flex justify-between items-start mb-4">
+                                                <div class="flex items-center gap-3">
+                                                    <code class="code-font text-sky-400 font-bold text-base bg-slate-900 px-3 py-1 rounded border border-slate-700">
+                                                        ${item.cmd}
+                                                    </code>
+                                                    <button onclick="copyToClipboard('${item.cmd}', this)" class="text-slate-500 hover:text-sky-400 transition-colors">
+                                                        <i class="fas fa-copy"></i>
+                                                    </button>
+                                                </div>
+                                                <span class="text-xs text-slate-500 font-mono italic"># ${item.cat}</span>
+                                            </div>
+                                            <p class="text-white font-semibold mb-2">${item.desc}</p>
+                                            
+                                            <details class="mt-4 group">
+                                                <summary class="list-none cursor-pointer flex items-center text-sky-500 text-sm font-medium hover:text-sky-400">
+                                                    <i class="fas fa-chevron-down mr-2 transition-transform duration-200"></i>
+                                                    VER EXPLICACIÓN Y EJEMPLO
+                                                </summary>
+                                                <div class="mt-4 p-4 bg-slate-900/50 rounded-lg border-l-2 border-sky-500 space-y-3">
+                                                    <div>
+                                                        <h4 class="text-xs uppercase tracking-widest text-slate-500 mb-1">Funcionamiento:</h4>
+                                                        <p class="text-slate-300 text-sm leading-relaxed">${item.exp}</p>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="text-xs uppercase tracking-widest text-slate-500 mb-1">Ejemplo Práctico:</h4>
+                                                        <p class="text-slate-300 text-sm italic bg-slate-800/50 p-2 rounded border border-slate-700/30">"${item.ej}"</p>
+                                                    </div>
+                                                </div>
+                                            </details>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                    `;
+                }
+            });
+            container.innerHTML = html || `<div class="text-center py-20"><i class="fas fa-ghost text-4xl text-slate-700 mb-4"></i><p class="text-slate-500">No se encontraron resultados para tu búsqueda.</p></div>`;
+        }
+
+        function copyToClipboard(text, btn) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            const notif = document.getElementById('notif');
+            notif.style.opacity = '1';
+            setTimeout(() => notif.style.opacity = '0', 2500);
+
+            const icon = btn.querySelector('i');
+            icon.classList.replace('fa-copy', 'fa-check');
+            icon.classList.add('text-green-500');
+            setTimeout(() => {
+                icon.classList.replace('fa-check', 'fa-copy');
+                icon.classList.remove('text-green-500');
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                renderCards(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
