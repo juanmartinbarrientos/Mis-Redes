@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resilient Pi 5 Engineering - Documentación</title>
+    <title>Raspberry Pi 5 - Documentación</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- PDF.js de Mozilla -->
@@ -39,10 +39,10 @@
                 <i data-lucide="cpu" class="w-8 h-8 text-blue-400"></i>
             </div>
             <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                Resilient Pi 5 Engineering
+                Raspberry Pi 5 Mastery
             </h1>
             <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10">
-                Explora el documento completo directamente en la web. Desplázate hacia abajo para sumergirte en la lectura.
+                Explora los documentos completos de ingeniería y comandos directamente en la web. Desplázate hacia abajo para sumergirte en la lectura.
             </p>
             
             <a href="#pdf-viewer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all hover:scale-105 shadow-[0_0_20px_rgba(37,99,235,0.4)]">
@@ -54,26 +54,12 @@
 
     <!-- Contenedor del PDF -->
     <main id="pdf-viewer" class="max-w-5xl mx-auto px-4 py-16">
-        
-        <!-- Estado de carga -->
-        <div id="loading-state" class="flex flex-col items-center justify-center py-20">
-            <i data-lucide="loader-2" class="w-12 h-12 text-blue-500 animate-spin mb-4"></i>
-            <p class="text-slate-400 text-lg font-medium" id="loading-text">Renderizando documento en alta calidad...</p>
-            
-            <!-- Barra de progreso -->
-            <div class="w-64 h-2 bg-slate-700 rounded-full mt-4 overflow-hidden">
-                <div id="progress-bar" class="h-full bg-blue-500 w-0 transition-all duration-300"></div>
-            </div>
-        </div>
-
-        <!-- Aquí se inyectarán los canvas de cada página -->
-        <div id="pdf-container" class="flex flex-col items-center space-y-8"></div>
-        
+        <!-- Los documentos se inyectarán aquí dinámicamente -->
     </main>
 
     <!-- Pie de página -->
     <footer class="text-center py-8 text-slate-500 border-t border-slate-800 mt-12">
-        <p>Documento cargado desde GitHub • Renderizado con PDF.js</p>
+        <p>Documentos cargados desde GitHub • Renderizados con PDF.js</p>
     </footer>
 
     <!-- Script principal -->
@@ -82,96 +68,103 @@
         lucide.createIcons();
 
         // Configuración de PDF.js
-        // Usamos el worker desde el mismo CDN
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // URL del PDF. 
-        // IMPORTANTE: Se debe usar "raw.githubusercontent.com" para obtener el archivo directo, no la página de visor de GitHub.
-        const pdfUrl = 'https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/Resilient_Pi_5_Engineering.pdf';
+        // Lista de PDFs a renderizar
+        const pdfs = [
+            {
+                title: "Resilient Pi 5 Engineering",
+                url: "https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/Resilient_Pi_5_Engineering.pdf"
+            },
+            {
+                title: "Raspberry Pi 5 Command Mastery",
+                url: "https://raw.githubusercontent.com/juanmartinbarrientos/Concepto/main/Raspberry_Pi_5_Command_Mastery.pdf"
+            }
+        ];
 
-        const container = document.getElementById('pdf-container');
-        const loadingState = document.getElementById('loading-state');
-        const loadingText = document.getElementById('loading-text');
-        const progressBar = document.getElementById('progress-bar');
+        const mainContainer = document.getElementById('pdf-viewer');
 
-        async function renderPDF() {
-            try {
-                // Cargar el documento
-                loadingText.textContent = "Descargando PDF...";
-                const loadingTask = pdfjsLib.getDocument(pdfUrl);
-                const pdfDoc = await loadingTask.promise;
-                
-                const totalPages = pdfDoc.numPages;
-                
-                // Ocultar el estado general de carga (dejamos solo la barra si quisieramos)
-                loadingText.textContent = `Preparando ${totalPages} páginas...`;
+        async function renderAllPDFs() {
+            for (const pdf of pdfs) {
+                // Crear sección para cada PDF
+                const section = document.createElement('div');
+                section.className = 'mb-32'; // Espaciado grande entre documentos
 
-                // Iterar sobre cada página
-                for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-                    const page = await pdfDoc.getPage(pageNum);
-                    
-                    // Lógica para que el PDF sea responsive
-                    // Calculamos el ancho disponible en la pantalla (dejando márgenes)
-                    const desiredWidth = Math.min(window.innerWidth * 0.9, 1000); 
-                    
-                    // Obtenemos el viewport original para saber su proporción
-                    const unscaledViewport = page.getViewport({ scale: 1 });
-                    
-                    // Calculamos la escala necesaria para llegar al desiredWidth
-                    // Si estás en un monitor 4K y quieres más calidad, puedes aumentar el multiplicador
-                    const scale = desiredWidth / unscaledViewport.width;
-                    const viewport = page.getViewport({ scale: scale * 1.5 }); // *1.5 para mayor nitidez en pantallas retina
-
-                    // Crear el elemento canvas para esta página
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    // Ajustar el tamaño del canvas
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    
-                    // Clases CSS para el canvas (apariencia de página física)
-                    canvas.className = 'bg-white shadow-[0_10px_40px_rgba(0,0,0,0.5)] rounded-sm max-w-full h-auto fade-in';
-                    
-                    // Renderizar la página en el contexto del canvas
-                    const renderContext = {
-                        canvasContext: ctx,
-                        viewport: viewport
-                    };
-                    
-                    // Añadir al contenedor antes de renderizar para ir mostrando progresivamente
-                    container.appendChild(canvas);
-                    
-                    await page.render(renderContext).promise;
-
-                    // Actualizar barra de progreso
-                    const progress = (pageNum / totalPages) * 100;
-                    progressBar.style.width = `${progress}%`;
-                }
-
-                // Ocultar el loader completamente al terminar
-                loadingState.style.display = 'none';
-
-            } catch (error) {
-                console.error('Error al cargar el PDF:', error);
-                loadingState.innerHTML = `
-                    <div class="text-red-400 text-center bg-red-400/10 p-6 rounded-xl border border-red-400/20">
-                        <i data-lucide="alert-triangle" class="w-10 h-10 mx-auto mb-3"></i>
-                        <h3 class="font-bold text-xl mb-2">Error al cargar el documento</h3>
-                        <p class="text-sm">No se pudo acceder al PDF. Asegúrate de que el repositorio sea público y la URL sea correcta.</p>
-                        <p class="text-xs text-red-500/70 mt-4">${error.message}</p>
+                // HTML de la sección (Título + Loader + Contenedor de páginas)
+                section.innerHTML = `
+                    <div class="flex items-center gap-3 mb-10 pb-4 border-b border-slate-700/50">
+                        <i data-lucide="file-text" class="w-8 h-8 text-blue-400"></i>
+                        <h2 class="text-3xl font-bold text-slate-100">${pdf.title}</h2>
                     </div>
+                    
+                    <div class="loading-state flex flex-col items-center justify-center py-20">
+                        <i data-lucide="loader-2" class="w-12 h-12 text-blue-500 animate-spin mb-4"></i>
+                        <p class="loading-text text-slate-400 text-lg font-medium">Descargando ${pdf.title}...</p>
+                        <div class="w-64 h-2 bg-slate-700 rounded-full mt-4 overflow-hidden">
+                            <div class="progress-bar h-full bg-blue-500 w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <div class="pdf-container flex flex-col items-center space-y-8"></div>
                 `;
-                lucide.createIcons();
+
+                mainContainer.appendChild(section);
+                lucide.createIcons(); // Re-inicializar iconos para esta sección
+
+                const loadingState = section.querySelector('.loading-state');
+                const loadingText = section.querySelector('.loading-text');
+                const progressBar = section.querySelector('.progress-bar');
+                const container = section.querySelector('.pdf-container');
+
+                try {
+                    const loadingTask = pdfjsLib.getDocument(pdf.url);
+                    const pdfDoc = await loadingTask.promise;
+                    
+                    const totalPages = pdfDoc.numPages;
+                    loadingText.textContent = `Preparando ${totalPages} páginas...`;
+
+                    for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+                        const page = await pdfDoc.getPage(pageNum);
+                        
+                        const desiredWidth = Math.min(window.innerWidth * 0.9, 1000); 
+                        const unscaledViewport = page.getViewport({ scale: 1 });
+                        const scale = desiredWidth / unscaledViewport.width;
+                        const viewport = page.getViewport({ scale: scale * 1.5 });
+
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        canvas.className = 'bg-white shadow-[0_10px_40px_rgba(0,0,0,0.5)] rounded-sm max-w-full h-auto fade-in';
+                        
+                        container.appendChild(canvas);
+                        
+                        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+                        const progress = (pageNum / totalPages) * 100;
+                        progressBar.style.width = `${progress}%`;
+                    }
+
+                    loadingState.style.display = 'none';
+
+                } catch (error) {
+                    console.error('Error al cargar el PDF:', error);
+                    loadingState.innerHTML = `
+                        <div class="text-red-400 text-center bg-red-400/10 p-6 rounded-xl border border-red-400/20">
+                            <i data-lucide="alert-triangle" class="w-10 h-10 mx-auto mb-3"></i>
+                            <h3 class="font-bold text-xl mb-2">Error al cargar el documento</h3>
+                            <p class="text-sm">No se pudo acceder al PDF. Asegúrate de que el repositorio sea público y la URL sea correcta.</p>
+                            <p class="text-xs text-red-500/70 mt-4">${error.message}</p>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                }
             }
         }
 
-        // Iniciar el renderizado
-        renderPDF();
-
-        // Recalcular tamaño al cambiar el tamaño de la ventana (opcional, para una experiencia más fluida, 
-        // aunque con "max-w-full h-auto" de Tailwind ya suele ser suficiente para adaptarse).
-        // En una implementación más compleja se volverían a renderizar los canvas, pero para mantenerlo ligero lo obviamos.
+        // Iniciar el renderizado en cadena
+        renderAllPDFs();
     </script>
 </body>
 </html>
