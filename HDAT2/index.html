@@ -22,7 +22,7 @@
     <!-- Google Fonts: Syne e Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Configuración Tailwind Avanzada (Idéntica al original) -->
+    <!-- Configuración Tailwind Avanzada -->
     <script>
         tailwind.config = {
             theme: {
@@ -196,7 +196,8 @@
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 4px solid #00f0ff;
-            padding: 1rem;
+            /* Modificado para dejar espacio a la derecha para el botón de copiar */
+            padding: 1.25rem 4rem 1.25rem 1.25rem; 
             border-radius: 0.75rem;
             font-family: monospace;
             color: #a5b4fc;
@@ -232,7 +233,6 @@
         </div>
         
         <div class="flex items-center">
-            <!-- Asumiendo que index.html es la raíz -->
             <a href="/" class="hoverable magnetic-btn flex items-center gap-2 bg-white/10 hover:bg-white text-white hover:text-black px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 <span class="hidden sm:inline">Volver al Portfolio</span>
@@ -283,10 +283,17 @@
                     <h3 class="font-display text-xl md:text-2xl font-bold text-white">Identificar el Número de Disco</h3>
                 </div>
                 <p class="text-slate-400 mb-4">Antes de mapear, necesitamos saber cómo Windows identifica tu disco físico. Abre la consola de comandos (CMD) o PowerShell <strong>como Administrador</strong> y ejecuta:</p>
-                <div class="code-block mb-4">
-C:\> diskpart
-DISKPART> list disk
+                
+                <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
+                <div class="relative group mb-4">
+                    <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan/50 rounded-md text-slate-300 hover:text-neon-cyan transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        <span class="font-medium hidden sm:inline">Copiar</span>
+                    </button>
+                    <div class="code-block">C:\> diskpart
+DISKPART> list disk</div>
                 </div>
+
                 <p class="text-slate-400">Observa la lista y anota el número del disco que quieres analizar (ejemplo: <code class="text-white bg-white/10 px-2 py-0.5 rounded">Disco 1</code>). Por lo tanto, su ruta interna será <code class="text-white bg-white/10 px-2 py-0.5 rounded">\\.\PhysicalDrive1</code>.</p>
             </div>
 
@@ -297,17 +304,42 @@ DISKPART> list disk
                     <h3 class="font-display text-xl md:text-2xl font-bold text-white">Crear el Enlace VMDK</h3>
                 </div>
                 <p class="text-slate-400 mb-4">Abre PowerShell o CMD <strong>como Administrador</strong> y navega a la carpeta de instalación de VirtualBox:</p>
-                <div class="code-block mb-4">cd "C:\Program Files\Oracle\VirtualBox"</div>
+                
+                <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
+                <div class="relative group mb-4">
+                    <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan/50 rounded-md text-slate-300 hover:text-neon-cyan transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        <span class="font-medium hidden sm:inline">Copiar</span>
+                    </button>
+                    <div class="code-block">cd "C:\Program Files\Oracle\VirtualBox"</div>
+                </div>
+
                 <p class="text-slate-400 mb-4">Ahora, ejecuta el comando para crear el archivo virtual que apuntará a tu disco físico. <br><span class="text-neon-cyan text-sm"><i data-lucide="info" class="inline w-4 h-4 mr-1"></i> <strong>Nota:</strong> Reemplaza 'PhysicalDrive1' con tu número de disco.</span></p>
                 
                 <div class="space-y-4">
                     <div>
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Moderna (Recomendada)</span>
-                        <div class="code-block text-green-400 border-l-green-400 mt-1">.\VBoxManage createmedium disk --filename "C:\Users\TuUsuario\Desktop\disco_fisico.vmdk" --format=VMDK --variant=RawDisk --property RawDrive=\\.\PhysicalDrive1</div>
+                        
+                        <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
+                        <div class="relative group mt-1">
+                            <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-green-400/20 border border-white/10 hover:border-green-400/50 rounded-md text-slate-300 hover:text-green-400 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span class="font-medium hidden sm:inline">Copiar</span>
+                            </button>
+                            <div class="code-block text-green-400 border-l-green-400">.\VBoxManage createmedium disk --filename "C:\Users\TuUsuario\Desktop\disco_fisico.vmdk" --format=VMDK --variant=RawDisk --property RawDrive=\\.\PhysicalDrive1</div>
+                        </div>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Antigua (Funciona, pero lanza warning)</span>
-                        <div class="code-block text-slate-400 border-l-slate-600 mt-1">.\VBoxManage internalcommands createrawvmdk -filename "C:\Users\TuUsuario\Desktop\disco_fisico.vmdk" -rawdisk \\.\PhysicalDrive1</div>
+                        
+                        <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
+                        <div class="relative group mt-1">
+                            <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-white/20 border border-white/10 hover:border-white/50 rounded-md text-slate-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span class="font-medium hidden sm:inline">Copiar</span>
+                            </button>
+                            <div class="code-block text-slate-400 border-l-slate-600">.\VBoxManage internalcommands createrawvmdk -filename "C:\Users\TuUsuario\Desktop\disco_fisico.vmdk" -rawdisk \\.\PhysicalDrive1</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -498,6 +530,72 @@ DISKPART> list disk
         }, { threshold: 0.15 });
 
         document.querySelectorAll('.gsap-reveal').forEach(el => observer.observe(el));
+
+        // --- LÓGICA DEL BOTÓN COPIAR CÓDIGO ---
+        function initCopyButtons() {
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const codeBlock = btn.nextElementSibling;
+                    if (!codeBlock || !codeBlock.classList.contains('code-block')) return;
+
+                    // Extraer el texto a copiar eliminando saltos innecesarios al inicio/fin
+                    const textToCopy = codeBlock.innerText.trim();
+                    const originalHTML = btn.innerHTML;
+
+                    try {
+                        // Método para copiar al portapapeles (Fallback soportado en iframes)
+                        const copyToClipboard = async (text) => {
+                            if (navigator.clipboard && window.isSecureContext) {
+                                return navigator.clipboard.writeText(text);
+                            } else {
+                                let textArea = document.createElement("textarea");
+                                textArea.value = text;
+                                textArea.style.position = "fixed";
+                                textArea.style.left = "-999999px";
+                                textArea.style.top = "-999999px";
+                                document.body.appendChild(textArea);
+                                textArea.focus();
+                                textArea.select();
+                                return new Promise((res, rej) => {
+                                    document.execCommand('copy') ? res() : rej();
+                                    textArea.remove();
+                                });
+                            }
+                        };
+
+                        await copyToClipboard(textToCopy);
+
+                        // Feedback visual de éxito
+                        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i><span class="font-medium text-green-400 hidden sm:inline">¡Copiado!</span>`;
+                        lucide.createIcons(); // Recargar iconos lucide
+                        
+                        // Añadir colores verdes y quitar los colores hover predeterminados temporalmente
+                        btn.classList.add('border-green-400/50', 'bg-green-400/10');
+                        btn.classList.remove('hover:bg-neon-cyan/20', 'hover:border-neon-cyan/50', 'hover:text-neon-cyan');
+
+                        // Restaurar botón después de 2 segundos
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                            lucide.createIcons();
+                            btn.classList.remove('border-green-400/50', 'bg-green-400/10');
+                            btn.classList.add('hover:bg-neon-cyan/20', 'hover:border-neon-cyan/50', 'hover:text-neon-cyan');
+                        }, 2000);
+
+                    } catch (err) {
+                        console.error('Error al copiar: ', err);
+                        btn.innerHTML = `<i data-lucide="x" class="w-3.5 h-3.5 text-red-400"></i><span class="font-medium text-red-400 hidden sm:inline">Error</span>`;
+                        lucide.createIcons();
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                            lucide.createIcons();
+                        }, 2000);
+                    }
+                });
+            });
+        }
+
+        // Inicializar funcionalidad de copiado
+        initCopyButtons();
     </script>
 </body>
 </html>
