@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth bg-black text-white">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-786S22Y69C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-786S22Y69C');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía: Diagnóstico de Discos Físicos en VirtualBox | Juan Martin Barrientos</title>
+    <title>Juan Martin Barrientos | Soluciones IT Premium</title>
 
     <!-- Metadatos para Compartir (Social Media) -->
-    <meta property="og:title" content="Guía: Raw Disk Access en VirtualBox">
-    <meta property="og:description" content="Aprende a mapear discos físicos en máquinas virtuales para diagnósticos de hardware a bajo nivel. Guía paso a paso y solución de errores.">
-    <meta property="og:type" content="article">
+    <meta property="og:title" content="Juan Martin Técnico IT">
+    <meta property="og:description" content="Especialista en Soporte IT y Help Desk. Soluciones técnicas integrales enfocadas en la experiencia del usuario, seguridad informática y mantenimiento de hardware.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/logo.jpeg">
+    <meta property="og:url" content="https://www.juanmartinbarrientos.com">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CERTIFICACIÓN INTERNACIONAL">
+    <meta name="twitter:description" content="Especialista en Soporte IT y Help Desk. Soluciones técnicas integrales enfocadas en la experiencia del usuario, seguridad informática y mantenimiento de hardware.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/logo.jpeg">
 
     <!-- Recursos de Identidad Visual -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <!-- Tailwind CSS -->
@@ -19,7 +37,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Google Fonts: Syne e Inter -->
+    <!-- Google Fonts: Syne (Ultra Moderna) e Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Configuración Tailwind Avanzada -->
@@ -50,7 +68,9 @@
 
     <style>
         /* --- ESTILOS BASE Y RENDIMIENTO --- */
-        * { cursor: none; }
+        * {
+            cursor: none; /* Ocultamos cursor nativo para usar el personalizado */
+        }
         body {
             background-color: #000;
             overflow-x: hidden;
@@ -70,14 +90,14 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(100px);
-            opacity: 0.5;
+            opacity: 0.6;
             animation: pulse 10s infinite alternate;
             transition: top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
             transform: translate(-50%, -50%);
             will-change: top, left;
         }
-        .blob-1 { width: 600px; height: 600px; background: rgba(112, 0, 255, 0.25); }
-        .blob-2 { width: 400px; height: 400px; background: rgba(0, 240, 255, 0.15); }
+        .blob-1 { width: 600px; height: 600px; background: rgba(112, 0, 255, 0.3); }
+        .blob-2 { width: 400px; height: 400px; background: rgba(0, 240, 255, 0.2); }
 
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); }
@@ -130,7 +150,7 @@
             position: absolute;
             inset: 0;
             border-radius: 24px;
-            padding: 1px;
+            padding: 1px; /* Grosor del borde */
             background: linear-gradient(
                 var(--mouse-angle, 0deg), 
                 rgba(255,255,255,0.3) 0%, 
@@ -144,13 +164,37 @@
             z-index: 1;
         }
         .glass-panel:hover {
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        .glass-panel.hover-lift:hover {
             transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
 
-        /* --- ANIMACIONES SCROLL REVEAL --- */
+        /* --- EFECTO HOLOGRÁFICO GOOGLE CERT --- */
+        .holographic-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .holographic-card::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(
+                45deg, 
+                transparent 40%, 
+                rgba(255,255,255,0.1) 45%, 
+                rgba(255,255,255,0.4) 50%, 
+                rgba(255,255,255,0.1) 55%, 
+                transparent 60%
+            );
+            transform: rotate(25deg) translateY(100%);
+            animation: shimmer 6s infinite;
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0% { transform: rotate(25deg) translateY(100%); }
+            20%, 100% { transform: rotate(25deg) translateY(-100%); }
+        }
+
+        /* --- ANIMACIONES SCROLL REVEAL (GPU Acelerado) --- */
         .gsap-reveal {
             opacity: 0;
             transform: translateY(60px) scale(0.95);
@@ -168,42 +212,13 @@
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
 
+        /* SCROLLBAR INVISIBLE PERO FUNCIONAL */
         ::-webkit-scrollbar { width: 0px; }
 
+        /* --- OPTIMIZACIÓN MOBILE (Ocultar cursor en táctil) --- */
         @media (hover: none) and (pointer: coarse) {
             #custom-cursor, #custom-cursor-dot { display: none !important; }
             * { cursor: auto !important; }
-        }
-
-        /* Utilidad para iframe responsivo */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
-            border-radius: 1rem;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        /* Estilo para bloques de código */
-        .code-block {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #00f0ff;
-            /* Modificado para dejar espacio a la derecha para el botón de copiar */
-            padding: 1.25rem 4rem 1.25rem 1.25rem; 
-            border-radius: 0.75rem;
-            font-family: monospace;
-            color: #a5b4fc;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
         }
     </style>
 </head>
@@ -219,224 +234,376 @@
         <div class="plasma-blob blob-2" id="blob2"></div>
     </div>
 
-    <!-- NAVEGACIÓN -->
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/60 backdrop-blur-2xl border border-white/10 rounded-full px-3 py-2 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
-        <div class="pl-2 md:pl-4 text-white font-display font-bold text-sm md:text-xl tracking-tight flex items-center gap-2 hoverable">
-            <i data-lucide="cpu" class="text-neon-cyan w-5 h-5"></i>
+    <!-- NAVEGACIÓN (Efecto Glass Avanzado) -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/40 backdrop-blur-2xl border border-white/10 rounded-full px-2 py-2 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+        <div class="pl-4 md:pl-6 text-white font-display font-bold text-lg md:text-xl tracking-tight flex items-center gap-2 hoverable">
+            <i data-lucide="cpu" class="text-neon-cyan w-5 h-5 md:w-6 md:h-6"></i>
             JMB<span class="text-neon-purple">.</span>
         </div>
         
         <div class="hidden md:flex gap-8 text-sm font-medium">
-            <a href="#guia" class="hoverable text-white hover:text-neon-cyan transition-colors">La Guía</a>
-            <a href="#multidisco" class="hoverable text-slate-400 hover:text-white transition-colors">Multidisco</a>
-            <a href="#errores" class="hoverable text-slate-400 hover:text-white transition-colors">Solución de Errores</a>
+            <a href="#home" class="hoverable text-white hover:text-neon-cyan transition-colors">Inicio</a>
+            <a href="#formacion" class="hoverable text-slate-400 hover:text-white transition-colors">Formación</a>
+            <a href="#trayectoria" class="hoverable text-slate-400 hover:text-white transition-colors">Trayectoria</a>
         </div>
         
-        <div class="flex items-center">
-            <a href="/" class="hoverable magnetic-btn flex items-center gap-2 bg-white/10 hover:bg-white text-white hover:text-black px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                <span class="hidden sm:inline">Volver al Portfolio</span>
-                <span class="sm:hidden">Volver</span>
+        <div class="flex items-center gap-2">
+            <a href="https://www.juanmartinbarrientos.com/extendido" target="_blank" class="hoverable magnetic-btn flex items-center gap-1 md:gap-2 border border-white/20 hover:bg-white/10 text-white px-3 py-2 md:px-5 md:py-3 rounded-full text-xs md:text-sm font-bold transition-all">
+                <i data-lucide="folder-open" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Portfolio Extendido</span>
+            </a>
+            <a href="#asistencia" class="hoverable magnetic-btn relative overflow-hidden group bg-white text-black px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-bold flex items-center gap-1 md:gap-2">
+                <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <i data-lucide="headset" class="w-4 h-4 relative z-10 group-hover:text-white transition-colors"></i> 
+                <span class="relative z-10 group-hover:text-white transition-colors hidden sm:inline">Soporte Inmediato</span>
+                <span class="relative z-10 group-hover:text-white transition-colors sm:hidden">Soporte</span>
             </a>
         </div>
     </nav>
 
     <!-- CONTENEDOR PRINCIPAL -->
-    <main class="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-36 md:pt-40 pb-32 space-y-24">
+    <main class="relative z-10 max-w-7xl mx-auto px-4 md:px-6 pt-36 md:pt-48 pb-32 space-y-32 md:space-y-48">
         
-        <!-- HERO SECTION -->
-        <section class="flex flex-col items-center text-center">
-            <div class="gsap-reveal mb-6 px-4 py-1.5 rounded-full border border-neon-cyan/30 bg-neon-cyan/10 text-xs md:text-sm font-medium text-neon-cyan inline-flex items-center gap-2 hoverable">
-                <i data-lucide="terminal-square" class="w-4 h-4"></i> Guía Técnica IT
+        <!-- HERO SECTION (Tipografía Kinética) -->
+        <section id="home" class="min-h-[70vh] flex flex-col justify-center items-center text-center scroll-mt-48">
+            <div class="gsap-reveal mb-8 px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-xs md:text-sm font-medium text-slate-300 inline-flex items-center gap-3 hoverable">
+                <span class="relative flex h-2 w-2 md:h-3 md:w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-cyan opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-neon-cyan"></span>
+                </span>
+                En línea y disponible para ayudarte
             </div>
             
-            <h1 class="gsap-reveal delay-100 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tighter leading-[1.1] mb-6 mix-blend-screen">
-                Raw Disk Access en VM: <br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple">
-                    Diagnóstico a Bajo Nivel.
+            <h1 class="gsap-reveal delay-100 font-display text-4xl sm:text-5xl md:text-[5.5rem] font-bold text-white tracking-tighter leading-[1] md:leading-[0.9] mb-6 md:mb-8 mix-blend-screen">
+                Tu Tecnología <br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple" style="background-size: 200% auto; animation: textGradient 5s linear infinite;">
+                    Sin Complicaciones.
                 </span>
             </h1>
             
-            <p class="gsap-reveal delay-200 text-base md:text-xl text-slate-400 font-light max-w-3xl mx-auto mb-10">
-                Aprende a mapear discos duros físicos directamente en VirtualBox. Ideal para ejecutar herramientas de diagnóstico (como HDAT2, Victoria o MHDD) sin tener que reiniciar tu equipo principal.
-            </p>
-        </section>
-
-        <!-- VIDEO SECTION -->
-        <section class="gsap-reveal interactive-border glass-panel p-2 md:p-4 hover-lift">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/mqD12sg9Bu0?si=hfyHYkSxuUvaws2S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="gsap-reveal delay-200 h-12 md:h-8 mb-12 md:mb-16">
+                <p id="typewriter" class="text-base sm:text-xl md:text-2xl text-slate-400 font-light font-display tracking-wide"></p>
+            </div>
+            
+            <div class="gsap-reveal delay-300 flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-6 w-full sm:w-auto px-4 sm:px-0">
+                <a href="#asistencia" class="hoverable magnetic-btn flex justify-center items-center gap-3 bg-neon-purple hover:bg-neon-cyan text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-display font-bold text-base md:text-lg transition-colors duration-500 shadow-[0_0_40px_rgba(112,0,255,0.4)] hover:shadow-[0_0_60px_rgba(0,240,255,0.6)] w-full sm:w-auto">
+                    <i data-lucide="zap" class="w-5 h-5 md:w-6 md:h-6 fill-current"></i>
+                    Iniciar Asistencia
+                </a>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hoverable flex justify-center items-center gap-3 border border-slate-700 hover:border-white hover:bg-white hover:text-black text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-display font-bold text-base md:text-lg transition-all duration-300 w-full sm:w-auto">
+                    <i data-lucide="linkedin" class="w-5 h-5 md:w-6 md:h-6"></i>
+                    Conectar
+                </a>
             </div>
         </section>
 
-        <!-- EL PASO A PASO -->
-        <section id="guia" class="space-y-8 scroll-mt-32">
-            <div class="gsap-reveal">
-                <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">El Paso a Paso</h2>
-                <p class="text-slate-400">Esta técnica te permite conectar un disco físico (por USB o SATA) a tu PC host y pasarlo "crudo" (Raw) a la máquina virtual. Ya sea que seas un novato curioso o un técnico experimentado, este proceso te ahorrará horas de reinicios.</p>
+        <!-- EXPERTISE (Glass Panels con rastreo de ratón) -->
+        <section id="expertise" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <div class="gsap-reveal text-center px-4">
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight mb-4 md:mb-6">Arquitectura & Soporte</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg font-light">Transformando incidencias complejas en procesos optimizados con un enfoque centrado en la empatía y la eficiencia técnica.</p>
             </div>
 
-            <!-- Paso 1 -->
-            <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal hoverable">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-10 h-10 rounded-full bg-neon-cyan/20 flex items-center justify-center text-neon-cyan font-bold border border-neon-cyan/50">1</div>
-                    <h3 class="font-display text-xl md:text-2xl font-bold text-white">Identificar el Número de Disco</h3>
-                </div>
-                <p class="text-slate-400 mb-4">Antes de mapear, necesitamos saber cómo Windows identifica tu disco físico. Abre la consola de comandos (CMD) o PowerShell <strong>como Administrador</strong> y ejecuta:</p>
-                
-                <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
-                <div class="relative group mb-4">
-                    <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan/50 rounded-md text-slate-300 hover:text-neon-cyan transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                        <span class="font-medium hidden sm:inline">Copiar</span>
-                    </button>
-                    <div class="code-block">C:\> diskpart
-DISKPART> list disk</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-6 md:p-10 gsap-reveal delay-100 hoverable interactive-border">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-neon-cyan/20 to-transparent flex items-center justify-center mb-6 md:mb-8 border border-neon-cyan/30">
+                        <i data-lucide="server" class="text-neon-cyan w-6 h-6 md:w-8 md:h-8"></i>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Administración SysAdmin</h3>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">Gestión de Active Directory, Microsoft Exchange, Office 365 y mantenimiento integral de infraestructura corporativa.</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Windows Server</span>
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">PowerShell</span>
+                    </div>
                 </div>
 
-                <p class="text-slate-400">Observa la lista y anota el número del disco que quieres analizar (ejemplo: <code class="text-white bg-white/10 px-2 py-0.5 rounded">Disco 1</code>). Por lo tanto, su ruta interna será <code class="text-white bg-white/10 px-2 py-0.5 rounded">\\.\PhysicalDrive1</code>.</p>
+                <!-- Card 2 -->
+                <div class="glass-panel p-6 md:p-10 gsap-reveal delay-200 hoverable interactive-border">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-neon-purple/20 to-transparent flex items-center justify-center mb-6 md:mb-8 border border-neon-purple/30">
+                        <i data-lucide="headset" class="text-neon-purple w-6 h-6 md:w-8 md:h-8"></i>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Field & Remote Support</h3>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">Diagnóstico remoto ágil y asistencia presencial de Nivel 1 y 2. Reducción de tiempos de inactividad garantizada.</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Troubleshooting</span>
+                        <span class="text-[10px] md:text-xs font-mono px-3 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300">Ticketing</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 (Impact) -->
+                <div class="glass-panel holographic-card p-8 md:p-10 gsap-reveal delay-300 hoverable flex flex-col justify-center text-center">
+                    <div class="text-5xl md:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 mb-2 md:mb-4">
+                        562K
+                    </div>
+                    <h3 class="font-display text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Impresiones Digitales</h3>
+                    <p class="text-slate-400 text-xs md:text-sm">Compartiendo consejos prácticos sobre seguridad digital, protección de datos y cuidado de equipos en LinkedIn.</p>
+                </div>
             </div>
+        </section>
 
-            <!-- Paso 2 -->
-            <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal delay-100 hoverable">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center text-neon-purple font-bold border border-neon-purple/50">2</div>
-                    <h3 class="font-display text-xl md:text-2xl font-bold text-white">Crear el Enlace VMDK</h3>
-                </div>
-                <p class="text-slate-400 mb-4">Abre PowerShell o CMD <strong>como Administrador</strong> y navega a la carpeta de instalación de VirtualBox:</p>
-                
-                <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
-                <div class="relative group mb-4">
-                    <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan/50 rounded-md text-slate-300 hover:text-neon-cyan transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                        <span class="font-medium hidden sm:inline">Copiar</span>
-                    </button>
-                    <div class="code-block">cd "C:\Program Files\Oracle\VirtualBox"</div>
-                </div>
-
-                <p class="text-slate-400 mb-4">Ahora, ejecuta el comando para crear el archivo virtual que apuntará a tu disco físico. <br><span class="text-neon-cyan text-sm"><i data-lucide="info" class="inline w-4 h-4 mr-1"></i> <strong>Nota:</strong> Reemplaza 'PhysicalDrive1' con tu número de disco.</span></p>
-                
-                <div class="space-y-4">
-                    <div>
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Moderna (Recomendada)</span>
-                        
-                        <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
-                        <div class="relative group mt-1">
-                            <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-green-400/20 border border-white/10 hover:border-green-400/50 rounded-md text-slate-300 hover:text-green-400 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                <span class="font-medium hidden sm:inline">Copiar</span>
-                            </button>
-                            <div class="code-block text-green-400 border-l-green-400">.\VBoxManage createmedium disk --filename "C:\Users\TuUsuario\Desktop\disco_fisico.vmdk" --format=VMDK --variant=RawDisk --property RawDrive=\\.\PhysicalDrive1</div>
+        <!-- GOOGLE CERTIFICATION (Diseño Premium) -->
+        <section class="gsap-reveal">
+            <div class="glass-panel p-1 hoverable">
+                <div class="bg-dark-900 rounded-[23px] p-6 sm:p-10 md:p-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 md:gap-12 relative overflow-hidden text-center lg:text-left">
+                    <!-- Foco de luz decorativo interno -->
+                    <div class="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-neon-cyan/10 blur-[80px] md:blur-[100px] rounded-full"></div>
+                    
+                    <div class="flex-1 relative z-10 flex flex-col items-center lg:items-start">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/5 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4 md:mb-6 border border-white/10">
+                            <i data-lucide="shield-check" class="w-3 h-3 md:w-4 md:h-4 text-green-400"></i> Certificación Oficial
+                        </div>
+                        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 md:mb-6">Google IT Support Professional</h2>
+                        <p class="text-slate-400 text-sm md:text-lg mb-6 md:mb-8 max-w-2xl font-light leading-relaxed">
+                            Acreditación avanzada en redes, sistemas operativos, seguridad informática y administración de sistemas directamente avalada por Google.
+                        </p>
+                        <a href="https://www.coursera.org/account/accomplishments/professional-cert/6RKLGWZV9GL9" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 md:gap-3 text-neon-cyan font-bold hover:text-white transition-colors group/link text-base md:text-lg">
+                            Validar Credencial
+                            <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6 group-hover/link:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="w-32 h-32 md:w-48 md:h-48 bg-white rounded-full flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(255,255,255,0.2)] md:shadow-[0_0_50px_rgba(255,255,255,0.2)] relative z-10">
+                        <div class="flex gap-[1px] md:gap-1 font-display font-black text-2xl md:text-4xl tracking-tighter">
+                            <span class="text-[#4285F4]">G</span>
+                            <span class="text-[#EA4335]">o</span>
+                            <span class="text-[#FBBC05]">o</span>
+                            <span class="text-[#4285F4]">g</span>
+                            <span class="text-[#34A853]">l</span>
+                            <span class="text-[#EA4335]">e</span>
                         </div>
                     </div>
-                    <div>
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Antigua (Funciona, pero lanza warning)</span>
-                        
-                        <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
-                        <div class="relative group mt-1">
-                            <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-white/20 border border-white/10 hover:border-white/50 rounded-md text-slate-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                <span class="font-medium hidden sm:inline">Copiar</span>
-                            </button>
-                            <div class="code-block text-slate-400 border-l-slate-600">.\VBoxManage internalcommands createrawvmdk -filename "C:\Users\TuUsuario\Desktop\disco_fisico.vmdk" -rawdisk \\.\PhysicalDrive1</div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-
-            <!-- Paso 3 -->
-            <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal delay-200 hoverable">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-10 h-10 rounded-full bg-neon-pink/20 flex items-center justify-center text-neon-pink font-bold border border-neon-pink/50">3</div>
-                    <h3 class="font-display text-xl md:text-2xl font-bold text-white">Montar en VirtualBox</h3>
-                </div>
-                <p class="text-slate-400 mb-4">
-                    1. Abre VirtualBox (<strong>debes ejecutarlo como Administrador</strong>, de lo contrario dará error de permisos al leer el disco físico).<br>
-                    2. Crea una nueva máquina virtual o edita una existente.<br>
-                    3. Ve a <strong>Configuración > Almacenamiento</strong>.<br>
-                    4. En el controlador SATA/IDE, añade un disco duro existente y selecciona el archivo <code class="text-white">disco_fisico.vmdk</code> que creaste en tu escritorio.<br>
-                    5. Monta la imagen ISO de tu herramienta de diagnóstico (como HDAT2 o Hiren's Boot CD) en la unidad óptica virtual.<br>
-                    6. ¡Inicia la máquina!
-                </p>
             </div>
         </section>
 
-        <!-- ANÁLISIS SIMULTÁNEO (MULTIDISCO) -->
-        <section id="multidisco" class="scroll-mt-32 gsap-reveal">
-            <div class="glass-panel p-8 md:p-10 border border-white/10 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-neon-cyan/10 blur-[80px] rounded-full pointer-events-none"></div>
+        <!-- FORMACIÓN CONTINUA -->
+        <section id="formacion" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <div class="flex items-center justify-center md:justify-between gsap-reveal text-center md:text-left">
+                <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">Formación Continua</h2>
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent ml-10 hidden md:block"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <!-- Grupo 1 -->
+                <div class="glass-panel p-6 md:p-8 gsap-reveal delay-100 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-neon-cyan mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="server" class="w-6 h-6 md:w-7 md:h-7"></i> Infraestructura & SO
+                    </h3>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="https://www.coursera.org/account/accomplishments/verify/HCMCELJ3QCPK" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Admin. de Sistemas e Infraestructura IT</span>
+                            <span class="text-[10px] md:text-xs font-mono text-blue-400 bg-blue-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Coursera</span>
+                        </a>
+                        <a href="https://www.coursera.org/account/accomplishments/verify/SR2BZXRTPZ22" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Sistemas Operativos Avanzados</span>
+                            <span class="text-[10px] md:text-xs font-mono text-blue-400 bg-blue-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Coursera</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/5877-linux/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Administración de Servidores (Linux)</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Grupo 2 -->
+                <div class="glass-panel p-6 md:p-8 gsap-reveal delay-200 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-neon-purple mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="network" class="w-6 h-6 md:w-7 md:h-7"></i> Redes & Soporte
+                    </h3>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="https://platzi.com/p/jmb-8888/curso/1770-avanzado-redes/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Curso Avanzado de Redes de Internet</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/1282-soporte-usuarios/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Servicio al Cliente y Soporte a Usuarios</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/2292-terminal-21/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Terminal de Comandos</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                    </div>
+                </div>
                 
-                <h2 class="font-display text-2xl md:text-4xl font-bold text-white mb-6 flex items-center gap-3">
-                    <i data-lucide="layers" class="text-neon-cyan w-8 h-8"></i>
-                    Diagnóstico Simultáneo (Nivel PRO)
-                </h2>
-                <p class="text-slate-300 text-lg mb-6 font-light leading-relaxed">
-                    ¿Tienes un dock station con múltiples bahías o varios discos conectados por USB? Puedes analizarlos todos a la vez sin bloquear tu PC principal. Así es cómo se hace:
-                </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-black/40 rounded-2xl p-5 border border-white/5">
-                        <h4 class="font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="hard-drive" class="text-slate-400 w-4 h-4"></i> Opción A: Todo en una VM</h4>
-                        <p class="text-sm text-slate-400">Repite el <strong>Paso 2</strong> para cada disco físico (creando <code>disco1.vmdk</code>, <code>disco2.vmdk</code>, etc.). Añade todos los archivos VMDK a una única máquina virtual. Al iniciar HDAT2 o MHDD, podrás seleccionar los diferentes puertos y ponerlos en cola de escaneo.</p>
+                 <!-- Grupo 3 -->
+                 <div class="glass-panel p-6 md:p-8 gsap-reveal delay-100 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-neon-pink mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="shield-alert" class="w-6 h-6 md:w-7 md:h-7"></i> Seguridad & IoT
+                    </h3>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="https://platzi.com/p/jmb-8888/curso/1647-course/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Seguridad Informática para Empresas</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/2684-course/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Introducción al Pentesting</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/1506-course/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Introducción al IoT</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
                     </div>
-                    <div class="bg-black/40 rounded-2xl p-5 border border-white/5">
-                        <h4 class="font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="monitor-play" class="text-neon-cyan w-4 h-4"></i> Opción B: Múltiples VMs (Recomendado)</h4>
-                        <p class="text-sm text-slate-400">Para un verdadero análisis paralelo sin saturar el bus virtual, crea <strong>varias máquinas virtuales ligeras</strong> (con solo 512MB o 1GB de RAM). Asigna el <code>disco1.vmdk</code> a la VM1, el <code>disco2.vmdk</code> a la VM2, y así sucesivamente. ¡Ejecútalas todas a la vez!</p>
+                </div>
+
+                <!-- Grupo 4 -->
+                <div class="glass-panel p-6 md:p-8 gsap-reveal delay-200 hoverable interactive-border">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-yellow-400 mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                        <i data-lucide="code" class="w-6 h-6 md:w-7 md:h-7"></i> Software & Tools
+                    </h3>
+                    <div class="space-y-2 md:space-y-3">
+                        <a href="https://platzi.com/p/jmb-8888/curso/1557-git-github/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Git y GitHub Profesional</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/1098-ingenieria2017/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Fundamentos de Ingeniería de Software</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/6900-configuracion-windows/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Config. Entorno de Desarrollo Windows</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
+                        <a href="https://platzi.com/p/jmb-8888/curso/3208-course/diploma/detalle/" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10 gap-2">
+                            <span class="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Programación Básica</span>
+                            <span class="text-[10px] md:text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 md:px-3 md:py-1 rounded-full w-fit">Platzi</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TROUBLESHOOTING (SOLUCIÓN DE ERRORES) -->
-        <section id="errores" class="space-y-6 scroll-mt-32">
-            <h2 class="font-display text-2xl md:text-4xl font-bold text-white mb-8 gsap-reveal">Solución de Errores Comunes</h2>
-
-            <!-- Error 1 -->
-            <div class="glass-panel p-6 interactive-border gsap-reveal hoverable border-l-4 border-l-red-500">
-                <h3 class="font-bold text-white text-lg flex items-center gap-2 mb-2">
-                    <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5"></i> 
-                    VERR_ACCESS_DENIED o "Permission denied"
-                </h3>
-                <p class="text-slate-400 text-sm mb-3">Ocurre al intentar crear el VMDK o al arrancar la máquina virtual. Windows bloquea el acceso directo al disco por seguridad.</p>
-                <div class="bg-white/5 p-3 rounded-lg text-sm text-slate-300">
-                    <strong class="text-neon-cyan">Solución:</strong> Es fundamental abrir la consola de comandos (CMD/PowerShell) <strong>Como Administrador</strong> para crear el archivo. Además, debes iniciar el programa VirtualBox haciendo clic derecho y seleccionando <strong>"Ejecutar como administrador"</strong>.
+        <!-- TRAYECTORIA -->
+        <section id="trayectoria" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight gsap-reveal text-center md:text-left">Experiencia Técnica</h2>
+            
+            <div class="space-y-6">
+                <!-- Job 1 -->
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal hoverable interactive-border">
+                    <div class="flex-1">
+                        <div class="text-neon-cyan font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Dic 2023 — Mar 2024</div>
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-2">Field Support IT</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">Smartway SRL (Cinemark Hoyts)</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Instalación corporativa crítica, Active Directory, Office 365 y configuración de kioscos de autoservicio.</p>
+                    </div>
+                    <div class="shrink-0 px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10 bg-black/40 text-white text-xs md:text-sm font-medium backdrop-blur-md self-start md:self-auto">
+                        Presencial & Remoto
+                    </div>
                 </div>
-            </div>
 
-            <!-- Error 2 -->
-            <div class="glass-panel p-6 interactive-border gsap-reveal delay-100 hoverable border-l-4 border-l-yellow-500">
-                <h3 class="font-bold text-white text-lg flex items-center gap-2 mb-2">
-                    <i data-lucide="info" class="text-yellow-500 w-5 h-5"></i> 
-                    "The 'createrawvmdk' subcommand is deprecated"
-                </h3>
-                <p class="text-slate-400 text-sm mb-3">Te aparece una advertencia en la consola indicando que el comando es obsoleto, aunque el archivo dice "Medium created" al final.</p>
-                <div class="bg-white/5 p-3 rounded-lg text-sm text-slate-300">
-                    <strong class="text-neon-cyan">Solución:</strong> No es un error crítico, el archivo se crea igual y funciona perfectamente. Sin embargo, si quieres hacer las cosas con el estándar actual de VirtualBox, utiliza el comando <code class="bg-black px-1 rounded text-white">createmedium</code> detallado en el Paso 2.
+                <!-- Job 2 -->
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal delay-100 hoverable interactive-border opacity-100 md:opacity-80 hover:opacity-100">
+                    <div class="flex-1">
+                        <div class="text-slate-500 font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Jul 2023 — Oct 2023</div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Técnico de Ensamble Notebook del Gobierno</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">DINATECH</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Producción y armado de equipos portátiles. Resolución de incidencias de hardware a gran escala.</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Error 3 -->
-            <div class="glass-panel p-6 interactive-border gsap-reveal delay-200 hoverable border-l-4 border-l-orange-500">
-                <h3 class="font-bold text-white text-lg flex items-center gap-2 mb-2">
-                    <i data-lucide="lock" class="text-orange-500 w-5 h-5"></i> 
-                    VERR_SHARING_VIOLATION (El disco está en uso)
-                </h3>
-                <p class="text-slate-400 text-sm mb-3">La máquina virtual no arranca porque Windows u otro programa (como el explorador de archivos) está accediendo al disco físico.</p>
-                <div class="bg-white/5 p-3 rounded-lg text-sm text-slate-300">
-                    <strong class="text-neon-cyan">Solución:</strong> Abre el "Administrador de discos" de Windows (<code>diskmgmt.msc</code>). Haz clic derecho sobre el cuadro gris izquierdo del disco que quieres analizar y selecciona <strong>"Sin conexión" (Offline)</strong>. Esto evita que Windows lo monte, dejándolo libre exclusivo para VirtualBox.
+                <!-- Job 3 -->
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal delay-200 hoverable interactive-border opacity-100 md:opacity-70 hover:opacity-100">
+                    <div class="flex-1">
+                        <div class="text-slate-500 font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Feb 2022 — Feb 2023</div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Especialista Field Support</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">FP Soluciones (Rapipago)</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Diagnóstico remoto ágil y ejecución en sitio para terminales comerciales. Puesta en marcha de redes en nuevas sucursales.</p>
+                    </div>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="glass-panel p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center justify-between gsap-reveal delay-300 hoverable interactive-border opacity-100 md:opacity-60 hover:opacity-100">
+                    <div class="flex-1">
+                        <div class="text-slate-500 font-mono text-xs md:text-sm mb-2 md:mb-3 tracking-widest uppercase">Jun 2007 — Nov 2017</div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Especialista IT, BackOffice & Operaciones</h3>
+                        <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">MegaTech, UniversoPC, Bibici SRL & Adgem S.r.l</div>
+                        <p class="text-slate-500 font-light text-sm md:text-base">Más de 10 años de experiencia consolidada en soporte técnico de campo, supervisión de BackOffice para clientes bancarios/estatales (AFIP, Banco Galicia), ventas corporativas de tecnología y administración general de sistemas y locales informáticos.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="relative mt-20 border-t border-white/5 pt-10 pb-10 overflow-hidden">
-        <div class="max-w-5xl mx-auto px-4 md:px-6 z-10 relative flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span class="text-xs md:text-sm font-medium text-slate-500 text-center">© 2026 Juan Martin Barrientos - IT Solutions</span>
-            <div class="flex gap-4">
-                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hoverable text-slate-500 hover:text-white transition-colors">
-                    <i class="fa-brands fa-linkedin-in text-xl"></i>
+    <!-- ZONA DE ASISTENCIA Y CONTACTO -->
+    <footer id="asistencia" class="relative mt-20 md:mt-32 bg-dark-900 border-t border-white/5 pt-20 pb-10 md:pt-32 md:pb-16 overflow-hidden scroll-mt-32">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[500px] bg-gradient-to-b from-neon-purple/20 via-neon-cyan/10 to-transparent blur-[80px] md:blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-6 z-10 relative gsap-reveal">
+            
+            <div class="text-center mb-16 md:mb-24">
+                <h2 class="font-display text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 md:mb-8 leading-[1.1]">
+                    ¿Tu tecnología te frena? <br class="hidden sm:block"/> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple block sm:inline mt-2 sm:mt-0">Conectemos la solución.</span>
+                </h2>
+                <p class="text-slate-400 text-base sm:text-xl max-w-2xl mx-auto font-light">
+                    Resolución de incidencias al instante. Envía un mensaje directo o inicia un rescate remoto.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-stretch mb-16 md:mb-24">
+                <div class="glass-panel p-8 md:p-12 hoverable flex flex-col justify-center text-center lg:text-left">
+                    <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Contacto Directo</h3>
+                    <p class="text-slate-400 mb-8 md:mb-12 font-light text-base md:text-lg">Escríbeme por WhatsApp o correo detallando el problema de tu equipo.</p>
+                    
+                    <div class="flex flex-col gap-4 md:gap-6">
+                        <a href="https://wa.me/5491169578193" target="_blank" rel="noreferrer" class="magnetic-btn flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 bg-white text-black hover:bg-gray-200 px-6 py-4 md:px-8 md:py-6 rounded-2xl font-bold text-sm sm:text-base md:text-lg transition-transform text-center">
+                            <div class="bg-black/10 p-2 md:p-3 rounded-full"><i class="fa-brands fa-whatsapp w-5 h-5 md:w-6 md:h-6 flex items-center justify-center"></i></div>
+                            WhatsApp (+54 9 11 6957-8193)
+                        </a>
+                        <a href="mailto:juanmartinbarrientos@me.com" class="magnetic-btn flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 border border-white/20 text-white hover:bg-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl font-bold text-sm sm:text-base md:text-lg transition-all text-center">
+                            <div class="bg-white/10 p-2 md:p-3 rounded-full"><i class="fa-regular fa-envelope w-5 h-5 md:w-6 md:h-6 flex items-center justify-center"></i></div>
+                            juanmartinbarrientos@me.com
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 md:p-12 hoverable interactive-border">
+                    <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 flex items-center justify-center lg:justify-start gap-3 md:gap-4">
+                        <i data-lucide="monitor-check" class="text-neon-cyan w-6 h-6 md:w-8 md:h-8"></i> Rescate Remoto
+                    </h3>
+                    <p class="text-slate-400 mb-8 md:mb-10 font-light text-base md:text-lg text-center lg:text-left">Si necesitas que ingrese a tu PC de forma segura (vía AnyDesk):</p>
+                    
+                    <div class="space-y-4 md:space-y-6 mb-8 md:mb-12">
+                        <div class="flex items-center gap-4 md:gap-6 bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-base md:text-lg shrink-0">1</div>
+                            <div>
+                                <h4 class="text-white font-bold text-base md:text-lg">Descargar</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Baja la app con los botones inferiores.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 md:gap-6 bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-base md:text-lg shrink-0">2</div>
+                            <div>
+                                <h4 class="text-white font-bold text-base md:text-lg">Ejecutar</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Abre el archivo (no requiere instalación).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 md:gap-6 bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-base md:text-lg shrink-0">3</div>
+                            <div>
+                                <h4 class="text-white font-bold text-base md:text-lg">Conectar</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Pásame tu "Puesto de trabajo" (9 dígitos).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                        <a href="https://anydesk.com/es/downloads/thank-you?dv=win_exe" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-blue-600 to-neon-cyan text-white px-4 py-3 md:px-6 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+                            <i data-lucide="download" class="w-4 h-4 md:w-5 md:h-5"></i> Windows
+                        </a>
+                        <a href="https://anydesk.com/es/downloads/thank-you?dv=mac_dmg" target="_blank" rel="noopener noreferrer" class="magnetic-btn flex-1 flex items-center justify-center gap-2 md:gap-3 bg-white/10 hover:bg-white/20 text-white px-4 py-3 md:px-6 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all border border-white/10">
+                            <i class="fa-brands fa-apple w-4 h-4 md:w-5 md:h-5"></i> macOS
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between border-t border-white/10 pt-6 md:pt-8 gap-4 sm:gap-0">
+                <span class="text-xs md:text-sm font-medium text-slate-500 text-center">© 2026 Juan Martin Barrientos</span>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noreferrer" class="hoverable text-slate-500 hover:text-white transition-colors">
+                    <i class="fa-brands fa-linkedin-in text-xl md:text-2xl"></i>
                 </a>
             </div>
         </div>
@@ -444,10 +611,8 @@ DISKPART> list disk</div>
 
     <!-- SCRIPTS INTERACTIVOS -->
     <script>
-        // Inicializar iconos
         lucide.createIcons();
 
-        // Control del cursor y el fondo
         const cursor = document.getElementById('custom-cursor');
         const cursorDot = document.getElementById('custom-cursor-dot');
         const blob1 = document.getElementById('blob1');
@@ -479,22 +644,18 @@ DISKPART> list disk</div>
             cursorY += (mouseY - cursorY) * 0.2;
             cursor.style.left = `${cursorX}px`;
             cursor.style.top = `${cursorY}px`;
-            
             blob1X += (mouseX - blob1X) * 0.02;
             blob1Y += (mouseY - blob1Y) * 0.02;
             blob1.style.left = `${blob1X}px`;
             blob1.style.top = `${blob1Y}px`;
-            
             blob2X += (mouseX - blob2X) * 0.01;
             blob2Y += (mouseY - blob2Y) * 0.01;
             blob2.style.left = `${window.innerWidth - blob2X}px`;
             blob2.style.top = `${window.innerHeight - blob2Y}px`;
-            
             requestAnimationFrame(renderLoop);
         }
         renderLoop();
 
-        // Efecto de bordes interactivos en tarjetas de cristal
         document.querySelectorAll('.interactive-border').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
@@ -507,7 +668,6 @@ DISKPART> list disk</div>
             });
         });
 
-        // Botones magnéticos
         document.querySelectorAll('.magnetic-btn').forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
@@ -520,7 +680,6 @@ DISKPART> list disk</div>
             });
         });
 
-        // Animaciones de Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -531,71 +690,19 @@ DISKPART> list disk</div>
 
         document.querySelectorAll('.gsap-reveal').forEach(el => observer.observe(el));
 
-        // --- LÓGICA DEL BOTÓN COPIAR CÓDIGO ---
-        function initCopyButtons() {
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const codeBlock = btn.nextElementSibling;
-                    if (!codeBlock || !codeBlock.classList.contains('code-block')) return;
-
-                    // Extraer el texto a copiar eliminando saltos innecesarios al inicio/fin
-                    const textToCopy = codeBlock.innerText.trim();
-                    const originalHTML = btn.innerHTML;
-
-                    try {
-                        // Método para copiar al portapapeles (Fallback soportado en iframes)
-                        const copyToClipboard = async (text) => {
-                            if (navigator.clipboard && window.isSecureContext) {
-                                return navigator.clipboard.writeText(text);
-                            } else {
-                                let textArea = document.createElement("textarea");
-                                textArea.value = text;
-                                textArea.style.position = "fixed";
-                                textArea.style.left = "-999999px";
-                                textArea.style.top = "-999999px";
-                                document.body.appendChild(textArea);
-                                textArea.focus();
-                                textArea.select();
-                                return new Promise((res, rej) => {
-                                    document.execCommand('copy') ? res() : rej();
-                                    textArea.remove();
-                                });
-                            }
-                        };
-
-                        await copyToClipboard(textToCopy);
-
-                        // Feedback visual de éxito
-                        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i><span class="font-medium text-green-400 hidden sm:inline">¡Copiado!</span>`;
-                        lucide.createIcons(); // Recargar iconos lucide
-                        
-                        // Añadir colores verdes y quitar los colores hover predeterminados temporalmente
-                        btn.classList.add('border-green-400/50', 'bg-green-400/10');
-                        btn.classList.remove('hover:bg-neon-cyan/20', 'hover:border-neon-cyan/50', 'hover:text-neon-cyan');
-
-                        // Restaurar botón después de 2 segundos
-                        setTimeout(() => {
-                            btn.innerHTML = originalHTML;
-                            lucide.createIcons();
-                            btn.classList.remove('border-green-400/50', 'bg-green-400/10');
-                            btn.classList.add('hover:bg-neon-cyan/20', 'hover:border-neon-cyan/50', 'hover:text-neon-cyan');
-                        }, 2000);
-
-                    } catch (err) {
-                        console.error('Error al copiar: ', err);
-                        btn.innerHTML = `<i data-lucide="x" class="w-3.5 h-3.5 text-red-400"></i><span class="font-medium text-red-400 hidden sm:inline">Error</span>`;
-                        lucide.createIcons();
-                        setTimeout(() => {
-                            btn.innerHTML = originalHTML;
-                            lucide.createIcons();
-                        }, 2000);
-                    }
-                });
-            });
+        const text = "> Juan Martin Barrientos. SysAdmin, Redes y Hardware Support.";
+        const typeContainer = document.getElementById('typewriter');
+        let index = 0;
+        function typeWriter() {
+            if (index < text.length) {
+                typeContainer.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            } else {
+                typeContainer.innerHTML += '<span class="animate-pulse text-neon-cyan">_</span>';
+            }
         }
-
-        // Inicializar funcionalidad de copiado
-        initCopyButtons();
+        setTimeout(typeWriter, 1200);
     </script>
 </body>
 </html>
