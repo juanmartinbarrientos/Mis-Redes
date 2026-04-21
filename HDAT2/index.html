@@ -5,24 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guía: Diagnóstico de Discos Físicos en VirtualBox | Juan Martin Barrientos</title>
 
-    <!-- Metadatos para Compartir (Social Media) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-786S22Y69C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-786S22Y69C');
+    </script>
+
     <meta property="og:title" content="Guía: Raw Disk Access en VirtualBox">
     <meta property="og:description" content="Aprende a mapear discos físicos en máquinas virtuales para diagnósticos de hardware a bajo nivel. Guía paso a paso y solución de errores.">
     <meta property="og:type" content="article">
 
-    <!-- Recursos de Identidad Visual -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Google Fonts: Syne e Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Configuración Tailwind Avanzada -->
     <script>
         tailwind.config = {
             theme: {
@@ -209,17 +212,14 @@
 </head>
 <body class="text-slate-300 relative">
 
-    <!-- CURSOR PERSONALIZADO -->
     <div id="custom-cursor"></div>
     <div id="custom-cursor-dot"></div>
 
-    <!-- FONDO DE PLASMA -->
     <div id="plasma-bg">
         <div class="plasma-blob blob-1" id="blob1"></div>
         <div class="plasma-blob blob-2" id="blob2"></div>
     </div>
 
-    <!-- NAVEGACIÓN -->
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/60 backdrop-blur-2xl border border-white/10 rounded-full px-3 py-2 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
         <div class="pl-2 md:pl-4 text-white font-display font-bold text-sm md:text-xl tracking-tight flex items-center gap-2 hoverable">
             <i data-lucide="cpu" class="text-neon-cyan w-5 h-5"></i>
@@ -241,10 +241,8 @@
         </div>
     </nav>
 
-    <!-- CONTENEDOR PRINCIPAL -->
     <main class="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-36 md:pt-40 pb-32 space-y-24">
         
-        <!-- HERO SECTION -->
         <section class="flex flex-col items-center text-center">
             <div class="gsap-reveal mb-6 px-4 py-1.5 rounded-full border border-neon-cyan/30 bg-neon-cyan/10 text-xs md:text-sm font-medium text-neon-cyan inline-flex items-center gap-2 hoverable">
                 <i data-lucide="terminal-square" class="w-4 h-4"></i> Guía Técnica IT
@@ -262,21 +260,18 @@
             </p>
         </section>
 
-        <!-- VIDEO SECTION -->
         <section class="gsap-reveal interactive-border glass-panel p-2 md:p-4 hover-lift">
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/mqD12sg9Bu0?si=hfyHYkSxuUvaws2S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </section>
 
-        <!-- EL PASO A PASO -->
         <section id="guia" class="space-y-8 scroll-mt-32">
             <div class="gsap-reveal">
                 <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">El Paso a Paso</h2>
                 <p class="text-slate-400">Esta técnica te permite conectar un disco físico (por USB o SATA) a tu PC host y pasarlo "crudo" (Raw) a la máquina virtual. Ya sea que seas un novato curioso o un técnico experimentado, este proceso te ahorrará horas de reinicios.</p>
             </div>
 
-            <!-- Paso 1 -->
             <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal hoverable">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 rounded-full bg-neon-cyan/20 flex items-center justify-center text-neon-cyan font-bold border border-neon-cyan/50">1</div>
@@ -284,7 +279,6 @@
                 </div>
                 <p class="text-slate-400 mb-4">Antes de mapear, necesitamos saber cómo Windows identifica tu disco físico. Abre la consola de comandos (CMD) o PowerShell <strong>como Administrador</strong> y ejecuta:</p>
                 
-                <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
                 <div class="relative group mb-4">
                     <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan/50 rounded-md text-slate-300 hover:text-neon-cyan transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
                         <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -297,7 +291,6 @@ DISKPART> list disk</div>
                 <p class="text-slate-400">Observa la lista y anota el número del disco que quieres analizar (ejemplo: <code class="text-white bg-white/10 px-2 py-0.5 rounded">Disco 1</code>). Por lo tanto, su ruta interna será <code class="text-white bg-white/10 px-2 py-0.5 rounded">\\.\PhysicalDrive1</code>.</p>
             </div>
 
-            <!-- Paso 2 -->
             <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal delay-100 hoverable">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center text-neon-purple font-bold border border-neon-purple/50">2</div>
@@ -305,7 +298,6 @@ DISKPART> list disk</div>
                 </div>
                 <p class="text-slate-400 mb-4">Abre PowerShell o CMD <strong>como Administrador</strong> y navega a la carpeta de instalación de VirtualBox:</p>
                 
-                <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
                 <div class="relative group mb-4">
                     <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan/50 rounded-md text-slate-300 hover:text-neon-cyan transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
                         <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -320,7 +312,6 @@ DISKPART> list disk</div>
                     <div>
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Moderna (Recomendada)</span>
                         
-                        <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
                         <div class="relative group mt-1">
                             <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-green-400/20 border border-white/10 hover:border-green-400/50 rounded-md text-slate-300 hover:text-green-400 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -332,7 +323,6 @@ DISKPART> list disk</div>
                     <div>
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Antigua (Funciona, pero lanza warning)</span>
                         
-                        <!-- BLOQUE DE CÓDIGO CON BOTÓN -->
                         <div class="relative group mt-1">
                             <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-white/20 border border-white/10 hover:border-white/50 rounded-md text-slate-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -344,7 +334,6 @@ DISKPART> list disk</div>
                 </div>
             </div>
 
-            <!-- Paso 3 -->
             <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal delay-200 hoverable">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 rounded-full bg-neon-pink/20 flex items-center justify-center text-neon-pink font-bold border border-neon-pink/50">3</div>
@@ -361,7 +350,6 @@ DISKPART> list disk</div>
             </div>
         </section>
 
-        <!-- ANÁLISIS SIMULTÁNEO (MULTIDISCO) -->
         <section id="multidisco" class="scroll-mt-32 gsap-reveal">
             <div class="glass-panel p-8 md:p-10 border border-white/10 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-neon-cyan/10 blur-[80px] rounded-full pointer-events-none"></div>
@@ -387,11 +375,9 @@ DISKPART> list disk</div>
             </div>
         </section>
 
-        <!-- TROUBLESHOOTING (SOLUCIÓN DE ERRORES) -->
         <section id="errores" class="space-y-6 scroll-mt-32">
             <h2 class="font-display text-2xl md:text-4xl font-bold text-white mb-8 gsap-reveal">Solución de Errores Comunes</h2>
 
-            <!-- Error 1 -->
             <div class="glass-panel p-6 interactive-border gsap-reveal hoverable border-l-4 border-l-red-500">
                 <h3 class="font-bold text-white text-lg flex items-center gap-2 mb-2">
                     <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5"></i> 
@@ -403,7 +389,6 @@ DISKPART> list disk</div>
                 </div>
             </div>
 
-            <!-- Error 2 -->
             <div class="glass-panel p-6 interactive-border gsap-reveal delay-100 hoverable border-l-4 border-l-yellow-500">
                 <h3 class="font-bold text-white text-lg flex items-center gap-2 mb-2">
                     <i data-lucide="info" class="text-yellow-500 w-5 h-5"></i> 
@@ -415,7 +400,6 @@ DISKPART> list disk</div>
                 </div>
             </div>
 
-            <!-- Error 3 -->
             <div class="glass-panel p-6 interactive-border gsap-reveal delay-200 hoverable border-l-4 border-l-orange-500">
                 <h3 class="font-bold text-white text-lg flex items-center gap-2 mb-2">
                     <i data-lucide="lock" class="text-orange-500 w-5 h-5"></i> 
@@ -430,7 +414,6 @@ DISKPART> list disk</div>
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="relative mt-20 border-t border-white/5 pt-10 pb-10 overflow-hidden">
         <div class="max-w-5xl mx-auto px-4 md:px-6 z-10 relative flex flex-col sm:flex-row items-center justify-between gap-4">
             <span class="text-xs md:text-sm font-medium text-slate-500 text-center">© 2026 Juan Martin Barrientos - IT Solutions</span>
@@ -442,7 +425,6 @@ DISKPART> list disk</div>
         </div>
     </footer>
 
-    <!-- SCRIPTS INTERACTIVOS -->
     <script>
         // Inicializar iconos
         lucide.createIcons();
