@@ -66,6 +66,55 @@
         }
     </script>
 
+    <!-- Datos Estructurados SEO (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Juan Martin Barrientos - Soluciones IT Premium",
+      "url": "https://www.juanmartinbarrientos.com",
+      "image": "https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/logo.jpeg",
+      "description": "Técnico IT experto con amplia experiencia y paciencia en la resolución de casos técnicos complejos. Especialista en soporte remoto, administración de sistemas y consultoría personalizada para el armado de computadoras a medida.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "AR"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios Técnicos Especializados",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Soporte Remoto y Casos Críticos",
+              "description": "Resolución de problemas de software y sistemas con un enfoque metódico y paciente para errores de difícil diagnóstico."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Armado de PC a Medida y Consultoría",
+              "description": "Asesoramiento integral para principiantes: selección de componentes según presupuesto, búsqueda de proveedores confiables y guía paso a paso para el armado del primer equipo."
+            }
+          }
+        ]
+      },
+      "knowsAbout": [
+        "Hardware PC",
+        "Soporte Técnico Remoto",
+        "Windows Server",
+        "Linux",
+        "Optimización de Sistemas",
+        "Asesoramiento de compras de hardware"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/juanmartinbarrientos/"
+      ]
+    }
+    </script>
+
     <style>
         /* --- ESTILOS BASE Y RENDIMIENTO --- */
         * {
@@ -519,6 +568,45 @@
                         <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2">Especialista IT, BackOffice & Operaciones</h3>
                         <div class="text-slate-400 text-base md:text-lg mb-3 md:mb-4">MegaTech, UniversoPC, Bibici SRL & Adgem S.r.l</div>
                         <p class="text-slate-500 font-light text-sm md:text-base">Más de 10 años de experiencia consolidada en soporte técnico de campo, supervisión de BackOffice para clientes bancarios/estatales (AFIP, Banco Galicia), ventas corporativas de tecnología y administración general de sistemas y locales informáticos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIOS -->
+        <section id="testimonios" class="space-y-12 md:space-y-16 scroll-mt-32">
+            <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight gsap-reveal text-center md:text-left">Testimonios</h2>
+            
+            <div class="glass-panel p-8 md:p-12 gsap-reveal hoverable interactive-border relative overflow-hidden">
+                <!-- Icono decorativo de comillas -->
+                <i data-lucide="quote" class="absolute top-6 right-6 md:top-10 md:right-10 w-16 h-16 md:w-24 md:h-24 text-white/5 rotate-180 pointer-events-none"></i>
+                
+                <div class="relative z-10 flex flex-col md:flex-row gap-6 md:gap-10 items-center md:items-start">
+                    <!-- Avatar con anillo de gradiente -->
+                    <div class="w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-full bg-gradient-to-br from-neon-pink to-neon-purple p-[2px] shadow-[0_0_30px_rgba(255,0,60,0.3)]">
+                        <div class="w-full h-full bg-dark-900 rounded-full flex items-center justify-center font-display text-3xl md:text-4xl font-bold text-white">
+                            S
+                        </div>
+                    </div>
+                    
+                    <!-- Contenido del Testimonio -->
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="flex gap-1 justify-center md:justify-start mb-4 text-yellow-400 text-sm md:text-base">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-lg md:text-2xl font-light text-slate-300 italic mb-6 leading-relaxed">
+                            "Con Juan pude lograr avanzar en mi proyecto sin que la tecnología sea un obstáculo. Resolvió todo con mucha paciencia y profesionalismo. ¡Lo súper recomiendo!"
+                        </p>
+                        <div>
+                            <h4 class="font-display text-lg md:text-xl font-bold text-white">Sabrina Gentile</h4>
+                            <a href="https://www.sabrinagentile.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center md:justify-start gap-2 text-neon-cyan text-sm md:text-base mt-2 hover:text-white transition-colors group">
+                                <i data-lucide="external-link" class="w-4 h-4 group-hover:scale-110 transition-transform"></i> www.sabrinagentile.com
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
