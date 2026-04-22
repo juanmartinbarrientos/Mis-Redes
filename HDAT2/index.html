@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth bg-black text-white">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía: Diagnóstico de Discos Físicos en VirtualBox | Juan Martin Barrientos</title>
-
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-786S22Y69C"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
+    
       gtag('config', 'G-786S22Y69C');
     </script>
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Diagnóstico de Discos Físicos en VirtualBox | Juan Martin Barrientos</title>
+
+    <!-- Metadatos para Compartir (Social Media) -->
     <meta property="og:title" content="Guía: Raw Disk Access en VirtualBox">
     <meta property="og:description" content="Aprende a mapear discos físicos en máquinas virtuales para diagnósticos de hardware a bajo nivel. Guía paso a paso y solución de errores.">
     <meta property="og:type" content="article">
 
+    <!-- Recursos de Identidad Visual -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Google Fonts: Syne e Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Configuración Tailwind Avanzada -->
     <script>
         tailwind.config = {
             theme: {
@@ -199,7 +206,6 @@
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 4px solid #00f0ff;
-            /* Modificado para dejar espacio a la derecha para el botón de copiar */
             padding: 1.25rem 4rem 1.25rem 1.25rem; 
             border-radius: 0.75rem;
             font-family: monospace;
@@ -212,14 +218,17 @@
 </head>
 <body class="text-slate-300 relative">
 
+    <!-- CURSOR PERSONALIZADO -->
     <div id="custom-cursor"></div>
     <div id="custom-cursor-dot"></div>
 
+    <!-- FONDO DE PLASMA -->
     <div id="plasma-bg">
         <div class="plasma-blob blob-1" id="blob1"></div>
         <div class="plasma-blob blob-2" id="blob2"></div>
     </div>
 
+    <!-- NAVEGACIÓN -->
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl bg-dark-800/60 backdrop-blur-2xl border border-white/10 rounded-full px-3 py-2 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
         <div class="pl-2 md:pl-4 text-white font-display font-bold text-sm md:text-xl tracking-tight flex items-center gap-2 hoverable">
             <i data-lucide="cpu" class="text-neon-cyan w-5 h-5"></i>
@@ -241,8 +250,10 @@
         </div>
     </nav>
 
+    <!-- CONTENEDOR PRINCIPAL -->
     <main class="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-36 md:pt-40 pb-32 space-y-24">
         
+        <!-- HERO SECTION -->
         <section class="flex flex-col items-center text-center">
             <div class="gsap-reveal mb-6 px-4 py-1.5 rounded-full border border-neon-cyan/30 bg-neon-cyan/10 text-xs md:text-sm font-medium text-neon-cyan inline-flex items-center gap-2 hoverable">
                 <i data-lucide="terminal-square" class="w-4 h-4"></i> Guía Técnica IT
@@ -260,18 +271,21 @@
             </p>
         </section>
 
+        <!-- VIDEO SECTION -->
         <section class="gsap-reveal interactive-border glass-panel p-2 md:p-4 hover-lift">
             <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/mqD12sg9Bu0?si=hfyHYkSxuUvaws2S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/H91OX6-iCvs?si=rYQolbYU5DF4uxA0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </section>
 
+        <!-- EL PASO A PASO -->
         <section id="guia" class="space-y-8 scroll-mt-32">
             <div class="gsap-reveal">
                 <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">El Paso a Paso</h2>
                 <p class="text-slate-400">Esta técnica te permite conectar un disco físico (por USB o SATA) a tu PC host y pasarlo "crudo" (Raw) a la máquina virtual. Ya sea que seas un novato curioso o un técnico experimentado, este proceso te ahorrará horas de reinicios.</p>
             </div>
 
+            <!-- Paso 1 -->
             <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal hoverable">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 rounded-full bg-neon-cyan/20 flex items-center justify-center text-neon-cyan font-bold border border-neon-cyan/50">1</div>
@@ -291,6 +305,7 @@ DISKPART> list disk</div>
                 <p class="text-slate-400">Observa la lista y anota el número del disco que quieres analizar (ejemplo: <code class="text-white bg-white/10 px-2 py-0.5 rounded">Disco 1</code>). Por lo tanto, su ruta interna será <code class="text-white bg-white/10 px-2 py-0.5 rounded">\\.\PhysicalDrive1</code>.</p>
             </div>
 
+            <!-- Paso 2 -->
             <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal delay-100 hoverable">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center text-neon-purple font-bold border border-neon-purple/50">2</div>
@@ -311,7 +326,6 @@ DISKPART> list disk</div>
                 <div class="space-y-4">
                     <div>
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Moderna (Recomendada)</span>
-                        
                         <div class="relative group mt-1">
                             <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-green-400/20 border border-white/10 hover:border-green-400/50 rounded-md text-slate-300 hover:text-green-400 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -322,7 +336,6 @@ DISKPART> list disk</div>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sintaxis Antigua (Funciona, pero lanza warning)</span>
-                        
                         <div class="relative group mt-1">
                             <button class="copy-btn absolute top-3 right-3 px-2.5 py-1.5 bg-dark-800/80 hover:bg-white/20 border border-white/10 hover:border-white/50 rounded-md text-slate-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1.5 text-xs backdrop-blur-md z-10 hoverable" title="Copiar código">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
@@ -334,22 +347,24 @@ DISKPART> list disk</div>
                 </div>
             </div>
 
+            <!-- Paso 3 -->
             <div class="glass-panel p-6 md:p-8 interactive-border gsap-reveal delay-200 hoverable">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 rounded-full bg-neon-pink/20 flex items-center justify-center text-neon-pink font-bold border border-neon-pink/50">3</div>
                     <h3 class="font-display text-xl md:text-2xl font-bold text-white">Montar en VirtualBox</h3>
                 </div>
                 <p class="text-slate-400 mb-4">
-                    1. Abre VirtualBox (<strong>debes ejecutarlo como Administrador</strong>, de lo contrario dará error de permisos al leer el disco físico).<br>
+                    1. Abre VirtualBox (<strong>debes ejecutarlo como Administrador</strong>).<br>
                     2. Crea una nueva máquina virtual o edita una existente.<br>
                     3. Ve a <strong>Configuración > Almacenamiento</strong>.<br>
-                    4. En el controlador SATA/IDE, añade un disco duro existente y selecciona el archivo <code class="text-white">disco_fisico.vmdk</code> que creaste en tu escritorio.<br>
-                    5. Monta la imagen ISO de tu herramienta de diagnóstico (como HDAT2 o Hiren's Boot CD) en la unidad óptica virtual.<br>
+                    4. En el controlador SATA/IDE, añade un disco duro existente y selecciona el archivo <code class="text-white">disco_fisico.vmdk</code>.<br>
+                    5. Monta la imagen ISO de tu herramienta de diagnóstico.<br>
                     6. ¡Inicia la máquina!
                 </p>
             </div>
         </section>
 
+        <!-- ANÁLISIS SIMULTÁNEO (MULTIDISCO) -->
         <section id="multidisco" class="scroll-mt-32 gsap-reveal">
             <div class="glass-panel p-8 md:p-10 border border-white/10 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-neon-cyan/10 blur-[80px] rounded-full pointer-events-none"></div>
@@ -359,22 +374,23 @@ DISKPART> list disk</div>
                     Diagnóstico Simultáneo (Nivel PRO)
                 </h2>
                 <p class="text-slate-300 text-lg mb-6 font-light leading-relaxed">
-                    ¿Tienes un dock station con múltiples bahías o varios discos conectados por USB? Puedes analizarlos todos a la vez sin bloquear tu PC principal. Así es cómo se hace:
+                    ¿Tienes un dock station con múltiples bahías o varios discos conectados por USB? Puedes analizarlos todos a la vez.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-black/40 rounded-2xl p-5 border border-white/5">
                         <h4 class="font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="hard-drive" class="text-slate-400 w-4 h-4"></i> Opción A: Todo en una VM</h4>
-                        <p class="text-sm text-slate-400">Repite el <strong>Paso 2</strong> para cada disco físico (creando <code>disco1.vmdk</code>, <code>disco2.vmdk</code>, etc.). Añade todos los archivos VMDK a una única máquina virtual. Al iniciar HDAT2 o MHDD, podrás seleccionar los diferentes puertos y ponerlos en cola de escaneo.</p>
+                        <p class="text-sm text-slate-400">Repite el <strong>Paso 2</strong> para cada disco físico. Añade todos los archivos VMDK a una única máquina virtual.</p>
                     </div>
                     <div class="bg-black/40 rounded-2xl p-5 border border-white/5">
                         <h4 class="font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="monitor-play" class="text-neon-cyan w-4 h-4"></i> Opción B: Múltiples VMs (Recomendado)</h4>
-                        <p class="text-sm text-slate-400">Para un verdadero análisis paralelo sin saturar el bus virtual, crea <strong>varias máquinas virtuales ligeras</strong> (con solo 512MB o 1GB de RAM). Asigna el <code>disco1.vmdk</code> a la VM1, el <code>disco2.vmdk</code> a la VM2, y así sucesivamente. ¡Ejecútalas todas a la vez!</p>
+                        <p class="text-sm text-slate-400">Crea varias máquinas virtuales ligeras y asigna un disco a cada una para análisis paralelo real.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- TROUBLESHOOTING (SOLUCIÓN DE ERRORES) -->
         <section id="errores" class="space-y-6 scroll-mt-32">
             <h2 class="font-display text-2xl md:text-4xl font-bold text-white mb-8 gsap-reveal">Solución de Errores Comunes</h2>
 
@@ -383,9 +399,8 @@ DISKPART> list disk</div>
                     <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5"></i> 
                     VERR_ACCESS_DENIED o "Permission denied"
                 </h3>
-                <p class="text-slate-400 text-sm mb-3">Ocurre al intentar crear el VMDK o al arrancar la máquina virtual. Windows bloquea el acceso directo al disco por seguridad.</p>
                 <div class="bg-white/5 p-3 rounded-lg text-sm text-slate-300">
-                    <strong class="text-neon-cyan">Solución:</strong> Es fundamental abrir la consola de comandos (CMD/PowerShell) <strong>Como Administrador</strong> para crear el archivo. Además, debes iniciar el programa VirtualBox haciendo clic derecho y seleccionando <strong>"Ejecutar como administrador"</strong>.
+                    <strong class="text-neon-cyan">Solución:</strong> Es fundamental abrir la consola y VirtualBox <strong>Como Administrador</strong>.
                 </div>
             </div>
 
@@ -394,9 +409,8 @@ DISKPART> list disk</div>
                     <i data-lucide="info" class="text-yellow-500 w-5 h-5"></i> 
                     "The 'createrawvmdk' subcommand is deprecated"
                 </h3>
-                <p class="text-slate-400 text-sm mb-3">Te aparece una advertencia en la consola indicando que el comando es obsoleto, aunque el archivo dice "Medium created" al final.</p>
                 <div class="bg-white/5 p-3 rounded-lg text-sm text-slate-300">
-                    <strong class="text-neon-cyan">Solución:</strong> No es un error crítico, el archivo se crea igual y funciona perfectamente. Sin embargo, si quieres hacer las cosas con el estándar actual de VirtualBox, utiliza el comando <code class="bg-black px-1 rounded text-white">createmedium</code> detallado en el Paso 2.
+                    <strong class="text-neon-cyan">Solución:</strong> No es un error crítico, el archivo se crea igual. Usa <code class="bg-black px-1 rounded text-white">createmedium</code> para el estándar actual.
                 </div>
             </div>
 
@@ -405,15 +419,15 @@ DISKPART> list disk</div>
                     <i data-lucide="lock" class="text-orange-500 w-5 h-5"></i> 
                     VERR_SHARING_VIOLATION (El disco está en uso)
                 </h3>
-                <p class="text-slate-400 text-sm mb-3">La máquina virtual no arranca porque Windows u otro programa (como el explorador de archivos) está accediendo al disco físico.</p>
                 <div class="bg-white/5 p-3 rounded-lg text-sm text-slate-300">
-                    <strong class="text-neon-cyan">Solución:</strong> Abre el "Administrador de discos" de Windows (<code>diskmgmt.msc</code>). Haz clic derecho sobre el cuadro gris izquierdo del disco que quieres analizar y selecciona <strong>"Sin conexión" (Offline)</strong>. Esto evita que Windows lo monte, dejándolo libre exclusivo para VirtualBox.
+                    <strong class="text-neon-cyan">Solución:</strong> Pon el disco en modo <strong>"Sin conexión" (Offline)</strong> desde el Administrador de Discos de Windows.
                 </div>
             </div>
         </section>
 
     </main>
 
+    <!-- FOOTER -->
     <footer class="relative mt-20 border-t border-white/5 pt-10 pb-10 overflow-hidden">
         <div class="max-w-5xl mx-auto px-4 md:px-6 z-10 relative flex flex-col sm:flex-row items-center justify-between gap-4">
             <span class="text-xs md:text-sm font-medium text-slate-500 text-center">© 2026 Juan Martin Barrientos - IT Solutions</span>
@@ -426,10 +440,8 @@ DISKPART> list disk</div>
     </footer>
 
     <script>
-        // Inicializar iconos
         lucide.createIcons();
 
-        // Control del cursor y el fondo
         const cursor = document.getElementById('custom-cursor');
         const cursorDot = document.getElementById('custom-cursor-dot');
         const blob1 = document.getElementById('blob1');
@@ -461,22 +473,18 @@ DISKPART> list disk</div>
             cursorY += (mouseY - cursorY) * 0.2;
             cursor.style.left = `${cursorX}px`;
             cursor.style.top = `${cursorY}px`;
-            
             blob1X += (mouseX - blob1X) * 0.02;
             blob1Y += (mouseY - blob1Y) * 0.02;
             blob1.style.left = `${blob1X}px`;
             blob1.style.top = `${blob1Y}px`;
-            
             blob2X += (mouseX - blob2X) * 0.01;
             blob2Y += (mouseY - blob2Y) * 0.01;
             blob2.style.left = `${window.innerWidth - blob2X}px`;
             blob2.style.top = `${window.innerHeight - blob2Y}px`;
-            
             requestAnimationFrame(renderLoop);
         }
         renderLoop();
 
-        // Efecto de bordes interactivos en tarjetas de cristal
         document.querySelectorAll('.interactive-border').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
@@ -489,7 +497,6 @@ DISKPART> list disk</div>
             });
         });
 
-        // Botones magnéticos
         document.querySelectorAll('.magnetic-btn').forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
@@ -502,7 +509,6 @@ DISKPART> list disk</div>
             });
         });
 
-        // Animaciones de Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -513,19 +519,16 @@ DISKPART> list disk</div>
 
         document.querySelectorAll('.gsap-reveal').forEach(el => observer.observe(el));
 
-        // --- LÓGICA DEL BOTÓN COPIAR CÓDIGO ---
         function initCopyButtons() {
             document.querySelectorAll('.copy-btn').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     const codeBlock = btn.nextElementSibling;
                     if (!codeBlock || !codeBlock.classList.contains('code-block')) return;
 
-                    // Extraer el texto a copiar eliminando saltos innecesarios al inicio/fin
                     const textToCopy = codeBlock.innerText.trim();
                     const originalHTML = btn.innerHTML;
 
                     try {
-                        // Método para copiar al portapapeles (Fallback soportado en iframes)
                         const copyToClipboard = async (text) => {
                             if (navigator.clipboard && window.isSecureContext) {
                                 return navigator.clipboard.writeText(text);
@@ -546,16 +549,11 @@ DISKPART> list disk</div>
                         };
 
                         await copyToClipboard(textToCopy);
-
-                        // Feedback visual de éxito
                         btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i><span class="font-medium text-green-400 hidden sm:inline">¡Copiado!</span>`;
-                        lucide.createIcons(); // Recargar iconos lucide
-                        
-                        // Añadir colores verdes y quitar los colores hover predeterminados temporalmente
+                        lucide.createIcons();
                         btn.classList.add('border-green-400/50', 'bg-green-400/10');
                         btn.classList.remove('hover:bg-neon-cyan/20', 'hover:border-neon-cyan/50', 'hover:text-neon-cyan');
 
-                        // Restaurar botón después de 2 segundos
                         setTimeout(() => {
                             btn.innerHTML = originalHTML;
                             lucide.createIcons();
@@ -564,7 +562,6 @@ DISKPART> list disk</div>
                         }, 2000);
 
                     } catch (err) {
-                        console.error('Error al copiar: ', err);
                         btn.innerHTML = `<i data-lucide="x" class="w-3.5 h-3.5 text-red-400"></i><span class="font-medium text-red-400 hidden sm:inline">Error</span>`;
                         lucide.createIcons();
                         setTimeout(() => {
@@ -575,8 +572,6 @@ DISKPART> list disk</div>
                 });
             });
         }
-
-        // Inicializar funcionalidad de copiado
         initCopyButtons();
     </script>
 </body>
