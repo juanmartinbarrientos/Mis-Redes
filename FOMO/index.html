@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfajores FOMO | El Alfajor Más Viral del País</title>
+    <!-- Meta tags SEO -->
+    <meta name="description" content="Descubre los alfajores caseros más deseados. Lotes limitados diarios con dulce de leche premium y chocolate belga. ¡No te quedes con las ganas!">
+    <meta name="keywords" content="alfajores, alfajores caseros, FOMO, dulce de leche, chocolate premium, alfajores artesanales">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="#" class="logo" id="nav-logo">
+                <span>FOMO</span>
+                <span class="logo-dot">.</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#secreto" id="link-secreto">El Secreto</a>
+                <a href="#menu" id="link-menu">El Menú</a>
+                <a href="#hype" id="link-hype">El Hype</a>
+                <a href="#pedidos" class="cta-btn-nav" id="btn-nav-order">Reservar Lote</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Abrir menú" id="mobile-menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section with Social Media Post -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- Left: Engaging Text Content -->
+            <div class="hero-content">
+                <div class="hype-badge">
+                    <i class="fa-solid fa-fire-flame-curved"></i> Sold out ayer en 12 minutos
+                </div>
+                <h1 class="hero-title">El alfajor que rompió <span class="text-gradient">internet</span>.</h1>
+                <p class="hero-description">
+                    Alfajores artesanales rellenos de extra dulce de leche bañados en chocolate.<br><br>No te pierdas probarlos y que te de “fomo”.
+                </p>
+                <div class="hero-actions">
+                    <a href="#pedidos" class="btn-primary" id="btn-hero-join">Unirse a la lista de espera</a>
+                    <a href="#menu" class="btn-secondary" id="btn-hero-explore">Explorar sabores</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-num">100%</span>
+                        <span class="stat-label">Artesanal</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-num">150</span>
+                        <span class="stat-label">Lotes Diarios</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-num">4.9/5</span>
+                        <span class="stat-label">Hype Rating</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Social Media Post -->
+            <div class="hero-visual">
+                <div class="instagram-post-card" id="main-post-card">
+                    <!-- Post Header -->
+                    <div class="post-header">
+                        <div class="post-user-img">
+                            <span class="avatar-text">F</span>
+                        </div>
+                        <div class="post-user-info">
+                            <div class="username-wrapper">
+                                <span class="username">alfajores.fomo</span>
+                                <span class="verified-badge" title="Cuenta verificada"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                            <span class="location">Buenos Aires, Argentina</span>
+                        </div>
+                        <button class="post-more-btn" aria-label="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                    </div>
+
+                    <!-- Post Image Container -->
+                    <div class="post-image-container" id="post-image-wrap">
+                        <img src="images/alfajor.png" alt="Alfajor artesanal FOMO relleno de dulce de leche premium" class="post-image" id="alfajor-img">
+                        <!-- Brand URL Overlay -->
+                        <div class="brand-url-overlay">
+                            <span>WWW.ALFAJORESFOMO.COM</span>
+                        </div>
+                        <!-- Big Heart Pop Animation Element -->
+                        <div class="big-heart-pop" id="heart-pop-el">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+
+                    <!-- Post Actions Bar -->
+                    <div class="post-actions">
+                        <div class="action-left">
+                            <button class="action-btn heart-btn" id="like-button" aria-label="Dar me gusta">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <button class="action-btn" aria-label="Comentar"><i class="fa-regular fa-comment"></i></button>
+                            <button class="action-btn" aria-label="Compartir"><i class="fa-regular fa-paper-plane"></i></button>
+                        </div>
+                        <button class="action-btn bookmark-btn" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
+                    </div>
+
+                    <!-- Post Likes -->
+                    <div class="post-likes">
+                        <span class="likes-text">Le gusta a <strong>juanmartinbarrientos</strong> y <strong id="likes-count">2.145.892</strong> <strong>personas más</strong></span>
+                    </div>
+
+                    <!-- Post Caption -->
+                    <div class="post-caption">
+                        <p>
+                            <span class="caption-username">alfajores.fomo</span> El verdadero sabor del dulce de leche artesanal y chocolate premium. Lotes limitados todos los días. ¿Vas a quedarte con las ganas? 🤫🍫 <a href="#pedidos" class="hashtag">#FOMO</a> <a href="#secreto" class="hashtag">#AlfajoresCaseros</a> <a href="#menu" class="hashtag">#ChocolateLover</a>
+                        </p>
+                    </div>
+
+                    <!-- Post Comments Preview -->
+                    <div class="post-comments">
+                        <span class="view-comments">Ver los 142.859 comentarios</span>
+                        <div class="comment-item">
+                            <span class="comment-user">gastronomia_arg</span> <span class="comment-text">¡El de chocolate blanco es de otro planeta! 🤤🔥</span>
+                        </div>
+                        <div class="comment-item">
+                            <span class="comment-user">dulce_obsesion</span> <span class="comment-text">Hice fila virtual a las 8 am y valió totalmente la pena. El mejor del país.</span>
+                        </div>
+                    </div>
+
+                    <!-- Post Time -->
+                    <div class="post-time">Hace 2 horas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- "El Secreto" Section (Ingredients / Craftsmanship) -->
+    <section class="secreto-section" id="secreto">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-subtitle">¿Por qué son tan especiales?</span>
+                <h2 class="section-title">El Secreto de Nuestra Receta</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="secreto-grid">
+                <div class="secreto-card">
+                    <div class="secreto-icon">
+                        <i class="fa-solid fa-cow"></i>
+                    </div>
+                    <h3>Dulce de Leche Extremo</h3>
+                    <p>Utilizamos una receta familiar exclusiva de dulce de leche colonial, con doble cocción lenta. Más denso, más cremoso, inolvidable.</p>
+                </div>
+                
+                <div class="secreto-card">
+                    <div class="secreto-icon">
+                        <i class="fa-solid fa-candy-cane"></i>
+                    </div>
+                    <h3>Chocolate Belga Real</h3>
+                    <p>Nada de coberturas hidro-genadas. Bañados exclusivamente en auténtico chocolate premium templado a mano para lograr el crujido perfecto.</p>
+                </div>
+                
+                <div class="secreto-card">
+                    <div class="secreto-icon">
+                        <i class="fa-solid fa-mortar-pestle"></i>
+                    </div>
+                    <h3>Masa de Humedad Perfecta</h3>
+                    <p>Harina seleccionada y un reposo de 24 horas en frío que le otorga a la masa una textura sedosa que se deshace en tu boca.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- "El Menú" Section (Flavors Showcase) -->
+    <section class="menu-section" id="menu">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-subtitle">Nuestra Colección</span>
+                <h2 class="section-title">Sabores que Generan Adicción</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="menu-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-badge">El Más Vendido</div>
+                    <div class="product-img-wrapper">
+                        <div class="product-placeholder-img classic-dark">
+                            <span class="card-overlay-text">FOMO Classic</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>FOMO Classic Dark</h3>
+                        <p class="product-desc">Doble galleta de cacao black, relleno de 70g de dulce de leche artesanal, bañado en chocolate amargo 70% belga.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$99.200</span>
+                            <a href="#pedidos" class="product-order-btn">Reservar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-badge premium">Edición Deluxe</div>
+                    <div class="product-img-wrapper">
+                        <div class="product-placeholder-img white-deluxe">
+                            <span class="card-overlay-text">FOMO White</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>FOMO Gold White</h3>
+                        <p class="product-desc">Masa de vainilla con ralladura de naranja, doble relleno de dulce de leche, bañado en chocolate blanco premium y lluvia de almendras tostadas.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$105.400</span>
+                            <a href="#pedidos" class="product-order-btn">Reservar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-badge classic">Favorito Tradicional</div>
+                    <div class="product-img-wrapper">
+                        <div class="product-placeholder-img maicena-hype">
+                            <span class="card-overlay-text">FOMO Maicena</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>FOMO Hype Maicena</h3>
+                        <p class="product-desc">Textura ultra-suave que se derrite al tacto, extra dulce de leche de campo y bordes rebozados en coco rallado tostado.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$89.900</span>
+                            <a href="#pedidos" class="product-order-btn">Reservar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- "El Hype" Section (FOMO mechanics/Hype builder) -->
+    <section class="hype-section" id="hype">
+        <div class="hype-overlay"></div>
+        <div class="section-container hype-inner">
+            <h2 class="hype-title">¿Vas a dejar que te lo cuenten?</h2>
+            <p class="hype-text">
+                El efecto FOMO (Fear Of Missing Out) es real. Producimos lotes diarios limitados de solo 150 unidades. La cocina abre a las 09:00 AM y los pedidos se procesan por orden de llegada. Únete a la lista de espera o arriésgate a quedarte afuera.
+            </p>
+            <div class="hype-countdown-container">
+                <span class="countdown-label">Próxima apertura de cocina:</span>
+                <div class="countdown-timer" id="countdown-timer">
+                    <div class="timer-box">
+                        <span class="timer-num" id="hours">14</span>
+                        <span class="timer-txt">Horas</span>
+                    </div>
+                    <span class="timer-colon">:</span>
+                    <div class="timer-box">
+                        <span class="timer-num" id="minutes">32</span>
+                        <span class="timer-txt">Minutos</span>
+                    </div>
+                    <span class="timer-colon">:</span>
+                    <div class="timer-box">
+                        <span class="timer-num" id="seconds">05</span>
+                        <span class="timer-txt">Segundos</span>
+                    </div>
+                </div>
+            </div>
+            <a href="#pedidos" class="btn-primary pulse-effect" id="btn-hype-join">Asegurar mi lugar en la lista</a>
+        </div>
+    </section>
+
+    <!-- Form / Order Section -->
+    <section class="pedidos-section" id="pedidos">
+        <div class="section-container">
+            <div class="order-box-wrapper">
+                <div class="order-info-panel">
+                    <h3>Pide Tus FOMO</h3>
+                    <p>Regístrate en la lista de prioridad o reserva una caja de tu sabor favorito para la entrega de mañana. Recibirás una confirmación por WhatsApp y Email en cuanto confirmemos tu cupo.</p>
+                    <ul class="order-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Caja Mix de 6 u 12 unidades.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Envíos en el día (CABA y GBA).</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Retiro programado por taller.</li>
+                    </ul>
+                    <div class="contact-mini">
+                        <div class="contact-item">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span>+54 11 9876-5432</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>hola@alfajoresfomo.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-form-panel">
+                    <h3 class="form-title">Reservar Caja</h3>
+                    <form id="order-form" class="interactive-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-name">Nombre y Apellido</label>
+                                <input type="text" id="form-name" required placeholder="Tu nombre">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-email">Email</label>
+                                <input type="email" id="form-email" required placeholder="ejemplo@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="form-phone">Teléfono (WhatsApp)</label>
+                                <input type="tel" id="form-phone" required placeholder="11 2345-6789">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-pack">Selecciona tu Box</label>
+                                <select id="form-pack" required>
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="mix-6">Box Mix (6 unidades) - $18.000</option>
+                                    <option value="mix-12">Box Mix (12 unidades) - $33.000</option>
+                                    <option value="classic-6">Box Classic Dark (6 unidades) - $17.500</option>
+                                    <option value="white-6">Box Gold White (6 unidades) - $18.500</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-msg">Mensaje / Requerimiento especial (Opcional)</label>
+                                <textarea id="form-msg" rows="3" placeholder="¿Alguna aclaración sobre la entrega?"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-submit" id="btn-submit-order">
+                            <span class="btn-text">Enviar Solicitud de Reserva</span>
+                            <i class="fa-solid fa-paper-plane btn-icon"></i>
+                        </button>
+                    </form>
+                    <!-- Form Success Message -->
+                    <div class="form-success-alert" id="form-success-msg">
+                        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h4>¡Reserva Recibida!</h4>
+                        <p>Hemos bloqueado tu cupo de forma temporal. Te enviaremos un WhatsApp en los próximos 15 minutos para confirmar el pago y coordinar el envío. ¡Prepárate para el Hype! 🤤🍫</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo-footer">FOMO<span>.</span></a>
+                <p>Elaboración diaria limitada. Buenos Aires, Argentina.</p>
+                <p class="brand-website">WWW.ALFAJORESFOMO.COM</p>
+            </div>
+            <div class="footer-socials">
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Alfajores FOMO. Todos los derechos reservados. Creada por <a href="https://www.juanmartinbarrientos.com" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent); text-decoration: underline;">JMB</a>.</p>
+        </div>
+    </footer>
+
+    <!-- Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
