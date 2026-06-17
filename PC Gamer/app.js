@@ -130,4 +130,24 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open(whatsappUrl, '_blank');
         });
     }
+
+    // 6. Mobile Menu Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on any nav link
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    }
 });
