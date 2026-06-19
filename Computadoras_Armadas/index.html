@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="💻 PCs armadas al mejor precio en Decsatech. Core i5, i9, Celeron con garantía escrita oficial y factura A/B. ¡Consulta stock en vivo con asesores reales! 🚀">
+    <meta name="theme-color" content="#0d0d0d">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://decsatech.com/">
+    <meta property="og:title" content="🔥 Computadoras Armadas en Oferta | Decsatech">
+    <meta property="og:description" content="💻 ¡Llevate tu computadora armada al mejor precio! Equipos Celeron, Core i5 e i9 con garantía escrita oficial y facturas A/B. Chateá directo con nuestros asesores de venta reales por WhatsApp y reservá la tuya. ¡Consultá stock hoy! ⚡">
+    <meta property="og:image" content="assets/share_preview.png">
+
+    <title>Decsatech | Computadoras Armadas en Promoción</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon (Fallback emoji) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="https://decsatech.com/" class="logo-container" target="_blank" rel="noopener noreferrer" title="Ir al sitio principal de Decsatech">
+                <span class="logo-accent">DECSA</span>TECH
+            </a>
+            
+            <nav class="nav-links">
+                <a href="https://decsatech.com/" target="_blank" rel="noopener noreferrer" class="nav-link">Sitio Principal</a>
+                <a href="#configs" class="nav-link">Configuraciones</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="cart-toggle-btn" id="cartToggleBtn" aria-label="Abrir carrito de compras">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="container hero-container">
+            <h1 class="hero-title">Computadoras Armadas a Tu Medida</h1>
+            <p class="hero-subtitle">
+                Elegí la configuración ideal para tu hogar, oficina o setup de gaming. Promociones exclusivas de <span class="highlight-orange">Decsatech</span> con precios actualizados.
+            </p>
+            <div class="hero-features">
+                <div class="feature-tag">
+                    <span class="feature-icon">🛡️</span>
+                    <span>Garantía Escrita Oficial</span>
+                </div>
+                <div class="feature-tag">
+                    <span class="feature-icon">📄</span>
+                    <span>Emitimos Facturas A y B</span>
+                </div>
+                <div class="feature-tag">
+                    <span class="feature-icon">👥</span>
+                    <span>Asesores Reales (No Bots)</span>
+                </div>
+            </div>
+            <div class="hero-actions-container">
+                <a href="#configs" class="btn-primary">Ver Configuraciones</a>
+                <a href="https://decsatech.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">Sitio Principal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PC Configurations Section -->
+    <main class="main-content" id="configs">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestras Configuraciones</h2>
+                <p class="section-desc">Selecciona los componentes de tu preferencia. Podés copiar los detalles técnicos de cada PC o agregarlas al carrito para consultar stock.</p>
+            </div>
+            
+            <div class="configs-grid" id="configsGrid">
+                <!-- JavaScript will populate cards here -->
+                <div class="loading-spinner">Cargando ofertas de computadoras...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Cart Button (Mobile & Desktop sticky) -->
+    <button class="floating-cart-btn" id="floatingCartBtn" aria-label="Ver carrito">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="floating-cart-badge" id="floatingCartBadge">0</span>
+    </button>
+
+    <!-- Cart Overlay / Drawer -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-drawer">
+            <div class="cart-header">
+                <h3>Tu Consulta de Stock</h3>
+                <button class="close-cart-btn" id="closeCartBtn" aria-label="Cerrar carrito">&times;</button>
+            </div>
+            
+            <div class="cart-body" id="cartBody">
+                <!-- Cart items populate here -->
+                <div class="cart-empty-msg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="empty-icon"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <p>El carrito está vacío. Agrega una configuración para comenzar.</p>
+                </div>
+            </div>
+            
+            <div class="cart-footer" id="cartFooter" style="display: none;">
+                <div class="cart-totals">
+                    <div class="total-row">
+                        <span>Total Efectivo / Transferencia:</span>
+                        <span class="total-price total-cash" id="cartTotalCash">$0,00</span>
+                    </div>
+                    <div class="total-row list-price-row">
+                        <span>Total Tarjetas (Precio Lista):</span>
+                        <span class="total-price total-list" id="cartTotalList">$0,00</span>
+                    </div>
+                    <p class="surcharge-info-text">* Compra segura con garantía escrita. Emitimos comprobantes A y B.</p>
+                </div>
+                
+                <div class="cart-checkout-actions">
+                    <div class="trust-badge">
+                        <span class="trust-badge-icon">🛡️</span>
+                        <div class="trust-badge-text">
+                            <strong>Compra 100% Segura</strong>
+                            <p>Serás atendido por un asesor de venta real (no bots). Hacemos factura y brindamos garantía escrita en todos nuestros productos.</p>
+                        </div>
+                    </div>
+                    <p class="checkout-title">Consultar stock con un Asesor Real:</p>
+                    <div class="whatsapp-checkout-buttons">
+                        <button class="btn-whatsapp" id="btnWhatsapp1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.863-9.73.001-2.595-1.013-5.035-2.855-6.877-1.843-1.843-4.292-2.858-6.883-2.859-5.442 0-9.866 4.372-9.869 9.737-.002 1.81.499 3.578 1.453 5.163l-.992 3.614 3.71-.971zm11.233-5.263c-.3-.149-1.771-.875-2.046-.975-.276-.102-.476-.15-.676.149-.2.3-.778.974-.954 1.173-.176.2-.353.226-.653.076-.3-.15-1.271-.469-2.422-1.493-.894-.798-1.5-1.785-1.676-2.083-.176-.3-.019-.462.13-.61.135-.133.3-.349.45-.523.15-.174.2-.299.3-.499.1-.2.05-.375-.025-.524-.075-.15-.676-1.624-.925-2.223-.244-.582-.491-.504-.676-.513-.175-.008-.375-.01-.575-.01-.2 0-.526.075-.801.374-.275.3-1.05 1.024-1.05 2.5 0 1.475 1.075 2.9 1.225 3.1.15.2 2.11 3.22 5.11 4.516.714.309 1.272.493 1.707.63.717.228 1.37.196 1.885.119.574-.085 1.771-.724 2.021-1.423.25-.699.25-1.298.175-1.423-.075-.125-.275-.199-.575-.349z"/></svg>
+                            Hablar con Asesor Ventas 1
+                        </button>
+                        <button class="btn-whatsapp" id="btnWhatsapp2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.863-9.73.001-2.595-1.013-5.035-2.855-6.877-1.843-1.843-4.292-2.858-6.883-2.859-5.442 0-9.866 4.372-9.869 9.737-.002 1.81.499 3.578 1.453 5.163l-.992 3.614 3.71-.971zm11.233-5.263c-.3-.149-1.771-.875-2.046-.975-.276-.102-.476-.15-.676.149-.2.3-.778.974-.954 1.173-.176.2-.353.226-.653.076-.3-.15-1.271-.469-2.422-1.493-.894-.798-1.5-1.785-1.676-2.083-.176-.3-.019-.462.13-.61.135-.133.3-.349.45-.523.15-.174.2-.299.3-.499.1-.2.05-.375-.025-.524-.075-.15-.676-1.624-.925-2.223-.244-.582-.491-.504-.676-.513-.175-.008-.375-.01-.575-.01-.2 0-.526.075-.801.374-.275.3-1.05 1.024-1.05 2.5 0 1.475 1.075 2.9 1.225 3.1.15.2 2.11 3.22 5.11 4.516.714.309 1.272.493 1.707.63.717.228 1.37.196 1.885.119.574-.085 1.771-.724 2.021-1.423.25-.699.25-1.298.175-1.423-.075-.125-.275-.199-.575-.349z"/></svg>
+                            Hablar con Asesor Ventas 2
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Info Section -->
+    <footer class="footer" id="contacto">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <h3>DECSATECH</h3>
+                <p>Tu mejor opción en tecnología y hardware.</p>
+                <a href="https://decsatech.com/" target="_blank" rel="noopener noreferrer" class="footer-link-main">
+                    Visitar decsatech.com ➔
+                </a>
+            </div>
+            
+            <div class="footer-contacts">
+                <h4>Contacto de Ventas</h4>
+                <ul>
+                    <li>
+                        <strong>Emails:</strong> 
+                        <a href="mailto:ventas@decsatech.com.ar">ventas@decsatech.com.ar</a> | 
+                        <a href="mailto:ventas2@decsatech.com">ventas2@decsatech.com</a>
+                    </li>
+                    <li>
+                        <strong>Teléfonos (WhatsApp):</strong> 
+                        <a href="https://wa.me/5491178275551?text=Hola%20Decsatech!%20Quer%C3%ADa%20hacer%20una%20consulta%20inicial." target="_blank" rel="noopener noreferrer">+54 9 11 7827-5551</a> | 
+                        <a href="https://wa.me/5491169578193?text=Hola%20Decsatech!%20Quer%C3%ADa%20hacer%20una%20consulta%20inicial." target="_blank" rel="noopener noreferrer">+54 9 11 6957-8193</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Decsatech. Las imágenes son ilustrativas y generadas con Inteligencia Artificial.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification for Copying -->
+    <div class="toast" id="toast">Ficha técnica copiada al portapapeles!</div>
+
+    <!-- App Script -->
+    <script src="app.js"></script>
+</body>
+</html>
