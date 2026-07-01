@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurador de PC a Medida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Phosphor Icons for modern iconography -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="header card">
+            <div class="logo">
+                <i class="ph-fill ph-wrench"></i>
+                <h1>Configurador de PC</h1>
+            </div>
+            <div class="theme-toggle">
+                <span>Elegir motivo</span>
+                <button id="btn-light-theme" class="theme-btn active" title="Modo Claro">
+                    <i class="ph-fill ph-sun"></i>
+                </button>
+                <button id="btn-dark-theme" class="theme-btn" title="Modo Oscuro">
+                    <i class="ph-fill ph-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="configurator-main">
+            <!-- SECTION 1: PLATFORM -->
+            <section class="config-section card">
+                <div class="section-header">
+                    <h2>1. SELECCIONAR PLATAFORMA / SOCKET</h2>
+                    <span class="badge required">Obligatorio</span>
+                </div>
+                <div class="platform-options" id="platform-container">
+                    <button class="platform-btn" data-socket="AM4">AM4</button>
+                    <button class="platform-btn" data-socket="AM5">AM5</button>
+                    <button class="platform-btn" data-socket="LGA1200">LGA1200</button>
+                    <button class="platform-btn" data-socket="LGA1700">LGA1700</button>
+                    <button class="platform-btn" data-socket="LGA1851">LGA1851</button>
+                </div>
+            </section>
+
+            <!-- CORE COMPONENTS CONTAINER -->
+            <div class="components-container card">
+                
+                <!-- 2. PROCESADOR -->
+                <div class="form-group">
+                    <label for="cpu">2. PROCESADOR</label>
+                    <div class="select-wrapper">
+                        <select id="cpu" class="custom-select" disabled>
+                            <option value="">-- Seleccione plataforma primero --</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <!-- 3. MOTHERBOARD -->
+                <div class="form-group">
+                    <label for="motherboard">3. MOTHERBOARD</label>
+                    <div class="select-wrapper">
+                        <select id="motherboard" class="custom-select" disabled>
+                            <option value="">-- Seleccione plataforma primero --</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <!-- 4. MEMORIA RAM -->
+                <div class="form-group row-group">
+                    <div class="flex-grow">
+                        <label for="ram">4. MEMORIA RAM</label>
+                        <div class="select-wrapper">
+                            <select id="ram" class="custom-select" disabled>
+                                <option value="">-- Seleccione Mother primero --</option>
+                            </select>
+                            <i class="ph-bold ph-caret-down select-icon"></i>
+                        </div>
+                    </div>
+                    <div class="qty-group">
+                        <label for="ram-qty">CANTIDAD</label>
+                        <div class="select-wrapper">
+                            <select id="ram-qty" class="custom-select" disabled>
+                                <option value="1">x1</option>
+                                <option value="2">x2</option>
+                                <option value="4">x4</option>
+                            </select>
+                            <i class="ph-bold ph-caret-down select-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OTHER COMPONENTS CONTAINER -->
+            <div class="components-container card">
+                
+                <!-- 5. ALMACENAMIENTO (Dynamic List) -->
+                <div class="form-group">
+                    <label>5. ALMACENAMIENTO</label>
+                    <div id="storage-list">
+                        <!-- Dynamic storage rows will be appended here -->
+                    </div>
+                    <button id="add-storage-btn" class="btn-dashed">
+                        <i class="ph-bold ph-plus"></i> Agregar disco
+                    </button>
+                </div>
+
+                <!-- 6. GABINETE -->
+                <div class="form-group">
+                    <label for="case">6. GABINETE</label>
+                    <div class="select-wrapper">
+                        <select id="case" class="custom-select">
+                            <option value="">-- Seleccione --</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <!-- 7. FUENTE -->
+                <div class="form-group">
+                    <label for="psu">7. FUENTE</label>
+                    <div class="select-wrapper">
+                        <select id="psu" class="custom-select">
+                            <option value="">-- Seleccione --</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <!-- 8. PLACA DE VIDEO -->
+                <div class="form-group">
+                    <label for="gpu">8. PLACA DE VIDEO</label>
+                    <div class="select-wrapper">
+                        <select id="gpu" class="custom-select">
+                            <option value="">-- Seleccione --</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <!-- 9. REFRIGERACIÓN -->
+                <div class="form-group">
+                    <label for="cooling">9. REFRIGERACIÓN</label>
+                    <div class="select-wrapper">
+                        <select id="cooling" class="custom-select">
+                            <option value="">-- Seleccione --</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SUMMARY / VISUALIZER -->
+            <section class="config-section card summary-card">
+                <div class="section-header">
+                    <h2><i class="ph-bold ph-receipt"></i> RESUMEN DE COMPRA</h2>
+                </div>
+                <div class="summary-content" id="summary-content">
+                    <p class="empty-summary">Aún no has seleccionado componentes.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- STICKY FOOTER -->
+    <footer class="sticky-footer">
+        <div class="footer-content">
+            <div class="price-container">
+                <span class="price-label">TOTAL IVA INCLUÍDO</span>
+                <span class="price-value" id="total-price">$ 0,00</span>
+            </div>
+            <button id="copy-config-btn" class="btn-primary">
+                Copiar configuración
+            </button>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Configuración copiada al portapapeles</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
