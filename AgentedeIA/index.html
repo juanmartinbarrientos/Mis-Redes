@@ -233,20 +233,64 @@
     </div>
   </section>
 
-  <!-- Guía de Instalación para Novatos con Antigravity -->
-  <section id="setup" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="glass-card p-8 rounded-3xl border-brand-500/30">
+  <!-- Guía de Instalación y Ejecución -->
+  <section id="setup" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    
+    <!-- Opción 1: Descarga Directa -->
+    <div class="glass-card p-8 rounded-3xl border-emerald-500/40 glow-cyan">
       <div class="flex items-center gap-3 mb-6">
-        <div class="p-3 rounded-2xl bg-brand-600 text-white font-bold">
-          🚀
+        <div class="p-3 rounded-2xl bg-emerald-600 text-white font-bold text-xl shadow-lg shadow-emerald-600/30">
+          📦
         </div>
         <div>
-          <h2 class="text-xl sm:text-2xl font-black text-white">Guía de Instalación para Novatos (Paso a Paso)</h2>
-          <p class="text-xs text-slate-400">Cómo ejecutar este agente usando Antigravity de Google DeepMind.</p>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-300 font-mono text-[10px] font-bold uppercase tracking-wider mb-1 inline-block">
+            Opción 1 (Recomendada para Novatos)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-white">Descarga Directa & Ejecución con 1 Clic</h2>
+          <p class="text-xs text-slate-400">Sin necesidad de escribir comandos ni usar la consola terminal.</p>
         </div>
       </div>
 
-      <div class="space-y-6 font-mono text-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="text-emerald-400 font-bold text-sm mb-1">1. Descarga el ZIP</div>
+            <p class="text-[11px] text-slate-400 font-sans leading-tight">Obtén la versión completa comprimida del repositorio en tu PC.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="text-cyan-400 font-bold text-sm mb-1">2. Descomprime</div>
+            <p class="text-[11px] text-slate-400 font-sans leading-tight">Extrae el contenido de la carpeta `.zip` en tu carpeta elegida.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="text-purple-400 font-bold text-sm mb-1">3. Ejecuta `iniciar-servidor.bat`</div>
+            <p class="text-[11px] text-slate-400 font-sans leading-tight">Haz **doble clic** sobre el archivo `.bat`. El navegador se abrirá en `http://localhost:3000` solo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Opción 2: Recrear con Antigravity -->
+    <div class="glass-card p-8 rounded-3xl border-brand-500/30">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 rounded-2xl bg-brand-600 text-white font-bold text-xl shadow-lg shadow-brand-600/30">
+          🚀
+        </div>
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-brand-950 border border-brand-800 text-brand-300 font-mono text-[10px] font-bold uppercase tracking-wider mb-1 inline-block">
+            Opción 2 (Para Desarrolladores / IA)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-white">Recrear con Antigravity AI Engine</h2>
+          <p class="text-xs text-slate-400">Cómo ejecutar este agente usando Antigravity CLI de Google DeepMind.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4 font-mono text-xs">
         
         <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
           <div class="text-slate-400 font-bold mb-2">1. Instalar Antigravity CLI</div>
