@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuiénDaMenos AI Agent — Autonomous Live Deals Engine</title>
+  <meta name="description" content="Agente IA Autónomo de Subastas y Dashboard Inteligente para QuiénDaMenos API (api.quiendamenos.com). Desarrollado con Next.js 14, Antigravity AI y Tailwind CSS.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f3ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              900: '#1e1b4b',
+              950: '#0f0e26',
+            },
+            cyan: {
+              400: '#22d3ee',
+              500: '#06b6d4',
+            },
+            neon: {
+              emerald: '#10b981',
+              purple: '#a855f7',
+              rose: '#f43f5e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #070913;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    .grid-bg {
+      background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.35);
+    }
+    .glow-purple {
+      box-shadow: 0 0 50px -10px rgba(168, 85, 247, 0.35);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+  </style>
+</head>
+<body class="min-h-screen grid-bg relative overflow-x-hidden">
+
+  <!-- Glow Accents Background -->
+  <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-10 left-1/3 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-cyan-500 to-purple-600 flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-brand-500/30">
+          QDM
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <span class="font-extrabold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-200 to-brand-300">
+              QuiénDaMenos AI Agent
+            </span>
+            <span class="px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-800 text-cyan-300 text-[10px] font-mono font-bold">
+              v1.0 Autonomous Agent
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="PROMPT.md" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-all border border-slate-700">
+          📜 PROMPT.md
+        </a>
+        <a href="#setup" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-brand-600/30 transition-all">
+          🚀 Guía para Principiantes
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center relative z-10">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-brand-500/40 text-xs font-semibold text-brand-300 mb-6 shadow-xl">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span>Agente Autónomo en Tiempo Real para Subastas QuiénDaMenos</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white max-w-4xl mx-auto leading-tight mb-6">
+      Agente de IA para <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-brand-400 to-purple-400">Subastas & Ofertas Únicas</span>
+    </h1>
+
+    <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto mb-8 font-light">
+      Un motor autónomo capaz de percibir el estado de la API de QuiénDaMenos, analizar patrones de competidores con IA y ejecutar pujas estratégicas, bombas de quema y comodines automáticamente.
+    </p>
+
+    <!-- Badges de Tecnología -->
+    <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-mono mb-12">
+      <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-cyan-300">⚡ Next.js 14 App Router</span>
+      <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-purple-300">🤖 Antigravity AI Engine</span>
+      <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-emerald-300">🌐 API REST Proxy</span>
+      <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-amber-300">📊 Recharts & Analytics</span>
+    </div>
+  </section>
+
+  <!-- Arquitectura del Agente IA (Ciclo Perception -> Reasoning -> Action) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+        🧠 Arquitectura del Agente Autónomo (Loop de 3 Pasos)
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+        A diferencia de un script simple, nuestro agente opera en un bucle inteligente de percepción, razonamiento matemático y ejecución de acciones.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Paso 1: Percepción -->
+      <div class="glass-card p-6 rounded-3xl glow-cyan relative overflow-hidden group">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-950 border border-cyan-800 text-cyan-400 flex items-center justify-center font-bold text-xl mb-4">
+          👁️ 1
+        </div>
+        <h3 class="font-bold text-lg text-white mb-2">1. Percepción (Sensing)</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Monitorea de forma continua los endpoints en tiempo real de QuiénDaMenos (`/auctions`, `/leaderboard`, `/my-bids`, `/friends`). Lee ofertas quemadas, líderes actuales y comidines disponibles.
+        </p>
+      </div>
+
+      <!-- Paso 2: Razonamiento -->
+      <div class="glass-card p-6 rounded-3xl glow-purple relative overflow-hidden group">
+        <div class="w-12 h-12 rounded-2xl bg-purple-950 border border-purple-800 text-purple-400 flex items-center justify-center font-bold text-xl mb-4">
+          🧠 2
+        </div>
+        <h3 class="font-bold text-lg text-white mb-2">2. Razonamiento IA (Reasoning)</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Evalúa la matriz de densidad de ofertas. Identifica rangos de precio libres de competencia y calcula la probabilidad óptima para conseguir una **Oferta Única Líder** al menor costo en créditos.
+        </p>
+      </div>
+
+      <!-- Paso 3: Acción -->
+      <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-950 border border-emerald-800 text-emerald-400 flex items-center justify-center font-bold text-xl mb-4">
+          ⚡ 3
+        </div>
+        <h3 class="font-bold text-lg text-white mb-2">3. Acción Autónoma (Execution)</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Ejecuta acciones de forma autónoma en la API: envía pujas (`/bids`), arroja Bombas de Quema Pequeñas/Grandes (`/bombs`) y activa Comodines de 100 y 10 posiciones (`/helps`).
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Características del Sistema -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+        ⚡ Módulos & Funcionalidades Integradas
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-400">
+        Cada característica de la API de QuiénDaMenos integrada en la interfaz web.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div class="glass-card p-5 rounded-2xl">
+        <div class="text-xl mb-2">🎯</div>
+        <h4 class="font-bold text-sm text-white mb-1">Recomendador IA & Ráfagas</h4>
+        <p class="text-xs text-slate-400">Escanea la tabla líder y recomienda combinaciones de pujas en rangos libres.</p>
+      </div>
+
+      <div class="glass-card p-5 rounded-2xl">
+        <div class="text-xl mb-2">🤖</div>
+        <h4 class="font-bold text-sm text-white mb-1">Bot por Rangos Automático</h4>
+        <p class="text-xs text-slate-400">Automatiza la secuencia de ofertas periódicas ajustables cada X segundos.</p>
+      </div>
+
+      <div class="glass-card p-5 rounded-2xl">
+        <div class="text-xl mb-2">🏆</div>
+        <h4 class="font-bold text-sm text-white mb-1">Premios en Créditos por Podio</h4>
+        <p class="text-xs text-slate-400">Muestra recompensas de consuelo (🥈 +50, 🥉 +30, 🏅 +20, 🎖️ +10 créditos).</p>
+      </div>
+
+      <div class="glass-card p-5 rounded-2xl">
+        <div class="text-xl mb-2">💣</div>
+        <h4 class="font-bold text-sm text-white mb-1">Bombas & Comodines (`/helps`)</h4>
+        <p class="text-xs text-slate-400">Disparo de Bombas de Quema y Comodines de 100 y 10 posiciones con semáforo.</p>
+      </div>
+
+      <div class="glass-card p-5 rounded-2xl">
+        <div class="text-xl mb-2">📜</div>
+        <h4 class="font-bold text-sm text-white mb-1">Historial & Calculador de Puesto</h4>
+        <p class="text-xs text-slate-400">Calcula el puesto exacto de cada oferta única (ej. #1 🏆, #2 🥈, #3 🥉, #5 🏅).</p>
+      </div>
+
+      <div class="glass-card p-5 rounded-2xl">
+        <div class="text-xl mb-2">👥</div>
+        <h4 class="font-bold text-sm text-white mb-1">Red Social & Amigos (`/friends`)</h4>
+        <p class="text-xs text-slate-400">Gestor de solicitudes de amistad recibidas, enviadas (outgoing) y aceptados.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Guía de Instalación para Novatos con Antigravity -->
+  <section id="setup" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="glass-card p-8 rounded-3xl border-brand-500/30">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 rounded-2xl bg-brand-600 text-white font-bold">
+          🚀
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white">Guía de Instalación para Novatos (Paso a Paso)</h2>
+          <p class="text-xs text-slate-400">Cómo ejecutar este agente usando Antigravity de Google DeepMind.</p>
+        </div>
+      </div>
+
+      <div class="space-y-6 font-mono text-xs">
+        
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="text-slate-400 font-bold mb-2">1. Instalar Antigravity CLI</div>
+          <code class="text-cyan-300 block bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+            npm install -g @google/antigravity-cli
+          </code>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="text-slate-400 font-bold mb-2">2. Iniciar Sesión (Login)</div>
+          <code class="text-purple-300 block bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+            antigravity login
+          </code>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="text-slate-400 font-bold mb-2">3. Abrir la carpeta del proyecto e Iniciar el Agente</div>
+          <code class="text-emerald-300 block bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+            cd quiendamenos-deals-dashboard<br>
+            antigravity
+          </code>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 py-8 bg-slate-950 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="mb-2">QuiénDaMenos Autonomous AI Agent Engine — Impulsado por Google DeepMind Antigravity AI.</p>
+      <p class="text-[11px] text-slate-600">Desarrollado para la comunidad de desarrolladores y amantes de las subastas en tiempo real.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
