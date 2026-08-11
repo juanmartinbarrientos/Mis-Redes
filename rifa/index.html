@@ -3,24 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gran Rifa PC de Estudio y Trabajo | 50 Números</title>
+  <title>Gran Rifa PC de Estudio y Trabajo | 100 Números</title>
   <meta name="description" content="Participá de la gran rifa de una PC completa para estudiar o trabajar con procesador AMD 3.4GHz, SSD OCZ, RAM DDR4 y monitor incluido. ¡Elegí tu número!" />
   
   <!-- SEO & Social Sharing Metadata (WhatsApp, Facebook, Twitter, Telegram) -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="🎰 Gran Rifa PC de Estudio o Trabajo + Monitor | 50 Números" />
+  <meta property="og:url" content="https://www.juanmartinbarrientos.com/rifa/" />
+  <meta property="og:title" content="🎰 Gran Rifa PC de Estudio o Trabajo + Monitor | 100 Números" />
   <meta property="og:description" content="¡Participá y ganá una PC completa para estudiar o trabajar! Procesador AMD 3.4GHz, SSD OCZ Rápido, RAM DDR4 y monitor incluido. ¡Elegí tu número por $10.000!" />
-  <meta property="og:image" content="miniatura.png" />
+  <meta property="og:image" content="https://www.juanmartinbarrientos.com/rifa/miniatura.png" />
+  <meta property="og:image:secure_url" content="https://www.juanmartinbarrientos.com/rifa/miniatura.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta itemprop="image" content="miniatura.png" />
+  <meta itemprop="image" content="https://www.juanmartinbarrientos.com/rifa/miniatura.png" />
 
   <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="🎰 Gran Rifa PC de Estudio o Trabajo + Monitor | 50 Números" />
+  <meta name="twitter:url" content="https://www.juanmartinbarrientos.com/rifa/" />
+  <meta name="twitter:title" content="🎰 Gran Rifa PC de Estudio o Trabajo + Monitor | 100 Números" />
   <meta name="twitter:description" content="¡Participá y ganá una PC completa para estudiar o trabajar! Procesador AMD 3.4GHz, SSD OCZ Rápido, RAM DDR4 y monitor incluido. ¡Elegí tu número por $10.000!" />
-  <meta name="twitter:image" content="miniatura.png" />
+  <meta name="twitter:image" content="https://www.juanmartinbarrientos.com/rifa/miniatura.png" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +52,7 @@
     <header class="header">
       <div class="badge-tag">
         <i class="fa-solid fa-trophy text-gold"></i>
-        <span>Gran Sorteo 50 Boletos</span>
+        <span>Gran Sorteo 100 Boletos</span>
       </div>
       <h1 class="gradient-title">PC de Estudio o Trabajo</h1>
       <p class="subtitle">¡Participá y ganá una computadora equipada para maximizar tu rendimiento acad&eacute;mico y laboral!</p>
@@ -159,7 +162,7 @@
         <!-- Live Progress Stats -->
         <div class="raffle-stats-banner">
           <div class="stat-box">
-            <span class="stat-number" id="stat-total">50</span>
+            <span class="stat-number" id="stat-total">100</span>
             <span class="stat-label">Números Totales</span>
           </div>
           <div class="stat-divider"></div>
@@ -169,7 +172,7 @@
           </div>
           <div class="stat-divider"></div>
           <div class="stat-box">
-            <span class="stat-number text-green" id="stat-available">50</span>
+            <span class="stat-number text-green" id="stat-available">100</span>
             <span class="stat-label">Disponibles</span>
           </div>
         </div>
@@ -201,7 +204,7 @@
         <div class="roulette-controls">
           <div class="toggle-group" role="group" aria-label="Filtro de Ruleta">
             <button id="mode-all" class="toggle-btn active" onclick="setWheelMode('all')">
-              <i class="fa-solid fa-list-ol"></i> Todos los 50 Números
+              <i class="fa-solid fa-list-ol"></i> Todos los 100 Números
             </button>
             <button id="mode-sold" class="toggle-btn" onclick="setWheelMode('sold')">
               <i class="fa-solid fa-users"></i> Solo Comprados (<span id="sold-count-badge">0</span>)
@@ -229,7 +232,7 @@
         <div class="spin-action-panel">
           <div class="ruleta-info-card">
             <h3><i class="fa-solid fa-wand-magic-sparkles text-gold"></i> Sorteador / Probá tu Suerte</h3>
-            <p id="wheel-mode-desc">La ruleta tiene los <strong>50 números completos</strong>. ¡Girá para probar tu suerte y elegir un número al azar!</p>
+            <p id="wheel-mode-desc">La ruleta tiene los <strong>100 números completos</strong>. ¡Girá para probar tu suerte y elegir un número al azar!</p>
             
             <div id="live-winner-display" class="winner-display-box hidden">
               <span class="winner-tag">🎉 ¡GANADOR/A DEL PREMIO! 🎉</span>
@@ -257,7 +260,7 @@
         <div class="section-title-wrap">
           <i class="fa-solid fa-grid-2 text-cyan"></i>
           <div>
-            <h2>Tarjeta de Disponibilidad de Números (1 al 50)</h2>
+            <h2>Tarjeta de Disponibilidad de Números (1 al 100)</h2>
             <p>Consultá en tiempo real qué números están ocupados con su comprador y cuáles siguen libres.</p>
           </div>
         </div>
@@ -271,7 +274,7 @@
 
           <!-- Filter Buttons -->
           <div class="filter-tabs">
-            <button class="tab-btn active" id="tab-all" onclick="setGridFilter('all')">Todos (50)</button>
+            <button class="tab-btn active" id="tab-all" onclick="setGridFilter('all')">Todos (100)</button>
             <button class="tab-btn" id="tab-available" onclick="setGridFilter('available')">Disponibles</button>
             <button class="tab-btn" id="tab-sold" onclick="setGridFilter('sold')">Comprados</button>
           </div>
@@ -335,8 +338,9 @@
   </div>
 
   <!-- Winner Modal Popup -->
-  <div id="winner-modal" class="modal-overlay hidden">
+  <div id="winner-modal" class="modal-overlay hidden" onclick="closeWinnerModal(event)">
     <div class="modal-card winner-card-popup">
+      <button class="modal-close" onclick="closeWinnerModal()">&times;</button>
       <div class="confetti-container" id="confetti-canvas"></div>
       <div class="winner-popup-header">
         <div class="trophy-badge" id="popup-trophy-badge"><i class="fa-solid fa-trophy"></i></div>

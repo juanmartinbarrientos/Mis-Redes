@@ -3,8 +3,8 @@
    ========================================================================== */
 
 // --- Global Application State ---
-let raffleData = []; // Array of 50 objects: { number: 1..50, name: "", isSold: boolean }
-let wheelMode = 'all'; // Default: 'all' (all 50 numbers on wheel so participants can spin to pick a number!)
+let raffleData = []; // Array of 100 objects: { number: 1..100, name: "", isSold: boolean }
+let wheelMode = 'all'; // Default: 'all' (all 100 numbers on wheel so participants can spin to pick a number!)
 let gridFilter = 'all'; // 'all', 'available', 'sold'
 let soundEnabled = true;
 let isSpinning = false;
@@ -22,10 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCanvasResize();
 });
 
-// Initialize empty 50 numbers
+// Initialize empty 100 numbers
 function initRaffleData() {
   raffleData = [];
-  for (let i = 1; i <= 50; i++) {
+  for (let i = 1; i <= 100; i++) {
     raffleData.push({
       number: i,
       name: i === 11 ? 'Juan' : '', // Default initial state matching numeros.xlsx sample
@@ -84,9 +84,9 @@ function parseExcelBuffer(buffer) {
       }
     });
 
-    // Reset raffleData with 50 numbers
+    // Reset raffleData with 100 numbers
     const newRaffleData = [];
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 100; i++) {
       newRaffleData.push({ number: i, name: '', isSold: false });
     }
 
@@ -97,7 +97,7 @@ function parseExcelBuffer(buffer) {
       const numVal = parseInt(row[numColIdx], 10);
       const nameVal = row[nameColIdx] ? String(row[nameColIdx]).trim() : '';
 
-      if (!isNaN(numVal) && numVal >= 1 && numVal <= 50) {
+      if (!isNaN(numVal) && numVal >= 1 && numVal <= 100) {
         const item = newRaffleData.find(d => d.number === numVal);
         if (item) {
           item.name = nameVal;
@@ -164,7 +164,7 @@ function setWheelMode(mode) {
   if (descEl) {
     descEl.innerHTML = mode === 'sold'
       ? 'La ruleta está girando solo entre los <strong>boletos comprados</strong>.'
-      : 'La ruleta tiene los <strong>50 números completos</strong>. ¡Girá para probar tu suerte y elegir un número al azar!';
+      : 'La ruleta tiene los <strong>100 números completos</strong>. ¡Girá para probar tu suerte y elegir un número al azar!';
   }
 
   prepareWheelItems();
@@ -242,13 +242,13 @@ function drawWheel() {
     ctx.textAlign = 'right';
     ctx.fillStyle = '#ffffff';
 
-    // Scale font size based on number of items
-    const fontSize = numSlices > 30 ? 12 : numSlices > 15 ? 14 : 16;
+    // Scale font size based on number of items (fine-tuned for 100 slices)
+    const fontSize = numSlices > 50 ? 10 : numSlices > 30 ? 12 : 14;
     ctx.font = `800 ${fontSize}px 'Outfit', sans-serif`;
 
     // Format text: #11 Juan
     let label = `#${item.number < 10 ? '0' + item.number : item.number}`;
-    if (item.isSold && item.name && numSlices <= 50) {
+    if (item.isSold && item.name && numSlices <= 100) {
       const shortName = item.name.split(' ')[0];
       label += ` (${shortName})`;
     }
@@ -371,6 +371,9 @@ function onWheelStop(winner) {
         <button class="btn-secondary" onclick="closeWinnerModal(); spinWheel();">
           <i class="fa-solid fa-rotate-right"></i> Volver a Girar
         </button>
+        <button class="btn-secondary" onclick="closeWinnerModal()">
+          Cerrar
+        </button>
       `;
     }
   } else {
@@ -382,6 +385,9 @@ function onWheelStop(winner) {
       modalActions.innerHTML = `
         <button class="btn-spin-glow" onclick="closeWinnerModal(); spinWheel();">
           <i class="fa-solid fa-dharmachakra"></i> ¡Girar de nuevo para probar suerte!
+        </button>
+        <button class="btn-secondary" onclick="closeWinnerModal()">
+          Cerrar
         </button>
       `;
     }
@@ -643,8 +649,10 @@ function openWinnerModal() {
   document.getElementById('winner-modal').classList.remove('hidden');
 }
 
-function closeWinnerModal() {
-  document.getElementById('winner-modal').classList.add('hidden');
+function closeWinnerModal(e) {
+  if (!e || e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close') || e.target.classList.contains('btn-secondary')) {
+    document.getElementById('winner-modal').classList.add('hidden');
+  }
 }
 
 // Resize canvas handling
