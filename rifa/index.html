@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gran Rifa PC de Estudio y Trabajo | 50 Números</title>
+  <meta name="description" content="Participá de la gran rifa de una PC completa para estudiar o trabajar con procesador AMD 3.4GHz, SSD OCZ, RAM DDR4 y monitor incluido. ¡Elegí tu número!" />
+  
+  <!-- SEO & Social Sharing Metadata (WhatsApp, Facebook, Twitter, Telegram) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="🎰 Gran Rifa PC de Estudio o Trabajo + Monitor | 50 Números" />
+  <meta property="og:description" content="¡Participá y ganá una PC completa para estudiar o trabajar! Procesador AMD 3.4GHz, SSD OCZ Rápido, RAM DDR4 y monitor incluido. ¡Elegí tu número por $10.000!" />
+  <meta property="og:image" content="miniatura.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta itemprop="image" content="miniatura.png" />
+
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🎰 Gran Rifa PC de Estudio o Trabajo + Monitor | 50 Números" />
+  <meta name="twitter:description" content="¡Participá y ganá una PC completa para estudiar o trabajar! Procesador AMD 3.4GHz, SSD OCZ Rápido, RAM DDR4 y monitor incluido. ¡Elegí tu número por $10.000!" />
+  <meta name="twitter:image" content="miniatura.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+  
+  <!-- SheetJS Library for Reading numeros.xlsx -->
+  <script src="xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Glow Elements -->
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <!-- Header Section -->
+    <header class="header">
+      <div class="badge-tag">
+        <i class="fa-solid fa-trophy text-gold"></i>
+        <span>Gran Sorteo 50 Boletos</span>
+      </div>
+      <h1 class="gradient-title">PC de Estudio o Trabajo</h1>
+      <p class="subtitle">¡Participá y ganá una computadora equipada para maximizar tu rendimiento acad&eacute;mico y laboral!</p>
+    </header>
+
+    <!-- Hero Prize & Specs Card -->
+    <section class="prize-hero-card">
+      <div class="prize-image-wrapper">
+        <img src="pc_setup.png" alt="PC de Estudio o Trabajo con Monitor" class="prize-img" />
+        <div class="image-overlay-badge">
+          <i class="fa-solid fa-star text-gold"></i> Premio Completo
+        </div>
+      </div>
+      
+      <div class="prize-details">
+        <div class="prize-header">
+          <span class="prize-category">EQUIPO COMPLETO LISTO PARA USAR</span>
+          <h2>Computadora de Estudio y Trabajo + Monitor</h2>
+          <div class="ticket-price-pill">
+            <i class="fa-solid fa-ticket text-gold"></i>
+            <span>Valor del Boleto: <strong>$10.000 ARS</strong></span>
+          </div>
+        </div>
+        
+        <p class="prize-description">
+          Un combo ideal diseñado para multitarea fluida, estudio intensivo y trabajo diario con arranque ultrarrápido y máxima eficiencia energética.
+        </p>
+
+        <!-- Payment Info Banner -->
+        <div class="payment-info-card">
+          <div class="payment-card-header">
+            <i class="fa-solid fa-wallet text-cyan"></i>
+            <strong>¿Cómo comprar tu número?</strong>
+          </div>
+          <div class="payment-steps-row">
+            <div class="pay-step">
+              <span class="pay-step-badge">1</span>
+              <span>Transferí <strong>$10.000</strong> al Alias de Mercado Pago:</span>
+              <div class="alias-copy-box">
+                <code id="mp-alias">juanmartinbarrientos</code>
+                <button class="btn-copy-alias" onclick="copyAlias()" title="Copiar Alias">
+                  <i class="fa-solid fa-copy" id="copy-icon"></i> <span id="copy-text">Copiar</span>
+                </button>
+              </div>
+            </div>
+            <div class="pay-step">
+              <span class="pay-step-badge">2</span>
+              <span>Enviá tu comprobante + Nombre y Número elegido al WhatsApp:</span>
+              <a href="https://wa.me/5491169578193?text=%C2%A1Hola!%20Quiero%20enviar%20mi%20comprobante%20para%20la%20rifa." target="_blank" class="wa-direct-link">
+                <i class="fa-brands fa-whatsapp"></i> 11 6957-8193
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spec Grid -->
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div class="spec-info">
+              <span class="spec-label">Procesador</span>
+              <strong class="spec-value">AMD R&aacute;pido 3.4 GHz</strong>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="spec-info">
+              <span class="spec-label">Almacenamiento</span>
+              <strong class="spec-value">Disco SSD OCZ R&aacute;pido</strong>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon"><i class="fa-solid fa-memory"></i></div>
+            <div class="spec-info">
+              <span class="spec-label">Memoria RAM</span>
+              <strong class="spec-value">DDR4 High Speed</strong>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon"><i class="fa-solid fa-desktop"></i></div>
+            <div class="spec-info">
+              <span class="spec-label">Pantalla</span>
+              <strong class="spec-value">Monitor Incluido</strong>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon"><i class="fa-solid fa-box-open"></i></div>
+            <div class="spec-info">
+              <span class="spec-label">Gabinete & Fuente</span>
+              <strong class="spec-value">Gabinete Kit Completo</strong>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon"><i class="fa-solid fa-shield-check"></i></div>
+            <div class="spec-info">
+              <span class="spec-label">Estado</span>
+              <strong class="spec-value">100% Probado y Listo</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Progress Stats -->
+        <div class="raffle-stats-banner">
+          <div class="stat-box">
+            <span class="stat-number" id="stat-total">50</span>
+            <span class="stat-label">Números Totales</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-box">
+            <span class="stat-number text-red" id="stat-sold">0</span>
+            <span class="stat-label">Comprados</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-box">
+            <span class="stat-number text-green" id="stat-available">50</span>
+            <span class="stat-label">Disponibles</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar-label">
+            <span>Progreso de Boletos Vendidos</span>
+            <strong id="progress-percent">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Roulette Section -->
+    <section class="section-container roulette-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <i class="fa-solid fa-dharmachakra icon-spin text-purple"></i>
+          <div>
+            <h2>Ruleta Interactiva del Sorteo</h2>
+            <p>Selecciona la modalidad y presiona girar para sortear en vivo entre los números participantes.</p>
+          </div>
+        </div>
+
+        <!-- Wheel Filters & Actions -->
+        <div class="roulette-controls">
+          <div class="toggle-group" role="group" aria-label="Filtro de Ruleta">
+            <button id="mode-all" class="toggle-btn active" onclick="setWheelMode('all')">
+              <i class="fa-solid fa-list-ol"></i> Todos los 50 Números
+            </button>
+            <button id="mode-sold" class="toggle-btn" onclick="setWheelMode('sold')">
+              <i class="fa-solid fa-users"></i> Solo Comprados (<span id="sold-count-badge">0</span>)
+            </button>
+          </div>
+
+          <button id="sound-toggle-btn" class="btn-icon" onclick="toggleAudio()" title="Activar/Desactivar Sonido">
+            <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="roulette-main-area">
+        <!-- Canvas Wheel Container -->
+        <div class="wheel-stage">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheel-canvas" width="460" height="460"></canvas>
+          <div class="wheel-center-cap" onclick="spinWheel()">
+            <i class="fa-solid fa-play"></i>
+            <span>GIRAR</span>
+          </div>
+        </div>
+
+        <!-- Spin Action & Winner Display -->
+        <div class="spin-action-panel">
+          <div class="ruleta-info-card">
+            <h3><i class="fa-solid fa-wand-magic-sparkles text-gold"></i> Sorteador / Probá tu Suerte</h3>
+            <p id="wheel-mode-desc">La ruleta tiene los <strong>50 números completos</strong>. ¡Girá para probar tu suerte y elegir un número al azar!</p>
+            
+            <div id="live-winner-display" class="winner-display-box hidden">
+              <span class="winner-tag">🎉 ¡GANADOR/A DEL PREMIO! 🎉</span>
+              <div class="winner-number" id="winner-num">#00</div>
+              <div class="winner-name" id="winner-name">Nombre del Ganador</div>
+            </div>
+
+            <button class="btn-spin-glow" id="btn-spin" onclick="spinWheel()">
+              <i class="fa-solid fa-dharmachakra"></i> ¡GIRAR RULETA AHORA!
+            </button>
+            
+            <div class="excel-status-line">
+              <i class="fa-solid fa-file-excel text-green"></i> 
+              <span id="excel-sync-status">Sincronizado con numeros.xlsx</span>
+              <button class="btn-link" onclick="fetchExcelData()"><i class="fa-solid fa-arrows-rotate"></i> Recargar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Numbers Card & Table Section -->
+    <section class="section-container board-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <i class="fa-solid fa-grid-2 text-cyan"></i>
+          <div>
+            <h2>Tarjeta de Disponibilidad de Números (1 al 50)</h2>
+            <p>Consultá en tiempo real qué números están ocupados con su comprador y cuáles siguen libres.</p>
+          </div>
+        </div>
+
+        <div class="board-toolbar">
+          <!-- Search Bar -->
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Buscar número o comprador..." oninput="renderNumbersGrid()" />
+          </div>
+
+          <!-- Filter Buttons -->
+          <div class="filter-tabs">
+            <button class="tab-btn active" id="tab-all" onclick="setGridFilter('all')">Todos (50)</button>
+            <button class="tab-btn" id="tab-available" onclick="setGridFilter('available')">Disponibles</button>
+            <button class="tab-btn" id="tab-sold" onclick="setGridFilter('sold')">Comprados</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Numbers Grid Container -->
+      <div class="numbers-grid" id="numbers-grid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2026 Rifa PC Workstation & Estudio. Diseñado para GitHub Pages.</p>
+    </footer>
+
+  </div>
+
+  <!-- WhatsApp Reserve Modal -->
+  <div id="whatsapp-modal" class="modal-overlay hidden" onclick="closeModal(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-header">
+        <i class="fa-brands fa-whatsapp modal-icon-wa"></i>
+        <h3>Reservar Número <span id="modal-num-tag">#00</span></h3>
+      </div>
+      <p class="modal-text">
+        El número <strong id="modal-num-val">#00</strong> está <span class="badge-available">Disponible</span>.
+      </p>
+      
+      <!-- Payment Details Box in Modal -->
+      <div class="modal-payment-box">
+        <div class="modal-pay-row">
+          <span class="pay-label"><i class="fa-solid fa-tag text-gold"></i> Valor por boleto:</span>
+          <strong class="pay-amount">$10.000 ARS</strong>
+        </div>
+        <div class="modal-pay-row">
+          <span class="pay-label"><i class="fa-solid fa-building-columns text-cyan"></i> Alias Mercado Pago:</span>
+          <div class="alias-copy-box small">
+            <code>juanmartinbarrientos</code>
+            <button class="btn-copy-alias" onclick="copyAlias('modal')" title="Copiar Alias">
+              <i class="fa-solid fa-copy" id="modal-copy-icon"></i> <span id="modal-copy-text">Copiar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="modal-subtext">
+        Realizá la transferencia de <strong>$10.000</strong> y enviá el comprobante adjunto con tu nombre por WhatsApp:
+      </p>
+
+      <div class="modal-actions">
+        <a id="wa-link-btn" href="#" target="_blank" class="btn-wa">
+          <i class="fa-brands fa-whatsapp"></i> Enviar Comprobante por WhatsApp
+        </a>
+        <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Winner Modal Popup -->
+  <div id="winner-modal" class="modal-overlay hidden">
+    <div class="modal-card winner-card-popup">
+      <div class="confetti-container" id="confetti-canvas"></div>
+      <div class="winner-popup-header">
+        <div class="trophy-badge" id="popup-trophy-badge"><i class="fa-solid fa-trophy"></i></div>
+        <h2 id="popup-winner-title">¡RESULTADO DE LA RULETA!</h2>
+      </div>
+
+      <div class="winner-popup-body">
+        <div class="big-winner-number" id="popup-winner-num">#11</div>
+        <div class="big-winner-name" id="popup-winner-name">Juan</div>
+        <p class="winner-congrats" id="popup-winner-subtext">¡La ruleta seleccionó este número!</p>
+      </div>
+
+      <div class="modal-actions" id="popup-winner-actions">
+        <button class="btn-spin-glow" onclick="closeWinnerModal()">
+          <i class="fa-solid fa-check"></i> Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas for Confetti -->
+  <canvas id="confetti-overlay" class="confetti-layer"></canvas>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
