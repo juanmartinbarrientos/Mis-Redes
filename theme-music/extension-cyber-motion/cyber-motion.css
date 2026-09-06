@@ -1,0 +1,366 @@
+/* ==========================================================================
+   YOUTUBE MUSIC - CYBER-NEON KINETIC THEME
+   Tema animado con fondo Aurora líquido, vinilo giratorio, ecualizador en vivo
+   y barra de progreso láser con movimiento continuo.
+   ========================================================================== */
+
+/* 1. Paleta de colores y variables cinéticas */
+:root {
+  --neon-cyan: #00F0FF;
+  --neon-pink: #FF0077;
+  --neon-purple: #8A2BE2;
+  --neon-green: #00FF88;
+  --cyber-bg: #07070C;
+  --cyber-glass: rgba(13, 13, 24, 0.72);
+  --cyber-glass-border: rgba(255, 255, 255, 0.12);
+  --cyber-text: #F3F4F6;
+  --cyber-text-dim: #9CA3AF;
+  
+  --ytmusic-brand-background-solid: transparent !important;
+  --ytmusic-general-background-a: transparent !important;
+  --ytmusic-general-background-b: transparent !important;
+  --ytmusic-general-background-c: transparent !important;
+}
+
+/* Tipografía moderna y suave */
+*, *::before, *::after {
+  font-family: 'Outfit', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* Transparencias base para dejar ver el fondo animado */
+html, body, ytmusic-app, #browse-page, ytmusic-player-page, #contents {
+  background-color: var(--cyber-bg) !important;
+  color: var(--cyber-text) !important;
+  background: transparent !important;
+}
+
+/* 2. FONDO ANIMADO AURORA (Líquido en movimiento) */
+#cyber-aurora-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+  background-color: var(--cyber-bg);
+  pointer-events: none;
+}
+
+.aurora-blob {
+  position: absolute;
+  filter: blur(85px);
+  border-radius: 50%;
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.aurora-blob-1 {
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+  top: -15vw;
+  left: -10vw;
+  animation: floatAurora1 18s ease-in-out infinite alternate;
+}
+
+.aurora-blob-2 {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--neon-cyan) 0%, transparent 70%);
+  bottom: -15vw;
+  right: -5vw;
+  animation: floatAurora2 15s ease-in-out infinite alternate;
+}
+
+.aurora-blob-3 {
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
+  top: 30vh;
+  left: 35vw;
+  animation: floatAurora3 22s ease-in-out infinite alternate;
+}
+
+.aurora-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(7, 7, 12, 0.3) 0%, rgba(7, 7, 12, 0.85) 100%);
+}
+
+@keyframes floatAurora1 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(12vw, 15vh) scale(1.2) rotate(45deg); }
+  100% { transform: translate(5vw, 8vh) scale(0.9) rotate(90deg); }
+}
+
+@keyframes floatAurora2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-15vw, -10vh) scale(1.25); }
+  100% { transform: translate(-8vw, -18vh) scale(0.85); }
+}
+
+@keyframes floatAurora3 {
+  0% { transform: translate(0, 0) scale(0.8); }
+  50% { transform: translate(-10vw, 10vh) scale(1.15); }
+  100% { transform: translate(15vw, -8vh) scale(1); }
+}
+
+/* 3. BARRA SUPERIOR (Glassmorphism traslúcido) */
+ytmusic-nav-bar {
+  background: var(--cyber-glass) !important;
+  backdrop-filter: blur(25px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+  border-bottom: 1px solid var(--cyber-glass-border) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Buscador con brillo reactivo */
+ytmusic-search-box {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+ytmusic-search-box:focus-within {
+  background: rgba(13, 13, 24, 0.9) !important;
+  border-color: var(--neon-cyan) !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4) !important;
+  transform: translateY(-1px) scale(1.01) !important;
+}
+
+/* 4. MENÚ LATERAL (Sidebar con efecto de selección flotante) */
+ytmusic-guide-renderer, tp-yt-app-drawer, #guide-wrapper {
+  background: rgba(10, 10, 18, 0.6) !important;
+  backdrop-filter: blur(20px) !important;
+  border-right: 1px solid var(--cyber-glass-border) !important;
+}
+
+ytmusic-guide-entry-renderer {
+  border-radius: 12px !important;
+  margin: 4px 10px !important;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+ytmusic-guide-entry-renderer:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  transform: translateX(6px) !important;
+}
+
+ytmusic-guide-entry-renderer[is-primary] tp-yt-paper-item.iron-selected,
+ytmusic-guide-entry-renderer[is-selected] {
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.2) 0%, rgba(138, 43, 226, 0.15) 100%) !important;
+  border-left: 3px solid var(--neon-cyan) !important;
+  box-shadow: 0 4px 15px rgba(0, 240, 255, 0.15) !important;
+}
+
+ytmusic-guide-entry-renderer[is-primary] tp-yt-paper-item.iron-selected * {
+  color: var(--neon-cyan) !important;
+  font-weight: 700 !important;
+}
+
+/* 5. TARJETAS DE MÚSICA CON LEVITACIÓN CINÉTICA */
+ytmusic-responsive-list-item-renderer,
+ytmusic-two-row-item-renderer {
+  border-radius: 14px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+ytmusic-two-row-item-renderer:hover {
+  transform: translateY(-8px) scale(1.03) !important;
+  box-shadow: 0 12px 30px -5px rgba(0, 240, 255, 0.25) !important;
+}
+
+ytmusic-responsive-list-item-renderer:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  transform: scale(1.01) translateX(4px) !important;
+}
+
+/* Portadas con brillo */
+ytmusic-two-row-item-renderer .image-wrapper,
+#thumbnail img {
+  border-radius: 12px !important;
+  transition: all 0.4s ease !important;
+}
+
+ytmusic-two-row-item-renderer:hover #thumbnail img {
+  filter: brightness(1.1) contrast(1.05) !important;
+}
+
+/* 6. VINILO GIRATORIO EN REPRODUCCIÓN */
+/* Hace que la portada del reproductor inferior gire como un disco de vinilo cuando la música está sonando */
+ytmusic-player-bar #thumbnail img {
+  border-radius: 50% !important;
+  border: 2px solid var(--neon-cyan) !important;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4) !important;
+  transition: border-radius 0.4s ease !important;
+}
+
+body[data-playback="playing"] ytmusic-player-bar #thumbnail img {
+  animation: spinVinyl 8s linear infinite !important;
+}
+
+body[data-playback="paused"] ytmusic-player-bar #thumbnail img {
+  animation: spinVinyl 8s linear infinite !important;
+  animation-play-state: paused !important;
+  filter: grayscale(0.3) !important;
+}
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 7. ECUALIZADOR VISUAL EN VIVO (Barras rebotando) */
+#cyber-equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 20px;
+  margin-left: 14px;
+  vertical-align: middle;
+}
+
+.eq-bar {
+  width: 3.5px;
+  background: linear-gradient(180deg, var(--neon-cyan) 0%, var(--neon-pink) 100%);
+  border-radius: 3px;
+  min-height: 4px;
+  box-shadow: 0 0 8px var(--neon-cyan);
+  transition: height 0.2s ease;
+}
+
+body[data-playback="playing"] .eq-bar.bar-1 { animation: eqBounce 0.8s ease-in-out infinite alternate; }
+body[data-playback="playing"] .eq-bar.bar-2 { animation: eqBounce 0.6s ease-in-out infinite alternate 0.2s; }
+body[data-playback="playing"] .eq-bar.bar-3 { animation: eqBounce 1.0s ease-in-out infinite alternate 0.4s; }
+body[data-playback="playing"] .eq-bar.bar-4 { animation: eqBounce 0.7s ease-in-out infinite alternate 0.1s; }
+body[data-playback="playing"] .eq-bar.bar-5 { animation: eqBounce 0.9s ease-in-out infinite alternate 0.3s; }
+
+body[data-playback="paused"] .eq-bar {
+  height: 4px !important;
+  animation: none !important;
+  opacity: 0.5;
+}
+
+@keyframes eqBounce {
+  0% { height: 4px; }
+  50% { height: 18px; }
+  100% { height: 8px; }
+}
+
+/* 8. BARRA DEL REPRODUCTOR INFERIOR & LÁSER DE PROGRESO */
+ytmusic-player-bar {
+  background: var(--cyber-glass) !important;
+  backdrop-filter: blur(25px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
+  border-top: 1px solid var(--cyber-glass-border) !important;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Barra de progreso láser con gradiente en movimiento continuo */
+#progress-bar.ytmusic-player-bar {
+  height: 6px !important;
+  transition: height 0.2s ease !important;
+}
+
+ytmusic-player-bar:hover #progress-bar.ytmusic-player-bar {
+  height: 8px !important;
+}
+
+#progress-bar.ytmusic-player-bar #primaryProgress {
+  background: linear-gradient(90deg, 
+    var(--neon-pink) 0%, 
+    var(--neon-cyan) 25%, 
+    var(--neon-green) 50%, 
+    var(--neon-purple) 75%, 
+    var(--neon-pink) 100%
+  ) !important;
+  background-size: 300% 100% !important;
+  animation: laserFlow 4s linear infinite !important;
+  box-shadow: 0 0 14px var(--neon-cyan) !important;
+}
+
+@keyframes laserFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* Knob / Punto de progreso */
+#sliderKnob .slider-knob-inner {
+  background: #FFFFFF !important;
+  box-shadow: 0 0 15px 4px var(--neon-cyan) !important;
+  transform: scale(1.2) !important;
+  transition: transform 0.2s ease !important;
+}
+
+/* 9. BOTÓN PLAY/PAUSE CON RESPIRACIÓN NEÓN */
+#play-pause-button {
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  margin: 0 10px !important;
+}
+
+body[data-playback="playing"] #play-pause-button {
+  animation: neonBreath 3s infinite alternate !important;
+}
+
+@keyframes neonBreath {
+  0% {
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), 0 0 30px rgba(138, 43, 226, 0.2);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.8), 0 0 50px rgba(255, 0, 119, 0.4);
+    transform: scale(1.06);
+  }
+}
+
+#play-pause-button:hover {
+  transform: scale(1.15) !important;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.9) !important;
+}
+
+#play-pause-button tp-yt-iron-icon {
+  --iron-icon-fill-color: #07070C !important;
+}
+
+/* Título de canción con brillo suave */
+.title.ytmusic-player-bar {
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+  color: #FFFFFF !important;
+}
+
+.byline.ytmusic-player-bar {
+  color: var(--neon-cyan) !important;
+}
+
+/* 10. CHIPS Y FILTROS ("Canción", "Video") */
+ytmusic-chip-cloud-chip-renderer {
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.25s ease !important;
+}
+
+ytmusic-chip-cloud-chip-renderer:hover {
+  border-color: var(--neon-cyan) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 15px rgba(0, 240, 255, 0.2) !important;
+}
+
+ytmusic-chip-cloud-chip-renderer[is-selected] {
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4) !important;
+}
+
+ytmusic-chip-cloud-chip-renderer[is-selected] yt-formatted-string {
+  color: #07070C !important;
+  font-weight: 800 !important;
+}

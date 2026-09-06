@@ -1,0 +1,342 @@
+/* ==========================================================================
+   YOUTUBE MUSIC - NEO-BRUTALISM THEME
+   Estilo crudo, alto contraste, sombras duras, bordes gruesos y tipografía mono.
+   ========================================================================== */
+
+/* Variables globales y fuentes */
+:root {
+  --brutal-bg: #090909;
+  --brutal-surface: #121212;
+  --brutal-surface-light: #1c1c1c;
+  --brutal-accent: #FFE600;       /* Amarillo Neón Brutalista */
+  --brutal-accent-alt: #00FF66;   /* Verde Ácido */
+  --brutal-accent-pink: #FF3366;  /* Rosa Eléctrico */
+  --brutal-text: #FFFFFF;
+  --brutal-text-muted: #A3A3A3;
+  --brutal-border: #FFFFFF;
+  --brutal-border-accent: #FFE600;
+  --brutal-shadow: 4px 4px 0px #FFE600;
+  --brutal-shadow-white: 4px 4px 0px #FFFFFF;
+  --brutal-shadow-black: 4px 4px 0px #000000;
+  
+  /* Sobrescribir variables de YouTube Music */
+  --ytmusic-brand-background-solid: var(--brutal-bg) !important;
+  --ytmusic-general-background-a: var(--brutal-bg) !important;
+  --ytmusic-general-background-b: var(--brutal-surface) !important;
+  --ytmusic-general-background-c: var(--brutal-surface-light) !important;
+  --ytmusic-color-black1: var(--brutal-bg) !important;
+  --ytmusic-color-black4: var(--brutal-surface) !important;
+  --ytmusic-color-white1: var(--brutal-text) !important;
+  --yt-spec-static-brand-red: var(--brutal-accent) !important;
+  --yt-spec-brand-background-solid: var(--brutal-bg) !important;
+}
+
+/* 1. Reset Brutalista: Cero bordes redondeados y tipografía técnica */
+*, *::before, *::after {
+  border-radius: 0px !important;
+  font-family: 'JetBrains Mono', 'Space Mono', 'Consolas', 'Courier New', monospace !important;
+}
+
+/* Scrollbars Brutalistas */
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+::-webkit-scrollbar-track {
+  background: var(--brutal-bg) !important;
+  border-left: 2px solid var(--brutal-border) !important;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brutal-accent) !important;
+  border: 2px solid #000000 !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brutal-accent-alt) !important;
+}
+
+/* Fondo principal */
+body, 
+ytmusic-app, 
+ytmusic-browse-response, 
+#browse-page, 
+ytmusic-player-page {
+  background-color: var(--brutal-bg) !important;
+  color: var(--brutal-text) !important;
+}
+
+/* 2. Barra Superior (Navbar) */
+ytmusic-nav-bar {
+  background-color: var(--brutal-bg) !important;
+  border-bottom: 3px solid var(--brutal-accent) !important;
+  box-shadow: 0px 4px 0px #000000 !important;
+}
+
+/* Logo de YouTube Music */
+.logo.ytmusic-nav-bar yt-icon {
+  filter: drop-shadow(2px 2px 0px var(--brutal-accent)) !important;
+}
+
+/* Barra de búsqueda */
+ytmusic-search-box {
+  background: var(--brutal-surface) !important;
+  border: 2px solid var(--brutal-border) !important;
+  box-shadow: var(--brutal-shadow) !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+ytmusic-search-box:focus-within {
+  border-color: var(--brutal-accent) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--brutal-accent) !important;
+}
+
+ytmusic-search-box input {
+  color: var(--brutal-text) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* 3. Menú Lateral Izquierdo (Guide / Sidebar) */
+ytmusic-guide-renderer, 
+tp-yt-app-drawer,
+#guide-wrapper {
+  background-color: var(--brutal-surface) !important;
+  border-right: 3px solid var(--brutal-border) !important;
+}
+
+/* Ítems del menú lateral */
+ytmusic-guide-entry-renderer {
+  margin: 6px 12px !important;
+  border: 2px solid transparent !important;
+  transition: all 0.15s ease !important;
+}
+
+ytmusic-guide-entry-renderer:hover {
+  background-color: var(--brutal-surface-light) !important;
+  border: 2px solid var(--brutal-border) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 3px 3px 0px var(--brutal-accent) !important;
+}
+
+/* Ítem activo seleccionado */
+ytmusic-guide-entry-renderer[is-primary] tp-yt-paper-item.iron-selected,
+ytmusic-guide-entry-renderer[is-selected] {
+  background-color: var(--brutal-accent) !important;
+  border: 2px solid var(--brutal-border) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+ytmusic-guide-entry-renderer[is-primary] tp-yt-paper-item.iron-selected *,
+ytmusic-guide-entry-renderer[is-selected] * {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Botón "+ Nueva playlist" */
+ytmusic-guide-entry-renderer.ytmusic-guide-section-renderer button,
+ytmusic-guide-signin-promo-renderer yt-button-renderer {
+  border: 2px solid var(--brutal-accent) !important;
+  background: var(--brutal-surface) !important;
+  box-shadow: 3px 3px 0px var(--brutal-accent) !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+}
+
+/* 4. Chips y Filtros ("Canción", "Video", Géneros) */
+ytmusic-chip-cloud-chip-renderer {
+  border: 2px solid var(--brutal-border) !important;
+  background: var(--brutal-surface) !important;
+  box-shadow: 3px 3px 0px var(--brutal-border) !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  transition: all 0.1s ease !important;
+}
+
+ytmusic-chip-cloud-chip-renderer:hover {
+  border-color: var(--brutal-accent) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0px var(--brutal-accent) !important;
+}
+
+ytmusic-chip-cloud-chip-renderer[is-selected] {
+  background: var(--brutal-accent) !important;
+  border-color: var(--brutal-border) !important;
+  color: #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+ytmusic-chip-cloud-chip-renderer[is-selected] yt-formatted-string {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+/* 5. Tarjetas de canciones y álbumes */
+ytmusic-responsive-list-item-renderer,
+ytmusic-two-row-item-renderer {
+  border: 2px solid transparent !important;
+  transition: all 0.15s ease !important;
+  margin-bottom: 4px !important;
+}
+
+ytmusic-responsive-list-item-renderer:hover,
+ytmusic-two-row-item-renderer:hover {
+  background-color: var(--brutal-surface) !important;
+  border: 2px solid var(--brutal-border) !important;
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 4px 4px 0px var(--brutal-accent) !important;
+}
+
+/* Portadas de canciones/álbumes */
+ytmusic-two-row-item-renderer .image-wrapper,
+ytmusic-responsive-list-item-renderer img,
+#thumbnail img {
+  border: 2px solid var(--brutal-border) !important;
+}
+
+/* Canción actualmente sonando en la lista */
+ytmusic-responsive-list-item-renderer[play-button-state="playing"],
+ytmusic-player-queue-item[play-button-state="playing"] {
+  background-color: var(--brutal-surface-light) !important;
+  border: 2px solid var(--brutal-accent) !important;
+  box-shadow: 4px 4px 0px var(--brutal-accent) !important;
+}
+
+ytmusic-player-queue-item[play-button-state="playing"] .song-title {
+  color: var(--brutal-accent) !important;
+  font-weight: 800 !important;
+}
+
+/* 6. Panel Derecho (Cola de reproducción / Letras / Relacionados) */
+#queue, 
+ytmusic-tab-renderer, 
+ytmusic-player-page {
+  border-left: 2px solid var(--brutal-border) !important;
+}
+
+/* Tabs: A CONTINUACIÓN / LETRA / RELACIONADOS */
+tp-yt-paper-tab {
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  border-bottom: 2px solid transparent !important;
+}
+
+tp-yt-paper-tab.iron-selected {
+  color: var(--brutal-accent) !important;
+  border-bottom: 3px solid var(--brutal-accent) !important;
+  background: var(--brutal-surface) !important;
+}
+
+/* 7. Barra Inferior del Reproductor (Player Bar) */
+ytmusic-player-bar {
+  background-color: #050505 !important;
+  border-top: 4px solid var(--brutal-accent) !important;
+  box-shadow: 0px -4px 0px #000000 !important;
+  padding: 0 16px !important;
+}
+
+/* Barra de progreso / Slider */
+#progress-bar.ytmusic-player-bar {
+  --paper-slider-active-color: var(--brutal-accent) !important;
+  --paper-slider-secondary-color: var(--brutal-surface-light) !important;
+  --paper-slider-knob-color: var(--brutal-accent) !important;
+  --paper-slider-knob-start-color: var(--brutal-accent) !important;
+  --paper-slider-container-color: #222222 !important;
+  height: 6px !important;
+}
+
+#sliderKnob .slider-knob-inner {
+  border-radius: 0px !important;
+  border: 2px solid #000000 !important;
+  width: 14px !important;
+  height: 14px !important;
+  background-color: var(--brutal-accent) !important;
+}
+
+/* Controles de reproducción */
+.middle-controls.ytmusic-player-bar paper-icon-button,
+.left-controls.ytmusic-player-bar paper-icon-button,
+.right-controls.ytmusic-player-bar paper-icon-button {
+  transition: transform 0.1s ease !important;
+}
+
+/* Botón Play / Pause principal */
+#play-pause-button {
+  background: var(--brutal-accent) !important;
+  border: 2px solid var(--brutal-border) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  margin: 0 10px !important;
+}
+
+#play-pause-button tp-yt-iron-icon {
+  --iron-icon-fill-color: #000000 !important;
+}
+
+#play-pause-button:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0px #000000 !important;
+  background: var(--brutal-accent-alt) !important;
+}
+
+/* Título de la canción y Artista en la barra */
+.title.ytmusic-player-bar {
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.byline.ytmusic-player-bar {
+  color: var(--brutal-accent) !important;
+  font-weight: 600 !important;
+}
+
+.time-info.ytmusic-player-bar {
+  font-weight: 700 !important;
+  color: var(--brutal-text-muted) !important;
+}
+
+/* Botones de acción general (Guardar, Compartir, Suscribirse) */
+yt-button-renderer[is-paper-button] button,
+tp-yt-paper-button {
+  border: 2px solid var(--brutal-border) !important;
+  background-color: var(--brutal-surface) !important;
+  color: var(--brutal-text) !important;
+  box-shadow: 3px 3px 0px var(--brutal-border) !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+  transition: all 0.1s ease !important;
+}
+
+yt-button-renderer[is-paper-button] button:hover,
+tp-yt-paper-button:hover {
+  border-color: var(--brutal-accent) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0px var(--brutal-accent) !important;
+}
+
+/* Botón de suscripción */
+ytmusic-subscribe-button-renderer tp-yt-paper-button {
+  background-color: var(--brutal-accent-pink) !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 3px 3px 0px #FFFFFF !important;
+}
+
+/* Menús contextuales / Dropdowns */
+tp-yt-paper-listbox,
+ytmusic-menu-popup-renderer {
+  background-color: #000000 !important;
+  border: 3px solid var(--brutal-border) !important;
+  box-shadow: 6px 6px 0px var(--brutal-accent) !important;
+}
+
+tp-yt-paper-item:hover {
+  background-color: var(--brutal-accent) !important;
+  color: #000000 !important;
+}
+
+tp-yt-paper-item:hover * {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}

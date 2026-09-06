@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth bg-black text-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar YouTube Music con IA & Antigravity | Guía Paso a Paso</title>
+
+    <!-- Metadatos SEO y Social Media -->
+    <meta name="description" content="Aprende a transformar la interfaz de YouTube Music a estilos Neo-Brutalistas y Cyberpunk Kinetic con fondos animados y vinilo giratorio usando Google Antigravity.">
+    <meta property="og:title" content="Modificar YouTube Music con Antigravity | Guía & Prompts">
+    <meta property="og:description" content="Tutorial paso a paso con los prompts exactos y código de extensiones para rediseñar YouTube Music.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/logo.jpeg">
+    <meta property="og:url" content="https://github.com/juanmartinbarrientos/Mis-Redes">
+
+    <!-- Favicon e Iconos -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fuentes Google: Syne (Ultra Display) + Inter + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Configuración Tailwind personalizada a juego con Mis-Redes -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f0ff',
+                            purple: '#7000ff',
+                            pink: '#ff003c',
+                            yellow: '#ffe600',
+                            green: '#00ff88',
+                        },
+                        dark: {
+                            950: '#030305',
+                            900: '#07070b',
+                            800: '#0f0f15',
+                            700: '#171722',
+                        }
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'laser': 'laserFlow 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- ESTILOS BASE Y RENDIMIENTO --- */
+        * {
+            cursor: none; /* Cursor nativo oculto para usar el cursor magnético */
+        }
+        body {
+            background-color: #030305;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* --- FONDO DE PLASMA INTERACTIVO --- */
+        #plasma-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #080811 0%, #030305 100%);
+        }
+        .plasma-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.45;
+            animation: pulse 12s infinite alternate;
+            transition: top 0.9s cubic-bezier(0.1, 0.8, 0.3, 1), left 0.9s cubic-bezier(0.1, 0.8, 0.3, 1);
+            transform: translate(-50%, -50%);
+            will-change: top, left, transform;
+        }
+        .blob-1 { width: 650px; height: 650px; background: rgba(112, 0, 255, 0.35); }
+        .blob-2 { width: 500px; height: 500px; background: rgba(0, 240, 255, 0.25); }
+        .blob-3 { width: 450px; height: 450px; background: rgba(255, 0, 60, 0.2); }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-45%, -55%) scale(1.15); }
+            100% { transform: translate(-55%, -45%) scale(0.95); }
+        }
+
+        /* --- CURSOR PERSONALIZADO --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 24px; height: 24px;
+            border: 2px solid rgba(0, 240, 255, 0.7);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.25s, height 0.25s, background-color 0.25s, border-color 0.25s;
+            mix-blend-mode: screen;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        #custom-cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 6px; height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 8px #ffffff;
+        }
+        .cursor-hover #custom-cursor {
+            width: 65px; height: 65px;
+            background-color: rgba(0, 240, 255, 0.15);
+            border-color: #ff003c;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.5);
+        }
+
+        /* --- TARJETAS GLASSMORPHISM CON BORDE REACTIVO --- */
+        .glass-panel {
+            background: rgba(15, 15, 23, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(
+                var(--mouse-angle, 135deg), 
+                rgba(255,255,255,0.25) 0%, 
+                rgba(255,255,255,0.02) 40%, 
+                rgba(0, 240, 255, 0.4) 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glass-panel:hover {
+            transform: translateY(-6px) scale(1.015);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(0, 240, 255, 0.25);
+        }
+
+        /* --- EFECTO HOLOGRÁFICO --- */
+        .holographic-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .holographic-card::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(
+                45deg, 
+                transparent 40%, 
+                rgba(255,255,255,0.08) 45%, 
+                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0.08) 55%, 
+                transparent 60%
+            );
+            transform: rotate(25deg) translateY(100%);
+            animation: shimmer 7s infinite;
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0% { transform: rotate(25deg) translateY(100%); }
+            20%, 100% { transform: rotate(25deg) translateY(-100%); }
+        }
+
+        /* --- ANIMACIONES SCROLL REVEAL --- */
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(50px) scale(0.97);
+            filter: blur(8px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            will-change: transform, opacity, filter;
+        }
+        .gsap-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        /* Ecualizador animado mini */
+        .preview-eq-bar {
+            width: 3px;
+            background: #00f0ff;
+            border-radius: 2px;
+            animation: previewEq 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes previewEq {
+            0% { height: 4px; }
+            100% { height: 20px; }
+        }
+
+        /* Scrollbar discreto */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #07070b; }
+        ::-webkit-scrollbar-thumb { background: #1a1a24; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+
+        @media (hover: none) and (pointer: coarse) {
+            #custom-cursor, #custom-cursor-dot { display: none !important; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body class="text-slate-300 relative min-h-screen">
+
+    <!-- CURSOR PERSONALIZADO MAGNÉTICO -->
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-dot"></div>
+
+    <!-- FONDO DE PLASMA INTERACTIVO -->
+    <div id="plasma-bg">
+        <div class="plasma-blob blob-1" id="blob1"></div>
+        <div class="plasma-blob blob-2" id="blob2"></div>
+        <div class="plasma-blob blob-3" id="blob3"></div>
+    </div>
+
+    <!-- NAVEGACIÓN FLOTANTE (ESTILO MIS-REDES PILL) -->
+    <nav class="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[94%] max-w-5xl bg-dark-900/60 backdrop-blur-2xl border border-white/10 rounded-full px-4 md:px-7 py-3 flex justify-between items-center shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
+        <a href="#hero" class="text-white font-display font-bold text-lg md:text-xl tracking-tight flex items-center gap-3 hoverable">
+            <span class="w-8 h-8 rounded-full bg-gradient-to-tr from-neon-purple via-neon-cyan to-neon-pink flex items-center justify-center text-black font-black text-sm shadow-[0_0_15px_rgba(0,240,255,0.6)]">
+                <i data-lucide="sparkles" class="w-4 h-4 text-black"></i>
+            </span>
+            <span class="bg-gradient-to-r from-white via-slate-200 to-neon-cyan bg-clip-text text-transparent">
+                YouTube Music <span class="text-neon-cyan font-normal text-sm border border-neon-cyan/40 px-2 py-0.5 rounded-full ml-1">Lab</span>
+            </span>
+        </a>
+
+        <!-- Enlaces escritorio -->
+        <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+            <a href="#prompts" class="text-slate-300 hover:text-neon-cyan transition-colors hoverable flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-neon-cyan"></i> Prompts
+            </a>
+            <a href="#temas" class="text-slate-300 hover:text-neon-purple transition-colors hoverable flex items-center gap-1.5">
+                <i data-lucide="palette" class="w-4 h-4 text-neon-purple"></i> Los 2 Temas
+            </a>
+            <a href="#paso-a-paso" class="text-slate-300 hover:text-neon-pink transition-colors hoverable flex items-center gap-1.5">
+                <i data-lucide="workflow" class="w-4 h-4 text-neon-pink"></i> Paso a Paso
+            </a>
+            <a href="#codigo" class="text-slate-300 hover:text-neon-yellow transition-colors hoverable flex items-center gap-1.5">
+                <i data-lucide="code-2" class="w-4 h-4 text-neon-yellow"></i> Código
+            </a>
+        </div>
+
+        <!-- Botón YouTube / Repo -->
+        <div class="flex items-center gap-2.5">
+            <a href="https://github.com/juanmartinbarrientos/Mis-Redes" target="_blank" class="hoverable px-4 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold flex items-center gap-2 text-white transition-all hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                <i class="fa-brands fa-github text-sm"></i>
+                <span class="hidden sm:inline">Mis-Redes</span>
+            </a>
+            <a href="#paso-a-paso" class="hoverable px-4 py-1.5 rounded-full bg-gradient-to-r from-neon-purple to-neon-cyan text-black font-display font-bold text-xs flex items-center gap-1.5 transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                <span>Comenzar</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-32 md:pt-40 pb-24 space-y-28">
+
+        <!-- ===================================================================
+             1. HERO SECTION
+             =================================================================== -->
+        <section id="hero" class="text-center space-y-8 gsap-reveal">
+            <!-- Badge Superior -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark-800/80 border border-neon-cyan/30 text-neon-cyan text-xs font-mono tracking-wide shadow-[0_0_20px_rgba(0,240,255,0.2)] hoverable">
+                <span class="w-2 h-2 rounded-full bg-neon-cyan animate-ping"></span>
+                <span>TUTORIAL & REPOSITORIO EXCLUSIVO • ANTIGRAVITY AGENT</span>
+            </div>
+
+            <!-- Título Principal Display (Syne) -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight leading-[1.08] text-white">
+                Hackea y Rediseña <br>
+                <span class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent">
+                    YouTube Music
+                </span>
+                con IA
+            </h1>
+
+            <!-- Bajada / Subtítulo -->
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-400 font-normal leading-relaxed">
+                De la interfaz estándar a un diseño <strong class="text-white">Neo-Brutalista</strong> con sombras duras o un entorno <strong class="text-neon-cyan">Cyberpunk Kinetic</strong> con fondo aurora, vinilo giratorio en vivo y ecualizador reactivo. Todo guiado por prompts con <span class="text-neon-purple font-semibold">Google Antigravity</span>.
+            </p>
+
+            <!-- Botones de Acción Rápida -->
+            <div class="flex flex-wrap justify-center items-center gap-4 pt-2">
+                <a href="#prompts" class="hoverable px-7 py-3.5 rounded-full bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink text-black font-display font-extrabold text-sm tracking-wide shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_45px_rgba(112,0,255,0.6)] hover:scale-105 transition-all flex items-center gap-2">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    <span>Ver Prompts para Antigravity</span>
+                </a>
+                <a href="#temas" class="hoverable px-6 py-3.5 rounded-full bg-dark-800/80 border border-white/15 hover:border-neon-cyan text-white text-sm font-semibold backdrop-blur-xl transition-all hover:bg-white/5 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-neon-yellow"></i>
+                    <span>Comparar los 2 Diseños</span>
+                </a>
+                <a href="#codigo" class="hoverable px-6 py-3.5 rounded-full bg-white/5 border border-white/10 hover:border-neon-pink text-slate-300 hover:text-white text-sm font-semibold transition-all flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4 text-neon-pink"></i>
+                    <span>Descargar Extensión</span>
+                </a>
+            </div>
+
+            <!-- Métricas / Highlights -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-4xl mx-auto">
+                <div class="glass-panel p-4 text-center">
+                    <div class="font-display font-extrabold text-2xl md:text-3xl text-neon-cyan">2</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase font-mono">Estilos Creados</div>
+                </div>
+                <div class="glass-panel p-4 text-center">
+                    <div class="font-display font-extrabold text-2xl md:text-3xl text-neon-purple">100%</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase font-mono">Chrome PWA Nativo</div>
+                </div>
+                <div class="glass-panel p-4 text-center">
+                    <div class="font-display font-extrabold text-2xl md:text-3xl text-neon-green">En Vivo</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase font-mono">Audio Reactivo</div>
+                </div>
+                <div class="glass-panel p-4 text-center">
+                    <div class="font-display font-extrabold text-2xl md:text-3xl text-neon-pink">0ms</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase font-mono">Sin Programas Pesados</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             2. SECCIÓN: PROMPTS PARA ANTIGRAVITY (COPY-PASTE READY)
+             =================================================================== -->
+        <section id="prompts" class="space-y-10 gsap-reveal">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-mono uppercase tracking-widest text-neon-cyan border border-neon-cyan/30 px-3 py-1 rounded-full">
+                    Copy & Paste
+                </span>
+                <h2 class="text-3xl md:text-5xl font-display font-extrabold text-white">
+                    Prompts Usados en Antigravity
+                </h2>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Copia estos prompts tal cual y pégalos en tu sesión con Antigravity para replicar la investigación, el diseño y la creación de las extensiones.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- PROMPT 1 -->
+                <div class="glass-panel p-6 sm:p-8 space-y-4 holographic-card">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-purple/20 text-neon-purple border border-neon-purple/40">
+                            PASO 1 • DETECCIÓN
+                        </span>
+                        <button onclick="copyText('prompt-1', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar</span>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">¿Dónde se guarda esta app?</h3>
+                    <p class="text-xs text-slate-400">
+                        Antigravity escanea procesos, descubre la PWA de Google Chrome y ubica el `.lnk` y directorio de datos.
+                    </p>
+                    <div class="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs text-neon-cyan overflow-x-auto relative">
+                        <code id="prompt-1">puedes encontrar donde se guarda esta app [adjuntar captura de pantalla de YouTube Music]</code>
+                    </div>
+                </div>
+
+                <!-- PROMPT 2 -->
+                <div class="glass-panel p-6 sm:p-8 space-y-4 holographic-card">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-yellow/20 text-neon-yellow border border-neon-yellow/40">
+                            PASO 2 • NEO-BRUTALISMO
+                        </span>
+                        <button onclick="copyText('prompt-2', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-yellow/20 border border-white/10 hover:border-neon-yellow text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar</span>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">Tema Neo-Brutalista Puro</h3>
+                    <p class="text-xs text-slate-400">
+                        Genera un tema sin bordes redondeados, sombras retro sólidas de 4px, acentos amarillos y tipografía monospace.
+                    </p>
+                    <div class="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs text-neon-yellow overflow-x-auto relative">
+                        <code id="prompt-2">Quiero cambiar la apariencia a brutalismo, con bordes rectos de 0px, sombras duras sin desenfoque, alto contraste negro y amarillo neon, y tipografía técnica monospace.</code>
+                    </div>
+                </div>
+
+                <!-- PROMPT 3 -->
+                <div class="glass-panel p-6 sm:p-8 space-y-4 holographic-card">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-green/20 text-neon-green border border-neon-green/40">
+                            PASO 3 • MOVIMIENTO Y REACTIVIDAD
+                        </span>
+                        <button onclick="copyText('prompt-3', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-green/20 border border-white/10 hover:border-neon-green text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar</span>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">Diseño Animado & Reactivo al Audio</h3>
+                    <p class="text-xs text-slate-400">
+                        Pide un diseño alternativo con fondos aurora fluidos, vinilo giratorio al reproducir y ecualizador visual dinámico.
+                    </p>
+                    <div class="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs text-neon-green overflow-x-auto relative">
+                        <code id="prompt-3">dame otro ejemplo de diseño y que tenga movimiento continuo: fondo aurora líquido animado, que la portada gire como un vinilo cuando la canción suena, y un ecualizador de barras en la barra del reproductor.</code>
+                    </div>
+                </div>
+
+                <!-- PROMPT 4 -->
+                <div class="glass-panel p-6 sm:p-8 space-y-4 holographic-card">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-pink/20 text-neon-pink border border-neon-pink/40">
+                            PASO 4 • EMPAQUETADO CHROME
+                        </span>
+                        <button onclick="copyText('prompt-4', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-pink/20 border border-white/10 hover:border-neon-pink text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar</span>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">Empaquetar como Extensión Local</h3>
+                    <p class="text-xs text-slate-400">
+                        Crea la carpeta con `manifest.json`, CSS y JS para cargar en modo desarrollador sin depender de tiendas externas.
+                    </p>
+                    <div class="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs text-neon-pink overflow-x-auto relative">
+                        <code id="prompt-4">Empaqueta todo en una extensión de Chrome Manifest V3 con content_scripts para que se aplique automáticamente tanto en Chrome como en la PWA de YouTube Music.</code>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             3. SECCIÓN: LOS 2 TEMAS CREADOS (SHOWCASE INTERACTIVO)
+             =================================================================== -->
+        <section id="temas" class="space-y-12 gsap-reveal">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-mono uppercase tracking-widest text-neon-purple border border-neon-purple/30 px-3 py-1 rounded-full">
+                    Showcase Visual
+                </span>
+                <h2 class="text-3xl md:text-5xl font-display font-extrabold text-white">
+                    Dos Filosofías de Diseño
+                </h2>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Elige el estilo que mejor combine con tu setup o alterna entre ambos cuando quieras.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- TEMA A: NEO-BRUTALISMO -->
+                <div class="glass-panel p-6 sm:p-8 space-y-6 border border-white/10 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-none text-xs font-mono font-bold bg-[#FFE600] text-black border-2 border-white shadow-[2px_2px_0px_#000]">
+                                ESTILO 01 • RAW MINIMAL
+                            </span>
+                            <span class="font-mono text-xs text-slate-400">0px Border Radius</span>
+                        </div>
+
+                        <h3 class="font-display font-black text-2xl sm:text-3xl text-[#FFE600] tracking-tight">
+                            Neo-Brutalism Theme
+                        </h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Inspirado en la corriente moderna del brutalismo web: líneas industriales gruesas, cero curvas decorativas, sombras duras sin difuminar y tipografía tipográfica monoestilizada.
+                        </p>
+
+                        <!-- Mockup interactivo CSS -->
+                        <div class="bg-[#090909] border-2 border-white p-4 rounded-none shadow-[5px_5px_0px_#FFE600] font-mono text-xs space-y-3">
+                            <div class="flex items-center justify-between border-b-2 border-[#FFE600] pb-2">
+                                <span class="font-bold text-white uppercase tracking-wider">YT_MUSIC // REPRODUCIENDO</span>
+                                <span class="bg-[#FFE600] text-black px-2 py-0.5 font-black text-[10px]">320 KBPS</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-neutral-800 border-2 border-white flex items-center justify-center text-white font-bold">
+                                    <i data-lucide="disc" class="w-6 h-6 text-[#FFE600]"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="font-black text-white text-sm uppercase">MADRUGA - FLACO VAZQUEZ</div>
+                                    <div class="text-[#FFE600] text-[11px] font-bold">Mix de BIZZARRO 98</div>
+                                </div>
+                            </div>
+                            <div class="w-full bg-neutral-900 border border-white h-3">
+                                <div class="bg-[#FFE600] h-full w-[65%]"></div>
+                            </div>
+                        </div>
+
+                        <!-- Lista de Características -->
+                        <ul class="space-y-2 text-xs font-mono text-slate-300 pt-2">
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check-square" class="w-4 h-4 text-[#FFE600]"></i>
+                                <span><strong class="text-white">Bordes duros y rectos</strong> en botones, buscador y menús.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check-square" class="w-4 h-4 text-[#FFE600]"></i>
+                                <span><strong class="text-white">Hard drop shadows</strong> retro de 4px sin blur.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check-square" class="w-4 h-4 text-[#FFE600]"></i>
+                                <span><strong class="text-white">Tipografía JetBrains Mono</strong> inyectada automáticamente.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                        <span class="font-mono text-xs text-slate-400">Directorio local:</span>
+                        <code class="text-xs text-[#FFE600] bg-black/60 px-2 py-1 border border-white/10 font-mono">theme music/extension-brutalism</code>
+                    </div>
+                </div>
+
+                <!-- TEMA B: CYBER-NEON KINETIC (CON MOVIMIENTO) -->
+                <div class="glass-panel p-6 sm:p-8 space-y-6 border border-white/10 flex flex-col justify-between relative overflow-hidden">
+                    <!-- Glow de fondo -->
+                    <div class="absolute -top-20 -right-20 w-48 h-48 bg-neon-cyan/20 blur-3xl pointer-events-none"></div>
+
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                                <span class="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-ping"></span>
+                                ESTILO 02 • KINETIC MOTION
+                            </span>
+                            <span class="font-mono text-xs text-neon-green flex items-center gap-1">
+                                <i data-lucide="activity" class="w-3.5 h-3.5"></i> Con Movimiento
+                            </span>
+                        </div>
+
+                        <h3 class="font-display font-black text-2xl sm:text-3xl bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent tracking-tight">
+                            Cyber-Neon Kinetic
+                        </h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Una experiencia futurista cargada de movimiento continuo: fondo Aurora líquido bioluminiscente, efecto vinilo 360°, ecualizador animado al ritmo del audio y barra láser en flujo continuo.
+                        </p>
+
+                        <!-- Mockup interactivo con vinilo y ecualizador -->
+                        <div class="bg-dark-900/80 border border-neon-cyan/40 p-4 rounded-2xl backdrop-blur-xl shadow-[0_0_30px_rgba(0,240,255,0.2)] font-sans text-xs space-y-3">
+                            <div class="flex items-center justify-between text-slate-400 text-[11px]">
+                                <span class="flex items-center gap-1 text-neon-cyan font-mono">
+                                    <i data-lucide="radio" class="w-3 h-3 animate-pulse"></i> LIVE STREAM
+                                </span>
+                                <!-- Mini Ecualizador animado -->
+                                <div class="flex items-end gap-1 h-5 px-2">
+                                    <div class="preview-eq-bar" style="animation-delay: 0.1s;"></div>
+                                    <div class="preview-eq-bar" style="animation-delay: 0.3s; background: #8a2be2;"></div>
+                                    <div class="preview-eq-bar" style="animation-delay: 0.5s; background: #ff0077;"></div>
+                                    <div class="preview-eq-bar" style="animation-delay: 0.2s;"></div>
+                                    <div class="preview-eq-bar" style="animation-delay: 0.4s; background: #00ff88;"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <!-- Vinilo que rota -->
+                                <div class="w-12 h-12 rounded-full border-2 border-neon-cyan shadow-[0_0_15px_rgba(0,240,255,0.5)] flex items-center justify-center bg-gradient-to-tr from-black via-zinc-900 to-black animate-spin-slow">
+                                    <div class="w-4 h-4 rounded-full bg-neon-cyan/80 border border-white"></div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-white text-sm flex items-center gap-2">
+                                        MADRUGA - FLACO VAZQUEZ
+                                        <span class="w-2 h-2 rounded-full bg-neon-green animate-ping"></span>
+                                    </div>
+                                    <div class="text-neon-cyan text-[11px] font-mono">Girando en reproducción activa</div>
+                                </div>
+                            </div>
+                            <!-- Barra de progreso láser -->
+                            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                <div class="h-full w-full bg-gradient-to-r from-neon-pink via-neon-cyan to-neon-green animate-laser" style="background-size: 200% 100%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Lista de Características -->
+                        <ul class="space-y-2 text-xs font-mono text-slate-300 pt-2">
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neon-cyan"></i>
+                                <span><strong class="text-white">Fondo Aurora</strong> fluido que se desplaza y muta en bucle.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neon-purple"></i>
+                                <span><strong class="text-white">Vinilo giratorio</strong> automático sincronizado con play/pausa.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neon-pink"></i>
+                                <span><strong class="text-white">Glassmorphism real</strong> con desenfoque de 25px.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between relative z-10">
+                        <span class="font-mono text-xs text-slate-400">Directorio local:</span>
+                        <code class="text-xs text-neon-cyan bg-black/60 px-2 py-1 border border-white/10 font-mono">theme music/extension-cyber-motion</code>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             4. SECCIÓN: EL PASO A PASO TÉCNICO (CÓMO FUNCIONA)
+             =================================================================== -->
+        <section id="paso-a-paso" class="space-y-10 gsap-reveal">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-mono uppercase tracking-widest text-neon-green border border-neon-green/30 px-3 py-1 rounded-full">
+                    Metodología
+                </span>
+                <h2 class="text-3xl md:text-5xl font-display font-extrabold text-white">
+                    Cómo lo Hicimos Paso a Paso
+                </h2>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    La arquitectura exacta para modificar la app oficial de YouTube Music sin romper nada y con carga instantánea.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+
+                <!-- PASO 1 -->
+                <div class="glass-panel p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-start">
+                    <div class="w-12 h-12 rounded-2xl bg-neon-purple/20 border border-neon-purple/40 text-neon-purple font-display font-black text-xl flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(112,0,255,0.3)]">
+                        1
+                    </div>
+                    <div class="space-y-2 flex-1">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-display font-bold text-xl text-white">Descubrimiento: Identificar la PWA en Windows</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/10 text-slate-300">PowerShell</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Al pedirle a Antigravity encontrar dónde se guardaba la app, descubrió que YouTube Music no es un archivo `.exe` aislado compilado, sino una <strong>PWA (Progressive Web App)</strong> administrada por Google Chrome en:
+                        </p>
+                        <div class="bg-black/60 p-3 rounded-xl border border-white/10 font-mono text-xs text-slate-300 overflow-x-auto">
+                            <code>C:\Program Files\Google\Chrome\Application\chrome_proxy.exe --profile-directory=Default --app-id=cinhimbnkkaeohfgghhklpknlkffjgod</code>
+                        </div>
+                        <p class="text-slate-400 text-xs">
+                            Esto significa que la app comparte el motor de extensiones y renderizado de Chrome, permitiendo inyectar CSS y scripts con privilegios completos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- PASO 2 -->
+                <div class="glass-panel p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-start">
+                    <div class="w-12 h-12 rounded-2xl bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan font-display font-black text-xl flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+                        2
+                    </div>
+                    <div class="space-y-2 flex-1">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-display font-bold text-xl text-white">Estructura de la Extensión Manifest V3</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/10 text-slate-300">manifest.json</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Diseñamos una extensión ligera sin dependencias externas usando <code class="text-neon-cyan font-mono">content_scripts</code>. La extensión apunta a <code class="text-neon-cyan font-mono">https://music.youtube.com/*</code> y se inyecta automáticamente al abrir la app de escritorio o la pestaña web.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-mono">
+                            <div class="p-3 bg-black/40 border border-white/10 rounded-xl">
+                                <div class="text-neon-cyan font-bold">manifest.json</div>
+                                <div class="text-slate-400 text-[11px]">Metadatos V3 y reglas</div>
+                            </div>
+                            <div class="p-3 bg-black/40 border border-white/10 rounded-xl">
+                                <div class="text-neon-purple font-bold">cyber-motion.css</div>
+                                <div class="text-slate-400 text-[11px]">Animaciones y estilos</div>
+                            </div>
+                            <div class="p-3 bg-black/40 border border-white/10 rounded-xl">
+                                <div class="text-neon-pink font-bold">content.js</div>
+                                <div class="text-slate-400 text-[11px]">Ecualizador y detector play</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 3 -->
+                <div class="glass-panel p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-start">
+                    <div class="w-12 h-12 rounded-2xl bg-neon-green/20 border border-neon-green/40 text-neon-green font-display font-black text-xl flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(0,255,136,0.3)]">
+                        3
+                    </div>
+                    <div class="space-y-2 flex-1">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-display font-bold text-xl text-white">Detección de Reproducción en Vivo (JavaScript)</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/10 text-slate-300">MutationObserver</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Para que el vinilo gire solo cuando suena música y se detenga al pausar, creamos un observador en <code class="text-neon-green font-mono">content.js</code> que escucha el estado del tag <code class="text-neon-green font-mono">&lt;video&gt;</code> y el botón <code class="text-neon-green font-mono">#play-pause-button</code>. Al detectar reproducción, asigna el atributo:
+                        </p>
+                        <div class="bg-black/60 p-3 rounded-xl border border-white/10 font-mono text-xs text-neon-green">
+                            <code>document.body.setAttribute('data-playback', 'playing'); // o 'paused'</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 4 -->
+                <div class="glass-panel p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-start">
+                    <div class="w-12 h-12 rounded-2xl bg-neon-yellow/20 border border-neon-yellow/40 text-neon-yellow font-display font-black text-xl flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(255,230,0,0.3)]">
+                        4
+                    </div>
+                    <div class="space-y-2 flex-1">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-display font-bold text-xl text-white">Instalación en 10 Segundos en Chrome</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/10 text-slate-300">Modo Desarrollador</span>
+                        </div>
+                        <ol class="list-decimal list-inside space-y-2 text-slate-300 text-sm pt-1">
+                            <li>Abre <strong>Google Chrome</strong> y escribe en la barra de URL: <code class="text-neon-yellow font-mono">chrome://extensions</code></li>
+                            <li>Enciende el interruptor <strong>"Modo de desarrollador"</strong> (arriba a la derecha).</li>
+                            <li>Haz clic en <strong>"Cargar descomprimida"</strong> (Load unpacked).</li>
+                            <li>Selecciona la carpeta del tema que desees (ej: <code class="text-neon-cyan font-mono">theme music/extension-cyber-motion</code>).</li>
+                            <li>Abre tu app o ventana de YouTube Music y recarga con <kbd class="px-1.5 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-xs">Ctrl + R</kbd>. ¡Listo!</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             5. EXPLORADOR DE CÓDIGO INTERACTIVO
+             =================================================================== -->
+        <section id="codigo" class="space-y-8 gsap-reveal">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-mono uppercase tracking-widest text-neon-pink border border-neon-pink/30 px-3 py-1 rounded-full">
+                    Archivos Fuente
+                </span>
+                <h2 class="text-3xl md:text-5xl font-display font-extrabold text-white">
+                    Código de las Extensiones
+                </h2>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Inspecciona o copia el código completo generado durante la sesión.
+                </p>
+            </div>
+
+            <div class="glass-panel p-6 sm:p-8 space-y-6">
+                <!-- Selector de pestañas de código -->
+                <div class="flex flex-wrap gap-2 border-b border-white/10 pb-4">
+                    <button onclick="switchTab('tab-manifest', this)" class="tab-btn hoverable px-4 py-2 rounded-xl text-xs font-mono font-bold bg-neon-cyan/20 border border-neon-cyan text-neon-cyan transition-all">
+                        manifest.json
+                    </button>
+                    <button onclick="switchTab('tab-cyber-css', this)" class="tab-btn hoverable px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white/5 border border-white/10 text-slate-400 hover:text-white transition-all">
+                        cyber-motion.css
+                    </button>
+                    <button onclick="switchTab('tab-cyber-js', this)" class="tab-btn hoverable px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white/5 border border-white/10 text-slate-400 hover:text-white transition-all">
+                        content.js (Kinetic)
+                    </button>
+                    <button onclick="switchTab('tab-brutal-css', this)" class="tab-btn hoverable px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white/5 border border-white/10 text-slate-400 hover:text-white transition-all">
+                        brutalism.css
+                    </button>
+                </div>
+
+                <!-- TAB 1: MANIFEST -->
+                <div id="tab-manifest" class="code-tab-content space-y-3">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                        <span>Configuración Manifest V3 para Google Chrome</span>
+                        <button onclick="copyCode('code-manifest-text', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan text-slate-300 hover:text-white flex items-center gap-1.5 transition-all">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar Código</span>
+                        </button>
+                    </div>
+                    <pre class="bg-black/70 border border-white/10 rounded-2xl p-5 font-mono text-xs text-neon-cyan overflow-x-auto max-h-[420px]"><code id="code-manifest-text">{
+  "manifest_version": 3,
+  "name": "YouTube Music - Cyber-Neon Kinetic",
+  "version": "1.0",
+  "description": "Tema dinámico y animado con fondos Aurora en movimiento, ecualizador visual, vinilo giratorio y efectos láser.",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://music.youtube.com/*"
+      ],
+      "css": [
+        "cyber-motion.css"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}</code></pre>
+                </div>
+
+                <!-- TAB 2: CYBER CSS -->
+                <div id="tab-cyber-css" class="code-tab-content space-y-3 hidden">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                        <span>Estilos, animaciones Aurora, vinilo y láser</span>
+                        <button onclick="copyCode('code-cyber-css-text', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan text-slate-300 hover:text-white flex items-center gap-1.5 transition-all">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar Código</span>
+                        </button>
+                    </div>
+                    <pre class="bg-black/70 border border-white/10 rounded-2xl p-5 font-mono text-xs text-slate-300 overflow-x-auto max-h-[420px]"><code id="code-cyber-css-text">/* Paleta de colores y variables cinéticas */
+:root {
+  --neon-cyan: #00F0FF;
+  --neon-pink: #FF0077;
+  --neon-purple: #8A2BE2;
+  --neon-green: #00FF88;
+  --cyber-bg: #07070C;
+  --cyber-glass: rgba(13, 13, 24, 0.72);
+  --cyber-glass-border: rgba(255, 255, 255, 0.12);
+  --cyber-text: #F3F4F6;
+}
+
+/* Fondo animado Aurora líquido */
+#cyber-aurora-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+  background-color: var(--cyber-bg);
+  pointer-events: none;
+}
+
+.aurora-blob {
+  position: absolute;
+  filter: blur(85px);
+  border-radius: 50%;
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.aurora-blob-1 {
+  width: 55vw; height: 55vw;
+  background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+  animation: floatAurora1 18s ease-in-out infinite alternate;
+}
+
+/* Vinilo giratorio que rota en reproducción activa */
+body[data-playback="playing"] ytmusic-player-bar #thumbnail img {
+  animation: spinVinyl 8s linear infinite !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--neon-cyan) !important;
+}
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Barra de progreso láser */
+#progress-bar.ytmusic-player-bar #primaryProgress {
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-green), var(--neon-purple)) !important;
+  background-size: 300% 100% !important;
+  animation: laserFlow 4s linear infinite !important;
+}</code></pre>
+                </div>
+
+                <!-- TAB 3: CONTENT.JS -->
+                <div id="tab-cyber-js" class="code-tab-content space-y-3 hidden">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                        <span>Detector de reproducción y generador del ecualizador visual</span>
+                        <button onclick="copyCode('code-cyber-js-text', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-cyan/20 border border-white/10 hover:border-neon-cyan text-slate-300 hover:text-white flex items-center gap-1.5 transition-all">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar Código</span>
+                        </button>
+                    </div>
+                    <pre class="bg-black/70 border border-white/10 rounded-2xl p-5 font-mono text-xs text-neon-green overflow-x-auto max-h-[420px]"><code id="code-cyber-js-text">(function() {
+  'use strict';
+
+  // Inyectar fuente moderna Outfit y Space Grotesk
+  const fontLink = document.createElement('link');
+  fontLink.rel = 'stylesheet';
+  fontLink.href = 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap';
+  document.head.appendChild(fontLink);
+
+  // Inyectar fondo Aurora
+  function injectAuroraBackground() {
+    if (document.getElementById('cyber-aurora-bg')) return;
+    const aurora = document.createElement('div');
+    aurora.id = 'cyber-aurora-bg';
+    aurora.innerHTML = `
+      <div class="aurora-blob aurora-blob-1"></div>
+      <div class="aurora-blob aurora-blob-2"></div>
+      <div class="aurora-blob aurora-blob-3"></div>
+      <div class="aurora-overlay"></div>
+    `;
+    document.body.prepend(aurora);
+  }
+
+  // Detección de reproducción
+  function monitorPlaybackState() {
+    const video = document.querySelector('video');
+    const update = () => {
+      const isPlaying = video && !video.paused && !video.ended;
+      document.body.setAttribute('data-playback', isPlaying ? 'playing' : 'paused');
+    };
+    if (video) {
+      video.addEventListener('play', update);
+      video.addEventListener('pause', update);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    injectAuroraBackground();
+    monitorPlaybackState();
+  });
+})();</code></pre>
+                </div>
+
+                <!-- TAB 4: BRUTALISM CSS -->
+                <div id="tab-brutal-css" class="code-tab-content space-y-3 hidden">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                        <span>CSS para estilo Neo-Brutalista con sombras sólidas</span>
+                        <button onclick="copyCode('code-brutal-css-text', this)" class="hoverable px-3 py-1 rounded-lg bg-white/10 hover:bg-neon-yellow/20 border border-white/10 hover:border-neon-yellow text-slate-300 hover:text-white flex items-center gap-1.5 transition-all">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span class="btn-text">Copiar Código</span>
+                        </button>
+                    </div>
+                    <pre class="bg-black/70 border border-white/10 rounded-2xl p-5 font-mono text-xs text-neon-yellow overflow-x-auto max-h-[420px]"><code id="code-brutal-css-text">/* Reset Brutalista: 0px Border Radius y sombras duras */
+*, *::before, *::after {
+  border-radius: 0px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+body, ytmusic-app, #browse-page, ytmusic-player-page {
+  background-color: #090909 !important;
+  color: #FFFFFF !important;
+}
+
+ytmusic-nav-bar {
+  border-bottom: 3px solid #FFE600 !important;
+  box-shadow: 0px 4px 0px #000000 !important;
+}
+
+ytmusic-search-box {
+  background: #121212 !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 4px 4px 0px #FFE600 !important;
+}
+
+#play-pause-button {
+  background: #FFE600 !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}</code></pre>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             6. CTA FINAL Y REDES (ESTILO MIS-REDES)
+             =================================================================== -->
+        <section class="glass-panel p-8 sm:p-12 text-center space-y-6 border border-white/10 holographic-card gsap-reveal">
+            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-neon-purple to-neon-cyan flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+                <i data-lucide="youtube" class="w-8 h-8 text-black"></i>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-display font-black text-white">
+                ¿Vienes desde el video de YouTube?
+            </h2>
+            <p class="max-w-xl mx-auto text-slate-300 text-sm sm:text-base leading-relaxed">
+                ¡Gracias por pasar por aquí! Todos los archivos listos para usar están disponibles en esta misma carpeta y en mi repositorio público de GitHub.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 pt-2">
+                <a href="https://github.com/juanmartinbarrientos/Mis-Redes" target="_blank" class="hoverable px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm flex items-center gap-2 transition-all hover:border-neon-cyan">
+                    <i class="fa-brands fa-github text-base"></i>
+                    <span>Ver Repositorio GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hoverable px-6 py-3 rounded-full bg-neon-cyan/20 hover:bg-neon-cyan/30 border border-neon-cyan/40 text-neon-cyan font-semibold text-sm flex items-center gap-2 transition-all">
+                    <i class="fa-brands fa-linkedin text-base"></i>
+                    <span>Conectar en LinkedIn</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-white/10 bg-dark-950/80 backdrop-blur-xl py-10 text-center text-xs text-slate-500 font-mono space-y-3">
+        <div class="flex justify-center items-center gap-4 text-slate-400">
+            <a href="https://github.com/juanmartinbarrientos" target="_blank" class="hover:text-neon-cyan hoverable transition-colors">GitHub</a>
+            <span>•</span>
+            <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" class="hover:text-neon-purple hoverable transition-colors">LinkedIn</a>
+            <span>•</span>
+            <a href="https://www.juanmartinbarrientos.com" target="_blank" class="hover:text-neon-pink hoverable transition-colors">juanmartinbarrientos.com</a>
+        </div>
+        <p>
+            Diseñado & Desarrollado con <strong>Google Antigravity</strong> • Juan Martin Barrientos &copy; 2026
+        </p>
+    </footer>
+
+    <!-- SCRIPTS INTERACTIVOS (CURSOR, PLASMA TRACKER, TABS, COPIAR) -->
+    <script>
+        // 1. Inicializar Lucide Icons
+        lucide.createIcons();
+
+        // 2. Cursor Magnético y Plasma Mouse Tracker
+        const cursor = document.getElementById('custom-cursor');
+        const cursorDot = document.getElementById('custom-cursor-dot');
+        const blob1 = document.getElementById('blob1');
+        const blob2 = document.getElementById('blob2');
+        const blob3 = document.getElementById('blob3');
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let dotX = mouseX, dotY = mouseY;
+        let ringX = mouseX, ringY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Mover las manchas de plasma suavemente hacia el cursor
+            const percentX = (mouseX / window.innerWidth) * 100;
+            const percentY = (mouseY / window.innerHeight) * 100;
+            
+            if (blob1) {
+                blob1.style.left = (percentX * 0.8 + 10) + '%';
+                blob1.style.top = (percentY * 0.8 + 10) + '%';
+            }
+            if (blob2) {
+                blob2.style.left = (100 - percentX * 0.7) + '%';
+                blob2.style.top = (100 - percentY * 0.7) + '%';
+            }
+            if (blob3) {
+                blob3.style.left = (percentX * 0.5 + 25) + '%';
+                blob3.style.top = (percentY * 0.5 + 25) + '%';
+            }
+
+            // Calcular ángulo para el borde dinámico de las tarjetas glass
+            document.querySelectorAll('.glass-panel').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardX = rect.left + rect.width / 2;
+                const cardY = rect.top + rect.height / 2;
+                const angleRad = Math.atan2(mouseY - cardY, mouseX - cardX);
+                const angleDeg = (angleRad * (180 / Math.PI) + 360) % 360;
+                card.style.setProperty('--mouse-angle', `${angleDeg}deg`);
+            });
+        });
+
+        // Loop de renderizado del cursor (Smooth Spring)
+        function renderCursor() {
+            dotX += (mouseX - dotX) * 0.7;
+            dotY += (mouseY - dotY) * 0.7;
+            ringX += (mouseX - ringX) * 0.25;
+            ringY += (mouseY - ringY) * 0.25;
+
+            if (cursorDot) {
+                cursorDot.style.left = `${dotX}px`;
+                cursorDot.style.top = `${dotY}px`;
+            }
+            if (cursor) {
+                cursor.style.left = `${ringX}px`;
+                cursor.style.top = `${ringY}px`;
+            }
+            requestAnimationFrame(renderCursor);
+        }
+        renderCursor();
+
+        // Efecto hoverable para agrandar el cursor
+        document.querySelectorAll('.hoverable, a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+        // 3. Scroll Reveal Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.gsap-reveal').forEach(el => observer.observe(el));
+
+        // 4. Función de Copiar Prompt
+        function copyText(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btnText = btn.querySelector('.btn-text');
+                const originalText = btnText.innerText;
+                btnText.innerText = '¡Copiado!';
+                btn.classList.add('bg-neon-cyan/40', 'text-neon-cyan');
+                setTimeout(() => {
+                    btnText.innerText = originalText;
+                    btn.classList.remove('bg-neon-cyan/40', 'text-neon-cyan');
+                }, 2000);
+            });
+        }
+
+        // 5. Función de Copiar Código
+        function copyCode(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btnText = btn.querySelector('.btn-text');
+                btnText.innerText = '¡Código Copiado!';
+                btn.classList.add('bg-neon-green/40', 'text-neon-green');
+                setTimeout(() => {
+                    btnText.innerText = 'Copiar Código';
+                    btn.classList.remove('bg-neon-green/40', 'text-neon-green');
+                }, 2000);
+            });
+        }
+
+        // 6. Cambiador de Pestañas de Código
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.code-tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('bg-neon-cyan/20', 'border-neon-cyan', 'text-neon-cyan');
+                b.classList.add('bg-white/5', 'border-white/10', 'text-slate-400');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            btn.classList.remove('bg-white/5', 'border-white/10', 'text-slate-400');
+            btn.classList.add('bg-neon-cyan/20', 'border-neon-cyan', 'text-neon-cyan');
+        }
+    </script>
+</body>
+</html>
