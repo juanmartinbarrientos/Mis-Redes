@@ -1,209 +1,250 @@
 // ==========================================================================
-// Gestión de Cookies para el Contador Regresivo (3 Días Persistentes)
+// COMPUTADORA DEFINITIVA PARA IA : INTERACTIVE MATRIX ENGINE & LIVE VRAM SIM
 // ==========================================================================
 
-// Función para establecer una cookie
-function setCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    // Aseguramos que la cookie tenga Path=/ y SameSite=Lax para compatibilidad
-    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
-}
+(() => {
+  // 1. Matrix Digital Rain Canvas (respects prefers-reduced-motion)
+  const canvas = document.getElementById('matrixCanvas');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Función para obtener una cookie
-function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    const glyphs = '01アイウエオカキクケコサシスセソタチツテトナニヌネノVRAM16GBGDDR7CUDAFP16TENSOR';
+    const fontSize = 15;
+    let columns = 0;
+    let drops = [];
 
-// Inicializar la fecha de finalización de la oferta
-let promoEndTime = getCookie("promo_end_time");
+    const resizeCanvas = () => {
+      const parent = canvas.parentElement || document.body;
+      canvas.width = parent.clientWidth || window.innerWidth;
+      canvas.height = parent.clientHeight || window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      drops = Array.from({ length: columns }, (_, i) => ((i * 17) % 45));
+    };
 
-if (!promoEndTime) {
-    // Si la cookie no existe, creamos una fecha límite de 3 días a partir de ahora
-    const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
-    const targetTime = new Date().getTime() + threeDaysInMs;
-    
-    // Guardamos la cookie por 30 días para que no expire la cookie en sí, sino el contador interno
-    setCookie("promo_end_time", targetTime.toString(), 30);
-    promoEndTime = targetTime;
-} else {
-    // Convertir el string recuperado a número entero
-    promoEndTime = parseInt(promoEndTime, 10);
-}
+    const drawStep = () => {
+      ctx.fillStyle = 'rgba(5, 9, 7, 0.12)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00FF66';
+      ctx.font = `700 ${fontSize}px "Chakra Petch", sans-serif`;
 
-// Lógica del contador regresivo en tiempo real
-function startCountdown() {
-    const daysEl = document.getElementById("days");
-    const hoursEl = document.getElementById("hours");
-    const minutesEl = document.getElementById("minutes");
-    const secondsEl = document.getElementById("seconds");
+      for (let i = 0; i < drops.length; i++) {
+        const char = glyphs[(i * 7 + drops[i]) % glyphs.length];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+        ctx.fillText(char, x, y);
 
-    function updateTimer() {
-        const now = new Date().getTime();
-        const distance = promoEndTime - now;
-
-        if (distance <= 0) {
-            // Si el tiempo terminó, podemos mantener el contador en cero o reiniciar
-            daysEl.textContent = "00";
-            hoursEl.textContent = "00";
-            minutesEl.textContent = "00";
-            secondsEl.textContent = "00";
-            clearInterval(timerInterval);
-            
-            // Opcional: mostrar un mensaje de que la oferta terminó
-            const promoBarText = document.querySelector(".promo-bar-container p");
-            if (promoBarText) {
-                promoBarText.textContent = "⚠️ ¡LA OFERTA HA FINALIZADO! CONSULTÁ DISPONIBILIDAD:";
-            }
-            return;
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
+        drops[i]++;
+      }
+    };
 
-        // Cálculos de tiempo
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas, { passive: true });
 
-        // Renderizado con ceros a la izquierda
-        daysEl.textContent = String(days).padStart(2, '0');
-        hoursEl.textContent = String(hours).padStart(2, '0');
-        minutesEl.textContent = String(minutes).padStart(2, '0');
-        secondsEl.textContent = String(seconds).padStart(2, '0');
+    if (reducedMotion) {
+      for (let k = 0; k < 18; k++) drawStep();
+    } else {
+      setInterval(drawStep, 65);
     }
+  }
 
-    updateTimer(); // Ejecución inmediata
-    const timerInterval = setInterval(updateTimer, 1000);
-}
+  // 2. Scroll Reveal Observer (once per element, with generous margin and fallback so deep mobile sections never stay hidden)
+  if ('IntersectionObserver' in window && !reducedMotion) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in');
+            revealObserver.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px 1200px 0px', threshold: 0.01 }
+    );
 
-// ==========================================================================
-// Copiar Componentes al Portapapeles
-// ==========================================================================
+    document.querySelectorAll('[data-reveal]').forEach((el) => revealObserver.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll('[data-reveal]:not(.is-in)').forEach((el) => el.classList.add('is-in'));
+    }, 650);
+  } else {
+    document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+  }
 
-function copyToClipboard(elementId, buttonEl) {
-    const textElement = document.getElementById(elementId);
-    if (!textElement) return;
+  // 3. Interactive Hardware Spec Sheet (Sticky Photograph + Active List)
+  const specRows = document.querySelectorAll('.spec-row');
+  const stageImg = document.getElementById('specsStageImg');
+  const stageSku = document.getElementById('specsStageSku');
+  const stageTitle = document.getElementById('specsStageTitle');
+  const stageTelemetry = document.getElementById('specsStageTelemetry');
 
-    // Obtener texto y limpiar espacios o números de orden para copiar el componente limpio
-    // El texto original es p.ej. "1 - Procesador Intel Intel Raptorlake..."
-    // Copiaremos el string completo tal como está escrito para cumplir exactamente: 
-    // "que sea posible copiar el componente como están escritos aca"
-    let rawText = textElement.textContent.trim();
-    
-    // Si queremos copiar solo el texto sin el número de orden, pero el usuario nos pide que se copie "como están escritos aca", 
-    // copiamos la línea entera: "1 - Procesador Intel Intel Raptorlake Core I7-13700 (16C/24T) 13Th Gen Lga1700"
-    navigator.clipboard.writeText(rawText).then(() => {
-        // Feedback visual en el botón
-        buttonEl.classList.add("copied");
-        
-        setTimeout(() => {
-            buttonEl.classList.remove("copied");
-        }, 2000);
-    }).catch(err => {
-        console.error("Error al copiar texto: ", err);
+  const activateSpecRow = (row) => {
+    if (!row) return;
+    specRows.forEach((r) => r.classList.toggle('is-active', r === row));
+    const imgSrc = row.getAttribute('data-img');
+    const imgAlt = row.getAttribute('data-alt');
+    const sku = row.getAttribute('data-sku');
+    const title = row.getAttribute('data-title');
+    const telemetry = row.getAttribute('data-telemetry');
+
+    if (stageImg && imgSrc && stageImg.getAttribute('src') !== imgSrc) {
+      stageImg.setAttribute('src', imgSrc);
+      if (imgAlt) stageImg.setAttribute('alt', imgAlt);
+    }
+    if (stageSku && sku) stageSku.textContent = sku;
+    if (stageTitle && title) stageTitle.textContent = title;
+    if (stageTelemetry && telemetry) stageTelemetry.textContent = telemetry;
+  };
+
+  specRows.forEach((row) => {
+    row.addEventListener('mouseenter', () => activateSpecRow(row));
+    row.addEventListener('focusin', () => activateSpecRow(row));
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.btn-copy-sku')) return;
+      activateSpecRow(row);
     });
-}
+  });
 
-// ==========================================================================
-// Interactividad de Upgrade Gaming (Toggle Mode)
-// ==========================================================================
+  // Copy Component & SKU button handler
+  document.querySelectorAll('.btn-copy-sku').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const copyString = btn.getAttribute('data-copy');
+      if (!copyString) return;
 
-const upgradeData = {
-    base: {
-        gpuTitle: "Gráficos Integrados Intel UHD 770",
-        gpuDesc: "Integrados en el procesador i7-13700. Excelente consumo y rendimiento óptimo en tareas de oficina, diseño 2D y juegos competitivos livianos en resolución 1080p (League of Legends, Valorant, CS2 en bajo).",
-        psuTitle: "Fuente Thermaltake BX3 650W 80+ Bronze",
-        psuDesc: "Incluida en el presupuesto original. Diseñada para dar estabilidad energética y protección con alta eficiencia a toda la configuración estándar.",
-        prodWidth: "95%",
-        prodText: "95% (Fluidez Total)",
-        compWidth: "50%",
-        compText: "70+ FPS (Medio/Bajo)",
-        aaaWidth: "15%",
-        aaaText: "25 FPS (Ajustes Mínimos)",
-        isGlow: false
+      const finishCopy = () => {
+        const originalText = btn.getAttribute('data-label') || 'Copiar SKU y Componente';
+        btn.classList.add('is-copied');
+        btn.textContent = 'Copiado al portapapeles';
+        setTimeout(() => {
+          btn.classList.remove('is-copied');
+          btn.textContent = originalText;
+        }, 2000);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(copyString).then(finishCopy).catch(() => {
+          fallbackCopy(copyString, finishCopy);
+        });
+      } else {
+        fallbackCopy(copyString, finishCopy);
+      }
+    });
+  });
+
+  function fallbackCopy(text, callback) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      callback();
+    } catch (err) {
+      console.error(err);
+    }
+    document.body.removeChild(ta);
+  }
+
+  // 4. THE LIVE THING: Interactive 16 GB GDDR7 VRAM Workload Simulator
+  const workloads = {
+    llm: {
+      name: 'Modelos de Lenguaje (LLMs hasta 14B)',
+      vramUsed: '11.4 GB / 16.0 GB GDDR7',
+      percent: 71,
+      speed: '68.4 tokens/seg (Q4_K_M)',
+      headroom: '4.6 GB libres para contexto 32K',
+      status8gb: 'Colapsa en GPUs de 8 GB (Offload lento a RAM)',
+      cmd: '$ ollama run deepseek-r1:14b --verbose // 100% en VRAM GDDR7 (0% CPU offload)'
     },
-    gaming: {
-        gpuTitle: "⚡ NVIDIA GeForce RTX 4060 8GB GDDR6",
-        gpuDesc: "Upgrade de Placa de Video dedicada. Habilita trazado de rayos (Ray Tracing), DLSS 3.0 y potencia gráfica de última generación para correr cualquier juego del mercado en Ultra a 1080p/1440p.",
-        psuTitle: "⚡ Fuente MSI MAG A750GL 750W 80+ Gold Modular",
-        psuDesc: "Upgrade de Fuente recomendado. Reemplaza la fuente original para brindar los Watts extras, mayor estabilidad y certificación Gold modular para soportar la placa de video RTX 4060 de forma óptima.",
-        prodWidth: "98%",
-        prodText: "98% (Aceleración GPU)",
-        compWidth: "95%",
-        compText: "240+ FPS (Calidad Ultra)",
-        aaaWidth: "85%",
-        aaaText: "95+ FPS (Ultra con DLSS)",
-        isGlow: true
+    diffusion: {
+      name: 'Generación de Imágenes (Stable Diffusion XL / 3.0 & ComfyUI)',
+      vramUsed: '14.2 GB / 16.0 GB GDDR7',
+      percent: 89,
+      speed: '3.6 seg por render 1024x1024',
+      headroom: '1.8 GB libres para ControlNet + LoRA',
+      status8gb: 'Error CUDA Out of Memory en placas de 8 GB',
+      cmd: '$ python main.py --highvram --bf16-unet // Pipeline SD3.5 + ControlNet cargado en GDDR7'
+    },
+    ml: {
+      name: 'Machine & Deep Learning (Fine-Tuning LoRA y Datasets)',
+      vramUsed: '15.1 GB / 16.0 GB GDDR7',
+      percent: 94,
+      speed: 'Batch Size 4 nativo en BF16',
+      headroom: '0.9 GB buffer reservado de tensores',
+      status8gb: 'Imposible entrenar sin recortar tensores en 8 GB',
+      cmd: '$ accelerate launch train_lora.py --mixed_precision bf16 --batch_size 4'
+    },
+    audio: {
+      name: 'Audio y Transcripción (Whisper Large-v3 en Tiempo Real)',
+      vramUsed: '5.2 GB / 16.0 GB GDDR7',
+      percent: 33,
+      speed: '44x más rápido que tiempo real',
+      headroom: '10.8 GB libres para correr un LLM en simultáneo',
+      status8gb: 'Permite encadenar Whisper + Llama 3 8B en la misma GPU',
+      cmd: '$ whisper audio_master.wav --model large-v3 --device cuda --compute_type float16'
     }
-};
+  };
 
-function switchUpgradeMode(mode) {
-    // Actualizar botones activos
-    const btnBase = document.getElementById("toggleBase");
-    const btnGaming = document.getElementById("toggleGaming");
-    
-    if (mode === "base") {
-        btnBase.classList.add("active");
-        btnGaming.classList.remove("active");
-    } else {
-        btnBase.classList.remove("active");
-        btnGaming.classList.add("active");
-    }
+  const presetBtns = document.querySelectorAll('.vram-preset-btn');
+  const usecaseTiles = document.querySelectorAll('.usecase-tile');
+  const meterFill = document.getElementById('vramMeterFill');
+  const metricVram = document.getElementById('metricVram');
+  const metricSpeed = document.getElementById('metricSpeed');
+  const metricHeadroom = document.getElementById('metricHeadroom');
+  const simCmd = document.getElementById('vramSimCmd');
+  const simCompare = document.getElementById('vramSimCompare');
 
-    // Obtener los datos del modo seleccionado
-    const data = upgradeData[mode];
+  const selectWorkload = (key) => {
+    const data = workloads[key];
+    if (!data) return;
 
-    // Actualizar textos e información del hardware
-    const gpuTitleEl = document.getElementById("gpuTitle");
-    const gpuDescEl = document.getElementById("gpuDesc");
-    const psuTitleEl = document.getElementById("psuTitle");
-    const psuDescEl = document.getElementById("psuDesc");
-    
-    gpuTitleEl.textContent = data.gpuTitle;
-    gpuDescEl.textContent = data.gpuDesc;
-    psuTitleEl.textContent = data.psuTitle;
-    psuDescEl.textContent = data.psuDesc;
+    presetBtns.forEach((btn) => {
+      const match = btn.getAttribute('data-workload') === key;
+      btn.setAttribute('aria-pressed', match ? 'true' : 'false');
+    });
 
-    // Aplicar o remover clase de brillo en los nodos
-    const nodeGpu = document.getElementById("nodeGpu");
-    const nodePsu = document.getElementById("nodePsu");
+    usecaseTiles.forEach((tile) => {
+      const match = tile.getAttribute('data-workload') === key;
+      tile.classList.toggle('is-selected', match);
+    });
 
-    if (data.isGlow) {
-        nodeGpu.classList.add("glow-node");
-        nodePsu.classList.add("glow-node");
-    } else {
-        nodeGpu.classList.remove("glow-node");
-        nodePsu.classList.remove("glow-node");
-    }
+    if (meterFill) meterFill.style.width = `${data.percent}%`;
+    if (metricVram) metricVram.textContent = data.vramUsed;
+    if (metricSpeed) metricSpeed.textContent = data.speed;
+    if (metricHeadroom) metricHeadroom.textContent = data.headroom;
+    if (simCmd) simCmd.textContent = data.cmd;
+    if (simCompare) simCompare.textContent = data.status8gb;
+  };
 
-    // Actualizar barras de rendimiento con animación
-    const fillProd = document.getElementById("fillProd");
-    const fillComp = document.getElementById("fillComp");
-    const fillAaa = document.getElementById("fillAaa");
+  presetBtns.forEach((btn) => {
+    btn.addEventListener('click', () => selectWorkload(btn.getAttribute('data-workload')));
+  });
 
-    fillProd.style.width = data.prodWidth;
-    fillProd.textContent = data.prodText;
+  usecaseTiles.forEach((tile) => {
+    tile.addEventListener('click', () => selectWorkload(tile.getAttribute('data-workload')));
+  });
 
-    fillComp.style.width = data.compWidth;
-    fillComp.textContent = data.compText;
+  // 5. Direct Order Configurator (WhatsApp & Direct Order Builder)
+  const deliverySelect = document.getElementById('orderDeliverySelect');
+  const stackSelect = document.getElementById('orderStackSelect');
+  const btnWhatsappOrder = document.getElementById('btnWhatsappOrder');
+  const btnDirectBuy = document.getElementById('btnDirectBuy');
 
-    fillAaa.style.width = data.aaaWidth;
-    fillAaa.textContent = data.aaaText;
-}
+  const updateOrderLinks = () => {
+    const delivery = deliverySelect ? deliverySelect.value : 'Envío Asegurado a Domicilio';
+    const stack = stackSelect ? stackSelect.value : 'Ollama + ComfyUI + Drivers CUDA';
+    const msg = `Hola! Quiero comprar la COMPUTADORA DEFINITIVA PARA IA (RTX 5060 Ti 16GB GDDR7 + Ryzen 7 5700 + 32GB Dual Channel + 1TB NVMe) al precio final de contado de $3.069.266 ARS. Modalidad de entrega: ${delivery}. Perfil de uso: ${stack}. ¿Me confirman disponibilidad para coordinar?`;
+    const encoded = encodeURIComponent(msg);
+    const waUrl = `https://wa.me/5491169578193?text=${encoded}`;
+    if (btnWhatsappOrder) btnWhatsappOrder.setAttribute('href', waUrl);
+    if (btnDirectBuy) btnDirectBuy.setAttribute('href', waUrl);
+  };
 
-// Inicialización general al cargar el DOM
-document.addEventListener("DOMContentLoaded", () => {
-    startCountdown();
-    // Forzar el estado base por defecto
-    switchUpgradeMode('base');
-});
+  if (deliverySelect) deliverySelect.addEventListener('change', updateOrderLinks);
+  if (stackSelect) stackSelect.addEventListener('change', updateOrderLinks);
+  updateOrderLinks();
+})();
