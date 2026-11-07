@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-786S22Y69C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-786S22Y69C');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASUS Ascent GX10 | Superordenador de Escritorio para IA Local (NVIDIA GB10)</title>
+    <meta name="description" content="ASUS Ascent GX10 con superchip NVIDIA GB10 Grace Blackwell: hasta 1 PetaFLOP de rendimiento en IA y 128 GB de memoria unificada LPDDR5X en formato ultra compacto de 150 × 150 × 51 mm.">
+
+    <!-- Metadatos Open Graph -->
+    <meta property="og:title" content="ASUS Ascent GX10 | Superordenador de IA Local — NVIDIA Grace Blackwell GB10">
+    <meta property="og:description" content="1 PetaFLOP de rendimiento en IA y 128 GB de memoria unificada LPDDR5X. Ejecución local de DeepSeek R1 70B, Llama 3.1, GPT-OSS-120B, OpenClaw, RAG privado y NVIDIA DGX OS.">
+    <meta property="og:image" content="asus/asus-gx10.png">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Sistema Tipográfico Editorial y Monoespaciado Técnico -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        carbon: {
+                            950: '#09090B',
+                            900: '#0C0C0E',
+                            800: '#121215',
+                            700: '#18181B',
+                        },
+                        accent: {
+                            DEFAULT: '#3B82F6',
+                            hover: '#2563EB',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Datos Estructurados SEO (Schema.org Product) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "ASUS Ascent GX10 (NVIDIA GB10 Grace Blackwell)",
+      "image": "https://www.juanmartinbarrientos.com/asus/asus-gx10.png",
+      "description": "Superordenador de escritorio ultra compacto (150 × 150 × 51 mm) equipado con el superchip NVIDIA GB10 Grace Blackwell (hasta 1 PetaFLOP de rendimiento en IA y hasta 128 GB de memoria unificada LPDDR5X) para inferencia, desarrollo y ejecución continua de IA en local.",
+      "brand": {
+        "@type": "Brand",
+        "name": "ASUS"
+      }
+    }
+    </script>
+
+    <style>
+        /* ==========================================================================
+           1. SISTEMA DE TOKENS (:root) — PROPORCIÓN 85% NEUTROS / 12% SUPERFICIES / 3% ACENTO
+           ========================================================================== */
+        :root {
+            --bg-base: #09090B;
+            --bg-elevated: #0C0C0E;
+            --bg-surface: #121215;
+            --bg-surface-hover: #16161A;
+            --bg-subtle: #18181B;
+
+            /* Jerarquía de Texto (100% / 65% / 45%) */
+            --text-primary: #F4F4F5;
+            --text-secondary: rgba(244, 244, 245, 0.65);
+            --text-tertiary: rgba(244, 244, 245, 0.45);
+
+            /* Bordes de 1px Sutiles */
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.16);
+            --border-strong: rgba(255, 255, 255, 0.22);
+
+            /* Detalles Táctiles */
+            --tactile-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --surface-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+            /* Acento Técnico (3%) */
+            --accent-primary: #3B82F6;
+            --accent-hover: #2563EB;
+            --status-online: #10B981;
+
+            /* Tipografía */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Radios de Borde Sobrios (4px a 8px) */
+            --radius-sm: 4px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            --radius-tag: 9999px;
+
+            /* Transiciones Físicas Rápidas y Secas */
+            --ease-out-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-fast: 160ms;
+            --duration-normal: 200ms;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-secondary);
+            overflow-x: hidden;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           2. ESCENARIO EXPLICATIVO CON FONDO DE PANTALLA (asus/asus-gx10.png)
+           ========================================================================== */
+        .gx10-explanation-backdrop {
+            position: relative;
+            background-color: var(--bg-elevated);
+            background-image:
+                linear-gradient(90deg, rgba(9, 9, 11, 0.96) 0%, rgba(9, 9, 11, 0.86) 48%, rgba(9, 9, 11, 0.55) 100%),
+                linear-gradient(180deg, rgba(9, 9, 11, 0.35) 0%, rgba(9, 9, 11, 0.92) 100%),
+                url('asus/asus-gx10.png');
+            background-size: cover, cover, 680px auto;
+            background-position: center, center, right 4% center;
+            background-repeat: no-repeat;
+        }
+
+        .gx10-full-bleed-banner {
+            position: relative;
+            background-color: #0B0B0E;
+            background-image:
+                linear-gradient(180deg, rgba(9, 9, 11, 0.88) 0%, rgba(9, 9, 11, 0.72) 50%, rgba(9, 9, 11, 0.94) 100%),
+                url('asus/asus-gx10.png');
+            background-size: cover, 560px auto;
+            background-position: center, center center;
+            background-repeat: no-repeat;
+        }
+
+        @media (max-width: 1023px) {
+            .gx10-explanation-backdrop {
+                background-image:
+                    linear-gradient(180deg, rgba(9, 9, 11, 0.78) 0%, rgba(9, 9, 11, 0.92) 55%, rgba(9, 9, 11, 0.98) 100%),
+                    url('asus/asus-gx10.png');
+                background-size: cover, 420px auto;
+                background-position: center, center 24px;
+            }
+        }
+
+        /* Retícula arquitectónica sutil */
+        .structural-grid-bg {
+            background-size: 64px 64px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        }
+
+        /* ==========================================================================
+           3. JERARQUÍA TIPOGRÁFICA EDITORIAL
+           ========================================================================== */
+        .heading-hero {
+            font-family: var(--font-display);
+            font-size: clamp(2.15rem, 4vw + 1rem, 4.1rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.08;
+            color: var(--text-primary);
+        }
+
+        .heading-section {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 2.5vw + 0.5rem, 2.45rem);
+            font-weight: 600;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            color: var(--text-primary);
+        }
+
+        .heading-card {
+            font-family: var(--font-display);
+            font-size: clamp(1.125rem, 1.1vw + 0.5rem, 1.35rem);
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
+            color: var(--text-primary);
+        }
+
+        .prose-measure {
+            max-width: 63ch;
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 0.35vw + 0.85rem, 1.05rem);
+            line-height: 1.65;
+        }
+
+        .text-primary-ink { color: var(--text-primary); }
+        .text-secondary-ink { color: var(--text-secondary); }
+        .text-tertiary-ink { color: var(--text-tertiary); }
+
+        /* ==========================================================================
+           4. COMPONENTES, BORDES DE 1PX Y MICRO-INTERACCIONES SECAS
+           ========================================================================== */
+        .surface-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--surface-highlight);
+            transition: 
+                border-color var(--duration-fast) var(--ease-out-snappy),
+                background-color var(--duration-fast) var(--ease-out-snappy),
+                transform var(--duration-fast) var(--ease-out-snappy);
+        }
+
+        .surface-card:hover {
+            border-color: var(--border-hover);
+            background-color: var(--bg-surface-hover);
+        }
+
+        .surface-interactive:hover {
+            transform: translateY(-1px);
+            border-color: var(--border-hover);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--accent-primary);
+            color: #FAFAFA;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.875rem;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: var(--tactile-highlight);
+            transition: 
+                background-color var(--duration-fast) var(--ease-out-snappy),
+                transform var(--duration-fast) var(--ease-out-snappy);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--bg-surface);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.875rem;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--tactile-highlight);
+            transition: 
+                background-color var(--duration-fast) var(--ease-out-snappy),
+                border-color var(--duration-fast) var(--ease-out-snappy),
+                transform var(--duration-fast) var(--ease-out-snappy);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-subtle);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 500;
+            line-height: 1;
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-elevated);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding: 4px 10px;
+            border-radius: var(--radius-tag);
+            background-color: var(--bg-elevated);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .section-divider {
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Destello especular sutil en tarjeta destacada */
+        .flash-sweep-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .flash-sweep-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                115deg,
+                transparent 38%,
+                rgba(255, 255, 255, 0.03) 45%,
+                rgba(255, 255, 255, 0.13) 50%,
+                rgba(59, 130, 246, 0.08) 53%,
+                transparent 60%
+            );
+            transform: translateX(-100%) rotate(15deg);
+            animation: flashSweep 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .flash-sweep-card > * {
+            position: relative;
+            z-index: 2;
+        }
+        @keyframes flashSweep {
+            0% { transform: translateX(-75%) rotate(15deg); }
+            100% { transform: translateX(75%) rotate(15deg); }
+        }
+
+        /* Simulador Interactivo de Memoria Unificada */
+        .workload-btn {
+            text-align: left;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            transition: all var(--duration-fast) var(--ease-out-snappy);
+            cursor: pointer;
+        }
+        .workload-btn:hover {
+            border-color: var(--border-hover);
+            background-color: var(--bg-subtle);
+        }
+        .workload-btn.is-active {
+            border-color: rgba(59, 130, 246, 0.45);
+            background-color: rgba(59, 130, 246, 0.10);
+            box-shadow: var(--tactile-highlight);
+        }
+
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: 
+                opacity var(--duration-normal) var(--ease-out-snappy),
+                transform var(--duration-normal) var(--ease-out-snappy);
+        }
+        .gsap-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding-bottom: 84px;
+            }
+            .heading-hero {
+                font-size: clamp(1.75rem, 6.8vw, 2.3rem);
+                line-height: 1.12;
+            }
+            .heading-section {
+                font-size: clamp(1.375rem, 5.5vw, 1.75rem);
+                line-height: 1.15;
+            }
+        }
+
+        .mobile-dock-link {
+            color: var(--text-tertiary);
+            transition: color var(--duration-fast) var(--ease-out-snappy), background-color var(--duration-fast) var(--ease-out-snappy);
+        }
+        .mobile-dock-link.is-active {
+            color: var(--text-primary);
+            background-color: rgba(59, 130, 246, 0.14);
+            border-color: rgba(59, 130, 246, 0.35);
+        }
+        .mobile-dock-link.is-active svg {
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body class="selection:bg-accent/20 selection:text-white">
+
+    <!-- ==========================================================================
+         NAVEGACIÓN SUPERIOR ESTRUCTURAL
+         ========================================================================== -->
+    <header class="fixed top-0 inset-x-0 z-50 bg-[#09090B]/92 backdrop-blur-md border-b border-[rgba(255,255,255,0.08)]">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex justify-between items-center" aria-label="Navegación principal">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 text-secondary-ink hover:text-white transition-colors text-xs font-mono border border-[rgba(255,255,255,0.08)] bg-[#121215] px-2.5 py-1.5 rounded-[4px]">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Inicio JMB</span>
+                </a>
+                <a href="#producto" class="flex items-center gap-2.5 text-primary-ink font-display font-semibold text-sm sm:text-base tracking-tight">
+                    <span>ASUS Ascent GX10</span>
+                    <span class="hidden md:inline-block font-mono text-[11px] text-[#10B981] border border-[rgba(16,185,129,0.28)] bg-[rgba(16,185,129,0.08)] px-2 py-0.5 rounded-[4px]">NVIDIA GB10 · 1 PFLOP</span>
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+                <a href="#producto" class="text-secondary-ink hover:text-white transition-colors duration-150">El Producto</a>
+                <a href="#capacidades" class="text-secondary-ink hover:text-white transition-colors duration-150">5 Ejes Clave</a>
+                <a href="#simulador" class="text-secondary-ink hover:text-white transition-colors duration-150">Memoria 128 GB</a>
+                <a href="#dgx-stack" class="text-secondary-ink hover:text-white transition-colors duration-150">Stack DGX OS</a>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <a href="#consultar" class="btn-primary !py-1.5 md:!py-2 !px-3 md:!px-4 !text-xs">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                    <span>Consultar Implementación</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==========================================================================
+         CONTENEDOR PRINCIPAL
+         ========================================================================== -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-28 pb-16 md:pb-24 space-y-16 md:space-y-28">
+
+        <!-- ======================================================================
+             1. EXPLICACIÓN DEL PRODUCTO (CON asus/asus-gx10.png DE FONDO DE PANTALLA)
+             ====================================================================== -->
+        <section id="producto" class="gx10-explanation-backdrop structural-grid-bg border border-[rgba(255,255,255,0.12)] rounded-[8px] p-6 sm:p-10 md:p-14 scroll-mt-20 overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
+                
+                <!-- Columna Izquierda (7 cols): Explicación Integral del Producto -->
+                <div class="lg:col-span-7 space-y-6 pt-44 sm:pt-52 lg:pt-0">
+                    <div class="gsap-reveal inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-full border border-[rgba(255,255,255,0.12)] bg-[#09090B]/90 backdrop-blur-sm text-[11px] sm:text-xs font-mono text-secondary-ink">
+                        <span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+                        <span>SUPERORDENADOR DE ESCRITORIO ULTRA COMPACTO · 150 × 150 × 51 MM</span>
+                    </div>
+
+                    <div class="gsap-reveal space-y-3">
+                        <span class="font-mono text-xs uppercase tracking-wider text-[#3B82F6] block">ARQUITECTURA NVIDIA® GB10 GRACE BLACKWELL</span>
+                        <h1 class="heading-hero">
+                            ASUS Ascent GX10: 1 PetaFLOP de IA Soberana en tu escritorio.
+                        </h1>
+                    </div>
+
+                    <!-- Explicación central del producto sobre el fondo de asus/asus-gx10.png -->
+                    <div class="gsap-reveal bg-[#09090B]/85 backdrop-blur-md border border-[rgba(255,255,255,0.10)] rounded-[6px] p-5 sm:p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] pb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-wider text-[#3B82F6]">DEFINICIÓN TÉCNICA DEL PRODUCTO</span>
+                            <span class="font-mono text-[11px] text-tertiary-ink">SOBERANÍA DE DATOS 100% LOCAL</span>
+                        </div>
+                        <p class="prose-measure text-sm sm:text-base text-primary-ink m-0 leading-relaxed">
+                            La <strong>ASUS Ascent GX10</strong> es un superordenador de escritorio ultra compacto (formato mini-PC de <strong>150 × 150 × 51 mm</strong>) equipado con el superchip <strong>NVIDIA® GB10 Grace Blackwell</strong>, capaz de entregar hasta <strong>1 PetaFLOP de rendimiento en IA</strong> y hasta <strong>128 GB de memoria unificada LPDDR5X</strong>.
+                        </p>
+                        <p class="prose-measure text-sm m-0 leading-relaxed">
+                            Está diseñado específicamente para la <strong>inferencia, desarrollo y ejecución continua de Inteligencia Artificial en local</strong> con total soberanía de datos y <strong>sin costes recurrentes por tokens de API</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Métricas de Hardware en Tira Estructural -->
+                    <dl class="gsap-reveal grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-[#09090B]/90 border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                            <dt class="font-mono text-[10px] text-tertiary-ink uppercase">Rendimiento IA</dt>
+                            <dd class="font-mono text-lg sm:text-xl font-semibold text-primary-ink mt-1">1 PetaFLOP</dd>
+                            <span class="font-mono text-[10px] text-[#3B82F6] block mt-0.5">FP4 Tensor Core</span>
+                        </div>
+                        <div class="bg-[#09090B]/90 border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                            <dt class="font-mono text-[10px] text-tertiary-ink uppercase">Memoria Unificada</dt>
+                            <dd class="font-mono text-lg sm:text-xl font-semibold text-primary-ink mt-1">128 GB</dd>
+                            <span class="font-mono text-[10px] text-secondary-ink block mt-0.5">LPDDR5X Coherente</span>
+                        </div>
+                        <div class="bg-[#09090B]/90 border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                            <dt class="font-mono text-[10px] text-tertiary-ink uppercase">Dimensiones</dt>
+                            <dd class="font-mono text-lg sm:text-xl font-semibold text-primary-ink mt-1">150×150</dd>
+                            <span class="font-mono text-[10px] text-secondary-ink block mt-0.5">× 51 mm Mini-PC</span>
+                        </div>
+                        <div class="bg-[#09090B]/90 border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                            <dt class="font-mono text-[10px] text-tertiary-ink uppercase">Coste por Token</dt>
+                            <dd class="font-mono text-lg sm:text-xl font-semibold text-[#10B981] mt-1">$0.00</dd>
+                            <span class="font-mono text-[10px] text-secondary-ink block mt-0.5">Sin API recurrente</span>
+                        </div>
+                    </dl>
+
+                    <!-- CTAs -->
+                    <div class="gsap-reveal pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <a href="#capacidades" class="btn-primary !px-6 !py-3 !text-sm">
+                            <i data-lucide="layers" class="w-4 h-4"></i>
+                            Explorar qué puedes hacer con la GX10
+                        </a>
+                        <a href="#simulador" class="btn-secondary !px-5 !py-3 !text-sm !bg-[#09090B]/90">
+                            <i data-lucide="sliders" class="w-4 h-4 text-[#3B82F6]"></i>
+                            Probar Simulador de 128 GB
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha (5 cols): Ficha de Chasis y Telemetría sobre el Fondo del Producto -->
+                <div class="lg:col-span-5 flex flex-col justify-end">
+                    <div class="gsap-reveal bg-[#09090B]/88 backdrop-blur-md border border-[rgba(255,255,255,0.12)] rounded-[8px] p-5 sm:p-6 space-y-4 mt-4 lg:mt-56">
+                        <div class="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] pb-3">
+                            <div>
+                                <span class="font-mono text-[10px] text-tertiary-ink uppercase block">ESPECIFICACIÓN DE NODO</span>
+                                <h2 class="text-sm font-semibold text-primary-ink">ASUS Ascent GX10 · Grace Blackwell</h2>
+                            </div>
+                            <span class="tag-pill !text-[#10B981] !border-[rgba(16,185,129,0.3)] !bg-[rgba(16,185,129,0.1)]">DGX OS READY</span>
+                        </div>
+
+                        <div class="space-y-2 text-xs">
+                            <div class="flex items-center justify-between py-1.5 border-b border-[rgba(255,255,255,0.06)]">
+                                <span class="font-mono text-tertiary-ink">SUPERCHIP</span>
+                                <span class="font-mono text-primary-ink">NVIDIA® GB10 Grace Blackwell</span>
+                            </div>
+                            <div class="flex items-center justify-between py-1.5 border-b border-[rgba(255,255,255,0.06)]">
+                                <span class="font-mono text-tertiary-ink">CAPACIDAD DE MODELOS</span>
+                                <span class="font-mono text-primary-ink">Hasta 70B - 120B parámetros</span>
+                            </div>
+                            <div class="flex items-center justify-between py-1.5 border-b border-[rgba(255,255,255,0.06)]">
+                                <span class="font-mono text-tertiary-ink">STACK AGÉNTICO</span>
+                                <span class="font-mono text-primary-ink">OpenClaw · NemoClaw · OpenShell</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-1.5">
+                                <span class="font-mono text-tertiary-ink">SISTEMA OPERATIVO</span>
+                                <span class="font-mono text-[#3B82F6]">NVIDIA DGX OS (Ubuntu Base)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             2. LOS 5 TEMAS CLAVE DETECTADOS — BENTO GRID ASIMÉTRICO DE CAPACIDADES
+             ====================================================================== -->
+        <section id="capacidades" class="space-y-12 scroll-mt-20 section-divider pt-12 md:pt-16">
+            
+            <!-- Cabecera Editorial 40/60 -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end gsap-reveal">
+                <div class="lg:col-span-5">
+                    <span class="font-mono text-xs uppercase tracking-wider text-[#3B82F6] block mb-2">5 CASOS DE USO CLAVE EN PRODUCCIÓN</span>
+                    <h2 class="heading-section">¿Qué se puede hacer con la ASUS Ascent GX10?</h2>
+                </div>
+                <div class="lg:col-span-7">
+                    <p class="prose-measure m-0">
+                        Los 128 GB de memoria unificada LPDDR5X eliminan la barrera histórica de VRAM de las placas de video convencionales, permitiendo ejecutar los 5 pilares de la Inteligencia Artificial moderna directamente en tu escritorio.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grilla Asimétrica Bento (12 Columnas) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                <!-- TEMA CLAVE 1 (7 columnas): Ejecución de LLMs de gran tamaño en local -->
+                <article class="lg:col-span-7 surface-card surface-interactive p-6 sm:p-8 flex flex-col justify-between gsap-reveal">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="tech-badge">
+                                <i data-lucide="cpu" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
+                                01 · INFERENCIA LOCAL DE GRAN ESCALA
+                            </span>
+                            <span class="font-mono text-xs text-tertiary-ink">HASTA 70B / 120B PARÁMETROS</span>
+                        </div>
+
+                        <h3 class="heading-card">1. Ejecución de LLMs de gran tamaño en local</h3>
+                        
+                        <p class="prose-measure text-sm">
+                            Inferencia de alta velocidad para modelos de código abierto de vanguardia sin enviar ni un solo byte de información a servidores externos en la nube. Ideal para análisis estratégico, programación asistida y razonamiento profundo.
+                        </p>
+
+                        <!-- Matriz de Modelos Soportados -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3">
+                                <div class="flex items-center justify-between font-mono text-xs text-primary-ink">
+                                    <span>DeepSeek R1</span>
+                                    <span class="text-[#10B981]">Hasta 70B</span>
+                                </div>
+                                <span class="text-[11px] text-tertiary-ink block mt-1">Razonamiento complejo y cadena de pensamiento local</span>
+                            </div>
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3">
+                                <div class="flex items-center justify-between font-mono text-xs text-primary-ink">
+                                    <span>GPT-OSS-120B</span>
+                                    <span class="text-[#3B82F6]">120B Parámetros</span>
+                                </div>
+                                <span class="text-[11px] text-tertiary-ink block mt-1">Viable gracias a los 128 GB de memoria unificada</span>
+                            </div>
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3">
+                                <div class="flex items-center justify-between font-mono text-xs text-primary-ink">
+                                    <span>Llama 3.1 &amp; Qwen</span>
+                                    <span class="text-secondary-ink">8B / 32B / 70B</span>
+                                </div>
+                                <span class="text-[11px] text-tertiary-ink block mt-1">Estándar abierto para texto, código y agentes</span>
+                            </div>
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3">
+                                <div class="flex items-center justify-between font-mono text-xs text-primary-ink">
+                                    <span>NVIDIA Nemotron</span>
+                                    <span class="text-[#10B981]">Optimizado GB10</span>
+                                </div>
+                                <span class="text-[11px] text-tertiary-ink block mt-1">Máxima eficiencia en arquitectura Grace Blackwell</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[rgba(255,255,255,0.08)] flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag-pill">DeepSeek R1 70B</span>
+                            <span class="tag-pill">Llama 3.1</span>
+                            <span class="tag-pill">Qwen</span>
+                            <span class="tag-pill">GPT-OSS-120B</span>
+                            <span class="tag-pill">NVIDIA Nemotron</span>
+                        </div>
+                        <span class="font-mono text-xs text-[#10B981]">0 Latencia Cloud</span>
+                    </div>
+                </article>
+
+                <!-- TEMA CLAVE 2 (5 columnas): Ecosistema de Agentes Autónomos (Agentic AI) -->
+                <article class="lg:col-span-5 surface-card surface-interactive flash-sweep-card p-6 sm:p-8 flex flex-col justify-between gsap-reveal">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="tech-badge">
+                                <i data-lucide="bot" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
+                                02 · AGENTIC AI
+                            </span>
+                            <span class="font-mono text-xs text-tertiary-ink">EJECUCIÓN CONTINUA 24/7</span>
+                        </div>
+
+                        <h3 class="heading-card">2. Ecosistema de Agentes Autónomos (Agentic AI)</h3>
+
+                        <p class="prose-measure text-sm">
+                            Integración optimizada con <strong>OpenClaw</strong> y <strong>NVIDIA NemoClaw / OpenShell</strong>, permitiendo desplegar asistentes de IA que operan como verdaderos colaboradores digitales dentro de tu red local.
+                        </p>
+
+                        <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-4 space-y-2.5 text-xs">
+                            <div class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5"></i>
+                                <span class="text-primary-ink">Ejecución de tareas autónomas multi-paso sin supervisión constante.</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5"></i>
+                                <span class="text-primary-ink">Gestión directa de archivos locales, lectura de repositorios y automatización.</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5"></i>
+                                <span class="text-primary-ink">Llamada a herramientas (Tool Calling) bajo políticas de seguridad locales estrictas.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[rgba(255,255,255,0.08)] flex flex-wrap gap-2">
+                        <span class="tag-pill !border-[rgba(59,130,246,0.3)] !text-[#3B82F6]">OpenClaw</span>
+                        <span class="tag-pill !border-[rgba(16,185,129,0.3)] !text-[#10B981]">NVIDIA NemoClaw</span>
+                        <span class="tag-pill">OpenShell</span>
+                    </div>
+                </article>
+
+                <!-- TEMA CLAVE 3 (5 columnas): Sistemas RAG Privados -->
+                <article class="lg:col-span-5 surface-card surface-interactive p-6 sm:p-8 flex flex-col justify-between gsap-reveal">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="tech-badge">
+                                <i data-lucide="database-zap" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
+                                03 · PRIVACIDAD CORPORATIVA
+                            </span>
+                            <span class="font-mono text-xs text-tertiary-ink">100% ON-PREMISE</span>
+                        </div>
+
+                        <h3 class="heading-card">3. Sistemas RAG (Generación Aumentada por Recuperación) Privados</h3>
+
+                        <p class="prose-measure text-sm">
+                            Creación de bases de conocimiento e índices vectoriales de alta velocidad para consultar documentos corporativos, contratos legales, historias clínicas, código fuente o investigación confidencial de forma <strong>100% privada</strong>.
+                        </p>
+
+                        <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-4 font-mono text-xs space-y-1.5">
+                            <div class="text-tertiary-ink">// FLUJO RAG SOBERANO</div>
+                            <div class="text-primary-ink">1. Ingesta PDF / Docs / Repositorios → Local</div>
+                            <div class="text-primary-ink">2. Embeddings + Base Vectorial → En RAM Unificada</div>
+                            <div class="text-[#10B981]">3. Respuesta con citas exactas sin fugas de datos</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[rgba(255,255,255,0.08)] flex flex-wrap gap-2">
+                        <span class="tag-pill">Vector DB Local</span>
+                        <span class="tag-pill">Embeddings Privados</span>
+                        <span class="tag-pill">Zero Data Leakage</span>
+                    </div>
+                </article>
+
+                <!-- TEMA CLAVE 4 (7 columnas): IA Multimodal y Visión por Computador -->
+                <article class="lg:col-span-7 surface-card surface-interactive p-6 sm:p-8 flex flex-col justify-between gsap-reveal">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="tech-badge">
+                                <i data-lucide="scan-eye" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
+                                04 · VISIÓN &amp; MULTIMODALIDAD
+                            </span>
+                            <span class="font-mono text-xs text-tertiary-ink">TEXTO + IMAGEN + DOCUMENTOS</span>
+                        </div>
+
+                        <h3 class="heading-card">4. IA Multimodal y Visión por Computador</h3>
+
+                        <p class="prose-measure text-sm">
+                            Procesamiento visual acelerado por hardware e inferencia de modelos de lenguaje de visión (VLMs) combinados con análisis de imágenes de alta resolución, diagramas técnicos, facturas complejas y documentos gráficos.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                                <span class="font-mono text-[11px] text-[#3B82F6] block mb-1">OCR INTELIGENTE</span>
+                                <p class="text-xs text-secondary-ink m-0">Extracción estructurada de tablas, planos y documentación escaneada.</p>
+                            </div>
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                                <span class="font-mono text-[11px] text-[#3B82F6] block mb-1">INSPECCIÓN VISUAL</span>
+                                <p class="text-xs text-secondary-ink m-0">Detección de patrones, clasificación e interpretación de escenas en tiempo real.</p>
+                            </div>
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.08)] rounded-[6px] p-3.5">
+                                <span class="font-mono text-[11px] text-[#3B82F6] block mb-1">RAZONAMIENTO VLM</span>
+                                <p class="text-xs text-secondary-ink m-0">Consultas en lenguaje natural sobre gráficos financieros, capturas e interfaces.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[rgba(255,255,255,0.08)] flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag-pill">Vision-Language Models</span>
+                            <span class="tag-pill">Computer Vision</span>
+                            <span class="tag-pill">Document AI</span>
+                        </div>
+                        <span class="font-mono text-xs text-tertiary-ink">Aceleración Tensor Core</span>
+                    </div>
+                </article>
+
+                <!-- TEMA CLAVE 5 (12 columnas en Split 40/60): Entorno de Desarrollo Completo (Docker & NVIDIA Stack) -->
+                <article id="dgx-stack" class="lg:col-span-12 surface-card surface-interactive p-6 sm:p-10 gsap-reveal scroll-mt-20">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        
+                        <div class="lg:col-span-5 space-y-4">
+                            <span class="tech-badge">
+                                <i data-lucide="container" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
+                                05 · NVIDIA DGX OS &amp; DEV STACK
+                            </span>
+                            <h3 class="heading-card !text-xl sm:!text-2xl">
+                                5. Entorno de Desarrollo Completo (Docker &amp; NVIDIA Stack)
+                            </h3>
+                            <p class="prose-measure text-sm m-0">
+                                Equipada de fábrica con el sistema operativo <strong>NVIDIA DGX OS</strong> (basado en Ubuntu), con todas las librerías de aceleración y machine learning preinstaladas. Lista desde el primer arranque para desplegar stacks complejos mediante <strong>Docker Compose</strong> y realizar <strong>fine-tuning</strong> (ajuste fino) de modelos propios.
+                            </p>
+                            <div class="flex flex-wrap gap-2 pt-2">
+                                <span class="tag-pill !text-[#10B981] !border-[rgba(16,185,129,0.3)]">NVIDIA DGX OS (Ubuntu)</span>
+                                <span class="tag-pill">CUDA</span>
+                                <span class="tag-pill">PyTorch</span>
+                                <span class="tag-pill">TensorFlow</span>
+                                <span class="tag-pill">Jupyter</span>
+                                <span class="tag-pill">TensorRT</span>
+                                <span class="tag-pill">Docker Compose</span>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 lg:border-l lg:border-[rgba(255,255,255,0.08)] lg:pl-8">
+                            <div class="bg-[#09090B] border border-[rgba(255,255,255,0.10)] rounded-[6px] overflow-hidden">
+                                <div class="px-4 py-2.5 bg-[#0C0C0E] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between font-mono text-xs text-tertiary-ink">
+                                    <span>dgx-os@asus-gx10:~/ai-stack$</span>
+                                    <span class="text-[#10B981]">STACK PREINSTALADO</span>
+                                </div>
+                                <div class="p-4 sm:p-5 font-mono text-xs space-y-2 leading-relaxed overflow-x-auto">
+                                    <div class="text-tertiary-ink"># Despliegue directo de contenedores acelerados por GPU Blackwell</div>
+                                    <div class="text-primary-ink"><span class="text-[#3B82F6]">$</span> docker compose up -d ollama openclaw qdrant jupyter-lab</div>
+                                    <div class="text-secondary-ink">✔ Container nv-tensorrt-llm   <span class="text-[#10B981]">Running (128GB Unified Memory Pool)</span></div>
+                                    <div class="text-secondary-ink">✔ Container openclaw-agent    <span class="text-[#10B981]">Running (NemoClaw / OpenShell Active)</span></div>
+                                    <div class="text-secondary-ink">✔ Container rag-vector-store  <span class="text-[#10B981]">Running (Local Private Index)</span></div>
+                                    <div class="text-secondary-ink">✔ Fine-Tuning LoRA / QLoRA    <span class="text-[#3B82F6]">PyTorch + CUDA + TensorRT Ready</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             3. SIMULADOR INTERACTIVO DE MEMORIA UNIFICADA (128 GB LPDDR5X)
+             ====================================================================== -->
+        <section id="simulador" class="scroll-mt-20 section-divider pt-12 md:pt-16 gsap-reveal">
+            <div class="surface-card p-6 sm:p-10 md:p-12">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                    
+                    <!-- Selector de Cargas de Trabajo (5 cols) -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="font-mono text-xs uppercase tracking-wider text-[#3B82F6] block">CALCULADORA DE CAPACIDAD EN VIVO</span>
+                        <h2 class="heading-section">¿Por qué 128 GB de memoria unificada cambian las reglas?</h2>
+                        <p class="prose-measure text-sm">
+                            Selecciona un escenario real para comprobar cómo la memoria unificada LPDDR5X del superchip NVIDIA GB10 aloja modelos que ninguna placa de video doméstica puede cargar completa en VRAM:
+                        </p>
+
+                        <div class="space-y-2 pt-2" role="tablist" aria-label="Escenarios de carga en ASUS Ascent GX10">
+                            <button type="button" class="workload-btn is-active w-full" data-workload="deepseek">
+                                <div class="flex items-center justify-between font-mono text-xs">
+                                    <span class="text-primary-ink font-semibold">01 · DeepSeek R1 (70B Parámetros)</span>
+                                    <span class="text-[#3B82F6]">~48 GB RAM</span>
+                                </div>
+                                <span class="text-xs text-secondary-ink block mt-1">Razonamiento avanzado local con holgura para contexto largo</span>
+                            </button>
+
+                            <button type="button" class="workload-btn w-full" data-workload="gpt120b">
+                                <div class="flex items-center justify-between font-mono text-xs">
+                                    <span class="text-primary-ink font-semibold">02 · GPT-OSS-120B (120B Parámetros)</span>
+                                    <span class="text-[#3B82F6]">~82 GB RAM</span>
+                                </div>
+                                <span class="text-xs text-secondary-ink block mt-1">Modelo masivo ejecutándose íntegramente en un solo nodo compacto</span>
+                            </button>
+
+                            <button type="button" class="workload-btn w-full" data-workload="agentic">
+                                <div class="flex items-center justify-between font-mono text-xs">
+                                    <span class="text-primary-ink font-semibold">03 · Ecosistema OpenClaw + NemoClaw + RAG</span>
+                                    <span class="text-[#3B82F6]">~64 GB RAM</span>
+                                </div>
+                                <span class="text-xs text-secondary-ink block mt-1">LLM Llama 3.1 70B + Base Vectorial + Agentes Autónomos en simultáneo</span>
+                            </button>
+
+                            <button type="button" class="workload-btn w-full" data-workload="multimodal">
+                                <div class="flex items-center justify-between font-mono text-xs">
+                                    <span class="text-primary-ink font-semibold">04 · Suite Multimodal + Fine-Tuning Docker</span>
+                                    <span class="text-[#3B82F6]">~96 GB RAM</span>
+                                </div>
+                                <span class="text-xs text-secondary-ink block mt-1">Visión por computador + Qwen VLM + Entrenamiento LoRA en PyTorch</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Monitor de Telemetría del Nodo GX10 (7 cols) -->
+                    <div class="lg:col-span-7 bg-[#09090B] border border-[rgba(255,255,255,0.10)] rounded-[8px] p-6 sm:p-8 space-y-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[rgba(255,255,255,0.08)]">
+                            <div>
+                                <span class="font-mono text-[11px] text-tertiary-ink uppercase block">TELEMETRÍA DE MEMORIA UNIFICADA LPDDR5X</span>
+                                <h3 id="sim-title" class="heading-card mt-1">DeepSeek R1 (70B) — Inferencia Local Soberana</h3>
+                            </div>
+                            <span class="tag-pill !text-[#10B981] !border-[rgba(16,185,129,0.3)] !bg-[rgba(16,185,129,0.08)]">SIN COSTE DE API</span>
+                        </div>
+
+                        <!-- Barra de Uso sobre 128 GB -->
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between font-mono text-xs">
+                                <span class="text-secondary-ink">MEMORIA ASIGNADA DEL POOL UNIFICADO</span>
+                                <span id="sim-mem-label" class="text-primary-ink font-semibold">48 GB / 128 GB (37.5%)</span>
+                            </div>
+                            <div class="w-full h-3 bg-[#121215] border border-[rgba(255,255,255,0.08)] rounded-[4px] overflow-hidden p-0.5">
+                                <div id="sim-mem-bar" class="h-full bg-[#3B82F6] rounded-[2px] transition-all duration-200" style="width: 37.5%;"></div>
+                            </div>
+                            <div class="flex items-center justify-between font-mono text-[11px] text-tertiary-ink">
+                                <span>0 GB</span>
+                                <span>Límite GPU Estándar (16-24 GB)</span>
+                                <span>128 GB LPDDR5X</span>
+                            </div>
+                        </div>
+
+                        <!-- Detalles del Escenario Activo -->
+                        <p id="sim-desc" class="text-sm text-secondary-ink leading-relaxed m-0">
+                            Ejecuta el modelo completo DeepSeek R1 de 70 mil millones de parámetros en local manteniendo 80 GB libres para caché KV de contexto extenso, contenedores Docker adicionales y herramientas del sistema.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <div class="bg-[#121215] border border-[rgba(255,255,255,0.06)] rounded-[6px] p-3.5">
+                                <span class="font-mono text-[10px] text-tertiary-ink uppercase block">MODELOS ACTIVOS</span>
+                                <span id="sim-models" class="font-mono text-xs text-primary-ink mt-1 block">DeepSeek-R1-70B</span>
+                            </div>
+                            <div class="bg-[#121215] border border-[rgba(255,255,255,0.06)] rounded-[6px] p-3.5">
+                                <span class="font-mono text-[10px] text-tertiary-ink uppercase block">PRIVACIDAD DE DATOS</span>
+                                <span id="sim-privacy" class="font-mono text-xs text-[#10B981] mt-1 block">100% Local / Offline</span>
+                            </div>
+                            <div class="bg-[#121215] border border-[rgba(255,255,255,0.06)] rounded-[6px] p-3.5">
+                                <span class="font-mono text-[10px] text-tertiary-ink uppercase block">MEMORIA LIBRE RESTANTE</span>
+                                <span id="sim-free" class="font-mono text-xs text-primary-ink mt-1 block">80 GB Disponibles</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             4. BANNER EXPLICATIVO SECUNDARIO CON FONDO asus/asus-gx10.png
+             ====================================================================== -->
+        <section class="gx10-full-bleed-banner border border-[rgba(255,255,255,0.12)] rounded-[8px] p-6 sm:p-10 md:p-14 gsap-reveal">
+            <div class="max-w-3xl space-y-5">
+                <span class="tag-pill !text-[#3B82F6] !border-[rgba(59,130,246,0.3)] !bg-[#09090B]/90">FORMATO ULTRA COMPACTO · 150 × 150 × 51 MM</span>
+                <h2 class="heading-section">
+                    Potencia de centro de datos en el volumen de un libro de escritorio.
+                </h2>
+                <p class="prose-measure text-sm sm:text-base text-primary-ink">
+                    Gracias a la eficiencia térmica y energética del superchip <strong>NVIDIA® GB10 Grace Blackwell</strong>, la ASUS Ascent GX10 reemplaza racks ruidosos o costosas suscripciones cloud por un nodo silencioso, transportable y listo para operar las 24 horas ejecutando agentes OpenClaw, sistemas RAG corporativos y LLMs de código abierto.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         FOOTER CONSULTIVO Y CONTACTO TÉCNICO (#consultar)
+         ========================================================================== -->
+    <footer id="consultar" class="bg-[#0C0C0E] border-t border-[rgba(255,255,255,0.08)] pt-16 pb-12 scroll-mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 gsap-reveal">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-3">
+                    <span class="font-mono text-xs uppercase tracking-wider text-[#3B82F6] block">CONSULTORÍA E IMPLEMENTACIÓN DE IA LOCAL</span>
+                    <h2 class="heading-section">
+                        ¿Querés implementar la ASUS Ascent GX10 o configurar su stack de IA?
+                    </h2>
+                    <p class="prose-measure text-sm m-0">
+                        Asesoramiento técnico integral para adquisición de hardware, puesta en marcha de NVIDIA DGX OS, despliegue de LLMs locales (DeepSeek R1, Llama 3.1, Qwen), configuración de OpenClaw / NemoClaw y sistemas RAG privados.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3">
+                    <a href="https://wa.me/5491169578193?text=Hola%20Juan%20Martin,%20quiero%20consultar%20sobre%20la%20ASUS%20Ascent%20GX10%20y%20configuraci%C3%B3n%20de%20IA%20local." target="_blank" rel="noreferrer" class="btn-primary w-full !justify-between !px-5 !py-4">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>Consultar por WhatsApp</span>
+                        </span>
+                        <span class="font-mono text-xs opacity-90">+54 9 11 6957-8193</span>
+                    </a>
+                    <a href="index.html" class="btn-secondary w-full !justify-between !px-5 !py-3.5">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="arrow-left" class="w-4 h-4 text-secondary-ink"></i>
+                            <span>Volver al sitio principal</span>
+                        </span>
+                        <span class="font-mono text-xs text-tertiary-ink">juanmartinbarrientos.com</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between border-t border-[rgba(255,255,255,0.08)] pt-8 gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="font-mono text-xs text-tertiary-ink">© 2026 Juan Martin Barrientos</span>
+                    <span class="text-tertiary-ink">·</span>
+                    <span class="font-mono text-xs text-tertiary-ink">ASUS Ascent GX10 · Especialista IT</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="https://www.juanmartinbarrientos.com/COMPUTADORAS_ARMADAS/" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-secondary-ink hover:text-white transition-colors">
+                        Workstations IA RTX
+                    </a>
+                    <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noreferrer" aria-label="LinkedIn de Juan Martin Barrientos" class="text-secondary-ink hover:text-white transition-colors">
+                        <i class="fa-brands fa-linkedin-in text-base"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         DOCK TÁCTIL INFERIOR EXCLUSIVO MOBILE
+         ========================================================================== -->
+    <nav class="md:hidden fixed bottom-3 inset-x-3 z-50 bg-[#0C0C0E]/95 backdrop-blur-xl border border-[rgba(255,255,255,0.12)] rounded-[8px] p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)]" aria-label="Navegación rápida móvil">
+        <div class="grid grid-cols-5 gap-1">
+            <a href="#producto" data-dock-link="producto" class="mobile-dock-link is-active flex flex-col items-center justify-center py-2 rounded-[6px] border border-transparent font-mono text-[10px]">
+                <i data-lucide="box" class="w-4 h-4 mb-1"></i>
+                <span>GX10</span>
+            </a>
+            <a href="#capacidades" data-dock-link="capacidades" class="mobile-dock-link flex flex-col items-center justify-center py-2 rounded-[6px] border border-transparent font-mono text-[10px]">
+                <i data-lucide="cpu" class="w-4 h-4 mb-1"></i>
+                <span>5 Claves</span>
+            </a>
+            <a href="#simulador" data-dock-link="simulador" class="mobile-dock-link flex flex-col items-center justify-center py-2 rounded-[6px] border border-transparent font-mono text-[10px]">
+                <i data-lucide="sliders" class="w-4 h-4 mb-1"></i>
+                <span>128 GB</span>
+            </a>
+            <a href="#dgx-stack" data-dock-link="dgx-stack" class="mobile-dock-link flex flex-col items-center justify-center py-2 rounded-[6px] border border-transparent font-mono text-[10px]">
+                <i data-lucide="terminal" class="w-4 h-4 mb-1"></i>
+                <span>DGX OS</span>
+            </a>
+            <a href="#consultar" data-dock-link="consultar" class="mobile-dock-link flex flex-col items-center justify-center py-2 rounded-[6px] border border-transparent font-mono text-[10px]">
+                <i data-lucide="message-square" class="w-4 h-4 mb-1"></i>
+                <span>Contacto</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- SCRIPTS FUNCIONALES -->
+    <script>
+        lucide.createIcons();
+
+        // Reveal sobrio
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.gsap-reveal').forEach(el => observer.observe(el));
+
+        // Simulador interactivo de Memoria Unificada (128 GB LPDDR5X)
+        const workloads = {
+            deepseek: {
+                title: "DeepSeek R1 (70B) — Inferencia Local Soberana",
+                memLabel: "48 GB / 128 GB (37.5%)",
+                width: "37.5%",
+                desc: "Ejecuta el modelo completo DeepSeek R1 de 70 mil millones de parámetros en local manteniendo 80 GB libres para caché KV de contexto extenso, contenedores Docker adicionales y herramientas del sistema.",
+                models: "DeepSeek-R1-70B",
+                privacy: "100% Local / Offline",
+                free: "80 GB Disponibles"
+            },
+            gpt120b: {
+                title: "GPT-OSS-120B — Modelo Masivo en un Solo Nodo",
+                memLabel: "82 GB / 128 GB (64%)",
+                width: "64%",
+                desc: "Carga modelos de hasta 120B parámetros directamente en la memoria unificada LPDDR5X del superchip NVIDIA GB10, algo imposible en tarjetas gráficas de escritorio tradicionales de 16 GB o 24 GB.",
+                models: "GPT-OSS-120B / Nemotron",
+                privacy: "Cero llamadas a API",
+                free: "46 GB Disponibles"
+            },
+            agentic: {
+                title: "Ecosistema Agéntico OpenClaw + NemoClaw + RAG",
+                memLabel: "64 GB / 128 GB (50%)",
+                width: "50%",
+                desc: "Combina un LLM principal (Llama 3.1 70B o Qwen) junto con agentes autónomos OpenClaw / NVIDIA OpenShell y una base de datos vectorial RAG corporativa operando 24/7 sin costes por token.",
+                models: "Llama 3.1 70B + OpenClaw",
+                privacy: "Políticas OpenShell Locales",
+                free: "64 GB Disponibles"
+            },
+            multimodal: {
+                title: "IA Multimodal + Visión + Fine-Tuning en NVIDIA DGX OS",
+                memLabel: "96 GB / 128 GB (75%)",
+                width: "75%",
+                desc: "Entorno completo sobre Ubuntu DGX OS con CUDA, PyTorch, TensorFlow, Jupyter y TensorRT corriendo análisis visual de documentos y ajuste fino (LoRA/QLoRA) mediante Docker Compose.",
+                models: "VLM + PyTorch TensorRT",
+                privacy: "Soberanía Corporativa Total",
+                free: "32 GB Disponibles"
+            }
+        };
+
+        const workloadBtns = document.querySelectorAll('[data-workload]');
+        const simTitle = document.getElementById('sim-title');
+        const simMemLabel = document.getElementById('sim-mem-label');
+        const simMemBar = document.getElementById('sim-mem-bar');
+        const simDesc = document.getElementById('sim-desc');
+        const simModels = document.getElementById('sim-models');
+        const simPrivacy = document.getElementById('sim-privacy');
+        const simFree = document.getElementById('sim-free');
+
+        workloadBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.getAttribute('data-workload');
+                const data = workloads[key];
+                if (!data) return;
+
+                workloadBtns.forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+
+                simTitle.textContent = data.title;
+                simMemLabel.textContent = data.memLabel;
+                simMemBar.style.width = data.width;
+                simDesc.textContent = data.desc;
+                simModels.textContent = data.models;
+                simPrivacy.textContent = data.privacy;
+                simFree.textContent = data.free;
+            });
+        });
+
+        // Scroll-Spy para el Dock Inferior Mobile
+        const dockLinks = document.querySelectorAll('[data-dock-link]');
+        const trackedSections = ['producto', 'capacidades', 'simulador', 'dgx-stack', 'consultar']
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
+
+        const sectionSpy = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const activeId = entry.target.id;
+                    dockLinks.forEach(link => {
+                        if (link.getAttribute('data-dock-link') === activeId) {
+                            link.classList.add('is-active');
+                        } else {
+                            link.classList.remove('is-active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: '-30% 0px -50% 0px', threshold: 0 });
+
+        trackedSections.forEach(sec => sectionSpy.observe(sec));
+    </script>
+</body>
+</html>
+
