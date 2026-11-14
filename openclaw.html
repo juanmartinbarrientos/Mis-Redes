@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía OpenClaw - Documentación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                    mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                },
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1', // Indigo vibrante
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        slate: {
+                            850: '#1e293b', // Fondo código
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'card': '0 0 0 1px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Tipografía y Base */
+        body {
+            background-color: #f8fafc; /* Slate 50 */
+            color: #334155; /* Slate 700 */
+        }
+
+        /* Scrollbar sutil */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Bloques de código estilo Terminal Mac */
+        .code-window {
+            background: #1e293b;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .code-header {
+            background: #0f172a;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+            margin-right: 1rem;
+        }
+
+        .control { width: 10px; height: 10px; border-radius: 50%; }
+        .close { background: #ef4444; }
+        .minimize { background: #f59e0b; }
+        .maximize { background: #22c55e; }
+
+        pre { overflow-x: auto; padding: 1.25rem; margin: 0; }
+        
+        /* Botón de copiar elegante (siempre visible en escritorio y móvil) */
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            opacity: 1;
+            transform: none;
+        }
+
+        .copy-btn:hover { background: rgba(255,255,255,0.24); border-color: rgba(255,255,255,0.35); }
+
+        /* Navegación activa */
+        .nav-link.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+            border-right: 3px solid #4f46e5;
+        }
+
+        /* Tarjetas de información */
+        .info-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .info-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+
+        /* Tip para principiantes */
+        .beginner-tip {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white border-b border-slate-200 p-4 fixed w-full top-0 z-50 flex justify-between items-center shadow-sm">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-robot text-sm"></i>
+            </div>
+            <span class="font-bold text-slate-800 tracking-tight">OpenClaw Docs</span>
+        </div>
+        <button id="mobile-menu-btn" class="text-slate-500 hover:text-brand-600">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen pt-16 lg:pt-0">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 bg-white border-r border-slate-200 overflow-y-auto">
+            <div class="p-8 pb-4">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+                        <i class="fa-solid fa-robot text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-900 leading-tight">OpenClaw</h1>
+                        <p class="text-xs text-slate-500 font-medium">Guía de Usuario v2.5</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="px-4 space-y-1 pb-10">
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-4">Comenzar</p>
+                
+                <a href="#intro" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-home w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Introducción
+                </a>
+                <a href="#basics" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-book w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Glosario Básico
+                </a>
+
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Instalación</p>
+                
+                <a href="#install" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-download w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 1. Instalación
+                </a>
+                <a href="#onboarding" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-wand-magic-sparkles w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 2. Configuración Inicial
+                </a>
+
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Conexión</p>
+                
+                <a href="#telegram" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-brands fa-telegram w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 3. Telegram Setup
+                </a>
+                <a href="#pairing" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-shield-halved w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> 4. Seguridad
+                </a>
+
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Administración</p>
+
+                <a href="#tools" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-toolbox w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Herramientas
+                </a>
+                <a href="#troubleshooting" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-solid fa-stethoscope w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Diagnóstico
+                </a>
+
+                <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6">Ayuda Extra</p>
+
+                <a href="#video-soporte" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-brands fa-youtube w-5 text-slate-400 group-hover:text-brand-500 transition-colors"></i> Video Tutorial
+                </a>
+                <a href="#atajo-whatsapp" class="nav-link group flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 rounded-r-lg hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fa-brands fa-whatsapp w-5 text-slate-400 group-hover:text-emerald-500 transition-colors"></i> Soporte / VM Lista
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lg:ml-72 flex-1 w-full">
+            <div class="max-w-4xl mx-auto px-6 py-12 lg:px-12">
+
+                <!-- Breadcrumb -->
+                <div class="flex items-center text-sm text-slate-500 mb-8 font-medium">
+                    <span>Docs</span>
+                    <i class="fa-solid fa-chevron-right text-xs mx-3"></i>
+                    <span class="text-brand-600">Guía de Inicio</span>
+                </div>
+
+                <!-- Intro -->
+                <section id="intro" class="mb-20">
+                    <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
+                        Bienvenido a OpenClaw
+                    </h1>
+                    <p class="text-xl text-slate-600 mb-8 leading-relaxed">
+                        OpenClaw es tu propio asistente de IA autohospedado. Convierte tu computadora en un servidor inteligente capaz de conectarse a Telegram, navegar por la web y ejecutar tareas complejas de forma autónoma.
+                    </p>
+                    
+                    <div class="beginner-tip">
+                        <div class="flex-shrink-0 pt-1">
+                            <i class="fa-regular fa-lightbulb text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-blue-900 font-bold text-sm mb-1">Guía para Principiantes</h4>
+                            <p class="text-blue-800 text-sm leading-relaxed">
+                                No necesitas ser programador. Esta guía te llevará paso a paso desde "cero" hasta tener tu propio bot de IA funcionando en Telegram.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="border-slate-200 mb-16">
+
+                <!-- Basics Glossary -->
+                <section id="basics" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center mr-3 text-sm text-slate-500"><i class="fa-solid fa-book"></i></span>
+                        Conceptos Clave
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-terminal text-brand-500 mr-2"></i> Terminal
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                La ventana negra donde escribes órdenes. En Windows es "PowerShell" o "CMD", en Mac es "Terminal". Es el volante de tu computadora.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-server text-brand-500 mr-2"></i> Gateway
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                El "cerebro" de OpenClaw. Es el programa que corre en segundo plano esperando tus mensajes.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-file-code text-brand-500 mr-2"></i> JSON
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                Archivos de configuración. Son simples archivos de texto donde guardas tus claves secretas y preferencias.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-brands fa-node-js text-brand-500 mr-2"></i> Node.js
+                            </h4>
+                            <p class="text-sm text-slate-600">
+                                La tecnología base. Necesitas tenerlo instalado para que OpenClaw pueda funcionar.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Install -->
+                <section id="install" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">1</span>
+                        Instalación
+                    </h2>
+                    
+                    <!-- Windows Prerequisites Box -->
+                    <div class="mb-8 p-5 bg-blue-50 border border-blue-200 rounded-xl">
+                        <h3 class="text-blue-900 font-bold mb-2 flex items-center">
+                            <i class="fa-brands fa-windows mr-2"></i>Antes de empezar en Windows (Requisitos Previos)
+                        </h3>
+                        <p class="text-sm text-blue-800 mb-4">
+                            En una PC limpia con Windows 10 (2004+) o Windows 11, abre <strong>PowerShell como Administrador</strong> y ejecuta estos comandos en orden antes de instalar OpenClaw:
+                        </p>
+
+                        <div class="space-y-3">
+                            <!-- Permiso PowerShell -->
+                            <div class="bg-white border border-blue-100 rounded-lg p-3">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-bold text-slate-700">1. Permitir ejecución de scripts en PowerShell (si pregunta, escribe <code class="bg-slate-100 px-1 rounded">S</code> o <code class="bg-slate-100 px-1 rounded">Y</code>):</span>
+                                </div>
+                                <div class="bg-slate-900 rounded-md p-2.5 pr-20 code-container relative">
+                                    <code class="text-xs text-blue-300 font-mono break-all">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+                                    <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+
+                            <!-- Git -->
+                            <div class="bg-white border border-blue-100 rounded-lg p-3">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                                    <span class="text-xs font-bold text-slate-700">2. Instalar Git (necesario para descargar dependencias):</span>
+                                    <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer" class="text-xs text-brand-600 underline hover:text-brand-700">Plan B: Descargador manual (.exe)</a>
+                                </div>
+                                <div class="bg-slate-900 rounded-md p-2.5 pr-20 code-container relative">
+                                    <code class="text-xs text-blue-300 font-mono break-all">winget install --id Git.Git -e --source winget</code>
+                                    <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+
+                            <!-- Node.js -->
+                            <div class="bg-white border border-blue-100 rounded-lg p-3">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                                    <span class="text-xs font-bold text-slate-700">3. Instalar Node.js (motor base de OpenClaw):</span>
+                                    <a href="https://nodejs.org/es/download/prebuilt-installer" target="_blank" rel="noopener noreferrer" class="text-xs text-brand-600 underline hover:text-brand-700">Plan B: Instalador manual (.msi)</a>
+                                </div>
+                                <div class="bg-slate-900 rounded-md p-2.5 pr-20 code-container relative">
+                                    <code class="text-xs text-blue-300 font-mono break-all">winget install OpenJS.NodeJS</code>
+                                    <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+
+                            <!-- WSL2 -->
+                            <div class="bg-white border border-blue-100 rounded-lg p-3">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                                    <span class="text-xs font-bold text-slate-700">4. WSL2 (Opcional pero recomendado para máxima estabilidad):</span>
+                                    <a href="https://learn.microsoft.com/es-es/windows/wsl/install-manual" target="_blank" rel="noopener noreferrer" class="text-xs text-brand-600 underline hover:text-brand-700">Guía manual Microsoft</a>
+                                </div>
+                                <div class="bg-slate-900 rounded-md p-2.5 pr-20 code-container relative">
+                                    <code class="text-xs text-blue-300 font-mono break-all">wsl --install</code>
+                                    <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-blue-900 font-semibold mt-4 bg-blue-100/80 px-3 py-2 rounded border border-blue-200">
+                            <i class="fa-solid fa-rotate-right mr-1.5"></i>Importante: Cierra y vuelve a abrir PowerShell después de instalar Git y Node.js (o reinicia Windows si instalaste WSL2) para que el sistema reconozca los nuevos comandos.
+                        </p>
+                    </div>
+                    
+                    <p class="text-slate-600 mb-6">
+                        Selecciona tu sistema operativo y copia el comando correspondiente en tu terminal. El instalador automático se encargará de todo.
+                    </p>
+
+                    <!-- Mac/Linux Tab -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-slate-700"><i class="fa-brands fa-apple mr-2"></i>Mac / <i class="fa-brands fa-linux mx-1"></i>Linux</span>
+                            <span class="text-xs text-slate-400">Bash</span>
+                        </div>
+                        <div class="code-window code-container">
+                            <div class="code-header">
+                                <div class="window-controls">
+                                    <div class="control close"></div>
+                                    <div class="control minimize"></div>
+                                    <div class="control maximize"></div>
+                                </div>
+                                <span class="text-xs text-slate-400 font-mono">bash — 80x24</span>
+                            </div>
+                            <pre><code class="text-sm text-emerald-400 font-mono">curl -fsSL https://openclaw.ai/install.sh | bash</code></pre>
+                            <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                        </div>
+                    </div>
+
+                    <!-- Windows Options -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- PowerShell -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-slate-700"><i class="fa-brands fa-windows mr-2"></i>PowerShell</span>
+                            </div>
+                            <div class="code-window code-container">
+                                <div class="code-header">
+                                    <div class="window-controls">
+                                        <div class="control close"></div>
+                                        <div class="control minimize"></div>
+                                        <div class="control maximize"></div>
+                                    </div>
+                                    <span class="text-xs text-slate-400 font-mono">PowerShell</span>
+                                </div>
+                                <pre><code class="text-sm text-blue-300 font-mono">iwr -useb https://openclaw.ai/install.ps1 | iex</code></pre>
+                                <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                        </div>
+
+                        <!-- CMD -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-slate-700"><i class="fa-solid fa-terminal mr-2"></i>CMD (Símbolo sistema)</span>
+                            </div>
+                            <div class="code-window code-container">
+                                <div class="code-header">
+                                    <div class="window-controls">
+                                        <div class="control close"></div>
+                                        <div class="control minimize"></div>
+                                        <div class="control maximize"></div>
+                                    </div>
+                                    <span class="text-xs text-slate-400 font-mono">cmd.exe</span>
+                                </div>
+                                <pre><code class="text-sm text-yellow-200 font-mono">curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</code></pre>
+                                <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 rounded-lg p-5 mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">Verificación de Instalación</h4>
+                            <p class="text-xs text-slate-500 mt-1">Cierra y vuelve a abrir la terminal, luego ejecuta este comando. Si ves el número de versión, OpenClaw quedó instalado (el servicio <em>gateway</em> se iniciará en el Paso 2).</p>
+                        </div>
+                        <div class="bg-slate-100 px-3 py-2 rounded border border-slate-200 font-mono text-xs text-slate-700 code-container relative pr-10 shrink-0">
+                            <code>openclaw --version</code>
+                            <button class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-brand-600 copy-btn-mini" title="Copiar comando"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Onboarding -->
+                <section id="onboarding" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">2</span>
+                        Configuración Inicial
+                    </h2>
+                    
+                    <p class="text-slate-600 mb-6">
+                        Ejecuta el asistente de configuración con instalación automática del servicio en segundo plano (<em>daemon</em>) para conectar tu proveedor de IA y dejar el Gateway listo:
+                    </p>
+
+                    <div class="code-window code-container mb-6">
+                        <div class="code-header">
+                            <span class="text-xs text-slate-400 font-mono">Terminal</span>
+                        </div>
+                        <pre><code class="text-sm text-emerald-400 font-mono">openclaw onboard --install-daemon</code></pre>
+                        <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                    </div>
+
+                    <!-- Cómo obtener tu API Key -->
+                    <div class="info-card border-l-4 border-l-emerald-500 mb-6">
+                        <h4 class="font-bold text-slate-900 mb-3 flex items-center">
+                            <i class="fa-solid fa-key text-emerald-600 mr-2"></i>¿Cómo conseguir tu API Key? (Paso a paso con Google y otras opciones)
+                        </h4>
+                        <div class="space-y-3 text-sm text-slate-600">
+                            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                                <p class="font-bold text-emerald-900 mb-1">Opción Principal Recomendada (Gratis): Google Gemini (Google AI Studio)</p>
+                                <ol class="list-decimal list-inside space-y-1.5 text-emerald-800 text-xs sm:text-sm">
+                                    <li>Ingresa a <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:text-emerald-950">aistudio.google.com/apikey</a> e inicia sesión con tu cuenta de Google (Gmail).</li>
+                                    <li>Haz clic en el botón <strong>Create API key</strong> (si es tu primera vez, acepta los términos y elige <strong>Create API key in new project</strong> o selecciona un proyecto existente).</li>
+                                    <li>Copia la clave generada (comienza con <code class="bg-white px-1.5 py-0.5 rounded border border-emerald-200 font-mono text-xs">AIza...</code>) y guárdala en un lugar seguro.</li>
+                                    <li>En el asistente de OpenClaw, elige <strong>Google / Gemini</strong> como proveedor, pega esa API Key y selecciona el modelo recomendado (ej. <code class="bg-white px-1.5 py-0.5 rounded border border-emerald-200 font-mono text-xs">gemini-2.5-flash</code> o <code class="bg-white px-1.5 py-0.5 rounded border border-emerald-200 font-mono text-xs">gemini-2.0-flash</code>).</li>
+                                </ol>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                                <p class="font-bold text-slate-800 mb-1">Alternativa Gratuita: OpenRouter + DeepSeek R1</p>
+                                <p class="text-xs sm:text-sm">Regístrate gratis en <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" class="text-brand-600 underline font-semibold">openrouter.ai/keys</a>, haz clic en <strong>Create Key</strong>, selecciona <strong>OpenRouter</strong> en el asistente y usa el modelo <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 font-mono text-xs">deepseek/deepseek-r1</code>.</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                                <p class="font-bold text-amber-900 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Opciones de Pago: OpenAI / Anthropic</p>
+                                <p class="text-xs sm:text-sm text-amber-800">Si eliges OpenAI (<code class="bg-white px-1 rounded">sk-...</code>) o Anthropic, requieren cargar saldo prepago en sus consolas API (<code class="bg-white px-1 rounded">platform.openai.com</code> o <code class="bg-white px-1 rounded">console.anthropic.com</code>). Una suscripción normal de ChatGPT Plus o Claude Pro <strong>no incluye</strong> la API Key.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beginner-tip">
+                        <div class="flex-shrink-0 pt-1">
+                            <i class="fa-solid fa-list-check text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-blue-900 font-bold text-sm mb-1">Pasos rápidos dentro del Asistente</h4>
+                            <ul class="text-blue-800 text-sm list-disc list-inside space-y-1">
+                                <li>Selecciona <strong>QuickStart</strong>.</li>
+                                <li>Elige <strong>Google (Gemini)</strong> como proveedor de IA (u otro como OpenRouter u OpenAI) y pega tu <strong>API Key</strong>.</li>
+                                <li>Si el asistente te ofrece configurar <strong>Telegram</strong> en ese momento, también puedes hacerlo directo desde ahí.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Verificación del Gateway tras Onboarding -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-5 mt-6 space-y-3">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm flex items-center">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i>Verificar que el Gateway quedó corriendo
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1">Al terminar el asistente, comprueba que el servicio aparezca como <strong>running</strong>:</p>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="bg-slate-900 text-white p-3 rounded-lg font-mono text-xs code-container relative pr-24">
+                                <code class="text-emerald-400">openclaw gateway status</code>
+                                <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                            <div class="bg-slate-900 text-white p-3 rounded-lg font-mono text-xs code-container relative pr-24">
+                                <code class="text-blue-300">openclaw gateway start</code>
+                                <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500">Si <code class="bg-slate-100 px-1 rounded">status</code> muestra que está detenido, ejecuta <code class="bg-slate-100 px-1 rounded">openclaw gateway start</code> para arrancarlo.</p>
+                    </div>
+
+                    <div class="mt-8">
+                        <h3 class="text-lg font-bold text-slate-800 mb-3">Panel de Control (Dashboard)</h3>
+                        <p class="text-slate-600 text-sm mb-3">Para ver la interfaz gráfica en tu navegador:</p>
+                        <div class="bg-slate-900 text-white p-3 rounded-lg inline-flex items-center font-mono text-sm code-container relative pr-24">
+                            <code>openclaw dashboard</code>
+                            <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Telegram -->
+                <section id="telegram" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">3</span>
+                        Conectar Telegram
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- Step A -->
+                        <div class="info-card border-l-4 border-l-brand-500">
+                            <h4 class="font-bold text-slate-900 mb-2">Paso A: Crear el Bot con BotFather</h4>
+                            <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2">
+                                <li>Abre Telegram y busca <strong>@BotFather</strong> (el oficial con tilde azul).</li>
+                                <li>Envía <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-xs">/newbot</code>.</li>
+                                <li>Elige un nombre visible y luego un usuario que termine en <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-xs">bot</code> (ej. <code class="bg-slate-100 px-1 rounded">MiOpenClaw_bot</code>).</li>
+                                <li><strong class="text-brand-600">Importante:</strong> Copia el <strong>API TOKEN</strong> (algo como <code class="bg-slate-100 px-1 rounded text-xs">123456:ABC-DEF...</code>) que te entrega al final.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Step B -->
+                        <div class="info-card border-l-4 border-l-brand-500 space-y-4">
+                            <h4 class="font-bold text-slate-900">Paso B: Configurar el Token en OpenClaw</h4>
+
+                            <!-- Camino 1 -->
+                            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                                <p class="text-sm font-bold text-emerald-900 mb-1">Opción 1 (Recomendada y sin editar archivos a mano)</p>
+                                <p class="text-xs sm:text-sm text-emerald-800 mb-3">
+                                    Si no configuraste Telegram durante el <code class="bg-white px-1 rounded">onboard</code>, ejecuta el configurador interactivo y elige el canal <strong>Telegram</strong> para pegar tu token de forma guiada:
+                                </p>
+                                <div class="bg-slate-900 rounded-md p-2.5 pr-24 code-container relative">
+                                    <code class="text-xs text-emerald-400 font-mono">openclaw configure</code>
+                                    <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+
+                            <!-- Camino 2 -->
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-3">
+                                <p class="text-sm font-bold text-slate-800">Opción 2 (Manual): Editar el archivo <code class="bg-white px-1 rounded border border-slate-200">openclaw.json</code></p>
+                                <p class="text-xs sm:text-sm text-slate-600">Abre el archivo directamente desde tu terminal con el comando según tu sistema:</p>
+                                <div class="grid sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <span class="text-xs font-semibold text-slate-500 block mb-1">Windows (PowerShell)</span>
+                                        <div class="bg-slate-900 rounded-md p-2.5 pr-20 code-container relative">
+                                            <code class="text-xs text-blue-300 font-mono break-all">notepad $HOME\.openclaw\openclaw.json</code>
+                                            <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-semibold text-slate-500 block mb-1">Mac / Linux</span>
+                                        <div class="bg-slate-900 rounded-md p-2.5 pr-20 code-container relative">
+                                            <code class="text-xs text-emerald-400 font-mono break-all">nano ~/.openclaw/openclaw.json</code>
+                                            <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-600 pt-1">
+                                    Asegúrate de que el bloque <code class="bg-white px-1 rounded border border-slate-200">"telegram"</code> quede <strong>dentro de la sección <code class="bg-white px-1 rounded border border-slate-200">"channels"</code></strong> (respeta las llaves y comas con las demás secciones) y guarda el archivo:
+                                </p>
+                                <div class="code-window code-container mb-0">
+                                    <div class="code-header">
+                                        <span class="text-xs text-slate-400 font-mono">openclaw.json (dentro de channels)</span>
+                                    </div>
+                                    <pre><code class="text-xs text-blue-300 font-mono">"channels": {
+  "telegram": {
+    "enabled": true,
+    "botToken": "PEGA_AQUI_TU_TOKEN",
+    "dmPolicy": "pairing"
+  }
+}</code></pre>
+                                    <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step C (Crítico) -->
+                        <div class="info-card border-l-4 border-l-amber-500 bg-amber-50/40">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-rotate text-amber-600 mr-2"></i>Paso C (Crítico): Reiniciar el Gateway para aplicar los cambios
+                            </h4>
+                            <p class="text-sm text-slate-600 mb-4">
+                                Después de guardar tu configuración, <strong>el bot no responderá hasta que reinicies el servicio</strong>. Ejecuta:
+                            </p>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div class="code-window code-container mb-0">
+                                    <div class="code-header">
+                                        <span class="text-xs text-slate-400 font-mono">1. Reiniciar servicio</span>
+                                    </div>
+                                    <pre><code class="text-sm text-amber-300 font-mono">openclaw gateway restart</code></pre>
+                                    <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                                <div class="code-window code-container mb-0">
+                                    <div class="code-header">
+                                        <span class="text-xs text-slate-400 font-mono">2. Confirmar que quedó activo</span>
+                                    </div>
+                                    <pre><code class="text-sm text-emerald-400 font-mono">openclaw gateway status</code></pre>
+                                    <button class="copy-btn"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pairing -->
+                <section id="pairing" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">4</span>
+                        Seguridad (Pairing)
+                    </h2>
+                    
+                    <p class="text-slate-600 mb-6">
+                        Por seguridad, tu bot ignorará a cualquiera (incluso a ti) hasta que lo autorices. Este proceso se llama "Pairing".
+                    </p>
+
+                    <ol class="relative border-l border-slate-200 ml-3 space-y-8">
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-100 rounded-full -left-3 ring-8 ring-white">
+                                <span class="text-brand-600 text-xs font-bold">1</span>
+                            </span>
+                            <h3 class="font-medium leading-tight text-slate-900">Saluda a tu bot</h3>
+                            <p class="text-sm text-slate-500 mt-1">Busca tu nuevo bot en Telegram, presiona <strong>Iniciar</strong> (o envía un "Hola"). Él te responderá con un código de emparejamiento (ej. <code class="bg-slate-100 px-1 rounded">XY123AB</code>).</p>
+                        </li>
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-100 rounded-full -left-3 ring-8 ring-white">
+                                <span class="text-brand-600 text-xs font-bold">2</span>
+                            </span>
+                            <h3 class="font-medium leading-tight text-slate-900">Autoriza en Terminal</h3>
+                            <p class="text-sm text-slate-500 mb-2 mt-1">Ejecuta este comando reemplazando <code class="bg-slate-100 px-1 rounded">CODIGO_AQUI</code> por tu código <strong>sin corchetes ni comillas</strong> (por ejemplo: <code class="bg-slate-100 px-1 rounded text-xs">openclaw pairing approve telegram XY123AB</code>):</p>
+                            <div class="bg-slate-900 rounded-lg p-3 pr-24 code-container relative inline-block w-full">
+                                <code class="text-xs text-green-400 font-mono break-all">openclaw pairing approve telegram CODIGO_AQUI</code>
+                                <button class="copy-btn" style="top: 6px; right: 6px;"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                            </div>
+                        </li>
+                        <li class="ml-6">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-full -left-3 ring-8 ring-white">
+                                <span class="text-emerald-600 text-xs font-bold">3</span>
+                            </span>
+                            <h3 class="font-medium leading-tight text-slate-900">¡Prueba tu Asistente!</h3>
+                            <p class="text-sm text-slate-500 mt-1">Vuelve al chat con tu bot en Telegram y envíale una primera instrucción (ej. <em>"Hola, ¿estás en línea? Dime qué puedes hacer"</em>). Si responde, ¡todo quedó funcionando al 100%!</p>
+                        </li>
+                    </ol>
+                </section>
+
+                <!-- Tools -->
+                <section id="tools" class="mb-20 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-brand-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-brand-500/30">5</span>
+                        Herramientas
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="info-card hover:border-brand-500 transition-colors cursor-default">
+                            <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa-brands fa-chrome text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Browser (Navegador)</h4>
+                            <p class="text-sm text-slate-500 mt-2">
+                                Permite a la IA navegar por internet, leer páginas web y extraer información en tiempo real.
+                            </p>
+                        </div>
+
+                        <div class="info-card hover:border-brand-500 transition-colors cursor-default">
+                            <div class="w-10 h-10 bg-slate-100 text-slate-600 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa-solid fa-terminal text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Exec (Comandos)</h4>
+                            <p class="text-sm text-slate-500 mt-2">
+                                Permite a la IA ejecutar comandos en tu computadora, mover archivos y correr scripts.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Troubleshooting -->
+                <section id="troubleshooting" class="mb-24 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="bg-red-500 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-red-500/30">!</span>
+                        Solución de Problemas
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-lg p-4">
+                            <h4 class="text-sm font-bold text-slate-800 flex items-center">
+                                <i class="fa-solid fa-circle-xmark text-red-500 mr-2"></i> Error: "command not found"
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 pl-6">
+                                Cierra y vuelve a abrir la terminal. A veces el sistema necesita reiniciarse para encontrar el nuevo programa instalado.
+                            </p>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-lg p-4">
+                            <h4 class="text-sm font-bold text-slate-800 flex items-center">
+                                <i class="fa-solid fa-circle-question text-yellow-500 mr-2"></i> El bot no responde
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 pl-6">
+                                Ejecuta <code>openclaw doctor</code> para que el sistema busque errores automáticamente.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Video Tutorial y Soporte Directo -->
+                <section id="video-soporte" class="mb-20 scroll-mt-24 space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center">
+                            <span class="bg-red-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mr-3 shadow-md shadow-red-500/30"><i class="fa-brands fa-youtube"></i></span>
+                            Video Tutorial Completo
+                        </h2>
+                        <p class="text-sm text-slate-600 mb-6">
+                            Si prefieres seguir todo el proceso en pantalla paso a paso, mira la guía en video completa:
+                        </p>
+
+                        <div class="bg-slate-900 rounded-xl p-2 sm:p-3 shadow-lg border border-slate-800">
+                            <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
+                                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/1gDpjCYLN5U?si=1mMllbgChsHRb6CH" title="Video Tutorial Completo de Instalación OpenClaw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Atajo / Asistencia Directa por WhatsApp -->
+                    <div id="atajo-whatsapp" class="scroll-mt-24 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div class="space-y-2 max-w-xl">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wide">
+                                    <i class="fa-solid fa-bolt"></i> Atajo / Soporte Técnico
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-slate-900">
+                                    ¿Prefieres la máquina virtual lista o te trabaste en algún paso?
+                                </h3>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    Puedes pedirme la <strong>imagen de VirtualBox 100% pre-configurada</strong> (solo importas, pones tu API Key y conectas Telegram) o coordinar asistencia remota directa para dejarlo funcionando en minutos.
+                                </p>
+                                <p class="text-xs font-semibold text-emerald-900 pt-1">
+                                    WhatsApp directo: <span class="font-mono bg-white px-2 py-0.5 rounded border border-emerald-200">+54 9 11 6957-8193</span>
+                                </p>
+                            </div>
+                            <div class="shrink-0">
+                                <a href="https://wa.me/5491169578193?text=Hola%20Juan,%20estoy%20siguiendo%20la%20guía%20de%20OpenClaw%20y%20necesito%20ayuda%20o%20la%20imagen%20pre-configurada." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-md shadow-emerald-600/20 transition-all hover:-translate-y-0.5 w-full md:w-auto text-sm">
+                                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                                    <span>Pedir ayuda / VM por WhatsApp</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="border-t border-slate-200 pt-10 pb-20 text-center">
+                    <p class="text-slate-500 text-sm font-medium">OpenClaw Documentation</p>
+                    <p class="text-slate-400 text-xs mt-2">Actualizado: Febrero 2026</p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll Top -->
+    <button id="scrollTopBtn" class="fixed bottom-8 right-8 bg-white text-slate-700 p-3 rounded-full shadow-lg border border-slate-200 hidden hover:bg-slate-50 hover:text-brand-600 transition-all z-50">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Funcionalidad de Copiado
+        function copyToClipboard(text, btn) {
+            const cleanText = text.trim();
+            const tempInput = document.createElement("textarea");
+            tempInput.value = cleanText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            const originalHTML = btn.innerHTML;
+            if (btn.classList.contains('copy-btn-mini')) {
+                btn.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400 mr-1"></i>Copiado';
+            }
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        }
+
+        // Event Listeners para botones de copia
+        document.querySelectorAll('.copy-btn, .copy-btn-mini').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const container = this.closest('.code-container');
+                const codeElement = container ? container.querySelector('code') : null;
+                if (codeElement) {
+                    copyToClipboard(codeElement.innerText, this);
+                }
+            });
+        });
+
+        // Mobile Menu (abrir/cerrar y auto-cerrar al elegir un paso)
+        const btn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        if(btn && sidebar){
+            btn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+            sidebar.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 1024) {
+                        sidebar.classList.add('-translate-x-full');
+                    }
+                });
+            });
+        }
+
+        // Scroll Top
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.remove('hidden');
+            } else {
+                scrollBtn.classList.add('hidden');
+            }
+        });
+        if(scrollBtn){
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Active Link
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (current && link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

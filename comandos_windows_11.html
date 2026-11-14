@@ -77,8 +77,26 @@
         /* Grid Layout */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
             gap: 25px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .back-link:hover {
+            border-color: var(--accent);
+            background: #102a44;
         }
 
         .card {
@@ -159,6 +177,7 @@
 <header>
     <h1>SYSADMIN <span>TOOLKIT</span> V2</h1>
     <p class="subtitle">Windows 11 / Server 2022 Advanced Diagnostics & Automation</p>
+    <a href="index.html" class="back-link">← Volver al Inicio</a>
 </header>
 
 <div class="search-wrapper">
@@ -393,6 +412,173 @@ sudo netstat -ab
         </div>
     </div>
 
+    <!-- Card 21: Winget Upgrade All -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">Winget</span><span class="tag new">UPDATE</span></div>
+        <h3>Actualizar Todo el Software (Winget Upgrade All)</h3>
+        <p class="desc">Actualiza todos los programas instalados en un solo comando sin aceptar asistentes manualmente.</p>
+        <div class="code-block">winget upgrade --all --include-unknown --accept-package-agreements --accept-source-agreements
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 22: Reset Total de Red -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag net">NET</span></div>
+        <h3>Reset Total de Red, IP y DNS</h3>
+        <p class="desc">Reinicia catálogo Winsock, pila TCP/IP, renueva concesión DHCP y limpia caché DNS ante fallos de conexión.</p>
+        <div class="code-block">netsh winsock reset && netsh int ip reset && ipconfig /release && ipconfig /renew && ipconfig /flushdns
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 23: Reiniciar a BIOS / UEFI -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">BIOS</span></div>
+        <h3>Reiniciar Directo a la BIOS / UEFI</h3>
+        <p class="desc">Reinicia el equipo e ingresa directamente al firmware UEFI sin pulsar teclas durante el arranque.</p>
+        <div class="code-block">shutdown /r /fw /t 0
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 24: Atajos Win + R -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">Win + R</span><span class="tag new">SHORTCUTS</span></div>
+        <h3>Atajos Rápidos Win + R (Paneles SysAdmin)</h3>
+        <p class="desc">Consolas y paneles clásicos de Windows 11 para abrir al instante desde Ejecutar (Win + R).</p>
+        <div class="code-block">ncpa.cpl      :: Conexiones de Red (Adaptadores)
+appwiz.cpl    :: Programas y Características
+sysdm.cpl     :: Propiedades del Sistema / Dominio
+devmgmt.msc   :: Administrador de Dispositivos
+services.msc  :: Servicios de Windows
+diskmgmt.msc  :: Administración de Discos
+eventvwr.msc  :: Visor de Eventos
+lusrmgr.msc   :: Usuarios y Grupos Locales
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 25: God Mode -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">ADMIN</span></div>
+        <h3>Activar Modo Dios (God Mode)</h3>
+        <p class="desc">Crea una carpeta en el Escritorio con acceso directo a más de 200 herramientas avanzadas del Panel de Control.</p>
+        <div class="code-block">mkdir "%USERPROFILE%\Desktop\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 26: Detalle Memoria RAM -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag new">HW</span></div>
+        <h3>Detalle de Memoria RAM (Velocidad, Slots y Marca)</h3>
+        <p class="desc">Lista cada módulo instalado con su capacidad en GB, frecuencia MHz, fabricante y número de parte sin abrir el gabinete.</p>
+        <div class="code-block">Get-CimInstance Win32_PhysicalMemory | Select-Object BankLabel, Manufacturer, @{N="GB";E={$_.Capacity/1GB}}, Speed, PartNumber | Format-Table -AutoSize
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 27: Proceso por Puerto en PowerShell -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag net">NET</span></div>
+        <h3>Ver Proceso que Usa un Puerto (PowerShell)</h3>
+        <p class="desc">Identifica al instante el PID y el nombre exacto del proceso que ocupa un puerto TCP (ej. 8080).</p>
+        <div class="code-block">Get-NetTCPConnection -LocalPort 8080 | Select-Object LocalAddress, LocalPort, State, OwningProcess, @{N="Proceso";E={(Get-Process -Id $_.OwningProcess).ProcessName}}
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 28: Últimos Errores Críticos -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag new">LOGS</span></div>
+        <h3>Últimos Errores Críticos del Sistema (24h)</h3>
+        <p class="desc">Consulta los últimos 15 eventos críticos o de error en el registro System sin abrir el Visor de Eventos.</p>
+        <div class="code-block">Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2; StartTime=(Get-Date).AddDays(-1)} -MaxEvents 15 | Select-Object TimeCreated, Id, ProviderName, Message | Format-Table -Wrap
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 29: Auditar Inicio Automático -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag new">AUDIT</span></div>
+        <h3>Auditar Programas de Inicio Automático</h3>
+        <p class="desc">Muestra todos los ejecutables y rutas configuradas para arrancar con Windows por usuario o sistema.</p>
+        <div class="code-block">Get-CimInstance Win32_StartupCommand | Select-Object Name, Command, Location, User | Format-Table -AutoSize
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 30: Habilitar RDP + Firewall -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag net">RDP</span></div>
+        <h3>Habilitar Escritorio Remoto (RDP) + Firewall</h3>
+        <p class="desc">Activa conexiones RDP por registro y habilita la regla correspondiente en el Firewall de Windows.</p>
+        <div class="code-block">reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f && netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 31: Permitir Ping ICMPv4 -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag net">FIREWALL</span></div>
+        <h3>Permitir Ping (ICMPv4) en Firewall</h3>
+        <p class="desc">Agrega la regla entrante para responder a solicitudes ping (ICMP Echo Request) en redes de diagnóstico.</p>
+        <div class="code-block">netsh advfirewall firewall add rule name="Permitir Ping ICMPv4" protocol=icmpv4:8,any dir=in action=allow
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 32: Forzar GPO y Auditar -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">AD / GPO</span></div>
+        <h3>Forzar GPO y Auditar Políticas Aplicadas</h3>
+        <p class="desc">Fuerza la actualización inmediata de directivas de grupo en Active Directory y muestra el reporte resultante.</p>
+        <div class="code-block">gpupdate /force && gpresult /r
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 33: CHKDSK /scan en Caliente -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">DISK</span></div>
+        <h3>Escaneo y Reparación NTFS en Caliente (CHKDSK)</h3>
+        <p class="desc">Analiza el sistema de archivos NTFS en línea sin desmontar la unidad ni exigir reinicio inmediato.</p>
+        <div class="code-block">chkdsk C: /scan
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 34: Serie BIOS y Equipo -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag new">ASSET</span></div>
+        <h3>Número de Serie de BIOS, Placa y Equipo</h3>
+        <p class="desc">Obtiene Service Tag / Serial Number, versión de BIOS, fabricante y modelo exacto para inventario o garantías.</p>
+        <div class="code-block">Get-CimInstance Win32_BIOS | Select-Object Manufacturer, SMBIOSBIOSVersion, SerialNumber; Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer, Model
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 35: Uptime Real -->
+    <div class="card">
+        <div class="tags"><span class="tag ps">PowerShell</span><span class="tag new">SYS</span></div>
+        <h3>Tiempo Encendido Real del Sistema (Uptime)</h3>
+        <p class="desc">Calcula días, horas y minutos exactos desde el último reinicio real (ignorando el Inicio Rápido de Windows).</p>
+        <div class="code-block">(Get-Date) - (Get-CimInstance Win32_OperatingSystem).LastBootUpTime | Select-Object Days, Hours, Minutes
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
+    <!-- Card 36: Tar Nativo -->
+    <div class="card">
+        <div class="tags"><span class="tag cmd">CMD</span><span class="tag new">UTIL</span></div>
+        <h3>Comprimir y Extraer con Tar Nativo</h3>
+        <p class="desc">Windows 11 incluye bsdtar nativo para crear y descomprimir archivos .tar.gz o .zip desde consola.</p>
+        <div class="code-block">tar -czvf backup.tar.gz C:\Carpeta && tar -xzvf backup.tar.gz -C C:\Destino
+            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+        </div>
+    </div>
+
 </div>
 
 <footer>
@@ -401,17 +587,14 @@ sudo netstat -ab
 
 <script>
     function copyToClipboard(btn) {
-        // Obtenemos solo el texto del bloque, ignorando el texto del botón
-        let textToCopy = btn.parentElement.childNodes[0].nodeValue.trim();
-        
-        // Si el bloque tiene saltos de línea manuales (como el winget import/export)
-        if(textToCopy.length < 5) { // Fallback simple logic
-             textToCopy = btn.parentElement.innerText.replace("COPY", "").trim();
-        }
+        // Clonamos el bloque para extraer todo el texto del comando sin incluir el texto del botón COPY/COPIADO
+        const clone = btn.parentElement.cloneNode(true);
+        clone.querySelectorAll('.copy-btn').forEach(b => b.remove());
+        const textToCopy = clone.textContent.trim();
 
         navigator.clipboard.writeText(textToCopy);
         
-        const originalText = btn.innerText;
+        const originalText = "COPY";
         btn.innerText = "COPIADO";
         btn.style.borderColor = "#3fb950";
         btn.style.color = "#3fb950";
