@@ -596,6 +596,15 @@
                         <span>Atajos de comandos para Windows 11</span>
                     </span>
                 </a>
+                <a href="posts-it.html" class="group relative hidden sm:inline-flex btn-secondary !py-1.5 !px-3 !text-xs whitespace-nowrap" title="Posts de informática & ciberseguridad">
+                    <i data-lucide="newspaper" class="w-3.5 h-3.5 text-[#3B82F6] shrink-0"></i>
+                    <span class="hidden lg:inline">Posts IT</span>
+                    <span class="lg:hidden">Posts</span>
+                    <span class="pointer-events-none opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-visible:opacity-100 group-focus-visible:visible transition-all duration-150 absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 rounded-[6px] bg-[#121215] border border-[rgba(59,130,246,0.4)] text-[#F4F4F5] font-mono text-[11px] whitespace-nowrap shadow-xl z-50 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-[#3B82F6]"></i>
+                        <span>Posts de informática & ciberseguridad</span>
+                    </span>
+                </a>
                 <a href="https://www.juanmartinbarrientos.com/extendido" target="_blank" rel="noopener noreferrer" class="btn-secondary !py-1.5 !px-2.5 sm:!px-3 !text-xs whitespace-nowrap">
                     <i data-lucide="folder-open" class="w-3.5 h-3.5 text-secondary-ink shrink-0"></i>
                     <span class="hidden lg:inline">Portfolio Extendido</span>
@@ -712,6 +721,14 @@
                             </span>
                             <i class="fa-brands fa-windows text-[#3B82F6] text-xs shrink-0"></i>
                         </a>
+                        <a href="posts-it.html" class="btn-secondary !w-full !py-2.5 !px-3.5 !text-xs !justify-between" title="Posts de informática & ciberseguridad">
+                            <span class="flex items-center gap-2 min-w-0">
+                                <i data-lucide="newspaper" class="w-4 h-4 text-[#3B82F6] shrink-0"></i>
+                                <span class="font-semibold text-primary-ink">Posts IT</span>
+                                <span class="text-[11px] text-secondary-ink truncate">· Selección de ciberseguridad y artículos</span>
+                            </span>
+                            <i class="fa-solid fa-shield-halved text-[#3B82F6] text-xs shrink-0"></i>
+                        </a>
                     </div>
                     
                     <!-- Botones de Acción en Tablet/Desktop -->
@@ -742,6 +759,14 @@
                             <span class="pointer-events-none opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-visible:opacity-100 group-focus-visible:visible transition-all duration-150 absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 px-3 py-1.5 rounded-[6px] bg-[#121215] border border-[rgba(59,130,246,0.4)] text-[#F4F4F5] font-mono text-[11px] whitespace-nowrap shadow-xl z-50 flex items-center gap-1.5">
                                 <i class="fa-brands fa-windows text-[#3B82F6]"></i>
                                 <span>Atajos de comandos para Windows 11</span>
+                            </span>
+                        </a>
+                        <a href="posts-it.html" class="group relative btn-secondary !px-5 !py-3 !text-sm" title="Posts de informática & ciberseguridad">
+                            <i data-lucide="newspaper" class="w-4 h-4 text-[#3B82F6]"></i>
+                            <span>Posts IT</span>
+                            <span class="pointer-events-none opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-visible:opacity-100 group-focus-visible:visible transition-all duration-150 absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 px-3 py-1.5 rounded-[6px] bg-[#121215] border border-[rgba(59,130,246,0.4)] text-[#F4F4F5] font-mono text-[11px] whitespace-nowrap shadow-xl z-50 flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved text-[#3B82F6]"></i>
+                                <span>Posts de informática & ciberseguridad</span>
                             </span>
                         </a>
                     </div>
@@ -1610,21 +1635,31 @@
                     </div>
                     
                     <div class="space-y-3">
-                        <a href="https://wa.me/5491169578193?text=Hola%20Juan,%20vi%20tu%20sitio%20web%20y%20quiero%20hacerte%20una%20consulta%20técnica" target="_blank" rel="noreferrer" class="btn-primary w-full !justify-between !px-5 !py-4">
-                            <span class="flex items-center gap-3">
-                                <i class="fa-brands fa-whatsapp text-base"></i>
-                                <span>WhatsApp Directo</span>
-                            </span>
-                            <span class="font-mono text-xs opacity-90">+54 9 11 6957-8193</span>
-                        </a>
+                        <div class="flex items-stretch gap-2">
+                            <a href="https://wa.me/5491169578193?text=Hola%20Juan,%20vi%20tu%20sitio%20web%20y%20quiero%20hacerte%20una%20consulta%20técnica" target="_blank" rel="noreferrer" class="btn-primary flex-1 min-w-0 !justify-between !px-5 !py-4">
+                                <span class="flex items-center gap-3 shrink-0">
+                                    <i class="fa-brands fa-whatsapp text-base"></i>
+                                    <span>WhatsApp Directo</span>
+                                </span>
+                                <span class="font-mono text-xs opacity-90 truncate">+54 9 11 6957-8193</span>
+                            </a>
+                            <button type="button" onclick="copyContact('+54 9 11 6957-8193', this)" class="btn-secondary !px-4 !py-4 shrink-0" title="Copiar teléfono" aria-label="Copiar teléfono">
+                                <i class="fa-regular fa-copy text-sm"></i>
+                            </button>
+                        </div>
 
-                        <a href="mailto:juanmartinbarrientos@me.com" class="btn-secondary w-full !justify-between !px-5 !py-4">
-                            <span class="flex items-center gap-3">
-                                <i class="fa-regular fa-envelope text-sm text-secondary-ink"></i>
-                                <span>Correo Electrónico</span>
-                            </span>
-                            <span class="font-mono text-xs text-secondary-ink truncate">juanmartinbarrientos@me.com</span>
-                        </a>
+                        <div class="flex items-stretch gap-2">
+                            <a href="mailto:juanmartinbarrientos@me.com" class="btn-secondary flex-1 min-w-0 !justify-between !px-5 !py-4">
+                                <span class="flex items-center gap-3 shrink-0">
+                                    <i class="fa-regular fa-envelope text-sm text-secondary-ink"></i>
+                                    <span>Correo Electrónico</span>
+                                </span>
+                                <span class="font-mono text-xs text-secondary-ink truncate">juanmartinbarrientos@me.com</span>
+                            </a>
+                            <button type="button" onclick="copyContact('juanmartinbarrientos@me.com', this)" class="btn-secondary !px-4 !py-4 shrink-0" title="Copiar correo electrónico" aria-label="Copiar correo electrónico">
+                                <i class="fa-regular fa-copy text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -1818,6 +1853,42 @@
         }, { rootMargin: '-35% 0px -50% 0px', threshold: 0 });
 
         trackedSections.forEach(sec => sectionSpy.observe(sec));
+
+        // 4. Copiar contacto directo al portapapeles (con fallback para entorno local file://)
+        function copyContact(text, btn) {
+            const onCopied = () => {
+                if (btn.dataset.copyTimeout) {
+                    clearTimeout(Number(btn.dataset.copyTimeout));
+                }
+                btn.innerHTML = '<i class="fa-solid fa-check text-[#10B981] text-sm"></i>';
+                btn.dataset.copyTimeout = String(setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-regular fa-copy text-sm"></i>';
+                    delete btn.dataset.copyTimeout;
+                }, 1800));
+            };
+
+            const fallbackCopy = () => {
+                const temp = document.createElement('textarea');
+                temp.value = text;
+                temp.setAttribute('readonly', '');
+                temp.style.position = 'fixed';
+                temp.style.opacity = '0';
+                document.body.appendChild(temp);
+                temp.select();
+                try {
+                    document.execCommand('copy');
+                } finally {
+                    document.body.removeChild(temp);
+                }
+                onCopied();
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(onCopied).catch(fallbackCopy);
+            } else {
+                fallbackCopy();
+            }
+        }
     </script>
 </body>
 </html>

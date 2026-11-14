@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Ciberseguridad &amp; IT | Juan Martin Barrientos</title>
+    <meta name="description" content="Selección curada de ciberseguridad e informática por Juan Martin Barrientos: serie documental oficial Hacking Google y análisis técnicos en LinkedIn.">
+    <link rel="canonical" href="https://www.juanmartinbarrientos.com/posts-it.html">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"> <!-- taste-skill-ignore -->
+    <script>document.documentElement.classList.add('js');</script>
+    <style>
+        :root {
+            --bg: #09090B;
+            --surface: #111216;
+            --surface-raised: #181A20;
+            --surface-active: #1F232D;
+            --ink: #F4F4F5;
+            --muted: #A1A1AA;
+            --accent: #3B82F6;
+            --accent-strong: #2563EB;
+            --paper: #F4F4F5;
+            --paper-ink: #09090B;
+            --paper-muted: #3F3F46;
+
+            --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            --margin: clamp(16px, 2.5vw, 32px);
+            --gutter: clamp(16px, 2vw, 28px);
+            --section-space: clamp(120px, 14vw, 200px);
+
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+            --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+            --t-press: 140ms;
+            --t-hover: 180ms;
+            --t-ui: 240ms;
+            --t-reveal: 800ms;
+            --stagger-line: 90ms;
+            --stagger-item: 70ms;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--ink);
+            font-size: 17px;
+            line-height: 1.55;
+            overflow-x: hidden;
+        }
+
+        img, iframe {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* ==========================================================================
+           NAVEGACIÓN EDITORIAL PLANA
+           ========================================================================== */
+        .site-header {
+            padding: 20px var(--margin);
+            background-color: var(--bg);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 24px;
+        }
+
+        .wordmark {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px 28px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            text-underline-offset: 0.22em;
+            text-decoration-thickness: 0.08em;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color var(--t-hover) ease, text-decoration-color var(--t-hover) ease;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--accent);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 24px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease, color var(--t-hover) ease;
+        }
+
+        .btn-action:active,
+        .btn-surface:active,
+        .episode-bar:active,
+        .post-tab:active {
+            transform: scale(0.98);
+        }
+
+        .btn-surface {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--surface-raised);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 24px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease, color var(--t-hover) ease;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .nav-link:hover {
+                color: var(--ink);
+                text-decoration-color: currentColor;
+            }
+            .btn-action:hover {
+                background-color: var(--accent-strong);
+            }
+            .btn-surface:hover {
+                background-color: var(--surface-active);
+            }
+        }
+
+        /* ==========================================================================
+           TIPOGRAFÍA Y ESCALA (MÁXIMO 2 LÍNEAS EN TITULARES)
+           ========================================================================== */
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--ink);
+            margin: 0;
+            letter-spacing: -0.035em;
+        }
+
+        .display-hero {
+            font-size: clamp(36px, 4.4vw, 68px);
+            line-height: 0.96;
+            font-weight: 800;
+        }
+
+        .heading-section {
+            font-size: clamp(28px, 3.2vw, 48px);
+            line-height: 1.02;
+            font-weight: 700;
+        }
+
+        .heading-item {
+            font-size: clamp(20px, 1.8vw, 26px);
+            line-height: 1.15;
+            font-weight: 700;
+        }
+
+        .lead-copy {
+            font-size: clamp(17px, 1.2vw, 20px);
+            line-height: 1.55;
+            color: var(--ink);
+            max-width: 54ch;
+            margin: 32px 0 0 0;
+        }
+
+        .body-copy {
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: 58ch;
+            margin: 0;
+        }
+
+        /* ==========================================================================
+           1. SPLIT STAGE HERO: CORTOS OFICIALES DE GOOGLE: HACKING GOOGLE
+           ========================================================================== */
+        .hero-split {
+            padding: 12px var(--margin) var(--section-space);
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: var(--gutter);
+            align-items: start;
+        }
+
+        .hero-card {
+            background-color: var(--paper);
+            color: var(--paper-ink);
+            padding: 0 0 36px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 78svh;
+        }
+
+        .stripe-band {
+            height: 44px;
+            display: flex;
+            width: 100%;
+            overflow: clip;
+        }
+
+        .stripe-cell {
+            flex: 1;
+            background-color: var(--paper-ink);
+        }
+
+        .stripe-cell:nth-child(even) {
+            background-color: var(--accent);
+        }
+
+        .hero-card-body {
+            padding: clamp(28px, 3.5vw, 48px);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .hero-card h1 {
+            color: var(--paper-ink);
+        }
+
+        .hero-card .lead-copy {
+            color: var(--paper-ink);
+            margin-top: 0;
+        }
+
+        .hero-card .body-copy {
+            color: var(--paper-muted);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-ink {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--paper-ink);
+            color: var(--paper);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 16px 26px;
+            text-decoration: none;
+            transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+        }
+
+        .btn-paper-alt {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #E4E4E7;
+            color: var(--paper-ink);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 16px 26px;
+            text-decoration: none;
+            transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .btn-ink:hover {
+                background-color: var(--accent);
+            }
+            .btn-paper-alt:hover {
+                background-color: #D4D4D8;
+            }
+        }
+
+        .hero-card-foot {
+            padding: 0 clamp(28px, 3.5vw, 48px);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            font-size: 15px;
+            color: var(--paper-muted);
+            font-weight: 500;
+        }
+
+        /* Columna derecha sticky: Escenario de proyección + Contexto en vivo */
+        .screening-stage {
+            position: sticky;
+            top: 20px;
+            background-color: var(--surface);
+            padding: clamp(20px, 2.5vw, 36px);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .video-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #000000;
+            overflow: clip;
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .stage-active-info {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: end;
+            background-color: var(--surface-raised);
+            padding: 24px;
+        }
+
+        .stage-active-info p {
+            margin: 10px 0 0 0;
+            color: var(--muted);
+            font-size: 16px;
+            max-width: 56ch;
+        }
+
+        /* ==========================================================================
+           2. SELECTOR INTERACTIVO DE EPISODIOS: FILAS ACORDEÓN + PLAYER EN VIVO
+           ========================================================================== */
+        .episodes-section {
+            padding: 0 var(--margin) var(--section-space);
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: var(--gutter);
+            align-items: start;
+        }
+
+        .episodes-Visual {
+            position: sticky;
+            top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .episodes-plate {
+            aspect-ratio: 4 / 5;
+            overflow: clip;
+            background-color: var(--surface);
+        }
+
+        .episodes-plate img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 600ms var(--ease-soft), opacity 400ms ease;
+        }
+
+        .episodes-caption {
+            font-size: 15px;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .episodes-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .giant-poster-word {
+            font-family: var(--font-display);
+            font-size: clamp(44px, 7.2vw, 108px);
+            font-weight: 800;
+            line-height: 0.88;
+            letter-spacing: -0.04em;
+            color: var(--ink);
+        }
+
+        .episode-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .episode-details {
+            background-color: var(--surface);
+        }
+
+        .episode-details[open] {
+            background-color: var(--surface-raised);
+        }
+
+        .episode-bar {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 62px;
+            padding: 14px 22px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            transition: background-color var(--t-hover) ease, color var(--t-hover) ease;
+        }
+
+        .episode-bar::-webkit-details-marker {
+            display: none;
+        }
+
+        .episode-meta {
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+        }
+
+        .episode-panel {
+            padding: 4px 22px 24px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .episode-panel p {
+            margin: 0;
+            color: var(--ink);
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 58ch;
+        }
+
+        .episode-panel-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* ==========================================================================
+           3. GALERÍA EDITORIAL DE CONTEXTO: INFRAESTRUCTURA & DEFENSA
+           ========================================================================== */
+        .editorial-plates {
+            padding: 0 var(--margin) var(--section-space);
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: var(--gutter);
+            align-items: stretch;
+        }
+
+        .plate-main {
+            background-color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .plate-main img {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+        }
+
+        .plate-copy {
+            padding: clamp(24px, 3vw, 40px);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .plate-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: var(--gutter);
+        }
+
+        .plate-secondary {
+            background-color: var(--surface);
+            padding: clamp(24px, 2.5vw, 36px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .plate-secondary img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        /* ==========================================================================
+           4. SEGUNDO TEMA PRINCIPAL: PUBLICACIONES DE INFORMÁTICA EN LINKEDIN
+           ========================================================================== */
+        .linkedin-showcase {
+            background-color: var(--surface);
+            padding: clamp(64px, 8vw, 120px) var(--margin);
+            margin-bottom: var(--section-space);
+        }
+
+        .linkedin-grid {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: clamp(28px, 4vw, 56px);
+            align-items: start;
+        }
+
+        .linkedin-editorial {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        .curator-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background-color: var(--surface-raised);
+            padding: 16px 20px;
+        }
+
+        .curator-row img {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            object-position: top;
+            flex-shrink: 0;
+        }
+
+        .curator-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--ink);
+            display: block;
+        }
+
+        .curator-role {
+            font-size: 14px;
+            color: var(--muted);
+            display: block;
+        }
+
+        .post-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .post-tab {
+            background-color: var(--surface-raised);
+            color: var(--muted);
+            border: none;
+            padding: 14px 20px;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease, color var(--t-hover) ease;
+        }
+
+        .post-tab.is-active {
+            background-color: var(--ink);
+            color: var(--bg);
+        }
+
+        .takeaways-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .takeaways-list li {
+            background-color: var(--surface-raised);
+            padding: 16px 20px;
+            font-size: 16px;
+            color: var(--ink);
+        }
+
+        .linkedin-stage {
+            background-color: var(--bg);
+            padding: clamp(16px, 2.5vw, 32px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .linkedin-stage-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 8px;
+        }
+
+        .linkedin-stage-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .linkedin-embed-holder {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            background-color: #F4F4F5;
+            overflow: hidden;
+        }
+
+        .linkedin-embed-holder iframe {
+            width: 100%;
+            height: 680px;
+            border: 0;
+        }
+
+        /* ==========================================================================
+           5. NOTA EDITORIAL DEL CURADOR (FOUNDER'S NOTE)
+           ========================================================================== */
+        .curator-letter-section {
+            padding: 0 var(--margin) var(--section-space);
+            display: grid;
+            grid-template-columns: 6fr 6fr;
+            gap: var(--gutter);
+            align-items: center;
+        }
+
+        .letter-sheet {
+            background-color: var(--surface);
+            padding: clamp(32px, 4.5vw, 64px);
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .letter-sheet p {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.65;
+            color: var(--ink);
+            max-width: 52ch;
+        }
+
+        .letter-highlight {
+            background-color: var(--accent);
+            color: var(--ink);
+            padding: 2px 8px;
+            font-weight: 600;
+        }
+
+        .letter-signoff {
+            padding-top: 12px;
+        }
+
+        .letter-signoff strong {
+            font-family: var(--font-display);
+            font-size: 22px;
+            display: block;
+            color: var(--ink);
+        }
+
+        .letter-signoff span {
+            font-size: 15px;
+            color: var(--muted);
+        }
+
+        .letter-aside-visual {
+            background-color: var(--surface);
+            padding: clamp(24px, 3vw, 40px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .letter-aside-visual img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+
+        /* ==========================================================================
+           6. FOOTER: INVITACIÓN SOBRE NOMBRE MONUMENTAL EN CAMPO INVERSO
+           ========================================================================== */
+        .monument-footer {
+            background-color: var(--paper);
+            color: var(--paper-ink);
+            padding: clamp(56px, 7vw, 96px) var(--margin) 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: var(--gutter);
+            align-items: start;
+            margin-bottom: clamp(48px, 6vw, 88px);
+        }
+
+        .footer-invite h2 {
+            color: var(--paper-ink);
+            font-size: clamp(32px, 4.5vw, 60px);
+            line-height: 0.98;
+            margin-bottom: 28px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            justify-self: end;
+        }
+
+        .footer-links a {
+            color: var(--paper-ink);
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            text-underline-offset: 0.2em;
+            transition: text-decoration-color var(--t-hover) ease, color var(--t-hover) ease;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .footer-links a:hover {
+                color: var(--accent-strong);
+                text-decoration-color: currentColor;
+            }
+        }
+
+        .footer-credits {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px 24px;
+            font-size: 14px;
+            color: var(--paper-muted);
+            padding-bottom: 16px;
+        }
+
+        .footer-monument-word {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(54px, 14.2vw, 240px);
+            line-height: 0.82;
+            letter-spacing: -0.05em;
+            white-space: nowrap;
+            color: var(--paper-ink);
+            transform: translateY(22%);
+            user-select: none;
+        }
+
+        /* ==========================================================================
+           CAPA DE MOVIMIENTO (RESPETANDO REDUCED MOTION Y FALLBACK SIN JS)
+           ========================================================================== */
+        .lines .line {
+            display: block;
+            overflow: hidden;
+            padding-bottom: 0.08em;
+            margin-bottom: -0.08em;
+        }
+
+        .lines [data-line] {
+            display: block;
+        }
+
+        .shutter {
+            overflow: clip;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .js .lines [data-line] {
+                transform: translateY(105%);
+                animation: line-rise 850ms var(--ease-expo) forwards;
+                animation-delay: calc(100ms + var(--i, 0) * var(--stagger-line));
+            }
+
+            .js [data-load] {
+                opacity: 0;
+                transform: translateY(14px);
+                animation: load-fade 550ms var(--ease-out) forwards;
+                animation-delay: var(--d, 320ms);
+            }
+
+            .js [data-open] {
+                clip-path: inset(0 0 100% 0);
+                animation: shutter-open 1050ms var(--ease-in-out) 140ms forwards;
+            }
+
+            .js [data-reveal] {
+                opacity: 0;
+                transform: translateY(24px);
+                transition: opacity 700ms var(--ease-out), transform 850ms var(--ease-expo);
+                transition-delay: var(--delay, 0ms);
+            }
+
+            .js [data-reveal].is-in {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @supports (animation-timeline: view()) {
+            @media (prefers-reduced-motion: no-preference) {
+                .drift-image {
+                    animation: subtle-drift linear both;
+                    animation-timeline: view();
+                    animation-range: entry 0% exit 100%;
+                }
+                .footer-monument-word {
+                    animation: monument-scale linear both;
+                    animation-timeline: view();
+                    animation-range: entry 0% cover 40%;
+                }
+            }
+        }
+
+        @keyframes line-rise {
+            to { transform: none; }
+        }
+
+        @keyframes load-fade {
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes shutter-open {
+            to { clip-path: inset(0); }
+        }
+
+        @keyframes subtle-drift {
+            from { transform: scale(1.05) translateY(-2%); }
+            to { transform: scale(1.05) translateY(2%); }
+        }
+
+        @keyframes monument-scale {
+            from { transform: translateY(28%) scale(0.95); }
+            to { transform: translateY(22%) scale(1); }
+        }
+
+        /* ==========================================================================
+           COMPOSICIÓN MÓVIL Y TABLET
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .hero-split,
+            .episodes-section,
+            .editorial-plates,
+            .linkedin-grid,
+            .curator-letter-section,
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .screening-stage,
+            .episodes-Visual {
+                position: static;
+            }
+
+            .hero-card {
+                min-height: auto;
+            }
+
+            .stage-active-info {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                justify-self: start;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 16px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN PLANA -->
+    <header class="site-header">
+        <a href="index.html" class="wordmark">Juan Martin Barrientos · Bitácora IT</a>
+        <nav aria-label="Secciones de la bitácora">
+            <ul class="nav-links">
+                <li><a href="#cortos-google" class="nav-link">Hacking Google</a></li>
+                <li><a href="#episodios" class="nav-link">Los 6 Episodios</a></li>
+                <li><a href="#arquitectura-defensiva" class="nav-link">Arquitectura</a></li>
+                <li><a href="#linkedin-posts" class="nav-link">Posts de LinkedIn</a></li>
+                <li><a href="comandos_windows_11.html" class="nav-link">Comandos Win11</a></li>
+            </ul>
+        </nav>
+        <a href="index.html" class="btn-surface">← Volver al Sitio Principal</a>
+    </header>
+
+    <main>
+        <!-- ======================================================================
+             1. HERO SPLIT STAGE: CORTOS OFICIALES DE GOOGLE: HACKING GOOGLE
+             ====================================================================== -->
+        <section id="cortos-google" class="hero-split">
+            <!-- Tarjeta Impresa Izquierda -->
+            <div class="hero-card">
+                <div>
+                    <div class="stripe-band" aria-hidden="true">
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                        <span class="stripe-cell"></span>
+                    </div>
+
+                    <div class="hero-card-body">
+                        <h1 class="display-hero lines">
+                            <span class="line"><span data-line style="--i:0">Cortos oficiales</span></span>
+                            <span class="line"><span data-line style="--i:1">Hacking Google.</span></span>
+                        </h1>
+
+                        <p class="lead-copy" data-load style="--d:320ms">
+                            La serie documental de seguridad informática de Google sobre los equipos que defienden la infraestructura global contra ataques de estado y vulnerabilidades Zero-Day.
+                        </p>
+
+                        <p class="body-copy" data-load style="--d:400ms">
+                            Curaduría técnica de Juan Martin Barrientos. Explora cada episodio oficial a continuación o reproduce la lista completa directamente en el escenario interactivo.
+                        </p>
+
+                        <div class="hero-actions" data-load style="--d:480ms">
+                            <a href="https://www.youtube.com/playlist?list=PL590L5WQmH8dsxxz7ooJAgmijwOz0lh2H" target="_blank" rel="noopener noreferrer" class="btn-ink">
+                                Abrir Playlist Oficial en YouTube ↗
+                            </a>
+                            <a href="#linkedin-posts" class="btn-paper-alt">
+                                Ir a Posts de LinkedIn ↓
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-card-foot" data-load style="--d:540ms">
+                    <span>Selección de Ciberseguridad &amp; Sistemas</span>
+                    <span>6 Documentales Oficiales · Google Security</span>
+                </div>
+            </div>
+
+            <!-- Escenario de Proyección Derecha (Sticky) -->
+            <div class="screening-stage" data-open>
+                <div class="video-frame">
+                    <iframe
+                        id="googleSecurityPlayer"
+                        src="https://www.youtube.com/embed/videoseries?si=7i80saM37usu9_CU&amp;list=PL590L5WQmH8dsxxz7ooJAgmijwOz0lh2H"
+                        title="Serie documental oficial Hacking Google de seguridad informática"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="stage-active-info">
+                    <div>
+                        <h2 id="activeEpisodeTitle" class="heading-item">Serie Completa: Operación Aurora y el nacimiento de Zero Trust</h2>
+                        <p id="activeEpisodeTakeaway">
+                            Cómo la intrusión de 2009 obligó a Google a rediseñar toda su seguridad interna bajo el principio de no confiar jamás en la red local (BeyondCorp).
+                        </p>
+                    </div>
+                    <a id="activeEpisodeLink" href="#episodios" class="btn-action">
+                        Elegir Episodio ↓
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             2. LOS 6 CORTOS OFICIALES: SELECTOR INTERACTIVO DE EPISODIOS
+             ====================================================================== -->
+        <section id="episodios" class="episodes-section">
+            <div class="episodes-Visual" data-reveal>
+                <div class="episodes-plate shutter">
+                    <img
+                        id="episodeMoodImage"
+                        src="https://picsum.photos/id/942/1200/1500?grayscale"
+                        alt="Estructura arquitectónica de hormigón de alto contraste"
+                        width="1200"
+                        height="1500"
+                        loading="lazy"
+                        class="drift-image">
+                </div>
+                <p id="episodeMoodCaption" class="episodes-caption">
+                    Arquitectura defensiva por capas: selecciona cualquier corto documental para cargarlo en el reproductor principal y leer su análisis operativo.
+                </p>
+            </div>
+
+            <div class="episodes-column">
+                <h2 class="giant-poster-word" data-reveal>EPISODIOS</h2>
+                <p class="body-copy" data-reveal style="--delay:80ms">
+                    Cada corto oficial documenta una unidad real dentro de Google Security. Haz clic en un episodio para desplegar mi nota técnica y reproducirlo arriba.
+                </p>
+
+                <div class="episode-stack">
+                    <!-- Episodio 0 -->
+                    <details class="episode-details" open data-reveal style="--delay:120ms">
+                        <summary class="episode-bar">
+                            <span>Operation Aurora: El origen de Zero Trust</span>
+                            <span class="episode-meta">Episodio Inicial · 2009</span>
+                        </summary>
+                        <div class="episode-panel">
+                            <p>
+                                El punto de inflexión histórico: un ataque sofisticado contra la propiedad intelectual demostró que el perímetro clásico (VPN y firewall perimetral) ya no alcanzaba. De esta crisis nació la arquitectura BeyondCorp, donde cada dispositivo y cada usuario deben autenticarse y autorizarse de extremo a extremo.
+                            </p>
+                            <div class="episode-panel-actions">
+                                <button type="button" class="btn-action" onclick="selectEpisode(0, 'Operation Aurora: El origen de Zero Trust', 'Cómo la intrusión de 2009 obligó a Google a reemplazar la confianza en la red interna por verificación criptográfica continua por dispositivo y sesión.', 'https://picsum.photos/id/942/1200/1500?grayscale')">
+                                    Cargar este corto en el reproductor ↑
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Episodio 1 -->
+                    <details class="episode-details" data-reveal style="--delay:180ms">
+                        <summary class="episode-bar">
+                            <span>Threat Analysis Group (TAG): Inteligencia contra APTs</span>
+                            <span class="episode-meta">Ciberinteligencia</span>
+                        </summary>
+                        <div class="episode-panel">
+                            <p>
+                                Cómo trabaja el equipo encargado de rastrear grupos de espionaje patrocinados por estados, campañas de phishing dirigido a periodistas y ataques a la cadena de suministro antes de que logren persistencia.
+                            </p>
+                            <div class="episode-panel-actions">
+                                <button type="button" class="btn-action" onclick="selectEpisode(1, 'Threat Analysis Group (TAG): Inteligencia contra amenazas avanzadas', 'Seguimiento proactivo de actores APT y alertas tempranas para cuentas de alto riesgo a escala global.', 'https://picsum.photos/id/781/1200/1500?grayscale')">
+                                    Cargar este corto en el reproductor ↑
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Episodio 2 -->
+                    <details class="episode-details" data-reveal style="--delay:240ms">
+                        <summary class="episode-bar">
+                            <span>Detection &amp; Response: Telemetría y Forense a Escala</span>
+                            <span class="episode-meta">Operaciones SOC</span>
+                        </summary>
+                        <div class="episode-panel">
+                            <p>
+                                Cuando millones de servidores generan petabytes de registros por hora, buscar indicadores de compromiso manualmente es imposible. Este corto muestra cómo la automatización forense permite aislar incidentes en minutos.
+                            </p>
+                            <div class="episode-panel-actions">
+                                <button type="button" class="btn-action" onclick="selectEpisode(2, 'Detection & Response: Respuesta a incidentes a escala planetaria', 'Correlación automatizada de eventos y aislamiento quirúrgico sin detener los servicios críticos.', 'https://picsum.photos/id/983/1200/1500?grayscale')">
+                                    Cargar este corto en el reproductor ↑
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Episodio 3 -->
+                    <details class="episode-details" data-reveal style="--delay:300ms">
+                        <summary class="episode-bar">
+                            <span>Red Team: Hackear a Google desde Adentro</span>
+                            <span class="episode-meta">Simulación Adversaria</span>
+                        </summary>
+                        <div class="episode-panel">
+                            <p>
+                                La mejor forma de saber si tus controles funcionan es ponerlos a prueba con las mismas tácticas de un atacante real. El equipo ofensivo interno simula intrusiones físicas, de red y de ingeniería social para entrenar a los defensores.
+                            </p>
+                            <div class="episode-panel-actions">
+                                <button type="button" class="btn-action" onclick="selectEpisode(3, 'Red Team: Simulaciones de ataque realistas', 'Ejercicios ofensivos continuos para descubrir puntos ciegos operativos antes de que sean explotados afuera.', 'https://picsum.photos/id/893/1200/1500?grayscale')">
+                                    Cargar este corto en el reproductor ↑
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Episodio 4 -->
+                    <details class="episode-details" data-reveal style="--delay:360ms">
+                        <summary class="episode-bar">
+                            <span>Project Zero: Caza de Vulnerabilidades Zero-Day</span>
+                            <span class="episode-meta">Investigación Exploit</span>
+                        </summary>
+                        <div class="episode-panel">
+                            <p>
+                                Un equipo dedicado a auditar no solo los productos de Google, sino cualquier sistema operativo, navegador o librería criptográfica de la que dependa internet, imponiendo el estándar de divulgación responsable de 90 días.
+                            </p>
+                            <div class="episode-panel-actions">
+                                <button type="button" class="btn-action" onclick="selectEpisode(4, 'Project Zero: Hacer que el exploit Zero-Day sea costoso', 'Investigación profunda en navegadores, kernels y criptografía para proteger todo el ecosistema web.', 'https://picsum.photos/id/942/1200/1500?grayscale')">
+                                    Cargar este corto en el reproductor ↑
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Episodio 5 -->
+                    <details class="episode-details" data-reveal style="--delay:420ms">
+                        <summary class="episode-bar">
+                            <span>Bug Hunters: La Comunidad Global de Investigadores</span>
+                            <span class="episode-meta">Vulnerability Rewards</span>
+                        </summary>
+                        <div class="episode-panel">
+                            <p>
+                                Cómo el programa de recompensas de vulnerabilidades (VRP) convirtió a miles de investigadores independientes de todo el mundo en una extensión directa del equipo de seguridad de Google.
+                            </p>
+                            <div class="episode-panel-actions">
+                                <button type="button" class="btn-action" onclick="selectEpisode(5, 'Bug Hunters: Seguridad colaborativa y recompensas VRP', 'El impacto de abrir la auditoría de seguridad a investigadores éticos independientes de todo el planeta.', 'https://picsum.photos/id/781/1200/1500?grayscale')">
+                                    Cargar este corto en el reproductor ↑
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             3. LÁMINAS DE ARQUITECTURA: APLICACIÓN AL SOPORTE IT Y SYSADMIN REAL
+             ====================================================================== -->
+        <section id="arquitectura-defensiva" class="editorial-plates">
+            <article class="plate-main" data-reveal>
+                <img
+                    src="COMPUTADORAS_ARMADAS/assets/ai_pc_hero.jpg"
+                    alt="Estación de trabajo e infraestructura de hardware local"
+                    width="1600"
+                    height="1000"
+                    loading="lazy">
+                <div class="plate-copy">
+                    <h2 class="heading-section">De la doctrina de Google al entorno PyME y profesional</h2>
+                    <p class="body-copy">
+                        No hace falta tener un centro de datos planetario para aplicar las lecciones de Hacking Google: autenticación multifactor resistente a phishing, mínimo privilegio en cuentas de Windows 11 y Active Directory, backups verificados fuera de línea y parcheo sistemático con herramientas como Winget reducen más del noventa por ciento de la superficie de ataque cotidiana.
+                    </p>
+                </div>
+            </article>
+
+            <div class="plate-side">
+                <article class="plate-secondary" data-reveal style="--delay:100ms">
+                    <img
+                        src="https://picsum.photos/id/983/1200/675?grayscale"
+                        alt="Geometría estructural oscura en blanco y negro"
+                        width="1200"
+                        height="675"
+                        loading="lazy">
+                    <h3 class="heading-item">Higiene de Credenciales y Red</h3>
+                    <p class="body-copy">
+                        Segmentar accesos remotos, auditar puertos expuestos y eliminar contraseñas reutilizadas es el equivalente práctico de BeyondCorp en el trabajo diario de un administrador de sistemas.
+                    </p>
+                </article>
+
+                <article class="plate-secondary" data-reveal style="--delay:180ms">
+                    <img
+                        src="https://picsum.photos/id/893/1200/675?grayscale"
+                        alt="Líneas curvas de fachada metálica en blanco y negro"
+                        width="1200"
+                        height="675"
+                        loading="lazy">
+                    <h3 class="heading-item">Diagnóstico Basado en Evidencia</h3>
+                    <p class="body-copy">
+                        Igual que el equipo de Detection &amp; Response, resolver un fallo crítico requiere leer visores de eventos, trazas de paquetes y métricas de salud de disco antes de tocar la configuración.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             4. SEGUNDO TEMA PRINCIPAL: PUBLICACIONES DE INFORMÁTICA EN LINKEDIN
+             ====================================================================== -->
+        <section id="linkedin-posts" class="linkedin-showcase">
+            <div class="linkedin-grid">
+                <!-- Columna Izquierda: Contexto, Selector de Posts y Puntos Clave -->
+                <div class="linkedin-editorial" data-reveal>
+                    <div>
+                        <h2 class="heading-section">Publicaciones de informática a mi selección.</h2>
+                        <p class="lead-copy">
+                            Casos reales de soporte técnico, ciberseguridad práctica, infraestructura y aprendizajes de campo publicados en mi perfil de LinkedIn.
+                        </p>
+                    </div>
+
+                    <div class="curator-row">
+                        <img src="fotocarnet.png" alt="Juan Martin Barrientos" width="52" height="52" loading="lazy">
+                        <div>
+                            <span class="curator-name">Juan Martin Barrientos</span>
+                            <span class="curator-role">Especialista en Soporte IT · SysAdmin &amp; Infraestructura</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="body-copy" style="margin-bottom: 14px;">
+                            Selecciona qué publicación técnica quieres leer en el panel integrado:
+                        </p>
+                        <div class="post-tabs" role="tablist" aria-label="Selección de publicaciones de LinkedIn">
+                            <button
+                                type="button"
+                                class="post-tab is-active"
+                                onclick="selectLinkedInPost(this, 'https://www.linkedin.com/embed/feed/update/urn:li:share:7408681805614206976', 'https://www.linkedin.com/feed/update/urn:li:share:7408681805614206976', 'Selección Destacada: Ciberseguridad y Práctica IT en el Mundo Real')"
+                                role="tab"
+                                aria-selected="true">
+                                Post 1 · Seguridad &amp; Actualidad IT
+                            </button>
+                            <button
+                                type="button"
+                                class="post-tab"
+                                onclick="selectLinkedInPost(this, 'https://www.linkedin.com/embed/feed/update/urn:li:share:7451600579459432450', 'https://www.linkedin.com/feed/update/urn:li:share:7451600579459432450', 'Resolución Metódica de Problemas Complejos en Soporte IT')"
+                                role="tab"
+                                aria-selected="false">
+                                Post 2 · Diagnóstico &amp; Continuidad Operativa
+                            </button>
+                        </div>
+                    </div>
+
+                    <ul class="takeaways-list">
+                        <li>Análisis directo de situaciones reales sin tecnicismos vacíos ni relleno teórico.</li>
+                        <li>Consejos aplicables a entornos Windows 11, servidores, redes corporativas y estaciones de trabajo.</li>
+                        <li>Debate abierto con colegas de infraestructura, desarrollo y soporte técnico en toda la región.</li>
+                    </ul>
+
+                    <div class="hero-actions">
+                        <a id="linkedinDirectBtn" href="https://www.linkedin.com/feed/update/urn:li:share:7408681805614206976" target="_blank" rel="noopener noreferrer" class="btn-action">
+                            Abrir esta publicación en LinkedIn ↗
+                        </a>
+                        <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noopener noreferrer" class="btn-surface">
+                            Seguir en LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Lector Integrado a Ancho Completo -->
+                <div class="linkedin-stage" data-reveal style="--delay:120ms">
+                    <div class="linkedin-stage-header">
+                        <h3 id="linkedinStageTitle" class="linkedin-stage-title">Selección Destacada: Ciberseguridad y Práctica IT en el Mundo Real</h3>
+                        <a id="linkedinStageLink" href="https://www.linkedin.com/feed/update/urn:li:share:7408681805614206976" target="_blank" rel="noopener noreferrer" class="nav-link">
+                            Ver post original ↗
+                        </a>
+                    </div>
+
+                    <div class="linkedin-embed-holder">
+                        <iframe
+                            id="linkedinEmbedFrame"
+                            src="https://www.linkedin.com/embed/feed/update/urn:li:share:7408681805614206976"
+                            title="Publicación de informática seleccionada de Juan Martin Barrientos en LinkedIn"
+                            loading="lazy"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             5. CARTA DEL CURADOR: POR QUÉ COMPARTIR ESTOS CONTENIDOS
+             ====================================================================== -->
+        <section class="curator-letter-section">
+            <div class="letter-sheet" data-reveal>
+                <h2 class="heading-section">Por qué armé esta selección técnica.</h2>
+                <p>
+                    En más de quince años trabajando en soporte técnico, administración de sistemas e infraestructura, comprobé que los mejores profesionales no son los que memorizan comandos aislados, sino los que entienden <span class="letter-highlight">cómo piensan quienes diseñan y defienden sistemas</span> a gran escala.
+                </p>
+                <p>
+                    Los cortos oficiales de <strong>Hacking Google</strong> muestran por dentro cómo se organiza una defensa real frente a incidentes críticos. Y en mis publicaciones de LinkedIn bajo esas mismas ideas a tierra: qué hacer cuando un equipo no arranca, cómo prevenir pérdidas de información y cómo mantener la tecnología funcionando sin fricciones.
+                </p>
+                <div class="letter-signoff">
+                    <strong>Juan Martin Barrientos</strong>
+                    <span>Especialista en Soporte IT, SysAdmin &amp; Desarrollo Web</span>
+                </div>
+            </div>
+
+            <div class="letter-aside-visual" data-reveal style="--delay:120ms">
+                <img
+                    src="https://picsum.photos/id/781/1200/900?grayscale"
+                    alt="Plataforma arquitectónica oscura con ventanales iluminados"
+                    width="1200"
+                    height="900"
+                    loading="lazy">
+                <h3 class="heading-item">Recursos complementarios en este sitio</h3>
+                <p class="body-copy">
+                    Además de esta bitácora audiovisual y de artículos, puedes consultar mi toolkit interactivo de comandos para Windows 11 o la guía paso a paso de implementación de asistentes IA con OpenClaw.
+                </p>
+                <div class="hero-actions">
+                    <a href="comandos_windows_11.html" class="btn-surface">Ir al Toolkit Windows 11</a>
+                    <a href="33.html" class="btn-surface">Ver Guía OpenClaw</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==========================================================================
+         6. FOOTER MONUMENTAL EN CAMPO INVERSO
+         ========================================================================== -->
+    <footer class="monument-footer">
+        <div class="footer-top">
+            <div class="footer-invite">
+                <h2>¿Hablamos de infraestructura o soporte IT?</h2>
+                <a href="index.html#asistencia" class="btn-ink">Contactar a Juan Martin Barrientos →</a>
+            </div>
+
+            <ul class="footer-links">
+                <li><a href="index.html">Sitio Principal</a></li>
+                <li><a href="extendido.html">Portfolio Extendido</a></li>
+                <li><a href="comandos_windows_11.html">Comandos Windows 11</a></li>
+                <li><a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noopener noreferrer">LinkedIn Oficial ↗</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-credits">
+            <span>© 2026 Juan Martin Barrientos · Selección de Ciberseguridad &amp; Informática</span>
+            <span>Fotografías de atmósfera: Carl Nenzen Loven, Matthew Wiebe, Padurariu Alexandru y Samuel Zeller (Unsplash / Picsum)</span>
+        </div>
+
+        <div class="footer-monument-word" aria-hidden="true">BARRIENTOS</div>
+    </footer>
+
+    <script>
+        // 1. Selector interactivo de episodios oficiales de Hacking Google
+        function selectEpisode(index, title, takeaway, imageUrl) {
+            const player = document.getElementById('googleSecurityPlayer');
+            const titleEl = document.getElementById('activeEpisodeTitle');
+            const takeawayEl = document.getElementById('activeEpisodeTakeaway');
+            const moodImg = document.getElementById('episodeMoodImage');
+
+            if (player) {
+                player.src = 'https://www.youtube.com/embed/videoseries?list=PL590L5WQmH8dsxxz7ooJAgmijwOz0lh2H&index=' + index + '&autoplay=1';
+            }
+            if (titleEl) {
+                titleEl.textContent = title;
+            }
+            if (takeawayEl) {
+                takeawayEl.textContent = takeaway;
+            }
+            if (moodImg && imageUrl) {
+                moodImg.src = imageUrl;
+            }
+
+            const heroSection = document.getElementById('cortos-google');
+            if (heroSection && window.innerWidth < 1024) {
+                heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // 2. Selector interactivo de publicaciones de LinkedIn
+        function selectLinkedInPost(btn, embedUrl, directUrl, postTitle) {
+            const frame = document.getElementById('linkedinEmbedFrame');
+            const titleEl = document.getElementById('linkedinStageTitle');
+            const stageLink = document.getElementById('linkedinStageLink');
+            const directBtn = document.getElementById('linkedinDirectBtn');
+
+            document.querySelectorAll('.post-tab').forEach(tab => {
+                tab.classList.remove('is-active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-selected', 'true');
+
+            if (frame) {
+                frame.src = embedUrl;
+            }
+            if (titleEl) {
+                titleEl.textContent = postTitle;
+            }
+            if (stageLink) {
+                stageLink.href = directUrl;
+            }
+            if (directBtn) {
+                directBtn.href = directUrl;
+            }
+        }
+
+        // 3. Aparición escalonada por sección (IntersectionObserver, una sola vez)
+        if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-in');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+
+            document.querySelectorAll('[data-reveal]').forEach((el) => revealObserver.observe(el));
+        } else {
+            document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+        }
+    </script>
+</body>
+</html>
