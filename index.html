@@ -298,6 +298,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
             background-color: var(--accent-primary);
             color: #FAFAFA;
             font-family: var(--font-sans);
@@ -323,6 +325,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
             background-color: var(--bg-surface);
             color: var(--text-primary);
             font-family: var(--font-sans);
@@ -533,66 +537,69 @@
 </head>
 <body class="selection:bg-accent/20 selection:text-white">
 
-    <!-- NAVEGACIÓN CORPORATIVA ESTRUCTURAL (Desktop Bar + Mobile Hardware Status Bar) -->
+    <!-- NAVEGACIÓN CORPORATIVA ESTRUCTURAL (Dos Filas en Desktop + Mobile Hardware Status Bar) -->
     <header class="fixed top-0 inset-x-0 z-50 bg-[#09090B]/92 backdrop-blur-md border-b border-[rgba(255,255,255,0.08)]">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex justify-between items-center" aria-label="Navegación principal">
-            <a href="#home" class="flex items-center gap-2.5 sm:gap-3 text-primary-ink font-display font-semibold text-sm sm:text-base tracking-tight">
-                <span class="w-7 h-7 rounded-[4px] bg-[#121215] border border-[rgba(255,255,255,0.12)] flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
+        <!-- Fila 1: Identidad y Botones de Acción Principal -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex justify-between items-center gap-3 sm:gap-4">
+            <a href="#home" class="flex items-center gap-2.5 sm:gap-3 text-primary-ink font-display font-semibold text-sm sm:text-base tracking-tight min-w-0">
+                <span class="w-7 h-7 rounded-[4px] bg-[#121215] border border-[rgba(255,255,255,0.12)] flex items-center justify-center shrink-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
                     <i data-lucide="terminal" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
                 </span>
-                <span class="truncate">Juan Martin Barrientos</span>
-                <span class="hidden sm:inline-block font-mono text-[11px] text-tertiary-ink border border-[rgba(255,255,255,0.08)] bg-[#0C0C0E] px-2 py-0.5 rounded-[4px]">IT · SYSADMIN</span>
+                <span class="truncate sm:whitespace-nowrap">Juan Martin Barrientos</span>
+                <span class="hidden md:inline-flex items-center whitespace-nowrap shrink-0 font-mono text-[11px] text-tertiary-ink border border-[rgba(255,255,255,0.08)] bg-[#0C0C0E] px-2.5 py-0.5 rounded-[4px]">IT · SYSADMIN</span>
             </a>
-            
-            <div class="hidden xl:flex items-center gap-6 text-sm font-medium">
-                <a href="#home" class="text-secondary-ink hover:text-white transition-colors duration-150">Inicio</a>
-                <a href="#expertise" class="text-secondary-ink hover:text-white transition-colors duration-150">Arquitectura</a>
-                <a href="#hardware-ia" class="text-secondary-ink hover:text-white transition-colors duration-150">Hardware IA</a>
-                <a href="#formacion" class="text-secondary-ink hover:text-white transition-colors duration-150">Formación</a>
-                <a href="#trayectoria" class="text-secondary-ink hover:text-white transition-colors duration-150">Trayectoria</a>
-                <a href="#testimonios" class="text-secondary-ink hover:text-white transition-colors duration-150">Testimonios</a>
-                <a href="#comunidad" class="text-secondary-ink hover:text-white transition-colors duration-150">Comunidad</a>
-            </div>
-            
-            <!-- Menú compacto para pantallas medianas (md a lg) -->
-            <div class="hidden md:flex xl:hidden items-center gap-4 text-xs font-medium">
-                <a href="#home" class="text-secondary-ink hover:text-white transition-colors duration-150">Inicio</a>
-                <a href="#expertise" class="text-secondary-ink hover:text-white transition-colors duration-150">Servicios</a>
-                <a href="#hardware-ia" class="text-secondary-ink hover:text-white transition-colors duration-150">Hardware</a>
-                <a href="#testimonios" class="text-secondary-ink hover:text-white transition-colors duration-150">Testimonios</a>
-                <a href="#comunidad" class="text-secondary-ink hover:text-white transition-colors duration-150">Comunidad</a>
-            </div>
-            
-            <div class="flex items-center gap-2">
+
+            <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
                 <!-- Indicador de estado compacto exclusivo en Mobile Header -->
-                <span class="md:hidden inline-flex items-center gap-1.5 px-2 py-1 rounded-[4px] bg-[#121215] border border-[rgba(255,255,255,0.08)] font-mono text-[10px] text-[#10B981]">
+                <span class="md:hidden inline-flex items-center gap-1.5 px-2 py-1 rounded-[4px] bg-[#121215] border border-[rgba(255,255,255,0.08)] font-mono text-[10px] text-[#10B981] whitespace-nowrap">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
                     ONLINE
                 </span>
-                <a href="CV Juan Martin Barrientos - Soporte IT 2026.pdf" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex btn-secondary !py-1.5 md:!py-2 !px-2.5 md:!px-3 !text-xs items-center gap-1.5" title="Ver CV en PDF">
-                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#3B82F6]"></i>
+                <a href="CV Juan Martin Barrientos - Soporte IT 2026.pdf" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex btn-secondary !py-1.5 !px-3 !text-xs whitespace-nowrap" title="Ver CV en PDF">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#3B82F6] shrink-0"></i>
                     <span>CV 2026</span>
                 </a>
-                <a href="https://www.juanmartinbarrientos.com/extendido" target="_blank" rel="noopener noreferrer" class="btn-secondary !py-1.5 md:!py-2 !px-2.5 md:!px-3 !text-xs">
-                    <i data-lucide="folder-open" class="w-3.5 h-3.5 text-secondary-ink"></i>
-                    <span class="hidden sm:inline">Portfolio Extendido</span>
-                    <span class="sm:hidden font-mono text-[11px]">Portfolio</span>
+                <a href="https://www.juanmartinbarrientos.com/extendido" target="_blank" rel="noopener noreferrer" class="btn-secondary !py-1.5 !px-2.5 sm:!px-3 !text-xs whitespace-nowrap">
+                    <i data-lucide="folder-open" class="w-3.5 h-3.5 text-secondary-ink shrink-0"></i>
+                    <span class="hidden lg:inline">Portfolio Extendido</span>
+                    <span class="lg:hidden">Portfolio</span>
                 </a>
-                <a href="#asistencia" class="hidden sm:inline-flex btn-primary !py-2 !px-3.5 !text-xs">
-                    <i data-lucide="headset" class="w-3.5 h-3.5"></i> 
-                    <span>Soporte Inmediato</span>
+                <a href="#asistencia" class="hidden sm:inline-flex btn-primary !py-1.5 !px-3 sm:!px-3.5 !text-xs whitespace-nowrap">
+                    <i data-lucide="headset" class="w-3.5 h-3.5 shrink-0"></i>
+                    <span class="hidden md:inline">Soporte Inmediato</span>
+                    <span class="md:hidden">Soporte</span>
                 </a>
+            </div>
+        </div>
+
+        <!-- Fila 2: Sub-barra de Navegación de Secciones en Botones (Desktop / Tablet) -->
+        <nav class="hidden md:block border-t border-[rgba(255,255,255,0.06)] bg-[#0C0C0E]/85" aria-label="Navegación principal">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center justify-between gap-4">
+                <span class="hidden lg:inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-tertiary-ink shrink-0 whitespace-nowrap">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#3B82F6]"></span>
+                    NAVEGACIÓN DE SECCIONES
+                </span>
+                <div class="flex items-center gap-1.5 xl:gap-2 overflow-x-auto no-scrollbar py-1">
+                    <a href="#home" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Inicio</a>
+                    <a href="#expertise" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Arquitectura</a>
+                    <a href="#google-cert" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Certificación</a>
+                    <a href="#hardware-ia" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Hardware IA</a>
+                    <a href="#formacion" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Formación</a>
+                    <a href="#trayectoria" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Trayectoria</a>
+                    <a href="#comunidad" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Comunidad</a>
+                    <a href="#testimonios" class="px-2.5 xl:px-3 py-1 rounded-[5px] text-xs font-medium text-secondary-ink hover:text-white hover:bg-white/[0.06] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.14)] bg-[#121215]/60 transition-all duration-150 whitespace-nowrap shrink-0">Testimonios</a>
+                </div>
             </div>
         </nav>
     </header>
 
     <!-- CONTENEDOR PRINCIPAL (Espaciado adaptado para Mobile App vs Desktop Editorial) -->
-    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-36 pb-16 md:pb-24 space-y-16 md:space-y-32">
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-32 pb-16 md:pb-24 space-y-16 md:space-y-32">
         
         <!-- ======================================================================
              HERO SECTION — CONSOLA TÁCTIL EN MOBILE / LAYOUT 60/40 EN DESKTOP
              ====================================================================== -->
-        <section id="home" class="structural-grid-bg border border-[rgba(255,255,255,0.08)] rounded-[8px] bg-[#0C0C0E] p-5 sm:p-10 md:p-14 scroll-mt-20">
+        <section id="home" class="structural-grid-bg border border-[rgba(255,255,255,0.08)] rounded-[8px] bg-[#0C0C0E] p-5 sm:p-10 md:p-14 scroll-mt-20 md:scroll-mt-28">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 
                 <!-- Columna Izquierda (60% / 7 cols): Propuesta de Valor y Acción -->
@@ -720,7 +727,7 @@
         <!-- ======================================================================
              EXPERTISE — BENTO GRID ASIMÉTRICO (Proporción 7/5 + Celda Horizontal)
              ====================================================================== -->
-        <section id="expertise" class="space-y-12 scroll-mt-24 section-divider pt-16">
+        <section id="expertise" class="space-y-12 scroll-mt-20 md:scroll-mt-28 section-divider pt-16">
             <!-- Cabecera Editorial 40/60 -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end gsap-reveal">
                 <div class="lg:col-span-5">
@@ -851,7 +858,7 @@
         <!-- ======================================================================
              GOOGLE CERTIFICATION — BLOQUE DE AUDITORÍA DE CREDENCIAL (40/60)
              ====================================================================== -->
-        <section id="google-cert" class="gsap-reveal section-divider pt-12 md:pt-16 scroll-mt-20">
+        <section id="google-cert" class="gsap-reveal section-divider pt-12 md:pt-16 scroll-mt-20 md:scroll-mt-28">
             <div class="surface-card p-5 sm:p-10 md:p-12 border-[rgba(255,255,255,0.14)]">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     
@@ -928,7 +935,7 @@
         <!-- ======================================================================
              RECOMENDACIÓN DE ARQUITECTURA PARA IA — GUÍA DE ACTUALIZACIÓN DE HARDWARE
              ====================================================================== -->
-        <section id="hardware-ia" class="gsap-reveal section-divider pt-12 md:pt-16 scroll-mt-20">
+        <section id="hardware-ia" class="gsap-reveal section-divider pt-12 md:pt-16 scroll-mt-20 md:scroll-mt-28">
             <div class="surface-card p-5 sm:p-10 md:p-12">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                     
@@ -1109,7 +1116,7 @@
         <!-- ======================================================================
              FORMACIÓN CONTINUA — PESTAÑAS TÁCTILES EN MOBILE / MATRIZ 40/60 EN DESKTOP
              ====================================================================== -->
-        <section id="formacion" class="scroll-mt-20 section-divider pt-12 md:pt-16">
+        <section id="formacion" class="scroll-mt-20 md:scroll-mt-28 section-divider pt-12 md:pt-16">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 
                 <!-- Columna Izquierda (40% / 5 cols): Encabezado Fijo -->
@@ -1257,7 +1264,7 @@
         <!-- ======================================================================
              TRAYECTORIA — DECK DESLIZABLE TOUCH EN MOBILE / 40/60 EN DESKTOP
              ====================================================================== -->
-        <section id="trayectoria" class="scroll-mt-20 section-divider pt-12 md:pt-16">
+        <section id="trayectoria" class="scroll-mt-20 md:scroll-mt-28 section-divider pt-12 md:pt-16">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 
                 <!-- Columna 40%: Contexto de Carrera -->
@@ -1363,7 +1370,7 @@
         <!-- ======================================================================
              COMUNIDAD & DIFUSIÓN — SPLIT EDITORIAL 40/60
              ====================================================================== -->
-        <section id="comunidad" class="scroll-mt-24 section-divider pt-16">
+        <section id="comunidad" class="scroll-mt-20 md:scroll-mt-28 section-divider pt-16">
             <div class="surface-card p-6 sm:p-10 md:p-12 gsap-reveal">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                     
@@ -1418,7 +1425,7 @@
         <!-- ======================================================================
              TESTIMONIOS — BLOQUE EDITORIAL ASIMÉTRICO 40/60
              ====================================================================== -->
-        <section id="testimonios" class="scroll-mt-24 section-divider pt-16">
+        <section id="testimonios" class="scroll-mt-20 md:scroll-mt-28 section-divider pt-16">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start gsap-reveal">
                 
                 <div class="lg:col-span-4 space-y-2">
@@ -1502,7 +1509,7 @@
     <!-- ==========================================================================
          ZONA DE ASISTENCIA Y CONTACTO (FOOTER OPERATIVO ASIMÉTRICO 5/7)
          ========================================================================== -->
-    <footer id="asistencia" class="bg-[#0C0C0E] border-t border-[rgba(255,255,255,0.08)] pt-20 pb-12 scroll-mt-16">
+    <footer id="asistencia" class="bg-[#0C0C0E] border-t border-[rgba(255,255,255,0.08)] pt-20 pb-12 scroll-mt-16 md:scroll-mt-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 gsap-reveal">
             
             <!-- Cabecera Editorial 60/40 -->
