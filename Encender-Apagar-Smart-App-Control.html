@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo Activar o Desactivar Smart App Control sin Formatear en Windows 11 (26H2) | Tutorial IT</title>
+    <meta name="description" content="Guía técnica paso a paso para alternar Smart App Control (Control Inteligente de Aplicaciones) sin reinstalar Windows 11 y activar Sysmon nativo integrado en el kernel de 26H2.">
+    <link rel="canonical" href="https://www.juanmartinbarrientos.com/Encender-Apagar-Smart-App-Control.html">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/juanmartinbarrientos/Mis-Redes/main/favicon.png">
+
+    <!-- Fuentes: Inter, Plus Jakarta Sans y JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        carbon: {
+                            950: '#09090B',
+                            900: '#0C0C0E',
+                            850: '#111216',
+                            800: '#16181F',
+                            750: '#1C1F28',
+                            700: '#232733',
+                        },
+                        brand: {
+                            blue: '#3B82F6',
+                            hover: '#2563EB',
+                            emerald: '#10B981',
+                            amber: '#F59E0B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-base: #09090B;
+            --bg-surface: #111216;
+            --bg-raised: #16181F;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(59, 130, 246, 0.4);
+            --accent: #3B82F6;
+            --text-primary: #F4F4F5;
+            --text-secondary: #A1A1AA;
+            --text-tertiary: #71717A;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Bloques de terminal interactiva */
+        .terminal-window {
+            background-color: #0B0D13;
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+            transition: border-color 0.2s ease;
+        }
+        .terminal-window:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .terminal-header {
+            background-color: #12151E;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .terminal-body {
+            padding: 18px 20px;
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: 0.9rem;
+            color: #E2E8F0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            position: relative;
+        }
+
+        .copy-btn {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .copy-btn:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+        .copy-btn.copied {
+            background-color: #10B981 !important;
+            border-color: #10B981 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Video Stage Aspect Ratio */
+        .video-viewport {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #000000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-600/30 selection:text-white">
+
+    <!-- BARRA SUPERIOR DE NAVEGACIÓN -->
+    <header class="fixed top-0 inset-x-0 z-50 bg-[#09090B]/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-2.5 text-white font-display font-bold text-sm sm:text-base tracking-tight shrink-0">
+                <span class="w-7 h-7 rounded bg-[#16181F] border border-white/10 flex items-center justify-center text-blue-400">
+                    <i class="fa-solid fa-shield-halved text-xs"></i>
+                </span>
+                <span>Juan Martin Barrientos</span>
+                <span class="hidden md:inline-flex items-center font-mono text-[10px] text-zinc-400 border border-white/10 bg-zinc-900 px-2 py-0.5 rounded">TUTORIAL IT</span>
+            </a>
+
+            <nav class="flex items-center gap-2 sm:gap-3" aria-label="Navegación principal">
+                <a href="index.html" class="text-xs font-medium text-zinc-300 hover:text-white px-2.5 py-1.5 rounded hover:bg-white/5 transition-colors">Inicio</a>
+                <a href="comandos_windows_11.html" class="text-xs font-medium text-zinc-300 hover:text-white px-2.5 py-1.5 rounded hover:bg-white/5 transition-colors">Comandos Win11</a>
+                <a href="posts-it.html" class="text-xs font-medium text-zinc-300 hover:text-white px-2.5 py-1.5 rounded hover:bg-white/5 transition-colors">Posts IT</a>
+                <a href="openclaw.html" class="hidden sm:inline-flex text-xs font-medium text-zinc-300 hover:text-white px-2.5 py-1.5 rounded hover:bg-white/5 transition-colors">Guía OpenClaw</a>
+                <a href="index.html#asistencia" class="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs px-3 py-1.5 rounded transition-all shadow-sm">
+                    <i class="fa-solid fa-headset text-[11px]"></i>
+                    <span>Soporte</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-20 space-y-12">
+
+        <!-- ======================================================================
+             HERO / ENCABEZADO EDITORIAL
+             ====================================================================== -->
+        <section class="space-y-5 border-b border-white/10 pb-10">
+            <!-- Badges de contexto -->
+            <div class="flex flex-wrap items-center gap-2.5 text-xs font-mono">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-500/10 border border-blue-500/30 text-blue-400 font-semibold">
+                    <i class="fa-brands fa-windows"></i> WINDOWS 11 26H2
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
+                    <i class="fa-solid fa-check"></i> SIN FORMATEAR
+                </span>
+                <span class="text-zinc-500">|</span>
+                <span class="text-zinc-400">Por Juan Martin Barrientos</span>
+                <span class="text-zinc-500">·</span>
+                <span class="text-zinc-400">Actualizado Noviembre 2026</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-tight">
+                Cómo Encender o Apagar Smart App Control sin Formatear en Windows 11
+            </h1>
+
+            <p class="text-lg text-zinc-300 leading-relaxed max-w-3xl">
+                Hasta la versión <strong>25H2</strong>, si apagabas el <em>Control Inteligente de Aplicaciones (Smart App Control)</em>, la única forma de volver a encenderlo era haciendo una <strong>instalación limpia de Windows</strong>. En la versión <strong>26H2</strong> ya se puede alternar dinámicamente mediante PowerShell y el Registro de Windows.
+            </p>
+
+            <!-- Cuadro de Novedad Técnica Destacada -->
+            <div class="bg-gradient-to-r from-blue-950/40 via-zinc-900 to-zinc-900 border border-blue-500/30 rounded-xl p-5 sm:p-6 space-y-3">
+                <div class="flex items-center gap-2.5 text-blue-400 font-display font-bold text-sm">
+                    <i class="fa-solid fa-bolt-lightning text-base"></i>
+                    <span>NOVEDAD EN WINDOWS 11 26H2</span>
+                </div>
+                <p class="text-sm text-zinc-300 leading-relaxed m-0">
+                    Windows 11 26H2 introduce dos grandes avances en seguridad a nivel de kernel: la posibilidad de <strong>conmutar Smart App Control sin reinstalar</strong> (el tutorial central de esta página) y, de forma paralela e independiente, la inclusión de <strong>Sysmon nativo</strong> para telemetría forense. Al final de la página encontrarás una sección dedicada a Sysmon para no mezclar ambos conceptos.
+                </p>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             ESPACIO DEDICADO PARA VIDEO TUTORIAL DE YOUTUBE
+             ====================================================================== -->
+        <section id="video-tutorial" class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-500">
+                        <i class="fa-brands fa-youtube text-lg"></i>
+                    </span>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-display font-bold text-white">Video Tutorial Paso a Paso</h2>
+                        <p class="text-xs text-zinc-400">Demostración práctica en pantalla ejecutando los comandos en vivo</p>
+                    </div>
+                </div>
+
+                <!-- Botón de ayuda para cambiar de video -->
+                <button type="button" onclick="toggleVideoConfigHelp()" class="text-xs font-mono text-zinc-400 hover:text-blue-400 flex items-center gap-1.5 transition-colors">
+                    <i class="fa-solid fa-code"></i>
+                    <span>¿Cómo insertar mi video?</span>
+                </button>
+            </div>
+
+            <!-- Panel de ayuda para insertar el video (colapsable) -->
+            <div id="videoConfigGuide" class="hidden bg-[#16181F] border border-blue-500/30 rounded-lg p-4 text-xs text-zinc-300 space-y-2">
+                <p class="font-bold text-blue-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-info"></i> INSTRUCCIÓN PARA INSERTAR TU VIDEO DE YOUTUBE:
+                </p>
+                <p>
+                    Abre este archivo <code class="bg-black/60 px-2 py-0.5 rounded text-blue-300">Encender-Apagar-Smart-App-Control.html</code> y en la etiqueta <code class="bg-black/60 px-2 py-0.5 rounded text-blue-300">&lt;iframe id="ytPlayer"&gt;</code> reemplaza <code class="bg-black/60 px-2 py-0.5 rounded text-amber-300">VIDEO_ID_AQUI</code> por el ID de tu video (por ejemplo: <code class="bg-black/60 px-2 py-0.5 rounded text-emerald-300">dQw4w9WgXcQ</code>).
+                </p>
+                <div class="flex flex-wrap gap-2 pt-1">
+                    <input type="text" id="customVideoInput" placeholder="Pega aquí tu ID de YouTube (ej: 1gDpjCYLN5U)" class="bg-black border border-white/20 rounded px-3 py-1.5 text-white font-mono text-xs flex-1 min-w-[200px] focus:outline-none focus:border-blue-500">
+                    <button type="button" onclick="applyCustomVideoId()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded font-semibold text-xs transition-colors">Probar Video</button>
+                </div>
+            </div>
+
+            <!-- CONTENEDOR 16:9 RESPONSIVE DE YOUTUBE -->
+            <div class="video-viewport">
+                <!-- ==========================================================================
+                     ESPACIO DE VIDEO DE YOUTUBE:
+                     Para cambiar el video, reemplaza el parámetro del src:
+                     Ejemplo: https://www.youtube.com/embed/TU_ID_DE_VIDEO?rel=0
+                     ========================================================================== -->
+                <iframe
+                    id="ytPlayer"
+                    class="w-full h-full"
+                    src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0"
+                    title="Tutorial: Activar o desactivar Smart App Control sin formatear en Windows 11 26H2"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+
+                <!-- Tarjeta visual de estado cuando el ID aún no está configurado (Fallback amigable) -->
+                <div id="videoPlaceholderOverlay" class="absolute inset-0 bg-[#0B0D13] flex flex-col items-center justify-center p-6 text-center space-y-4">
+                    <div class="w-16 h-16 rounded-full bg-red-600/20 border-2 border-red-500 flex items-center justify-center text-red-500 text-2xl shadow-lg shadow-red-600/20 animate-pulse">
+                        <i class="fa-solid fa-play ml-1"></i>
+                    </div>
+                    <div class="max-w-md space-y-1.5">
+                        <h3 class="text-base sm:text-lg font-bold text-white">Espacio reservado para el Video Tutorial</h3>
+                        <p class="text-xs sm:text-sm text-zinc-400">
+                            Aquí se cargará tu video de YouTube demostrando el proceso en pantalla. Mientras tanto, puedes seguir la guía escrita completa con comandos copiables abajo.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                        <button type="button" onclick="loadSampleVideo()" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-medium text-xs px-4 py-2 rounded-lg border border-white/15 transition-all">
+                            <i class="fa-solid fa-desktop"></i> Ver video de demostración
+                        </button>
+                        <button type="button" onclick="toggleVideoConfigHelp()" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs px-4 py-2 rounded-lg transition-all">
+                            <i class="fa-solid fa-wrench"></i> Configurar mi propio ID
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[11px] text-zinc-500 font-mono text-center">
+                Resolución nativa 16:9 adaptable a smartphones, tablets y pantallas de escritorio.
+            </p>
+        </section>
+
+        <!-- ======================================================================
+             TABLA COMPARATIVA: 25H2 vs 26H2
+             ====================================================================== -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-display font-bold text-white flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded bg-blue-600/20 text-blue-400 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-code-compare"></i>
+                </span>
+                <span>Comparativa: Windows 11 25H2 vs. 26H2</span>
+            </h2>
+
+            <div class="overflow-x-auto rounded-xl border border-white/10 bg-[#111216]">
+                <table class="w-full text-left text-sm text-zinc-300">
+                    <thead class="bg-[#16181F] text-xs uppercase tracking-wider text-zinc-400 font-mono border-b border-white/10">
+                        <tr>
+                            <th class="py-3.5 px-4 sm:px-6">Característica</th>
+                            <th class="py-3.5 px-4 sm:px-6 text-red-400">Windows 11 25H2 y anteriores</th>
+                            <th class="py-3.5 px-4 sm:px-6 text-emerald-400">Windows 11 26H2 (Actual)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 font-sans">
+                        <tr class="hover:bg-white/[0.02]">
+                            <td class="py-3 px-4 sm:px-6 font-semibold text-white">Smart App Control (SAC)</td>
+                            <td class="py-3 px-4 sm:px-6 text-zinc-400">Bloqueo irreversible si se apaga. Requiere formateo completo.</td>
+                            <td class="py-3 px-4 sm:px-6 text-emerald-300 font-medium">Conmutable vía Registro (CI\Policy) con solo reiniciar el equipo.</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02]">
+                            <td class="py-3 px-4 sm:px-6 font-semibold text-white">Modo Evaluación</td>
+                            <td class="py-3 px-4 sm:px-6 text-zinc-400">Solo en primer arranque tras instalación limpia.</td>
+                            <td class="py-3 px-4 sm:px-6 text-emerald-300 font-medium">Reactivable forzando el estado de política en modo 2.</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02]">
+                            <td class="py-3 px-4 sm:px-6 font-semibold text-white">
+                                Auditoría Sysmon
+                                <span class="block text-[11px] font-normal text-zinc-400 mt-0.5">(Telemetría de eventos · Módulo independiente de SAC)</span>
+                            </td>
+                            <td class="py-3 px-4 sm:px-6 text-zinc-400">Requiere descargar e instalar suite Sysinternals externa.</td>
+                            <td class="py-3 px-4 sm:px-6 text-emerald-300 font-medium">Integrado en el kernel como característica nativa opcional.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             TABLA DE ESTADOS DE SMART APP CONTROL (VALORES)
+             ====================================================================== -->
+        <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-display font-bold text-white flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded bg-zinc-800 text-zinc-300 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-list-ol"></i>
+                </span>
+                <span>Valores de VerifiedAndReputablePolicyState</span>
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-[#111216] border border-red-500/30 rounded-xl p-4 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xl font-bold text-red-400">Valor 0</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-500/10 text-red-300 uppercase">OFF / APAGADO</span>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Smart App Control está completamente desactivado. No realiza comprobaciones en la nube ni bloquea ejecutables no firmados.
+                    </p>
+                </div>
+
+                <div class="bg-[#111216] border border-emerald-500/30 rounded-xl p-4 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xl font-bold text-emerald-400">Valor 1</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-300 uppercase">ON / ENFORCEMENT</span>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Smart App Control activo. Bloquea de forma estricta aplicaciones maliciosas, no confiables o sin firma digital válida.
+                    </p>
+                </div>
+
+                <div class="bg-[#111216] border border-amber-500/30 rounded-xl p-4 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xl font-bold text-amber-400">Valor 2</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/10 text-amber-300 uppercase">EVALUATION</span>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Modo evaluación silenciosa. Aprende los patrones de uso del equipo para evaluar si puede activarse sin generar fricción.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             GUÍA PASO A PASO: PARTE 1 - SMART APP CONTROL
+             ====================================================================== -->
+        <section class="space-y-8">
+            <div class="border-b border-white/10 pb-3">
+                <span class="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">PARTE 1</span>
+                <h2 class="text-2xl sm:text-3xl font-display font-bold text-white mt-0.5">Control Inteligente de Aplicaciones (SAC)</h2>
+            </div>
+
+            <!-- Paso 0: Ejecución como Administrador -->
+            <div class="bg-amber-500/10 border-l-4 border-amber-500 p-4 rounded-r-lg space-y-1">
+                <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Requisito fundamental
+                </h3>
+                <p class="text-xs text-amber-200/90 leading-relaxed m-0">
+                    Todos los comandos deben ejecutarse en una ventana de <strong>PowerShell abierta como Administrador</strong>. Presiona <kbd class="px-1.5 py-0.5 bg-black/50 border border-white/20 rounded font-mono text-white">Win + X</kbd> y selecciona <em>Terminal (Administrador)</em> o <em>Windows PowerShell (Administrador)</em>.
+                </p>
+            </div>
+
+            <!-- Paso 1: Consultar estado -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Consultar el estado actual de Smart App Control</h3>
+                        <p class="text-sm text-zinc-400">
+                            Consulta el valor almacenado en la clave de directivas de Integridad de Código (<code class="text-blue-300 font-mono text-xs">CI\Policy</code>):
+                        </p>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block"></span>
+                            <span class="ml-2">PowerShell (Admin) · Consulta de Estado</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copySnippet(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>COPIAR</span>
+                        </button>
+                    </div>
+                    <div class="terminal-body">Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState"</div>
+                </div>
+
+                <div class="bg-[#111216] p-3.5 rounded-lg border border-white/5 text-xs text-zinc-400 space-y-1">
+                    <span class="font-mono text-zinc-300 font-semibold block">Salida esperada:</span>
+                    <pre class="font-mono text-emerald-400 m-0">VerifiedAndReputablePolicyState : 0    (O bien 1 si está activo, 2 en evaluación)</pre>
+                </div>
+            </div>
+
+            <!-- Paso 2: Activar directamente sin formatear -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Activar Smart App Control directamente sin reinstalar Windows</h3>
+                        <p class="text-sm text-zinc-400">
+                            Establece el valor en <code class="text-emerald-300 font-mono text-xs">1</code>. Este comando surte efecto luego de reiniciar el equipo:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+                            <span class="ml-2">PowerShell (Admin) · Activar Enforcement (Valor 1)</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copySnippet(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>COPIAR</span>
+                        </button>
+                    </div>
+                    <div class="terminal-body">Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 1</div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Apagar o volver a evaluación (opcional) -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-zinc-700 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Para desactivar o regresar a modo Evaluación</h3>
+                        <p class="text-sm text-zinc-400">
+                            Si necesitas apagarlo temporalmente o volver a ponerlo en modo de prueba silenciosa:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="ml-2">PowerShell (Admin) · Desactivar (Valor 0) o Evaluación (Valor 2)</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copySnippet(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>COPIAR</span>
+                        </button>
+                    </div>
+                    <div class="terminal-body"># Para apagarlo completamente:
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 0
+
+# Para dejarlo en Modo Evaluación:
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 2</div>
+                </div>
+            </div>
+
+            <!-- Paso 4: Reiniciar el equipo -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">4</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Reiniciar el sistema para aplicar la directiva CI</h3>
+                        <p class="text-sm text-zinc-400">
+                            El subsistema de Integridad de Código recarga las directivas al inicio del kernel:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="ml-2">PowerShell (Admin) · Reinicio del Sistema</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copySnippet(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>COPIAR</span>
+                        </button>
+                    </div>
+                    <div class="terminal-body">Restart-Computer</div>
+                </div>
+
+                <!-- Banner de Finalización de la Guía de Smart App Control -->
+                <div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-blue-500 text-black font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                    <div class="text-xs sm:text-sm text-zinc-300">
+                        <strong class="font-bold text-white block text-sm mb-0.5">¡Listo! Fin del tutorial de Smart App Control</strong>
+                        Al reiniciar tu equipo, el valor configurado en el registro se aplicará de inmediato. <strong>No necesitas hacer nada más</strong> para controlar Smart App Control.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECCIÓN INDEPENDIENTE: NOVEDAD COMPLEMENTARIA EN WINDOWS 11 26H2 (SYSMON)
+             ====================================================================== -->
+        <section class="space-y-8 pt-10 border-t-2 border-emerald-500/25">
+            <div class="border-b border-white/10 pb-4 space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-layer-group"></i> TEMA INDEPENDIENTE · AUDITORÍA DE SEGURIDAD
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-display font-bold text-white mt-1">
+                    Módulo Adicional: Sysmon Nativo en el Núcleo de Windows 11
+                </h2>
+                <p class="text-sm text-zinc-400 max-w-3xl leading-relaxed">
+                    A diferencia del tutorial anterior, este apartado no es para bloquear apps, sino para auditar eventos del sistema. Windows 11 26H2 integra por primera vez Sysmon de forma nativa como característica opcional del sistema.
+                </p>
+            </div>
+
+            <!-- CUADRO DE ACLARACIÓN: DIFERENCIA ENTRE SAC Y SYSMON -->
+            <div class="bg-[#111216] border-l-4 border-amber-500 rounded-r-xl p-4 sm:p-5 space-y-3">
+                <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>¿En qué se diferencian y por qué son dos temas completamente distintos?</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-zinc-300">
+                    <div class="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
+                        <span class="text-blue-400 font-bold font-mono text-xs block">🛡️ Smart App Control (SAC)</span>
+                        <p class="text-zinc-300 text-xs leading-relaxed m-0">
+                            <strong>Objetivo: Bloqueo y protección.</strong> Impide que se ejecuten programas desconocidos, scripts sin firma o malware basándose en IA en la nube.
+                        </p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
+                        <span class="text-emerald-400 font-bold font-mono text-xs block">📊 Sysmon (System Monitor)</span>
+                        <p class="text-zinc-300 text-xs leading-relaxed m-0">
+                            <strong>Objetivo: Auditoría y telemetría.</strong> Registra en el Visor de Eventos todo lo que pasa (conexiones de red, creación de procesos). <u>No bloquea nada</u>.
+                        </p>
+                    </div>
+                </div>
+                <p class="text-[11px] sm:text-xs text-zinc-400 border-t border-white/5 pt-2 m-0 font-mono">
+                    💡 <em>Activar Sysmon es 100% opcional y no afecta en lo absoluto el funcionamiento de Smart App Control.</em>
+                </p>
+            </div>
+
+            <!-- Paso A de Sysmon: Verificar característica opcional -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">A</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Verificar si la característica opcional de Sysmon está disponible</h3>
+                        <p class="text-sm text-zinc-400">
+                            Comprueba si tu compilación de Windows 11 26H2 ya tiene el paquete de Sysmon integrado en la imagen:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="ml-2">PowerShell (Admin) · Buscar Característica Sysmon</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copySnippet(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>COPIAR</span>
+                        </button>
+                    </div>
+                    <div class="terminal-body">Get-WindowsOptionalFeature -Online -FeatureName *Sysmon*</div>
+                </div>
+            </div>
+
+            <!-- Paso B de Sysmon: Activar Sysmon nativo -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">B</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Activar Sysmon nativo en Windows 11 26H2</h3>
+                        <p class="text-sm text-zinc-400">
+                            Habilita el driver y servicio de telemetría de Sysmon directamente sin necesidad de reiniciar:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="ml-2">PowerShell (Admin) · Habilitar Característica Opcional</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copySnippet(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>COPIAR</span>
+                        </button>
+                    </div>
+                    <div class="terminal-body">Enable-WindowsOptionalFeature -Online -FeatureName "Sysmon" -All -NoRestart</div>
+                </div>
+            </div>
+
+            <!-- Paso C de Sysmon: Dónde revisar los logs de Sysmon -->
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">C</span>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Dónde consultar la telemetría generada por Sysmon</h3>
+                        <p class="text-sm text-zinc-400">
+                            Abre el Visor de Eventos con <kbd class="px-1.5 py-0.5 bg-black/50 border border-white/20 rounded font-mono text-white text-xs">Win + R</kbd> ejecutando <code class="text-blue-300 font-mono text-xs">eventvwr.msc</code> y dirígete a:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-[#111216] border border-white/10 rounded-xl p-4 font-mono text-xs sm:text-sm text-zinc-300 space-y-1">
+                    <span class="text-zinc-500 block text-[11px] uppercase">Ruta en el Visor de Eventos:</span>
+                    <p class="text-emerald-400 font-semibold m-0 select-all">
+                        Registros de aplicaciones y servicios → Microsoft → Windows → Sysmon → Operational
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             PREGUNTAS FRECUENTES / RESOLUCIÓN DE DUDAS
+             ====================================================================== -->
+        <section class="space-y-4 border-t border-white/10 pt-10">
+            <h2 class="text-2xl font-display font-bold text-white flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-question text-blue-400"></i>
+                <span>Preguntas Frecuentes Técnicas</span>
+            </h2>
+
+            <div class="space-y-3 text-sm">
+                <!-- FAQ Diferencia SAC vs Sysmon -->
+                <div class="bg-[#111216] border border-white/5 rounded-xl p-4 space-y-1">
+                    <h4 class="font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-code-compare text-amber-400"></i>
+                        ¿Tienen alguna relación técnica Smart App Control y Sysmon?
+                    </h4>
+                    <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed m-0">
+                        <strong>No, son herramientas totalmente independientes.</strong> Smart App Control es una capa de <em>prevención</em> que bloquea la ejecución de ejecutables no confiables o desconocidos. Sysmon es una herramienta de <em>auditoría y registro forense</em> que guarda registros minuciosos de procesos y red para investigaciones de seguridad. Se presentan en la misma página únicamente porque ambas son las dos grandes innovaciones de seguridad de bajo nivel que Microsoft estrena en Windows 11 26H2.
+                    </p>
+                </div>
+
+                <div class="bg-[#111216] border border-white/5 rounded-xl p-4 space-y-1">
+                    <h4 class="font-bold text-white">¿Por qué antes era obligatorio formatear para reactivar Smart App Control?</h4>
+                    <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed m-0">
+                        Microsoft diseñó SAC en Windows 11 para que no existiera ninguna ventana de infección previa. Si el usuario instalaba software no seguro con SAC apagado y luego lo encendía, el sistema ya podía estar comprometido. En 26H2, gracias a las mejoras de integridad del kernel y aislamiento por hardware (VBS), la directiva puede reactivarse sin requerir una reinstalación limpia.
+                    </p>
+                </div>
+
+                <div class="bg-[#111216] border border-white/5 rounded-xl p-4 space-y-1">
+                    <h4 class="font-bold text-white">¿Qué diferencia hay entre Smart App Control y Microsoft Defender SmartScreen?</h4>
+                    <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed m-0">
+                        SmartScreen solo advierte al usuario al descargar archivos o navegar en Edge. En cambio, Smart App Control opera a nivel del subsistema de Integridad de Código (CI): bloquea por completo la ejecución de cualquier binario sin firma o clasificado como malicioso/desconocido por el modelo de IA en la nube de Microsoft, sin dar opción a saltar la advertencia.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             LLAMADO A LA ACCIÓN / SOPORTE TÉCNICO DIRECTO
+             ====================================================================== -->
+        <section class="bg-gradient-to-br from-blue-950/40 to-zinc-900 border border-blue-500/30 rounded-2xl p-6 sm:p-8 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-xl">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 text-xs font-bold font-mono uppercase tracking-wide">
+                        <i class="fa-solid fa-screwdriver-wrench"></i> ASISTENCIA TÉCNICA
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-display font-bold text-white">
+                        ¿Necesitas soporte para tu infraestructura o estación de trabajo?
+                    </h3>
+                    <p class="text-sm text-zinc-300 leading-relaxed m-0">
+                        Diagnóstico remoto directo mediante AnyDesk, configuración de políticas seguras en Windows 11 / Windows Server y optimización de hardware.
+                    </p>
+                </div>
+
+                <div class="shrink-0 flex flex-col sm:flex-row gap-3">
+                    <a href="https://wa.me/5491169578193?text=Hola%20Juan,%20vi%20tu%20guía%20de%20Smart%20App%20Control%20y%20necesito%20asistencia%20técnica." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-3 rounded-xl text-sm transition-all shadow-md shadow-emerald-600/20">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>WhatsApp Directo</span>
+                    </a>
+                    <a href="index.html#asistencia" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-medium px-5 py-3 rounded-xl text-sm border border-white/10 transition-all">
+                        <span>Ver Opciones de Soporte</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 bg-[#0C0C0E] py-12 text-center text-xs text-zinc-400 space-y-3">
+        <div class="flex flex-wrap items-center justify-center gap-4 text-zinc-300 font-medium">
+            <a href="index.html" class="hover:text-blue-400 transition-colors">Inicio</a>
+            <span>·</span>
+            <a href="comandos_windows_11.html" class="hover:text-blue-400 transition-colors">Comandos Win11</a>
+            <span>·</span>
+            <a href="posts-it.html" class="hover:text-blue-400 transition-colors">Posts IT</a>
+            <span>·</span>
+            <a href="openclaw.html" class="hover:text-blue-400 transition-colors">Guía OpenClaw</a>
+            <span>·</span>
+            <a href="https://www.linkedin.com/in/juanmartinbarrientos/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition-colors">LinkedIn</a>
+        </div>
+        <p class="m-0 text-zinc-500">
+            © 2026 Juan Martin Barrientos · Especialista en Soporte IT, SysAdmin &amp; Desarrollo Web · Argentina
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT: COPIADO RÁPIDO & GESTIÓN DEL VIDEO YOUTUBE -->
+    <script>
+        // Funcionalidad para copiar comandos
+        function copySnippet(btn) {
+            const windowEl = btn.closest('.terminal-window');
+            if (!windowEl) return;
+            const codeEl = windowEl.querySelector('.terminal-body');
+            if (!codeEl) return;
+
+            const textToCopy = codeEl.innerText.trim();
+
+            const onCopied = () => {
+                const originalHtml = btn.innerHTML;
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i><span>COPIADO</span>';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = originalHtml;
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(onCopied).catch(() => {
+                    fallbackCopy(textToCopy, onCopied);
+                });
+            } else {
+                fallbackCopy(textToCopy, onCopied);
+            }
+        }
+
+        function fallbackCopy(text, cb) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                if (cb) cb();
+            } finally {
+                document.body.removeChild(ta);
+            }
+        }
+
+        // Gestión del espacio para el Video de YouTube
+        function toggleVideoConfigHelp() {
+            const guide = document.getElementById('videoConfigGuide');
+            if (guide) {
+                guide.classList.toggle('hidden');
+            }
+        }
+
+        function applyCustomVideoId() {
+            const input = document.getElementById('customVideoInput');
+            if (!input || !input.value.trim()) return;
+
+            let videoId = input.value.trim();
+            // Si pegan una URL completa de YouTube, extraer el ID
+            if (videoId.includes('v=')) {
+                videoId = videoId.split('v=')[1].split('&')[0];
+            } else if (videoId.includes('youtu.be/')) {
+                videoId = videoId.split('youtu.be/')[1].split('?')[0];
+            }
+
+            const player = document.getElementById('ytPlayer');
+            const overlay = document.getElementById('videoPlaceholderOverlay');
+            if (player) {
+                player.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+            }
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+        }
+
+        function loadSampleVideo() {
+            // Carga video de muestra relacionado de la infraestructura (mismo tutorial OpenClaw / Windows)
+            const player = document.getElementById('ytPlayer');
+            const overlay = document.getElementById('videoPlaceholderOverlay');
+            if (player) {
+                player.src = 'https://www.youtube.com/embed/1gDpjCYLN5U?autoplay=1&rel=0';
+            }
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

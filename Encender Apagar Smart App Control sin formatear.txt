@@ -1,0 +1,19 @@
+Hasta la versión 25H2, si apagabas el Control Inteligente de Aplicaciones (Smart App Control), la única forma de volver a encenderlo era haciendo una instalación limpia de Windows. En 26H2 ya se puede alternar dinámicamente:
+
+# Consultar el estado actual del Smart App Control (0 = Off, 1 = On/Enforcement, 2 = Evaluation)
+
+Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState"
+
+# Activarlo directamente sin reinstalar Windows (requiere reiniciar)
+
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 1
+
+La gran novedad técnica de 26H2 es que Sysmon (System Monitor) ya viene integrado en el núcleo de Windows (desactivado por defecto) para auditar procesos, conexiones de red y carga de drivers sin tener que descargar la suite Sysinternals aparte.
+
+# Verificar si la característica opcional de Sysmon está disponible
+
+Get-WindowsOptionalFeature -Online -FeatureName *Sysmon*
+
+# Activar Sysmon nativo en Windows 11 26H2
+
+Enable-WindowsOptionalFeature -Online -FeatureName "Sysmon" -All -NoRestart
