@@ -212,49 +212,22 @@
              ESPACIO DEDICADO PARA VIDEO TUTORIAL DE YOUTUBE
              ====================================================================== -->
         <section id="video-tutorial" class="space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-500">
-                        <i class="fa-brands fa-youtube text-lg"></i>
-                    </span>
-                    <div>
-                        <h2 class="text-xl sm:text-2xl font-display font-bold text-white">Video Tutorial Paso a Paso</h2>
-                        <p class="text-xs text-zinc-400">Demostración práctica en pantalla ejecutando los comandos en vivo</p>
-                    </div>
-                </div>
-
-                <!-- Botón de ayuda para cambiar de video -->
-                <button type="button" onclick="toggleVideoConfigHelp()" class="text-xs font-mono text-zinc-400 hover:text-blue-400 flex items-center gap-1.5 transition-colors">
-                    <i class="fa-solid fa-code"></i>
-                    <span>¿Cómo insertar mi video?</span>
-                </button>
-            </div>
-
-            <!-- Panel de ayuda para insertar el video (colapsable) -->
-            <div id="videoConfigGuide" class="hidden bg-[#16181F] border border-blue-500/30 rounded-lg p-4 text-xs text-zinc-300 space-y-2">
-                <p class="font-bold text-blue-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-info"></i> INSTRUCCIÓN PARA INSERTAR TU VIDEO DE YOUTUBE:
-                </p>
-                <p>
-                    Abre este archivo <code class="bg-black/60 px-2 py-0.5 rounded text-blue-300">Encender-Apagar-Smart-App-Control.html</code> y en la etiqueta <code class="bg-black/60 px-2 py-0.5 rounded text-blue-300">&lt;iframe id="ytPlayer"&gt;</code> reemplaza <code class="bg-black/60 px-2 py-0.5 rounded text-amber-300">VIDEO_ID_AQUI</code> por el ID de tu video (por ejemplo: <code class="bg-black/60 px-2 py-0.5 rounded text-emerald-300">dQw4w9WgXcQ</code>).
-                </p>
-                <div class="flex flex-wrap gap-2 pt-1">
-                    <input type="text" id="customVideoInput" placeholder="Pega aquí tu ID de YouTube (ej: 1gDpjCYLN5U)" class="bg-black border border-white/20 rounded px-3 py-1.5 text-white font-mono text-xs flex-1 min-w-[200px] focus:outline-none focus:border-blue-500">
-                    <button type="button" onclick="applyCustomVideoId()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded font-semibold text-xs transition-colors">Probar Video</button>
+            <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-500">
+                    <i class="fa-brands fa-youtube text-lg"></i>
+                </span>
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-display font-bold text-white">Video Tutorial Paso a Paso</h2>
+                    <p class="text-xs text-zinc-400">Demostración práctica en pantalla ejecutando el proceso completo</p>
                 </div>
             </div>
 
             <!-- CONTENEDOR 16:9 RESPONSIVE DE YOUTUBE -->
             <div class="video-viewport">
-                <!-- ==========================================================================
-                     ESPACIO DE VIDEO DE YOUTUBE:
-                     Para cambiar el video, reemplaza el parámetro del src:
-                     Ejemplo: https://www.youtube.com/embed/TU_ID_DE_VIDEO?rel=0
-                     ========================================================================== -->
                 <iframe
                     id="ytPlayer"
                     class="w-full h-full"
-                    src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0"
+                    src="https://www.youtube.com/embed/UPlxLo8ghEw?si=R5q9SefwuSKfgv-X"
                     title="Tutorial: Activar o desactivar Smart App Control sin formatear en Windows 11 26H2"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -262,30 +235,9 @@
                     allowfullscreen
                     loading="lazy">
                 </iframe>
-
-                <!-- Tarjeta visual de estado cuando el ID aún no está configurado (Fallback amigable) -->
-                <div id="videoPlaceholderOverlay" class="absolute inset-0 bg-[#0B0D13] flex flex-col items-center justify-center p-6 text-center space-y-4">
-                    <div class="w-16 h-16 rounded-full bg-red-600/20 border-2 border-red-500 flex items-center justify-center text-red-500 text-2xl shadow-lg shadow-red-600/20 animate-pulse">
-                        <i class="fa-solid fa-play ml-1"></i>
-                    </div>
-                    <div class="max-w-md space-y-1.5">
-                        <h3 class="text-base sm:text-lg font-bold text-white">Espacio reservado para el Video Tutorial</h3>
-                        <p class="text-xs sm:text-sm text-zinc-400">
-                            Aquí se cargará tu video de YouTube demostrando el proceso en pantalla. Mientras tanto, puedes seguir la guía escrita completa con comandos copiables abajo.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-                        <button type="button" onclick="loadSampleVideo()" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-medium text-xs px-4 py-2 rounded-lg border border-white/15 transition-all">
-                            <i class="fa-solid fa-desktop"></i> Ver video de demostración
-                        </button>
-                        <button type="button" onclick="toggleVideoConfigHelp()" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs px-4 py-2 rounded-lg transition-all">
-                            <i class="fa-solid fa-wrench"></i> Configurar mi propio ID
-                        </button>
-                    </div>
-                </div>
             </div>
             <p class="text-[11px] text-zinc-500 font-mono text-center">
-                Resolución nativa 16:9 adaptable a smartphones, tablets y pantallas de escritorio.
+                Reproducción en alta definición 16:9 adaptable a móviles y PC.
             </p>
         </section>
 
